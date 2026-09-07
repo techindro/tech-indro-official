@@ -14,6 +14,7 @@ import {
   Linking,
   Image,
   Modal,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -129,18 +130,22 @@ export default function HomeScreen() {
             <TouchableOpacity
               style={[
                 styles.menuBoxBtn,
-                { borderColor: isDark ? 'rgba(255,255,255,0.3)' : '#0f172a', backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#ffffff' },
+                { borderColor: isDark ? 'rgba(255,255,255,0.4)' : '#1e293b', backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#ffffff' },
               ]}
               onPress={() => setDrawerVisible(true)}
               activeOpacity={0.75}
             >
-              <Ionicons name="menu" size={24} color={isDark ? '#ffffff' : '#0f172a'} />
+              <View style={styles.hamburgerLines}>
+                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
+                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
+                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
+              </View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.topNavLogoRow} onPress={() => router.push('/')}>
               <Image
                 source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
-                style={styles.topNavLogoImg}
+                style={{ width: 48, height: 24, marginLeft: 6 }}
                 resizeMode="contain"
               />
             </TouchableOpacity>
@@ -1150,6 +1155,16 @@ const styles = StyleSheet.create({
     borderWidth: 1.8,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  hamburgerLines: {
+    width: 18,
+    height: 12,
+    justifyContent: 'space-between',
+  },
+  hamburgerBar: {
+    width: '100%',
+    height: 2,
+    borderRadius: 1,
   },
   topNavLogoRow: {
     flexDirection: 'row',
