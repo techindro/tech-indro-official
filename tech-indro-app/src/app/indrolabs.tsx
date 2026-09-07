@@ -15,6 +15,7 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 
 type Language = 'javascript' | 'python' | 'html' | 'sql' | 'java' | 'cpp';
@@ -131,6 +132,7 @@ int main() {
 };
 
 export default function IndroLabsScreen() {
+  const router = useRouter();
   const [lang, setLang] = useState<Language>('javascript');
   const [code, setCode] = useState(CODE_TEMPLATES.javascript.code);
   const [output, setOutput] = useState<string[]>([]);
@@ -228,7 +230,7 @@ export default function IndroLabsScreen() {
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.xs }}>
             <Image
               source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 135, height: 32 }}
+              style={{ width: 44, height: 22 }}
               resizeMode="contain"
             />
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '22', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '44' }}>

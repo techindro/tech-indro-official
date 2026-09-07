@@ -93,8 +93,8 @@ export default function TSOCScreen() {
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: Spacing.md }}>
             <Image
-              source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 140, height: 36 }}
+              source={require('@/assets/images/tech-indro-logo-white.png')}
+              style={{ width: 48, height: 24 }}
               resizeMode="contain"
             />
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(255,255,255,0.15)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>

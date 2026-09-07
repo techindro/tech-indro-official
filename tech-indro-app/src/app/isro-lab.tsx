@@ -84,8 +84,8 @@ export default function ISROLabScreen() {
         <View style={styles.header}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.sm }}>
             <Image
-              source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 130, height: 32 }}
+              source={require('@/assets/images/tech-indro-logo-white.png')}
+              style={{ width: 44, height: 22 }}
               resizeMode="contain"
             />
             <View style={styles.badgeBox}>

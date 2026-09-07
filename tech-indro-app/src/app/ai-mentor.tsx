@@ -253,7 +253,7 @@ export default function AIMentorScreen() {
         <View style={styles.headerLeft}>
           <Image
             source={require('@/assets/images/tech-indro-logo.png')}
-            style={{ width: 110, height: 28, marginRight: 4 }}
+            style={{ width: 40, height: 20, marginRight: 6 }}
             resizeMode="contain"
           />
           <View>

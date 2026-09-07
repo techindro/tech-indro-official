@@ -104,8 +104,8 @@ export default function CourseDetailScreen() {
             {/* Official Brand Logo */}
             <View style={{ paddingHorizontal: 4, paddingVertical: 4 }}>
               <Image
-                source={require('@/assets/images/tech-indro-logo.png')}
-                style={{ width: 90, height: 22 }}
+                source={require('@/assets/images/tech-indro-logo-white.png')}
+                style={{ width: 40, height: 20 }}
                 resizeMode="contain"
               />
             </View>

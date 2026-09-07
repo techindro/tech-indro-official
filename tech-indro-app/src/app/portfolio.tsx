@@ -183,7 +183,7 @@ export default function ResumeBuilderScreen() {
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: 8 }}>
                 <Image
                   source={require('@/assets/images/tech-indro-logo.png')}
-                  style={{ width: 140, height: 36 }}
+                  style={{ width: 48, height: 24 }}
                   resizeMode="contain"
                 />
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, borderWidth: 1, borderColor: '#BFDBFE' }}>

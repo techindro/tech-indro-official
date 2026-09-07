@@ -118,8 +118,8 @@ export default function ProgramsScreen() {
       <View style={styles.header}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.sm }}>
           <Image
-            source={require('@/assets/images/tech-indro-logo.png')}
-            style={{ width: 135, height: 32 }}
+            source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
+            style={{ width: 44, height: 22 }}
             resizeMode="contain"
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '18', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '33' }}>

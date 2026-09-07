@@ -241,7 +241,7 @@ export default function HomeScreen() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                   <Image
                     source={require('@/assets/images/tech-indro-logo.png')}
-                    style={{ width: 110, height: 26 }}
+                    style={{ width: 40, height: 20 }}
                     resizeMode="contain"
                   />
                   <View style={{ backgroundColor: '#EF444422', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 }}>
@@ -635,8 +635,8 @@ export default function HomeScreen() {
               <View style={[styles.footerCol, styles.footerBrandCol]}>
                 <View style={styles.footerBrandRow}>
                   <Image
-                    source={require('@/assets/images/tech-indro-logo.png')}
-                    style={{ width: 44, height: 44 }}
+                    source={require('@/assets/images/tech-indro-logo-white.png')}
+                    style={{ width: 44, height: 22 }}
                     resizeMode="contain"
                   />
                   <Text style={styles.footerBrandTitle}>TECH INDRO</Text>
@@ -851,9 +851,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   topNavLogoImg: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
+    width: 44,
+    height: 22,
   },
   topNavLogoText: {
     fontSize: 18,
@@ -1084,12 +1083,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#10B981',
   },
-  demoClassTitle: {
-    color: '#ffffff',
-    fontWeight: '700',
-    fontSize: FontSize.md,
-    letterSpacing: 0.2,
-  },
   demoClassSub: {
     color: 'rgba(255, 255, 255, 0.8)',
     fontSize: 11.5,
@@ -1190,7 +1183,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.sm,
     fontWeight: FontWeight.bold,
     color: Colors.textSecondary,
-    whiteSpace: 'nowrap',
   },
 
   // Section

@@ -44,7 +44,7 @@ export default function LeaderboardScreen() {
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.xs }}>
             <Image
               source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 135, height: 32 }}
+              style={{ width: 44, height: 22 }}
               resizeMode="contain"
             />
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '22', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '44' }}>

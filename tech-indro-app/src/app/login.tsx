@@ -137,7 +137,7 @@ export default function LoginScreen() {
         <View style={styles.logoContainer}>
           <Image
             source={require('@/assets/images/tech-indro-logo.png')}
-            style={{ width: 170, height: 50 }}
+            style={{ width: 64, height: 32 }}
             resizeMode="contain"
           />
         </View>

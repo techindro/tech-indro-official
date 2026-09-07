@@ -363,8 +363,8 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   logoImage: {
-    width: 120,
-    height: 56,
+    width: 56,
+    height: 28,
   },
   proEducationCol: {
     justifyContent: 'center',

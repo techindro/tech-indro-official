@@ -274,8 +274,8 @@ export default function DashboardScreen() {
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: Spacing.sm, marginBottom: Spacing.sm }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Image
-              source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 130, height: 32 }}
+              source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
+              style={{ width: 44, height: 22 }}
               resizeMode="contain"
             />
             <View style={{ backgroundColor: colors.primaryDark + '33', paddingHorizontal: 7, paddingVertical: 2, borderRadius: BorderRadius.full, borderWidth: 1, borderColor: colors.primary + '44' }}>
