@@ -14,7 +14,6 @@ import {
   Linking,
   Image,
   Modal,
-  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -28,7 +27,6 @@ import Colors, {
 import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 import NotificationBell from '@/components/NotificationBell';
 import { useTheme } from '@/hooks/useTheme';
-import { useAuth } from '@/hooks/useAuth';
 
 const { width } = Dimensions.get('window');
 
@@ -114,344 +112,95 @@ const FEATURES = [
 export default function HomeScreen() {
   const router = useRouter();
   const { colors, isDark } = useTheme();
-  const { user, logout } = useAuth();
-  const [drawerVisible, setDrawerVisible] = useState(false);
   const [demoModalVisible, setDemoModalVisible] = useState(false);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
-      {/* ===== TOP NAVBAR (Exact Match with Screenshot: Hamburger + Logo + Search + Cart + SIGN IN) ===== */}
+      {/* ===== TOP NAVBAR (Responsive, Never Cuts Off) ===== */}
       <View style={[styles.topNavbar, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+        {/* Main Brand & Actions Row */}
         <View style={styles.topNavMainRow}>
-          {/* Left: 3-Lines Hamburger Menu Button + Tech Indro Logo */}
-          <View style={styles.topNavLeftGroup}>
-            <TouchableOpacity
-              style={[
-                styles.menuBoxBtn,
-                { borderColor: isDark ? 'rgba(255,255,255,0.4)' : '#1e293b', backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#ffffff' },
-              ]}
-              onPress={() => setDrawerVisible(true)}
-              activeOpacity={0.75}
-            >
-              <View style={styles.hamburgerLines}>
-                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
-                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
-                <View style={[styles.hamburgerBar, { backgroundColor: isDark ? '#ffffff' : '#1e293b' }]} />
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.topNavLogoRow} onPress={() => router.push('/')}>
+            <Image
+              source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
+              style={styles.topNavLogoImg}
+              resizeMode="contain"
+            />
+            <Text style={[styles.topNavLogoText, { color: colors.text }]}>TECH INDRO</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.topNavLogoRow} onPress={() => router.push('/')}>
-              <Image
-                source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
-                style={{ width: 48, height: 24, marginLeft: 6 }}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Right: Search + Cart + Green SIGN IN Button (Exact Screenshot Match) */}
-          <View style={styles.topNavRightGroup}>
-            <TouchableOpacity
-              style={styles.iconActionBtn}
-              onPress={() => router.push('/programs')}
-            >
-              <Ionicons name="search" size={20} color="#16a34a" />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.iconActionBtn}
-              onPress={() => router.push('/programs')}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                <Ionicons name="cart" size={20} color="#16a34a" />
-                <Text style={{ fontSize: 14, fontWeight: '700', color: colors.text }}>0</Text>
-                <Ionicons name="caret-down" size={10} color={colors.textMuted} />
-              </View>
-            </TouchableOpacity>
-
-            {user ? (
-              <TouchableOpacity
-                style={[styles.userBadgeBtn, { backgroundColor: 'rgba(22, 163, 74, 0.1)', borderColor: '#16a34a' }]}
-                onPress={() => router.push('/dashboard')}
-                activeOpacity={0.85}
-              >
-                <View style={styles.onlineDot} />
-                <Text style={styles.userBadgeText} numberOfLines={1}>
-                  {user.name.split(' ')[0]}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.signInGreenBtn}
-                onPress={() => router.push('/login')}
-                activeOpacity={0.85}
-              >
-                <Text style={styles.signInGreenBtnText}>SIGN IN</Text>
-              </TouchableOpacity>
-            )}
+          <View style={styles.topNavRightActions}>
+            <NotificationBell unreadCount={3} />
+            <ThemeToggleBtn />
           </View>
         </View>
-      </View>
 
-      {/* ===== THREE-DOT / HAMBURGER SLIDE-OVER DRAWER (All Nav Links + PW Login Feature) ===== */}
-      <Modal
-        visible={drawerVisible}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setDrawerVisible(false)}
-      >
-        <View style={styles.drawerOverlay}>
+        {/* Scrollable Quick Nav Links Row — Seamless on mobile, never cut off */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.topNavScrollContainer}
+          style={[styles.topNavScrollView, { borderTopColor: isDark ? 'rgba(255,255,255,0.08)' : '#f1f5f9' }]}
+        >
           <TouchableOpacity
-            style={styles.drawerBackdrop}
-            activeOpacity={1}
-            onPress={() => setDrawerVisible(false)}
-          />
+            onPress={() => router.push('/programs')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="book-outline" size={13} color={Colors.primary} />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>Programs</Text>
+          </TouchableOpacity>
 
-          <View style={[styles.drawerBody, { backgroundColor: colors.card }]}>
-            {/* Drawer Header */}
-            <View style={[styles.drawerHeader, { borderBottomColor: colors.border }]}>
-              <Image
-                source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
-                style={{ width: 44, height: 22 }}
-                resizeMode="contain"
-              />
-              <TouchableOpacity
-                style={[styles.drawerCloseBtn, { backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : '#f1f5f9' }]}
-                onPress={() => setDrawerVisible(false)}
-              >
-                <Ionicons name="close" size={20} color={colors.text} />
-              </TouchableOpacity>
-            </View>
+          <TouchableOpacity
+            onPress={() => router.push('/tsoc')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="code-slash-outline" size={13} color="#10b981" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>TSOC</Text>
+          </TouchableOpacity>
 
-            {/* PW-Style Student Profile Card */}
-            <View style={[styles.drawerStudentCard, { backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : '#f0fdf4', borderColor: isDark ? colors.border : '#bbf7d0' }]}>
-              {user ? (
-                <View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                    <View style={styles.drawerAvatar}>
-                      <Text style={styles.drawerAvatarText}>{user.name.charAt(0).toUpperCase()}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.drawerUserName, { color: colors.text }]}>{user.name}</Text>
-                      <Text style={[styles.drawerUserEmail, { color: colors.textMuted }]} numberOfLines={1}>{user.email}</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.drawerDashboardBtn}
-                    onPress={() => { setDrawerVisible(false); router.push('/dashboard'); }}
-                  >
-                    <Text style={styles.drawerDashboardBtnText}>Go to My Dashboard →</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                    <View style={[styles.drawerAvatar, { backgroundColor: '#16a34a' }]}>
-                      <Ionicons name="person" size={20} color="#ffffff" />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.drawerUserName, { color: colors.text }]}>Namaste, Student! 👋</Text>
-                      <Text style={[styles.drawerUserEmail, { color: colors.textMuted }]}>Login to access batches & tests</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.drawerLoginBtn}
-                    onPress={() => { setDrawerVisible(false); router.push('/login'); }}
-                    activeOpacity={0.85}
-                  >
-                    <Ionicons name="log-in-outline" size={18} color="#ffffff" />
-                    <Text style={styles.drawerLoginBtnText}>Login / Register (PW Style)</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
+          <TouchableOpacity
+            onPress={() => router.push('/indrolabs')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="flask-outline" size={13} color="#f59e0b" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>IndroLabs</Text>
+          </TouchableOpacity>
 
-            {/* Navigation Links inside Drawer */}
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.drawerLinksScroll}>
-              <Text style={[styles.drawerSectionHeader, { color: colors.textMuted }]}>EXPLORE & LEARN</Text>
+          <TouchableOpacity
+            onPress={() => router.push('/ai-mentor')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="sparkles-outline" size={13} color="#8b5cf6" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>AI Shikshak</Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/programs'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(79, 70, 229, 0.1)' }]}>
-                  <Ionicons name="book-outline" size={18} color="#4f46e5" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>All Programs & Batches</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Web Dev, AI, Cloud & Placement</Text>
-                </View>
-                <View style={[styles.drawerBadge, { backgroundColor: '#4f46e5' }]}>
-                  <Text style={styles.drawerBadgeText}>HOT</Text>
-                </View>
-              </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push('/quiz')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="school-outline" size={13} color="#ef4444" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>Test Series</Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/tsoc'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(16, 185, 129, 0.1)' }]}>
-                  <Ionicons name="code-slash-outline" size={18} color="#10b981" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>TSOC (Summer of Code)</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Open Source Fellowship with Stipends</Text>
-                </View>
-                <View style={[styles.drawerBadge, { backgroundColor: '#10b981' }]}>
-                  <Text style={styles.drawerBadgeText}>2026</Text>
-                </View>
-              </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push('/isro-lab')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="planet-outline" size={13} color="#0284c7" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>ISRO Lab</Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/indrolabs'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(245, 158, 11, 0.1)' }]}>
-                  <Ionicons name="flask-outline" size={18} color="#f59e0b" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>IndroLabs Playground</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>In-app Code Editor & Runtime</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/ai-mentor'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(139, 92, 246, 0.1)' }]}>
-                  <Ionicons name="sparkles-outline" size={18} color="#8b5cf6" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>AI Shikshak (24/7 Mentor)</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Ask doubts in Hindi/English anytime</Text>
-                </View>
-                <View style={[styles.drawerBadge, { backgroundColor: '#8b5cf6' }]}>
-                  <Text style={styles.drawerBadgeText}>AI</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/quiz'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(239, 68, 68, 0.1)' }]}>
-                  <Ionicons name="school-outline" size={18} color="#ef4444" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Test Series & Quizzes</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Practice MNC Coding Questions</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/isro-lab'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(2, 132, 199, 0.1)' }]}>
-                  <Ionicons name="planet-outline" size={18} color="#0284c7" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>ISRO Space Lab</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Satellites, Rovers & Astronomy</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/leaderboard'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(234, 179, 8, 0.1)' }]}>
-                  <Ionicons name="trophy-outline" size={18} color="#eab308" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Leaderboard & Rankings</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Top Coders of India</Text>
-                </View>
-              </TouchableOpacity>
-
-              <Text style={[styles.drawerSectionHeader, { color: colors.textMuted, marginTop: 16 }]}>STUDENT ZONE</Text>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/dashboard'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(79, 70, 229, 0.1)' }]}>
-                  <Ionicons name="grid-outline" size={18} color="#4f46e5" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Student Dashboard</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>My Enrolled Courses & Progress</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/certificate'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(16, 185, 129, 0.1)' }]}>
-                  <Ionicons name="ribbon-outline" size={18} color="#10b981" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Certificate Verification</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>Verify official Tech Indro ID</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/portfolio'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(245, 158, 11, 0.1)' }]}>
-                  <Ionicons name="document-text-outline" size={18} color="#f59e0b" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Resume & Portfolio Builder</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>MNC-ready ATS resume generator</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.drawerRowItem}
-                onPress={() => { setDrawerVisible(false); router.push('/support'); }}
-              >
-                <View style={[styles.drawerItemIconBox, { backgroundColor: 'rgba(100, 116, 139, 0.1)' }]}>
-                  <Ionicons name="headset-outline" size={18} color="#64748b" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.drawerItemTitle, { color: colors.text }]}>Support & Help Center</Text>
-                  <Text style={[styles.drawerItemSub, { color: colors.textMuted }]}>24/7 Student Assistance</Text>
-                </View>
-              </TouchableOpacity>
-            </ScrollView>
-
-            {/* Drawer Footer: Theme Toggle & Logout */}
-            <View style={[styles.drawerFooter, { borderTopColor: colors.border }]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: user ? 10 : 0 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Ionicons name={isDark ? 'moon' : 'sunny'} size={18} color={colors.text} />
-                  <Text style={[styles.drawerFooterText, { color: colors.text }]}>
-                    {isDark ? 'Dark Theme' : 'Light Theme'}
-                  </Text>
-                </View>
-                <ThemeToggleBtn />
-              </View>
-
-              {user ? (
-                <TouchableOpacity
-                  style={styles.drawerLogoutRow}
-                  onPress={() => { setDrawerVisible(false); logout(); }}
-                >
-                  <Ionicons name="log-out-outline" size={16} color="#ef4444" />
-                  <Text style={styles.drawerLogoutText}>Log Out from Device</Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </View>
-        </View>
-      </Modal>
+          <TouchableOpacity
+            onPress={() => router.push('/leaderboard')}
+            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+          >
+            <Ionicons name="trophy-outline" size={13} color="#eab308" />
+            <Text style={[styles.topNavPillText, { color: colors.text }]}>Leaderboard</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
 
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         {/* ===== HERO SECTION ===== */}
@@ -1123,16 +872,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 
-  // Top Navbar (Screenshot Match)
+  // Top White Navbar (Responsive)
   topNavbar: {
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#f1f5f9',
-    paddingVertical: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
-    shadowRadius: 6,
+    shadowRadius: 8,
     elevation: 4,
     zIndex: 100,
   },
@@ -1141,243 +891,55 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: Spacing.md,
-  },
-  topNavLeftGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  menuBoxBtn: {
-    width: 38,
-    height: 34,
-    borderRadius: 8,
-    borderWidth: 1.8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  hamburgerLines: {
-    width: 18,
-    height: 12,
-    justifyContent: 'space-between',
-  },
-  hamburgerBar: {
-    width: '100%',
-    height: 2,
-    borderRadius: 1,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: 8,
   },
   topNavLogoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
   },
   topNavLogoImg: {
     width: 44,
     height: 22,
   },
-  topNavRightGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  iconActionBtn: {
-    padding: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signInGreenBtn: {
-    backgroundColor: '#16a34a', // PW Green
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 6,
-    shadowColor: '#16a34a',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  signInGreenBtnText: {
-    color: '#ffffff',
-    fontSize: 12.5,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-  },
-  userBadgeBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 16,
-    borderWidth: 1,
-  },
-  onlineDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-    backgroundColor: '#16a34a',
-  },
-  userBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#16a34a',
-    maxWidth: 70,
-  },
-
-  // Drawer Modal Styles
-  drawerOverlay: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  drawerBackdrop: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  drawerBody: {
-    width: '82%',
-    maxWidth: 340,
-    height: '100%',
-    zIndex: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 4, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 15,
-    elevation: 16,
-  },
-  drawerHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'ios' ? 48 : 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-  },
-  drawerCloseBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  drawerStudentCard: {
-    margin: 14,
-    padding: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  drawerAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#4f46e5',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  drawerAvatarText: {
-    color: '#ffffff',
+  topNavLogoText: {
     fontSize: 17,
-    fontWeight: '800',
-  },
-  drawerUserName: {
-    fontSize: 14,
     fontWeight: '700',
+    color: '#1a1a1a',
+    letterSpacing: 0.5,
   },
-  drawerUserEmail: {
-    fontSize: 11.5,
-    marginTop: 1,
-  },
-  drawerDashboardBtn: {
-    marginTop: 8,
-    alignSelf: 'flex-start',
-  },
-  drawerDashboardBtnText: {
-    color: '#16a34a',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  drawerLoginBtn: {
+  topNavRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    backgroundColor: '#16a34a',
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginTop: 6,
+    gap: 10,
   },
-  drawerLoginBtnText: {
-    color: '#ffffff',
-    fontSize: 12.5,
-    fontWeight: '700',
-  },
-  drawerLinksScroll: {
-    flex: 1,
-    paddingHorizontal: 14,
-  },
-  drawerSectionHeader: {
-    fontSize: 10.5,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-    marginTop: 8,
-    marginBottom: 8,
-    paddingHorizontal: 4,
-  },
-  drawerRowItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 6,
-    borderRadius: 8,
-  },
-  drawerItemIconBox: {
-    width: 34,
-    height: 34,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  drawerItemTitle: {
-    fontSize: 13.5,
-    fontWeight: '600',
-  },
-  drawerItemSub: {
-    fontSize: 11,
-    marginTop: 2,
-  },
-  drawerBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  drawerBadgeText: {
-    color: '#ffffff',
-    fontSize: 9.5,
-    fontWeight: '800',
-  },
-  drawerFooter: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+  topNavScrollView: {
     borderTopWidth: 1,
+    borderTopColor: '#f1f5f9',
+    paddingTop: 6,
   },
-  drawerFooterText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  drawerLogoutRow: {
+  topNavScrollContainer: {
+    paddingHorizontal: Spacing.lg,
+    gap: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingTop: 8,
   },
-  drawerLogoutText: {
-    color: '#ef4444',
+  topNavPillItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  topNavPillText: {
     fontSize: 12.5,
-    fontWeight: '700',
+    fontWeight: '600',
+    color: '#334155',
   },
 
   // Hero Section
