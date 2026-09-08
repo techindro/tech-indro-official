@@ -183,12 +183,13 @@ export default function HomeScreen() {
         </View>
 
         {/* Mobile Nav Links Row */}
-        {!isDesktop && (
+        {!isDesktop ? (
           <ScrollView
-            horizontal
+            horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.topNavScrollContainer}
-            style={styles.topNavScrollView}>
+            style={styles.topNavScrollView}
+          >
             <TouchableOpacity onPress={() => router.push('/programs')} style={styles.navLinkItem}>
               <Text style={[styles.navLinkText, { color: colors.text }]}>Programs</Text>
             </TouchableOpacity>
@@ -205,7 +206,7 @@ export default function HomeScreen() {
               <Text style={[styles.navLinkText, { color: colors.text }]}>Test Series</Text>
             </TouchableOpacity>
           </ScrollView>
-        )}
+        ) : null}
       </View>
 
       <ScrollView ref={mainScrollRef} showsVerticalScrollIndicator={false} bounces={false}>
