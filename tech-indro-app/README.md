@@ -1,56 +1,132 @@
-# Welcome to your Expo app 👋
+# <div align="center">📱 TECH INDRO MOBILE APP</div>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### <div align="center">The Next-Gen EdTech Mobile Experience — Powered by React Native & Expo</div>
 
-## Get started
+<div align="center">
 
-1. Install dependencies
+[![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?style=for-the-badge&logo=expo)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.76%2B-61dafb?style=for-the-badge&logo=react)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-4f46e5?style=for-the-badge&logo=android)](#)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-   ```bash
-   npm install
-   ```
+</div>
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📖 Introduction
 
-In the output, you'll find options to open the app in a
+The **Tech Indro Mobile App** brings the comprehensive **Unacademy-style learning ecosystem** directly to your pocket. Engineered for high performance, smooth 60 FPS transitions, and offline-friendly study sessions, the app enables students and developers across India to master **Artificial Intelligence, Robotics, Ethical Hacking, and Full-Stack Development** anytime, anywhere.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🌟 Key Highlights & Mobile UX
 
-## Get a fresh project
+- 🎯 **Unacademy-Style Course Journey**: Browse flagship programs, track chapter progress, and enroll in live batches.
+- 🤖 **24/7 AI Shikshak (Pocket Doubts)**: Instant voice & text doubt resolution powered by conversational AI.
+- 🏆 **TSOC Project Hub**: Review real-world open-source repositories (*GhostPose 3D Sensing*, *Khicho-Chatbots*) with architecture diagrams and source links.
+- 💻 **IndroLabs Mobile Code Runner**: Execute code snippets on-the-go without needing a PC.
+- 📝 **Live Mock Quizzes**: Timed assessments, instant ranks, scorecards, and solution explanations.
+- 🌓 **Adaptive Dark / Light Mode**: Beautiful custom palettes tailored for late-night study sessions without eye strain.
+- 🔔 **Instant Notification Center**: Timely alerts for newly released modules, batch updates, and community hackathons.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
+## 🗂️ App Architecture & Routes
+
+```
+tech-indro-app/
+├── src/
+│   ├── app/                     # File-based routing (Expo Router)
+│   │   ├── _layout.tsx          # Root navigation, theme & auth providers
+│   │   ├── index.tsx            # Homepage with responsive nav & hero sections
+│   │   ├── programs.tsx         # Course catalogs & batch enrollments
+│   │   ├── tsoc.tsx             # Tech Season of Code project hub
+│   │   ├── indrolabs.tsx        # IndroLabs in-app code runner
+│   │   ├── quiz.tsx             # Interactive test series & quiz engine
+│   │   ├── login.tsx            # Authentication (JWT / Email / Google)
+│   │   ├── dashboard.tsx        # Personalized student learning dashboard
+│   │   └── support.tsx          # 24/7 student support desk
+│   │
+│   ├── components/              # Reusable UI widgets
+│   │   ├── ThemeToggleBtn.tsx   # Fluid theme switcher
+│   │   ├── NotificationBell.tsx # Push/pull notification center
+│   │   ├── AIChatBot.tsx        # AI doubt assistant widget
+│   │   └── ProgramCard.tsx      # Unacademy-style course card
+│   │
+│   ├── constants/               # Global design tokens (Colors, Typography, Themes)
+│   ├── hooks/                   # Custom React hooks (`useAuth`, `useTheme`)
+│   └── services/                # API client with automatic token refreshing
+│
+├── assets/                      # Icons, splash screens, and brand imagery
+├── app.json                     # Expo configuration & app metadata
+└── package.json                 # Dependencies and scripts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## 🚀 Getting Started
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### Prerequisites
+- Node.js (v18.x or v20.x recommended)
+- npm or yarn
+- [Expo Go](https://expo.dev/go) app installed on your physical Android / iOS phone (optional)
 
-## Learn more
+### 1. Installation
+```bash
+# Clone repository and change to app folder
+git clone https://github.com/techindro/tech-indro-website.git
+cd tech-indro-website/tech-indro-app
 
-To learn more about developing your project with Expo, look at the following resources:
+# Install all npm dependencies
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 2. Run the Development Server
+```bash
+npx expo start
+```
 
-## Join the community
+- Scan the QR code with **Expo Go** (Android) or **Camera app** (iOS).
+- Press **`a`** to open in Android Studio Emulator.
+- Press **`i`** to open in Xcode iOS Simulator.
+- Press **`w`** to open the Expo Web preview.
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📦 Building for Production (EAS Build)
+
+To generate production `.apk` / `.aab` for the Google Play Store or `.ipa` for the Apple App Store:
+
+```bash
+# Install EAS CLI globally
+npm install -g eas-cli
+
+# Log in to your Expo account
+eas login
+
+# Build Android standalone APK/AAB
+eas build -p android --profile production
+
+# Build iOS standalone IPA
+eas build -p ios --profile production
+```
+
+---
+
+## 🎨 Design System & Theming
+
+The app leverages a unified design system that mirrors the Tech Indro web experience:
+- **Primary Color**: `#4f46e5` (Deep Indigo)
+- **Secondary Color**: `#06b6d4` (Cyber Cyan)
+- **Accent Color**: `#f59e0b` (Amber Gold)
+- **Dark Mode Background**: `#0b0f19` (Deep Obsidian)
+- **Light Mode Background**: `#f8fafc` (Clean Slate)
+
+---
+
+## 📄 License & Community
+
+- **Founder & Architect**: Shubham Patel
+- **Ecosystem**: [Tech Indro Live Web Platform](https://tech-indro-website.vercel.app)
+- **License**: MIT License © 2026 Tech Indro
