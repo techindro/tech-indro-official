@@ -2,7 +2,7 @@
  * Tech Indro — Homepage Screen
  * Matches the website's index.html visual flow
  */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   ScrollView,
   View,
@@ -14,6 +14,7 @@ import {
   Linking,
   Image,
   Modal,
+  useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -27,6 +28,7 @@ import Colors, {
 import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 import NotificationBell from '@/components/NotificationBell';
 import { useTheme } from '@/hooks/useTheme';
+import { useAuth } from '@/hooks/useAuth';
 
 const { width } = Dimensions.get('window');
 
@@ -112,13 +114,27 @@ const FEATURES = [
 export default function HomeScreen() {
   const router = useRouter();
   const { colors, isDark } = useTheme();
+  const { user } = useAuth();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 860;
+
+  const mainScrollRef = useRef<ScrollView>(null);
+  const [featuresY, setFeaturesY] = useState(0);
   const [demoModalVisible, setDemoModalVisible] = useState(false);
+
+  const scrollToFeatures = () => {
+    if (featuresY > 0 && mainScrollRef.current) {
+      mainScrollRef.current.scrollTo({ y: Math.max(0, featuresY - 70), animated: true });
+    } else {
+      router.push('/ai-mentor');
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
-      {/* ===== TOP NAVBAR (Responsive, Never Cuts Off) ===== */}
+      {/* ===== TOP NAVBAR (Clean, Exactly Matching Website) ===== */}
       <View style={[styles.topNavbar, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         {/* Main Brand & Actions Row */}
         <View style={styles.topNavMainRow}>
@@ -131,78 +147,69 @@ export default function HomeScreen() {
             <Text style={[styles.topNavLogoText, { color: colors.text }]}>TECH INDRO</Text>
           </TouchableOpacity>
 
+          {/* Desktop Nav Links (Inline 5 Links: Programs, TSOC, IndroLabs, Features, Test Series) */}
+          {isDesktop && (
+            <View style={styles.desktopNavLinksRow}>
+              <TouchableOpacity onPress={() => router.push('/programs')} style={styles.navLinkItem}>
+                <Text style={[styles.navLinkText, { color: colors.text }]}>Programs</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/tsoc')} style={styles.navLinkItem}>
+                <Text style={[styles.navLinkText, { color: colors.text }]}>TSOC</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/indrolabs')} style={styles.navLinkItem}>
+                <Text style={[styles.navLinkText, { color: colors.text }]}>IndroLabs</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={scrollToFeatures} style={styles.navLinkItem}>
+                <Text style={[styles.navLinkText, { color: colors.text }]}>Features</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/quiz')} style={styles.navLinkItem}>
+                <Text style={[styles.navLinkText, { color: colors.text }]}>Test Series</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
           <View style={styles.topNavRightActions}>
+            <TouchableOpacity
+              style={styles.navAuthBtn}
+              onPress={() => router.push(user ? '/dashboard' : '/login')}
+              activeOpacity={0.85}
+            >
+              <Ionicons name={user ? 'person' : 'log-in-outline'} size={14} color="#ffffff" />
+              <Text style={styles.navAuthBtnText}>{user ? user.name.split(' ')[0] : 'Login / Sign Up'}</Text>
+            </TouchableOpacity>
             <NotificationBell unreadCount={3} />
             <ThemeToggleBtn />
           </View>
         </View>
 
-        {/* Scrollable Quick Nav Links Row — Seamless on mobile, never cut off */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.topNavScrollContainer}
-          style={[styles.topNavScrollView, { borderTopColor: isDark ? 'rgba(255,255,255,0.08)' : '#f1f5f9' }]}
-        >
-          <TouchableOpacity
-            onPress={() => router.push('/programs')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
+        {/* Mobile Nav Links Row - Only the 5 specified links */}
+        {!isDesktop ? (
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.topNavScrollContainer}
+            style={[styles.topNavScrollView, { borderTopColor: isDark ? 'rgba(255,255,255,0.08)' : '#f1f5f9' }]}
           >
-            <Ionicons name="book-outline" size={13} color={Colors.primary} />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>Programs</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/tsoc')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="code-slash-outline" size={13} color="#10b981" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>TSOC</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/indrolabs')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="flask-outline" size={13} color="#f59e0b" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>IndroLabs</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/ai-mentor')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="sparkles-outline" size={13} color="#8b5cf6" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>AI Shikshak</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/quiz')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="school-outline" size={13} color="#ef4444" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>Test Series</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/isro-lab')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="planet-outline" size={13} color="#0284c7" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>ISRO Lab</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/leaderboard')}
-            style={[styles.topNavPillItem, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#f8fafc', borderColor: colors.border }]}
-          >
-            <Ionicons name="trophy-outline" size={13} color="#eab308" />
-            <Text style={[styles.topNavPillText, { color: colors.text }]}>Leaderboard</Text>
-          </TouchableOpacity>
-        </ScrollView>
+            <TouchableOpacity onPress={() => router.push('/programs')} style={styles.navLinkItem}>
+              <Text style={[styles.navLinkText, { color: colors.text }]}>Programs</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/tsoc')} style={styles.navLinkItem}>
+              <Text style={[styles.navLinkText, { color: colors.text }]}>TSOC</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/indrolabs')} style={styles.navLinkItem}>
+              <Text style={[styles.navLinkText, { color: colors.text }]}>IndroLabs</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={scrollToFeatures} style={styles.navLinkItem}>
+              <Text style={[styles.navLinkText, { color: colors.text }]}>Features</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/quiz')} style={styles.navLinkItem}>
+              <Text style={[styles.navLinkText, { color: colors.text }]}>Test Series</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        ) : null}
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+      <ScrollView ref={mainScrollRef} showsVerticalScrollIndicator={false} bounces={false}>
         {/* ===== HERO SECTION ===== */}
         <LinearGradient
           colors={['#5B68DF', '#6C5CE7', '#764BA2']}
@@ -358,8 +365,8 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* ===== LEARNING PATHS ===== */}
-        <View style={styles.section}>
+        {/* ===== LEARNING PATHS (Features Target) ===== */}
+        <View style={styles.section} onLayout={(e) => setFeaturesY(e.nativeEvent.layout.y)}>
           <View style={styles.sectionPill}>
             <Text style={styles.sectionPillText}>DISCOVER PATHWAYS</Text>
           </View>
@@ -872,13 +879,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 
-  // Top White Navbar (Responsive)
+  // Top White Navbar (Responsive & Clean)
   topNavbar: {
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#f1f5f9',
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -888,11 +895,12 @@ const styles = StyleSheet.create({
   },
   topNavMainRow: {
     width: '100%',
+    maxWidth: 1240,
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: Spacing.lg,
-    paddingBottom: 8,
   },
   topNavLogoRow: {
     flexDirection: 'row',
@@ -909,37 +917,57 @@ const styles = StyleSheet.create({
     color: '#1a1a1a',
     letterSpacing: 0.5,
   },
+  desktopNavLinksRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 28,
+  },
+  navLinkItem: {
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+  },
+  navLinkText: {
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: 0.2,
+  },
   topNavRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
+  },
+  navAuthBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 22,
+    backgroundColor: '#ff6b35',
+    shadowColor: '#ff6b35',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  navAuthBtnText: {
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: '600',
   },
   topNavScrollView: {
     borderTopWidth: 1,
     borderTopColor: '#f1f5f9',
+    marginTop: 8,
     paddingTop: 6,
   },
   topNavScrollContainer: {
     paddingHorizontal: Spacing.lg,
-    gap: 8,
+    gap: 24,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  topNavPillItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 12,
-    backgroundColor: '#f8fafc',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-  },
-  topNavPillText: {
-    fontSize: 12.5,
-    fontWeight: '600',
-    color: '#334155',
+    justifyContent: 'center',
+    minWidth: '100%',
   },
 
   // Hero Section
