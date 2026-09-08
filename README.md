@@ -16,7 +16,7 @@
 
 ## 🌟 About Tech Indro
 
-**Tech Indro** is a modern, next-generation EdTech platform built in the league of **Unacademy** and **Coursera**, designed to take aspiring technologists, developers, and researchers from **zero to one**. 
+**Tech Indro** is a modern, next-generation EdTech platform and learning ecosystem designed to take aspiring technologists, developers, and researchers from **zero to one**. 
 
 With an intuitive **Web Platform** and a slick **React Native / Expo Mobile App**, Tech Indro bridges the gap between academic theory and high-impact industrial skills in **AI, Cybersecurity, Robotics, and Full-Stack Engineering** — requiring **no prior coding background or expensive laptops**.
 
@@ -50,7 +50,7 @@ Tech Indro Ecosystem
 
 ---
 
-## ✨ Key Features (Unacademy & Tech Indro Experience)
+## ✨ Key Features & Core Innovations
 
 | Feature | Description | Platform |
 | :--- | :--- | :--- |

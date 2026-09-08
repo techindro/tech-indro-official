@@ -16,13 +16,13 @@
 
 ## 📖 Introduction
 
-The **Tech Indro Mobile App** brings the comprehensive **Unacademy-style learning ecosystem** directly to your pocket. Engineered for high performance, smooth 60 FPS transitions, and offline-friendly study sessions, the app enables students and developers across India to master **Artificial Intelligence, Robotics, Ethical Hacking, and Full-Stack Development** anytime, anywhere.
+The **Tech Indro Mobile App** brings the comprehensive **Tech Indro learning ecosystem** directly to your pocket. Engineered for high performance, smooth 60 FPS transitions, and offline-friendly study sessions, the app enables students and developers across India to master **Artificial Intelligence, Robotics, Ethical Hacking, and Full-Stack Development** anytime, anywhere.
 
 ---
 
 ## 🌟 Key Highlights & Mobile UX
 
-- 🎯 **Unacademy-Style Course Journey**: Browse flagship programs, track chapter progress, and enroll in live batches.
+- 🎯 **Interactive Course Journey**: Browse flagship programs, track chapter progress, and enroll in live batches.
 - 🤖 **24/7 AI Shikshak (Pocket Doubts)**: Instant voice & text doubt resolution powered by conversational AI.
 - 🏆 **TSOC Project Hub**: Review real-world open-source repositories (*GhostPose 3D Sensing*, *Khicho-Chatbots*) with architecture diagrams and source links.
 - 💻 **IndroLabs Mobile Code Runner**: Execute code snippets on-the-go without needing a PC.
@@ -52,7 +52,7 @@ tech-indro-app/
 │   │   ├── ThemeToggleBtn.tsx   # Fluid theme switcher
 │   │   ├── NotificationBell.tsx # Push/pull notification center
 │   │   ├── AIChatBot.tsx        # AI doubt assistant widget
-│   │   └── ProgramCard.tsx      # Unacademy-style course card
+│   │   └── ProgramCard.tsx      # Modern course card
 │   │
 │   ├── constants/               # Global design tokens (Colors, Typography, Themes)
 │   ├── hooks/                   # Custom React hooks (`useAuth`, `useTheme`)
