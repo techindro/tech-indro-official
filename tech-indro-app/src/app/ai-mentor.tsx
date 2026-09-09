@@ -196,7 +196,7 @@ export default function AIMentorScreen() {
         getSystemInstruction(role)
       );
 
-      const replyText = response.reply || 'Mujhe samajh nahi aaya, kripya thoda aur vistaar se batayein.';
+      const replyText = response.reply || response.response || (response as any)?.message || 'Mujhe samajh nahi aaya, kripya thoda aur vistaar se batayein.';
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'ai',

@@ -18,8 +18,8 @@ const getBaseUrl = (): string => {
     }
     return 'http://localhost:5000';
   }
-  // Production — replace with your Vercel deployment URL
-  return 'https://tech-indro-website.vercel.app';
+  // Production — live Vercel deployment URL
+  return 'https://tech-indro-official.vercel.app';
 };
 
 export const API_BASE_URL = getBaseUrl();

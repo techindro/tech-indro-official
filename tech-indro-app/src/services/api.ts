@@ -232,6 +232,8 @@ export interface ChatMessagePayload {
 
 export interface ChatResponse {
   reply: string;
+  response?: string;
+  message?: string;
 }
 
 export async function sendChatMessage(
@@ -239,10 +241,12 @@ export async function sendChatMessage(
   history?: { role: 'user' | 'model'; parts: { text: string }[] }[],
   systemInstruction?: string
 ): Promise<ChatResponse> {
-  return apiRequest<ChatResponse>(ENDPOINTS.CHAT, {
+  const data = await apiRequest<any>(ENDPOINTS.CHAT, {
     method: 'POST',
     body: JSON.stringify({ message, history, systemInstruction }),
   });
+  const text = data?.reply || data?.response || data?.message || '';
+  return { reply: text, response: text };
 }
 
 // ====== CODE COMPILER RUNTIME ======

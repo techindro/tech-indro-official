@@ -2,7 +2,7 @@
   "expo": {
     "name": "Tech Indro",
     "slug": "tech-indro-app",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "techindro",
@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.techindro.app",
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [
         "INTERNET",
         "RECORD_AUDIO",
