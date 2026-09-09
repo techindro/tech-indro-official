@@ -11,12 +11,12 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Linking,
   Alert,
   Image,
   Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,6 +39,7 @@ const CERT_BURGUNDY = '#8B1E2D';
 
 export default function CertificateScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { colors, isDark } = useTheme();
   const params = useLocalSearchParams<{
     studentName?: string;
@@ -111,9 +112,18 @@ export default function CertificateScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: isDark ? '#0F1117' : '#F1F3F5' }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: isDark ? '#0F1117' : '#F1F3F5' }]} edges={['left', 'right']}>
       {/* Top App Bar */}
-      <View style={[styles.header, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            paddingTop: Platform.OS === 'web' ? Spacing.sm : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 6 }}>
           <Ionicons name="arrow-back" size={22} color={colors.text} />
         </TouchableOpacity>

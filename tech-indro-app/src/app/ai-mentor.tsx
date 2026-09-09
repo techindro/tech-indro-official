@@ -14,12 +14,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  SafeAreaView,
   ScrollView,
   Alert,
   Image,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 import ChatBubble, { Message } from '@/components/ChatBubble';
 import { sendChatMessage } from '@/services/api';
@@ -42,6 +43,8 @@ const SUGGESTIONS = [
 ];
 
 export default function AIMentorScreen() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [role, setRole] = useState<MentorRole>('tutor');
   const [voiceLang, setVoiceLang] = useState<VoiceLang>('hi-IN');
   const [isListening, setIsListening] = useState(false);
@@ -247,20 +250,31 @@ export default function AIMentorScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          style={styles.headerLeft}
+          onPress={() => router.push('/')}
+          activeOpacity={0.7}
+        >
           <Image
-            source={require('@/assets/images/tech-indro-logo.png')}
-            style={{ width: 40, height: 20, marginRight: 6 }}
+            source={require('@/assets/images/tech-indro-square-logo.png')}
+            style={{ width: 34, height: 34, borderRadius: 8, marginRight: 8 }}
             resizeMode="contain"
           />
           <View>
             <Text style={styles.headerTitle}>AI Shikshak</Text>
             <Text style={styles.headerSubtitle}>24/7 Intelligence</Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.headerRight}>
           {/* Voice Language Toggle */}
@@ -413,18 +427,38 @@ export default function AIMentorScreen() {
             onChangeText={setInputText}
             multiline
             maxLength={600}
+            returnKeyType="send"
+            blurOnSubmit={false}
+            onSubmitEditing={() => {
+              if (inputText.trim() && !loading) {
+                handleSend();
+              }
+            }}
+            onKeyPress={(e: any) => {
+              if (Platform.OS === 'web' && e.nativeEvent?.key === 'Enter' && !e.nativeEvent?.shiftKey) {
+                e.preventDefault?.();
+                if (inputText.trim() && !loading) {
+                  handleSend();
+                }
+              }
+            }}
           />
 
           <TouchableOpacity
-            style={[styles.sendButton, !inputText.trim() && styles.sendButtonDisabled]}
+            style={[styles.sendButton, (!inputText.trim() || loading) && styles.sendButtonDisabled]}
             onPress={() => handleSend()}
             disabled={!inputText.trim() || loading}
+            accessibilityLabel="Send message"
           >
-            <Ionicons
-              name="send"
-              size={18}
-              color={inputText.trim() ? '#fff' : Colors.textMuted}
-            />
+            {loading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Ionicons
+                name="send"
+                size={18}
+                color={inputText.trim() ? '#fff' : Colors.textMuted}
+              />
+            )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

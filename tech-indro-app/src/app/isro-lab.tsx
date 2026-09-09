@@ -9,10 +9,12 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Dimensions,
   Image,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 
@@ -53,6 +55,8 @@ const MISSIONS = [
 ];
 
 export default function ISROLabScreen() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [activeMissionIndex, setActiveMissionIndex] = useState(0);
   const [thrusterActive, setThrusterActive] = useState(false);
   const [logs, setLogs] = useState<string[]>([
@@ -78,16 +82,30 @@ export default function ISROLabScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scroll,
+          {
+            paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         {/* Lab Header */}
         <View style={styles.header}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.sm }}>
-            <Image
-              source={require('@/assets/images/tech-indro-logo-white.png')}
-              style={{ width: 44, height: 22 }}
-              resizeMode="contain"
-            />
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+              onPress={() => router.push('/')}
+              activeOpacity={0.7}
+            >
+              <Image
+                source={require('@/assets/images/tech-indro-square-logo.png')}
+                style={{ width: 34, height: 34, borderRadius: 8 }}
+                resizeMode="contain"
+              />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: Colors.text, letterSpacing: 0.5 }}>TECH INDRO</Text>
+            </TouchableOpacity>
             <View style={styles.badgeBox}>
               <Ionicons name="radio-outline" size={14} color="#38BDF8" />
               <Text style={styles.badgeText}>ISRO VIRTUAL TELEMETRY</Text>

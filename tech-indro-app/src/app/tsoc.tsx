@@ -9,12 +9,14 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   TextInput,
   Modal,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
@@ -58,6 +60,8 @@ const TIMELINE = [
 ];
 
 export default function TSOCScreen() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -82,21 +86,33 @@ export default function TSOCScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* Hero Section */}
         <LinearGradient
           colors={['#1E1B4B', '#312E81', '#4338CA']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.heroGradient}
+          style={[
+            styles.heroGradient,
+            {
+              paddingTop: Platform.OS === 'web' ? Spacing.xl : Math.max(insets.top, 40) + 12,
+            },
+          ]}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: Spacing.md }}>
-            <Image
-              source={require('@/assets/images/tech-indro-logo-white.png')}
-              style={{ width: 48, height: 24 }}
-              resizeMode="contain"
-            />
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+              onPress={() => router.push('/')}
+              activeOpacity={0.7}
+            >
+              <Image
+                source={require('@/assets/images/tech-indro-square-logo.png')}
+                style={{ width: 34, height: 34, borderRadius: 8 }}
+                resizeMode="contain"
+              />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', letterSpacing: 0.5 }}>TECH INDRO</Text>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(255,255,255,0.15)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
               <Ionicons name="rocket" size={13} color="#FBBF24" />
               <Text style={{ fontSize: 11, fontWeight: '700', color: '#FBBF24', letterSpacing: 0.5 }}>BATCH OF 2026</Text>

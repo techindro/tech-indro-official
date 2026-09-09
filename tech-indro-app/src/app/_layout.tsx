@@ -5,14 +5,41 @@
  * Wraps entire app in ThemeProvider with dynamic Dark / Light Mode support
  */
 import React from 'react';
+import { Platform } from 'react-native';
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeProvider, useTheme } from '@/hooks/useTheme';
 import NetworkStatusBanner from '@/components/NetworkStatusBanner';
 
 function AppTabs() {
   const { colors, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
+
+  React.useEffect(() => {
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      document.title = "Tech Indro - India's #1 AI & Robotics Learning Platform";
+      
+      let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.type = 'image/png';
+      link.href = '/favicon.png';
+
+      let shortcut: HTMLLinkElement | null = document.querySelector("link[rel~='shortcut']");
+      if (!shortcut) {
+        shortcut = document.createElement('link');
+        shortcut.rel = 'shortcut icon';
+        document.head.appendChild(shortcut);
+      }
+      shortcut.href = '/favicon.ico';
+    }
+  }, []);
 
   return (
     <>
@@ -21,15 +48,15 @@ function AppTabs() {
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: colors.primaryLight,
-          tabBarInactiveTintColor: colors.textMuted,
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: isDark ? '#94a3b8' : '#475569',
           tabBarStyle: {
             backgroundColor: colors.card,
             borderTopWidth: 1,
             borderTopColor: colors.border,
-            height: 62,
-            paddingBottom: 8,
-            paddingTop: 8,
+            height: Platform.OS === 'web' ? 62 : 64 + Math.max(insets.bottom, 16),
+            paddingBottom: Platform.OS === 'web' ? 4 : Math.max(insets.bottom, 16) + 4,
+            paddingTop: 6,
             elevation: 12,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: -4 },
@@ -37,8 +64,20 @@ function AppTabs() {
             shadowRadius: 10,
           },
           tabBarLabelStyle: {
-            fontSize: 10,
+            fontSize: 10.5,
             fontWeight: '600',
+            lineHeight: 13,
+            marginTop: 1,
+            marginBottom: 2,
+          },
+          tabBarIconStyle: {
+            marginTop: 0,
+            marginBottom: 0,
+          },
+          tabBarItemStyle: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 0,
           },
         }}
       >
@@ -47,8 +86,8 @@ function AppTabs() {
           name="index"
           options={{
             title: 'Home',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home-outline" size={size - 2} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="home-outline" size={20} color={color} />
             ),
           }}
         />
@@ -58,8 +97,8 @@ function AppTabs() {
           name="programs"
           options={{
             title: 'Programs',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="book-outline" size={size - 2} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="book-outline" size={20} color={color} />
             ),
           }}
         />
@@ -69,8 +108,8 @@ function AppTabs() {
           name="ai-mentor"
           options={{
             title: 'AI Shikshak',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="sparkles" size={size - 2} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="sparkles" size={20} color={color} />
             ),
           }}
         />
@@ -80,8 +119,8 @@ function AppTabs() {
           name="quiz"
           options={{
             title: 'Test Series',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="school-outline" size={size - 2} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="school-outline" size={20} color={color} />
             ),
           }}
         />
@@ -91,8 +130,8 @@ function AppTabs() {
           name="dashboard"
           options={{
             title: 'Dashboard',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person-circle-outline" size={size - 2} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="person-circle-outline" size={20} color={color} />
             ),
           }}
         />
@@ -102,6 +141,7 @@ function AppTabs() {
           name="login"
           options={{
             href: null,
+            tabBarStyle: { display: 'none' },
           }}
         />
         <Tabs.Screen
@@ -182,9 +222,15 @@ function AppTabs() {
 }
 
 export default function RootLayout() {
+  const [loaded] = useFonts({
+    ...Ionicons.font,
+  });
+
   return (
-    <ThemeProvider>
-      <AppTabs />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AppTabs />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

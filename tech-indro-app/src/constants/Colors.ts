@@ -22,6 +22,8 @@ export const LightColors = {
   background: '#f8fafc',
   surface: '#ffffff',
   surfaceAlt: '#f1f5f9',
+  backgroundElement: '#f1f5f9',
+  backgroundSelected: '#e2e8f0',
   card: '#ffffff',
   cardBorder: '#f1f5f9',
 
@@ -75,6 +77,8 @@ export const DarkColors = {
   background: '#090d1f',
   surface: '#0f172a',
   surfaceAlt: '#1e293b',
+  backgroundElement: '#1e293b',
+  backgroundSelected: '#334155',
   card: '#0f172a',
   cardBorder: '#1e293b',
 
@@ -110,6 +114,13 @@ export const DarkColors = {
 };
 
 export const Spacing = {
+  half: 2,
+  one: 4,
+  two: 8,
+  three: 12,
+  four: 16,
+  five: 20,
+  six: 24,
   xs: 4,
   sm: 8,
   md: 12,

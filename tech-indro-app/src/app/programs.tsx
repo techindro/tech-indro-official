@@ -14,7 +14,9 @@ import {
   ActivityIndicator,
   StatusBar,
   Image,
+  Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Colors, {
@@ -25,6 +27,7 @@ import Colors, {
 } from '@/constants/Colors';
 import { fetchCourses, type Course } from '@/services/api';
 import CourseCard from '@/components/CourseCard';
+import HamburgerDrawer from '@/components/HamburgerDrawer';
 import { useTheme } from '@/hooks/useTheme';
 
 const FILTERS = [
@@ -37,10 +40,12 @@ const FILTERS = [
 
 export default function ProgramsScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { colors, isDark } = useTheme();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
@@ -115,16 +120,36 @@ export default function ProgramsScreen() {
       <StatusBar barStyle="dark-content" />
 
       {/* Header */}
-      <View style={styles.header}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Platform.OS === 'web' ? Spacing.lg : Math.max(insets.top, 40) + 10,
+          },
+        ]}
+      >
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.sm }}>
-          <Image
-            source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
-            style={{ width: 44, height: 22 }}
-            resizeMode="contain"
-          />
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '18', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '33' }}>
-            <Ionicons name="sparkles" size={12} color={Colors.primary} />
-            <Text style={{ fontSize: 10, fontWeight: '700', color: Colors.primary, letterSpacing: 0.5 }}>COURSES & BOOTCAMPS</Text>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }} onPress={() => router.push('/')}>
+            <Image
+              source={require('@/assets/images/tech-indro-square-logo.png')}
+              style={{ width: 34, height: 34, borderRadius: 8 }}
+              resizeMode="contain"
+            />
+            <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text, letterSpacing: 0.5 }}>TECH INDRO</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '18', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '33' }}>
+              <Ionicons name="sparkles" size={12} color={Colors.primary} />
+              <Text style={{ fontSize: 10, fontWeight: '700', color: Colors.primary, letterSpacing: 0.5 }}>COURSES & BOOTCAMPS</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => setDrawerVisible(true)}
+              style={{ width: 34, height: 34, borderRadius: 8, backgroundColor: isDark ? '#1e293b' : '#f1f5f9', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border }}
+              activeOpacity={0.7}
+              accessibilityLabel="Open Navigation Menu"
+            >
+              <Ionicons name="menu-outline" size={20} color={colors.text} />
+            </TouchableOpacity>
           </View>
         </View>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Explore All Programs</Text>
@@ -226,6 +251,12 @@ export default function ProgramsScreen() {
           }
         />
       )}
+
+      {/* Hamburger Menu Drawer */}
+      <HamburgerDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+      />
     </View>
   );
 }

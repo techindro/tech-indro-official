@@ -9,12 +9,13 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Alert,
   Modal,
   TextInput,
   Image,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
@@ -50,6 +51,7 @@ const INITIAL_MISSIONS: DailyMission[] = [
 
 export default function DashboardScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { colors, isDark } = useTheme();
   const [userName, setUserName] = useState('Indro Scholar');
   const [userEmail, setUserEmail] = useState('student@techindro.com');
@@ -268,21 +270,36 @@ export default function DashboardScreen() {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={[styles.scroll, { maxWidth: 960, width: '100%', alignSelf: 'center' }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['left', 'right']}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scroll,
+          {
+            maxWidth: 960,
+            width: '100%',
+            alignSelf: 'center',
+            paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         {/* Top Branding Bar */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: Spacing.sm, marginBottom: Spacing.sm }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+            onPress={() => router.push('/')}
+            activeOpacity={0.7}
+          >
             <Image
-              source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 44, height: 22 }}
+              source={require('@/assets/images/tech-indro-square-logo.png')}
+              style={{ width: 34, height: 34, borderRadius: 8 }}
               resizeMode="contain"
             />
-            <View style={{ backgroundColor: colors.primaryDark + '33', paddingHorizontal: 7, paddingVertical: 2, borderRadius: BorderRadius.full, borderWidth: 1, borderColor: colors.primary + '44' }}>
+            <Text style={{ fontSize: 16, fontWeight: '700', color: colors.text, letterSpacing: 0.5 }}>TECH INDRO</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.xs }}>
+            <View style={{ backgroundColor: colors.primaryDark + '33', paddingHorizontal: 7, paddingVertical: 2, borderRadius: BorderRadius.full, borderWidth: 1, borderColor: colors.primary + '44', marginRight: 4 }}>
               <Text style={{ fontSize: 10, fontWeight: '700', color: colors.primary, letterSpacing: 0.5 }}>LEARNER HUB</Text>
             </View>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.xs }}>
             <NotificationBell unreadCount={3} />
             <ThemeToggleBtn />
             <TouchableOpacity style={[styles.menuDotBtn, { backgroundColor: colors.card, borderColor: colors.border }]} onPress={() => setMenuVisible(true)}>

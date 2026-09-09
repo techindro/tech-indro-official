@@ -10,10 +10,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Linking,
   Alert,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
@@ -69,12 +70,21 @@ const COMMUNITIES = [
     desc: 'Free project walkthroughs and ISRO robotics tutorials',
     icon: 'logo-youtube',
     color: '#FF0000',
-    url: 'https://youtube.com/@techindro',
+    url: 'https://www.youtube.com/@TechIndro',
+  },
+  {
+    id: 'linkedin',
+    name: 'LinkedIn Official',
+    desc: 'Official updates, hiring alerts, and alumni network',
+    icon: 'logo-linkedin',
+    color: '#0A66C2',
+    url: 'https://www.linkedin.com/company/tech-indro/',
   },
 ];
 
 export default function SupportScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { colors } = useTheme();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
 
@@ -98,9 +108,18 @@ export default function SupportScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['left', 'right']}>
       {/* Top Header */}
-      <View style={[styles.topBar, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      <View
+        style={[
+          styles.topBar,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>

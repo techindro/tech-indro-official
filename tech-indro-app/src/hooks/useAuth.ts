@@ -6,10 +6,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AUTH_KEY = '@tech_indro_user';
 
-interface User {
+export interface User {
   id: string;
   name: string;
-  email: string;
+  email?: string;
+  phone?: string;
+  goal?: string;
+  academicLevel?: string;
+  state?: string;
+  referralCode?: string;
+  provider?: string;
   createdAt: string;
 }
 

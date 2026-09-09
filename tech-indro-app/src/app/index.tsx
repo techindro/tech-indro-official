@@ -15,10 +15,12 @@ import {
   Image,
   Modal,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors, {
   BorderRadius,
   FontSize,
@@ -27,6 +29,7 @@ import Colors, {
 } from '@/constants/Colors';
 import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 import NotificationBell from '@/components/NotificationBell';
+import HamburgerDrawer from '@/components/HamburgerDrawer';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -79,8 +82,9 @@ const LIVE_BATCHES = [
     date: '15 Aug',
     badge: 'STARTING SOON',
     badgeColor: '#ef4444',
-    desc: 'Target Top Product-Based Companies. Full Stack + DSA + CS Core.',
-    gradient: ['#4f46e5', '#7c3aed'] as const,
+    desc: 'Target Top Product-Based Companies. Full Stack + DSA + CS Core concepts.',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80',
+    metaColor: '#4f46e5',
   },
   {
     title: 'Alpha SIH Batch',
@@ -88,8 +92,9 @@ const LIVE_BATCHES = [
     date: 'Ongoing',
     badge: 'ENROLLING',
     badgeColor: '#10b981',
-    desc: 'Crack Smart India Hackathon & build massive ISRO Projects.',
-    gradient: ['#059669', '#10b981'] as const,
+    desc: 'Crack Smart India Hackathon & build massive ISRO Projects with Google Cloud.',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80',
+    metaColor: '#10b981',
   },
   {
     title: "Founder's Batch",
@@ -97,8 +102,9 @@ const LIVE_BATCHES = [
     date: 'Next Week',
     badge: 'POPULAR',
     badgeColor: '#f59e0b',
-    desc: 'Master Sales, Digital Marketing, and building a startup from scratch.',
-    gradient: ['#d97706', '#f59e0b'] as const,
+    desc: 'Master Sales, Digital Marketing, and building a high-growth startup from scratch.',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80',
+    metaColor: '#f59e0b',
   },
 ];
 
@@ -121,6 +127,8 @@ export default function HomeScreen() {
   const mainScrollRef = useRef<ScrollView>(null);
   const [featuresY, setFeaturesY] = useState(0);
   const [demoModalVisible, setDemoModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   const scrollToFeatures = () => {
     if (featuresY > 0 && mainScrollRef.current) {
@@ -135,12 +143,21 @@ export default function HomeScreen() {
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
       {/* ===== TOP NAVBAR (Clean, Exactly Matching Website) ===== */}
-      <View style={[styles.topNavbar, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+      <View
+        style={[
+          styles.topNavbar,
+          {
+            backgroundColor: colors.card,
+            borderBottomColor: colors.border,
+            paddingTop: Platform.OS === 'web' ? 10 : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         {/* Main Brand & Actions Row */}
         <View style={styles.topNavMainRow}>
           <TouchableOpacity style={styles.topNavLogoRow} onPress={() => router.push('/')}>
             <Image
-              source={isDark ? require('@/assets/images/tech-indro-logo-white.png') : require('@/assets/images/tech-indro-logo.png')}
+              source={require('@/assets/images/tech-indro-square-logo.png')}
               style={styles.topNavLogoImg}
               resizeMode="contain"
             />
@@ -169,44 +186,31 @@ export default function HomeScreen() {
           )}
 
           <View style={styles.topNavRightActions}>
-            <TouchableOpacity
-              style={styles.navAuthBtn}
-              onPress={() => router.push(user ? '/dashboard' : '/login')}
-              activeOpacity={0.85}
-            >
-              <Ionicons name={user ? 'person' : 'log-in-outline'} size={14} color="#ffffff" />
-              <Text style={styles.navAuthBtnText}>{user ? user.name.split(' ')[0] : 'Login / Sign Up'}</Text>
-            </TouchableOpacity>
+            {isDesktop && (
+              <TouchableOpacity
+                style={styles.navAuthBtn}
+                onPress={() => router.push(user ? '/dashboard' : '/login')}
+                activeOpacity={0.85}
+              >
+                <Ionicons name={user ? 'person' : 'log-in-outline'} size={14} color="#ffffff" />
+                <Text style={styles.navAuthBtnText}>{user ? user.name.split(' ')[0] : 'Login / Sign Up'}</Text>
+              </TouchableOpacity>
+            )}
             <NotificationBell unreadCount={3} />
             <ThemeToggleBtn />
+            <TouchableOpacity
+              style={[
+                styles.navHamburgerBtn,
+                { backgroundColor: isDark ? '#1e293b' : '#f1f5f9', borderColor: colors.border },
+              ]}
+              onPress={() => setDrawerVisible(true)}
+              activeOpacity={0.75}
+              accessibilityLabel="Open Navigation Menu"
+            >
+              <Ionicons name="menu-outline" size={22} color={colors.text} />
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* Mobile Nav Links Row */}
-        {!isDesktop ? (
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.topNavScrollContainer}
-            style={styles.topNavScrollView}
-          >
-            <TouchableOpacity onPress={() => router.push('/programs')} style={styles.navLinkItem}>
-              <Text style={[styles.navLinkText, { color: colors.text }]}>Programs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push('/tsoc')} style={styles.navLinkItem}>
-              <Text style={[styles.navLinkText, { color: colors.text }]}>TSOC</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push('/indrolabs')} style={styles.navLinkItem}>
-              <Text style={[styles.navLinkText, { color: colors.text }]}>IndroLabs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={scrollToFeatures} style={styles.navLinkItem}>
-              <Text style={[styles.navLinkText, { color: colors.text }]}>Features</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push('/quiz')} style={styles.navLinkItem}>
-              <Text style={[styles.navLinkText, { color: colors.text }]}>Test Series</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        ) : null}
       </View>
 
       <ScrollView ref={mainScrollRef} showsVerticalScrollIndicator={false} bounces={false}>
@@ -417,29 +421,39 @@ export default function HomeScreen() {
             decelerationRate="fast"
           >
             {LIVE_BATCHES.map((batch, i) => (
-              <TouchableOpacity key={i} style={styles.batchCard} activeOpacity={0.9}>
-                <LinearGradient
-                  colors={[...batch.gradient]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.batchHeader}
-                >
-                  <View style={[styles.batchBadge]}>
-                    <Text style={[styles.batchBadgeText, { color: batch.badgeColor }]}>
-                      {batch.badge}
-                    </Text>
-                  </View>
-                  <Text style={styles.batchTitle}>{batch.title}</Text>
-                </LinearGradient>
+              <TouchableOpacity
+                key={i}
+                style={styles.batchCard}
+                activeOpacity={0.9}
+                onPress={() => router.push('/programs')}
+              >
+                <View style={styles.batchHeaderContainer}>
+                  <Image
+                    source={{ uri: batch.image }}
+                    style={styles.batchImg}
+                    resizeMode="cover"
+                  />
+                  <LinearGradient
+                    colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.65)']}
+                    style={styles.batchHeaderOverlay}
+                  >
+                    <View style={styles.batchBadge}>
+                      <Text style={[styles.batchBadgeText, { color: batch.badgeColor }]}>
+                        {batch.badge}
+                      </Text>
+                    </View>
+                    <Text style={styles.batchTitle}>{batch.title}</Text>
+                  </LinearGradient>
+                </View>
                 <View style={styles.batchContent}>
                   <Text style={styles.batchSubtitle}>{batch.subtitle}</Text>
                   <View style={styles.batchMeta}>
                     <View style={styles.batchMetaItem}>
-                      <Ionicons name="calendar-outline" size={16} color={Colors.info} />
+                      <Ionicons name="calendar-outline" size={16} color={batch.metaColor} />
                       <Text style={styles.batchMetaText}>{batch.date}</Text>
                     </View>
                     <View style={styles.batchMetaItem}>
-                      <Ionicons name="hardware-chip-outline" size={16} color={Colors.info} />
+                      <Ionicons name="hardware-chip-outline" size={16} color={batch.metaColor} />
                       <Text style={styles.batchMetaText}>AI Mentor</Text>
                     </View>
                   </View>
@@ -691,8 +705,8 @@ export default function HomeScreen() {
               <View style={[styles.footerCol, styles.footerBrandCol]}>
                 <View style={styles.footerBrandRow}>
                   <Image
-                    source={require('@/assets/images/tech-indro-logo-white.png')}
-                    style={{ width: 44, height: 22 }}
+                    source={require('@/assets/images/tech-indro-square-logo.png')}
+                    style={styles.footerBrandLogoImg}
                     resizeMode="contain"
                   />
                   <Text style={styles.footerBrandTitle}>TECH INDRO</Text>
@@ -807,13 +821,13 @@ export default function HomeScreen() {
                 <View style={styles.footerSocialIconsRow}>
                   <TouchableOpacity
                     style={styles.footerCircleSocialBtn}
-                    onPress={() => Linking.openURL('https://youtube.com/@Indrolabs')}
+                    onPress={() => Linking.openURL('https://youtube.com/@TechIndro')}
                   >
                     <Ionicons name="logo-youtube" size={16} color="#ffffff" />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.footerCircleSocialBtn}
-                    onPress={() => Linking.openURL('https://linkedin.com')}
+                    onPress={() => Linking.openURL('https://www.linkedin.com/company/tech-indro/')}
                   >
                     <Ionicons name="logo-linkedin" size={16} color="#ffffff" />
                   </TouchableOpacity>
@@ -867,6 +881,12 @@ export default function HomeScreen() {
           </View>
         </TouchableOpacity>
       </View>
+
+      {/* ===== HAMBURGER SLIDE-OUT DRAWER ===== */}
+      <HamburgerDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+      />
     </View>
   );
 }
@@ -900,7 +920,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: 14,
   },
   topNavLogoRow: {
     flexDirection: 'row',
@@ -908,11 +928,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   topNavLogoImg: {
-    width: 44,
-    height: 22,
+    width: 34,
+    height: 34,
+    borderRadius: 8,
   },
   topNavLogoText: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '700',
     color: '#1a1a1a',
     letterSpacing: 0.5,
@@ -934,7 +955,7 @@ const styles = StyleSheet.create({
   topNavRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
   },
   navAuthBtn: {
     flexDirection: 'row',
@@ -954,6 +975,15 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 13,
     fontWeight: '600',
+  },
+  navHamburgerBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 2,
   },
   topNavScrollView: {
     borderTopWidth: 1,
@@ -1380,10 +1410,25 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 4,
   },
-  batchHeader: {
-    height: 140,
-    justifyContent: 'flex-end',
-    padding: Spacing.xl,
+  batchHeaderContainer: {
+    height: 160,
+    width: '100%',
+    position: 'relative',
+    backgroundColor: '#0f172a',
+  },
+  batchImg: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  batchHeaderOverlay: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Spacing.lg,
   },
   batchBadge: {
     position: 'absolute',
@@ -1395,7 +1440,7 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.pill,
     shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
     shadowRadius: 6,
     elevation: 3,
   },
@@ -1406,12 +1451,14 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   batchTitle: {
-    fontSize: FontSize.xl,
-    fontWeight: FontWeight.extrabold,
+    fontSize: 22,
+    fontWeight: '900',
     color: Colors.white,
-    textShadowColor: 'rgba(0,0,0,0.2)',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.7)',
     textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
+    textShadowRadius: 8,
+    letterSpacing: 0.5,
   },
   batchContent: {
     padding: Spacing.xl,
@@ -1768,6 +1815,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     marginBottom: Spacing.md,
+  },
+  footerBrandLogoImg: {
+    width: 44,
+    height: 44,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
   },
   footerBrandTitle: {
     fontSize: 22,

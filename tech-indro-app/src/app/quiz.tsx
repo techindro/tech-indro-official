@@ -9,12 +9,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
   TextInput,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 import questionsData from '@/data/questions.json';
 
@@ -27,6 +29,8 @@ interface QuestionItem {
 }
 
 export default function QuizScreen() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const allQuestions: QuestionItem[] = questionsData as QuestionItem[];
 
   // Domains list
@@ -152,8 +156,8 @@ export default function QuizScreen() {
     const pct = Math.round((score / quizQuestions.length) * 100);
 
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.resultScroll}>
+      <SafeAreaView style={styles.container} edges={['left', 'right']}>
+        <ScrollView contentContainerStyle={[styles.resultScroll, { paddingTop: Platform.OS === 'web' ? Spacing.lg : Math.max(insets.top, 40) + 8 }]}>
           <View style={styles.resultHeaderCard}>
             <View style={styles.trophyCircle}>
               <Ionicons
@@ -299,9 +303,9 @@ export default function QuizScreen() {
     if (!currentQ) return null;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['left', 'right']}>
         {/* Quiz Top bar */}
-        <View style={styles.quizTopBar}>
+        <View style={[styles.quizTopBar, { paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8 }]}>
           <TouchableOpacity
             onPress={() => {
               Alert.alert('Quit Quiz?', 'Aapki progress save nahi hogi.', [
@@ -433,15 +437,22 @@ export default function QuizScreen() {
 
   // 3. TOPIC / DOMAIN SELECTOR SCREEN
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.selectorScroll}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <ScrollView contentContainerStyle={[styles.selectorScroll, { paddingTop: Platform.OS === 'web' ? Spacing.lg : Math.max(insets.top, 40) + 8 }]}>
         <View style={styles.heroSection}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.sm }}>
-            <Image
-              source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 44, height: 22 }}
-              resizeMode="contain"
-            />
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+              onPress={() => router.push('/')}
+              activeOpacity={0.7}
+            >
+              <Image
+                source={require('@/assets/images/tech-indro-square-logo.png')}
+                style={{ width: 34, height: 34, borderRadius: 8 }}
+                resizeMode="contain"
+              />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: Colors.text, letterSpacing: 0.5 }}>TECH INDRO</Text>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '18', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '33' }}>
               <Ionicons name="flash" size={12} color={Colors.primary} />
               <Text style={{ fontSize: 10, fontWeight: '700', color: Colors.primary, letterSpacing: 0.5 }}>4500+ QUESTION BANK</Text>

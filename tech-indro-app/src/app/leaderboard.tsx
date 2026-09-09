@@ -9,9 +9,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   Image,
+  Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 
@@ -29,6 +31,8 @@ const TOP_USERS = [
 ];
 
 export default function LeaderboardScreen() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [period, setPeriod] = useState<Period>('weekly');
 
   const top1 = TOP_USERS[0];
@@ -37,16 +41,30 @@ export default function LeaderboardScreen() {
   const restUsers = TOP_USERS.slice(3);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scroll,
+          {
+            paddingTop: Platform.OS === 'web' ? Spacing.md : Math.max(insets.top, 40) + 8,
+          },
+        ]}
+      >
         {/* Header */}
         <View style={styles.header}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.xs }}>
-            <Image
-              source={require('@/assets/images/tech-indro-logo.png')}
-              style={{ width: 44, height: 22 }}
-              resizeMode="contain"
-            />
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+              onPress={() => router.push('/')}
+              activeOpacity={0.7}
+            >
+              <Image
+                source={require('@/assets/images/tech-indro-square-logo.png')}
+                style={{ width: 34, height: 34, borderRadius: 8 }}
+                resizeMode="contain"
+              />
+              <Text style={{ fontSize: 16, fontWeight: '700', color: Colors.text, letterSpacing: 0.5 }}>TECH INDRO</Text>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary + '22', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12, borderWidth: 1, borderColor: Colors.primary + '44' }}>
               <Ionicons name="medal" size={13} color="#FFD700" />
               <Text style={{ fontSize: 10, fontWeight: '700', color: Colors.primaryLight, letterSpacing: 0.5 }}>GLOBAL RANKS</Text>
