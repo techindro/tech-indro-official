@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "name": "tech-indro-official",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "java.import.gradle.enabled": false,
+    "java.autobuild.enabled": false
+  }
+}

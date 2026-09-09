@@ -4,7 +4,8 @@
 
 <div align="center">
 
-[![Live Web](https://img.shields.io/badge/Live%20Web-tech--indro.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-website.vercel.app)
+[![Live Web](https://img.shields.io/badge/Live%20Web-tech--indro.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)
+[![REST API](https://img.shields.io/badge/REST%20API-Live%20v1.0-10b981?style=for-the-badge&logo=fastapi)](https://tech-indro-official.vercel.app/api/courses)
 [![Mobile App](https://img.shields.io/badge/Mobile%20App-Expo%20%7C%20React%20Native-0284c7?style=for-the-badge&logo=expo)](tech-indro-app/)
 [![Learners](https://img.shields.io/badge/Learners-1.2L%2B%20Enrolled-10b981?style=for-the-badge&logo=google-classroom)](#)
 [![Rating](https://img.shields.io/badge/Rating-4.8%20★%20(45k%2B%20Reviews)-f59e0b?style=for-the-badge&logo=googleplay)](#)
@@ -26,7 +27,7 @@ With an intuitive **Web Platform** and a slick **React Native / Expo Mobile App*
 
 ```
 Tech Indro Ecosystem
-├── 🌐 Web Platform (tech-indro-website/)
+├── 🌐 Web Platform (tech-indro-official/)
 │   ├── Responsive PWA & SPA Engine (Vanilla ES6+, CSS3, Lucide)
 │   ├── 🤖 24/7 AI Shikshak (Voice-to-Voice Doubt Engine)
 │   ├── 💻 IndroLabs Code Playground (Python, JS, HTML/CSS Compiler)
@@ -102,7 +103,7 @@ The **Tech Indro Web Platform** is optimized for high-performance, SEO, and ente
 ### Run the Web Platform:
 ```bash
 # Navigate to website directory
-cd tech-indro-website
+cd tech-indro-official
 
 # Install dependencies
 npm install
@@ -111,6 +112,45 @@ npm install
 npm start
 ```
 *Server boots up on `http://localhost:5000`.*
+
+---
+
+## 🔌 REST API Reference & Endpoints
+
+Tech Indro exposes a fast, hardened JSON REST API powering both the Web Platform and the React Native Mobile App.
+
+- **Production API Base**: `https://tech-indro-official.vercel.app/api`
+- **Local Development Base**: `http://localhost:5000/api`
+
+### 📡 Core API Endpoints
+
+| Method | Endpoint | Description | Live Endpoint Link |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/courses` | Returns all 18+ flagship programs, syllabus, fees & ratings | [🔗 View JSON](https://tech-indro-official.vercel.app/api/courses) |
+| `GET` | `/api/courses/:id` | Detailed curriculum & modules for a specific course | [🔗 View Sample](https://tech-indro-official.vercel.app/api/courses/ai-mastery) |
+| `GET` | `/api/shikshak-courses` | Beginner & kids coding foundation programs | [🔗 View JSON](https://tech-indro-official.vercel.app/api/shikshak-courses) |
+| `GET` | `/api/ai-tools` | Directory of 50+ curated AI developer tools & resources | [🔗 View JSON](https://tech-indro-official.vercel.app/api/ai-tools) |
+| `GET` | `/api/analytics` | Real-time platform traffic & visitor analytics | [🔗 View JSON](https://tech-indro-official.vercel.app/api/analytics) |
+| `POST` | `/api/auth/register` | Student account creation with validation & encryption | `POST` |
+| `POST` | `/api/auth/login` | Secure JWT/Session authentication | `POST` |
+| `POST` | `/api/auth/send-otp` | Mobile phone verification via OTP | `POST` |
+| `POST` | `/api/auth/verify-otp` | OTP verification & instant frictionless student login | `POST` |
+| `POST` | `/api/chat` | 24/7 AI Shikshak doubt resolution (Gemini 2.5 Flash / fallback) | `POST` |
+| `POST` | `/api/compiler/run` | Multi-language code execution sandbox (Python, JS, C++, Java) | `POST` |
+| `POST` | `/api/payments/create-intent` | Smart payment orchestrator session (UPI, Cards, NetBanking) | `POST` |
+| `POST` | `/api/payments/confirm` | Payment authorization & auto-course enrollment | `POST` |
+| `POST` | `/api/contact` | Rate-limited student query & mentorship form submission | `POST` |
+
+#### ⚡ Quick API Example (Fetch Courses):
+```bash
+# cURL
+curl https://tech-indro-official.vercel.app/api/courses
+
+# JavaScript Fetch
+fetch("https://tech-indro-official.vercel.app/api/courses")
+  .then(res => res.json())
+  .then(courses => console.log(courses));
+```
 
 ---
 
@@ -135,7 +175,10 @@ npm start
 ## 👥 Leadership & Community
 
 - **Founder & Lead Architect**: **Shubham Patel** (Tech Indro)
-- **Website**: [tech-indro-website.vercel.app](https://tech-indro-website.vercel.app)
+- **Website**: [tech-indro-official.vercel.app](https://tech-indro-official.vercel.app)
+- **Official API**: [tech-indro-official.vercel.app/api/courses](https://tech-indro-official.vercel.app/api/courses)
+- **LinkedIn**: [linkedin.com/company/tech-indro](https://www.linkedin.com/company/tech-indro/)
+- **YouTube**: [youtube.com/@TechIndro](https://www.youtube.com/@TechIndro)
 - **GitHub**: [@techindro](https://github.com/techindro)
 
 ---
