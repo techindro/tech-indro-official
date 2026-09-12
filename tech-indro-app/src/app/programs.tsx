@@ -32,6 +32,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 const FILTERS = [
   { label: 'All', key: 'all' },
+  { label: 'Competitive Hackathons 🏆', key: 'hackathons' },
   { label: 'Coding & AI', key: 'coding' },
   { label: 'Life & Health', key: 'life' },
   { label: 'Business', key: 'business' },
@@ -78,6 +79,20 @@ export default function ProgramsScreen() {
       result = result.filter((c) => {
         const t = c.title.toLowerCase() + ' ' + c.description.toLowerCase();
         switch (activeFilter) {
+          case 'hackathons':
+            return (
+              /hackathon|imagine cup|hackon|hackone|codevita|code vita|grid|summer of code|gsoc|gssoc|antariksh|space apps|sih/i.test(t) ||
+              [
+                'sih-hackathon',
+                'microsoft-imagine-cup',
+                'amazon-hackon',
+                'tcs-codevita',
+                'flipkart-grid',
+                'google-gsoc',
+                'isro-antariksh-hackathon',
+                'nasa-space-apps',
+              ].includes(c.id)
+            );
           case 'coding':
             return /coding|ai|machine|python|web|hack|data|dsa|full.?stack|isro|cyber|code|software|devops|vlsi|robotics|sql|app|android|ios|agentic/i.test(t);
           case 'life':

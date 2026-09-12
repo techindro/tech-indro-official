@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors, {
   BorderRadius,
@@ -30,6 +30,7 @@ import Colors, {
 import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 import NotificationBell from '@/components/NotificationBell';
 import HamburgerDrawer from '@/components/HamburgerDrawer';
+import TechIndroWelcomeAuth from '@/components/TechIndroWelcomeAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -87,12 +88,12 @@ const LIVE_BATCHES = [
     metaColor: '#4f46e5',
   },
   {
-    title: 'Alpha SIH Batch',
-    subtitle: 'Hackathon Winners Program',
+    title: 'Competitive Hackathons Arena',
+    subtitle: 'Hackathons & Competitions Mastery',
     date: 'Ongoing',
     badge: 'ENROLLING',
     badgeColor: '#10b981',
-    desc: 'Crack Smart India Hackathon & build massive ISRO Projects with Google Cloud.',
+    desc: 'Crack SIH, Microsoft Imagine Cup, Amazon HackOne, TCS CodeVita, Flipkart GRID 8.0, Google GSoC, ISRO & NASA Space Apps.',
     image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80',
     metaColor: '#10b981',
   },
@@ -125,10 +126,27 @@ export default function HomeScreen() {
   const isDesktop = width >= 860;
 
   const mainScrollRef = useRef<ScrollView>(null);
+  const navigation = useNavigation();
   const [featuresY, setFeaturesY] = useState(0);
   const [demoModalVisible, setDemoModalVisible] = useState(false);
   const insets = useSafeAreaInsets();
   const [drawerVisible, setDrawerVisible] = useState(false);
+
+  // App Welcome Entry Flow (TechIndro welcome screen on open, enter features on continue/skip)
+  const [hasEnteredApp, setHasEnteredApp] = useState(false);
+  const [welcomeAuthModalVisible, setWelcomeAuthModalVisible] = useState(false);
+
+  React.useEffect(() => {
+    if (!hasEnteredApp) {
+      navigation.setOptions({
+        tabBarStyle: { display: 'none' },
+      });
+    } else {
+      navigation.setOptions({
+        tabBarStyle: undefined,
+      });
+    }
+  }, [hasEnteredApp, navigation]);
 
   const scrollToFeatures = () => {
     if (featuresY > 0 && mainScrollRef.current) {
@@ -137,6 +155,22 @@ export default function HomeScreen() {
       router.push('/ai-mentor');
     }
   };
+
+  // When opening app, show Tech Indro welcome screen directly, then enter features
+  if (!hasEnteredApp) {
+    return (
+      <View style={{ flex: 1, backgroundColor: '#162456' }}>
+        <StatusBar barStyle="light-content" backgroundColor="#162456" />
+        <TechIndroWelcomeAuth
+          isModal={false}
+          onSuccess={() => setHasEnteredApp(true)}
+          onSkip={() => setHasEnteredApp(true)}
+          initialName={user?.name || 'Rahul Sharma'}
+          initialPhone={user?.phone ? user.phone.replace(/\+91\s?/, '') : '9876543210'}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -156,11 +190,13 @@ export default function HomeScreen() {
         {/* Main Brand & Actions Row */}
         <View style={styles.topNavMainRow}>
           <TouchableOpacity style={styles.topNavLogoRow} onPress={() => router.push('/')}>
-            <Image
-              source={require('@/assets/images/tech-indro-square-logo.png')}
-              style={styles.topNavLogoImg}
-              resizeMode="contain"
-            />
+            <View style={styles.topNavSquareLogoWrapper}>
+              <Image
+                source={require('@/assets/images/tech-indro-square-logo.png')}
+                style={styles.topNavLogoImg}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={[styles.topNavLogoText, { color: colors.text }]}>TECH INDRO</Text>
           </TouchableOpacity>
 
@@ -189,7 +225,13 @@ export default function HomeScreen() {
             {isDesktop && (
               <TouchableOpacity
                 style={styles.navAuthBtn}
-                onPress={() => router.push(user ? '/dashboard' : '/login')}
+                onPress={() => {
+                  if (user) {
+                    router.push('/dashboard');
+                  } else {
+                    setWelcomeAuthModalVisible(true);
+                  }
+                }}
                 activeOpacity={0.85}
               >
                 <Ionicons name={user ? 'person' : 'log-in-outline'} size={14} color="#ffffff" />
@@ -216,17 +258,28 @@ export default function HomeScreen() {
       <ScrollView ref={mainScrollRef} showsVerticalScrollIndicator={false} bounces={false}>
         {/* ===== HERO SECTION ===== */}
         <LinearGradient
-          colors={['#5B68DF', '#6C5CE7', '#764BA2']}
+          colors={['#596be2', '#667eea', '#764ba2']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.hero}
         >
+          {/* Tech Grid Pattern Overlay (Matches Website Hero Screenshot) */}
+          <View style={styles.heroGridOverlay} pointerEvents="none">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <View key={`hg-${i}`} style={[styles.heroGridHLine, { top: i * 48 }]} />
+            ))}
+            {Array.from({ length: 24 }).map((_, i) => (
+              <View key={`vg-${i}`} style={[styles.heroGridVLine, { left: i * 48 }]} />
+            ))}
+          </View>
+
           <View style={styles.heroContainer}>
             {/* Left Column: Hero Text & CTAs */}
             <View style={styles.heroLeftCol}>
               <Text style={styles.heroTitle}>
                 India's First{' '}
-                <Text style={styles.heroHighlight}>AI-Powered</Text>
+                <Text style={styles.heroHighlightYellow}>AI-</Text>
+                <Text style={styles.heroHighlightOrange}>Powered</Text>
                 {' '}Learning Platform
               </Text>
 
@@ -237,18 +290,18 @@ export default function HomeScreen() {
                 </Text>
               </Text>
 
-              {/* Stats Row */}
+              {/* Stats Row (1.2L+ Learners • 24/7 AI Mentors • 4.8★ Student Rating) */}
               <View style={styles.statsRow}>
                 <View style={styles.stat}>
-                  <Text style={styles.statNumber}>1.2L+</Text>
+                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>1.2L+</Text>
                   <Text style={styles.statLabel}>Learners</Text>
                 </View>
                 <View style={styles.stat}>
-                  <Text style={styles.statNumber}>24/7</Text>
+                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>24/7</Text>
                   <Text style={styles.statLabel}>AI Mentors</Text>
                 </View>
                 <View style={styles.stat}>
-                  <Text style={styles.statNumber}>4.8★</Text>
+                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.8★</Text>
                   <Text style={styles.statLabel}>Student Rating</Text>
                 </View>
               </View>
@@ -887,6 +940,16 @@ export default function HomeScreen() {
         visible={drawerVisible}
         onClose={() => setDrawerVisible(false)}
       />
+
+      {/* ===== TECH INDRO WELCOME & AUTH MODAL ===== */}
+      <TechIndroWelcomeAuth
+        isModal={true}
+        visible={welcomeAuthModalVisible}
+        onClose={() => setWelcomeAuthModalVisible(false)}
+        onSuccess={() => setWelcomeAuthModalVisible(false)}
+        initialName={user?.name || 'Rahul Sharma'}
+        initialPhone={user?.phone ? user.phone.replace(/\+91\s?/, '') : '9876543210'}
+      />
     </View>
   );
 }
@@ -927,16 +990,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  topNavSquareLogoWrapper: {
+    width: 36,
+    height: 36,
+    backgroundColor: '#ffffff',
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 2,
+    padding: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.06)',
+  },
   topNavLogoImg: {
-    width: 34,
-    height: 34,
-    borderRadius: 8,
+    width: 30,
+    height: 30,
+    borderRadius: 7,
   },
   topNavLogoText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1a1a1a',
-    letterSpacing: 0.5,
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#0f172a',
+    letterSpacing: 0.8,
   },
   desktopNavLinksRow: {
     flexDirection: 'row',
@@ -1005,6 +1084,31 @@ const styles = StyleSheet.create({
     paddingTop: 48,
     paddingBottom: 48,
     paddingHorizontal: Spacing.xl,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  heroGridOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+    opacity: 0.14,
+  },
+  heroGridHLine: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: '#ffffff',
+  },
+  heroGridVLine: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 1,
+    backgroundColor: '#ffffff',
   },
   heroContainer: {
     maxWidth: 1200,
@@ -1036,6 +1140,14 @@ const styles = StyleSheet.create({
   },
   heroHighlight: {
     color: '#FFD700',
+    fontWeight: '900',
+  },
+  heroHighlightYellow: {
+    color: '#FFD700',
+    fontWeight: '900',
+  },
+  heroHighlightOrange: {
+    color: '#FF8C00',
     fontWeight: '900',
   },
   heroSubtitle: {

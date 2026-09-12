@@ -158,7 +158,9 @@ fetch("https://tech-indro-official.vercel.app/api/courses")
 
 1. **[GhostPose: Through-Wall Wi-Fi 3D Sensing](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)**  
    *AI-driven real-time human pose estimation using standard Wi-Fi CSI signals without cameras.*
-2. **[Khicho-Chatbots](https://github.com/techindro/Khicho-Chatbots)**  
+2. **[ZiaLabs-AI (Research Assistant)](https://github.com/techindro/ZiaLabs-AI)**  
+   *Full-stack multilingual academic research assistant with ArXiv & Semantic Scholar search, PDF extraction, and Gemini AI.*
+3. **[Khicho-Chatbots](https://github.com/techindro/Khicho-Chatbots)**  
    *Next-gen multilingual conversational chatbot system with natural language intelligence.*
 
 ---
