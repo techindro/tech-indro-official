@@ -26,9 +26,10 @@
 - 🤖 **24/7 AI Shikshak (Voice Doubts)**: Conversational audio/speech recognition and speech synthesis doubt solver with formatted code explanations.
 - 📚 **Comprehensive Course Batches**: Interactive syllabus, instructor profiles, and structured curriculum modules.
 - 🏆 **TSOC (Tech Season of Code)**: Open-source project fellowship featuring production repositories:
+  - *[MOM-OS](https://github.com/techindro/MOM-OS)* — Mind-Oriented Machine Operating System (Intent-driven agent layer for Linux).
   - *[GhostPose](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)* — Through-Wall Wi-Fi 3D Sensing.
   - *[ZiaLabs-AI](https://github.com/techindro/ZiaLabs-AI)* — Multilingual AI academic paper search & research assistant.
-  - *[Khicho-Chatbots](https://github.com/techindro/Khicho-Chatbots)* — Multilingual AI conversational agents.
+  - *[Chitra-AI](https://github.com/techindro/Khicho-Chatbots)* — Multi-style text-to-image generator & vision studio.
 - 💻 **IndroLabs Cloud IDE**: Real-time browser compiler for Python, JavaScript, and HTML/CSS.
 - 📝 **Adaptive Test Series & Mock Exams**: Full quiz portal with instant answer keys, percentile ranking, and deep analytics.
 - 🛡️ **Cybersecurity Defense Sandbox**: Ethical hacking playground with real-time defense simulations and vulnerability analysis.
