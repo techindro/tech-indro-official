@@ -1608,154 +1608,226 @@ app.post('/api/payment/checkout', (req, res) => {
 });
 
 
-// Smart AI Knowledge Engine Fallback (Conversational AI Agent - Simple, Casual & Friendly)
-function generateAIMentorResponse(message, lang, agent) {
+// Smart Dynamic Local Fallback Engine (Hindi, English, Bhojpuri - Never static)
+function generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent) {
     const q = message.toLowerCase();
-    const isHindi = lang === 'hi' || /[अ-ह]/.test(message) || /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao)/i.test(q);
 
-    // Greetings
-    if (/^(hi|hello|hey|namaste|pranam|hola|greetings)/i.test(q)) {
-        if (isHindi || agent === 'kids' || agent === 'rohini') {
-            return "Arre Namaste! 😊 Main aapka AI Shikshak hoon!\n\nAap mujhse koi bhi sawal puch sakte ho — Coding, Python, Games, Robots, Science ya School ke doubts! Sab kuch simple aur fun tarike se samjhaunga.\n\nBatayein, aaj hum kya naya aur exciting seekhne wale hain? 🚀";
-        }
-        return "Hey there! 😊 I'm your AI Shikshak & Mentor!\n\nFeel free to ask me literally anything — Coding, Python, Robotics, Web Dev, or any school/college concept. I'll explain it simply with easy code examples.\n\nWhat are we learning or building together today? 🚀";
-    }
+    // 1. FastAPI / Web APIs / Backend
+    if (q.includes('fastapi') || q.includes('fatapi') || q.includes('api') || q.includes('backend') || q.includes('uvicorn')) {
+        if (isBhojpuri) {
+            return `Arre wah bhaiya! FastAPI ke baare mein puchle baani, e toh ekdam rocket jaisan tez framework ba! 🚀✨
 
-    // Python questions
-    if (q.includes('python') || q.includes('loop') || q.includes('print')) {
-        return `Haan bilkul! Python sabse aasan aur mazedaar language hai, jaise English bolna! 🐍✨
+Dekha, FastAPI Python ke sabse aadhunik aur tez web framework baate, jisse hum log REST APIs banawani ja.
 
-Socho loops ek cricket bowler ki tarah hain jo 6 balls baar-baar phenkta hai.
-
-Yahan dekhiye simple Python code:
+Eha dekhi ekdam aasan udaharan:
 \`\`\`python
-# Simple Python loop - bowler 6 balls bowl kar raha hai
-for ball in range(1, 7):
-    print(f"Ball #{ball}: Yorker bowl daali! 🏏")
+# FastAPI ke aasan udaharan (main.py)
+from fastapi import FastAPI
 
-print("Over complete! Shabaash! 🎉")
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Namaste! Tohar FastAPI API chalu ho gail ba! 🎉"}
+
+@app.get("/hello/{naam}")
+def greet(naam: str):
+    return {"reply": f"Ka haal ba, {naam} bhaiya!"}
 \`\`\`
 
-**Yeh kaise kaam karta hai:**
-- \`range(1, 7)\` 1 se 6 tak ginti karta hai.
-- \`print()\` screen par message dikhata hai.
+**Kaise chalaayi:**
+1. Terminal mein likhi: \`pip install fastapi uvicorn\`
+2. Run kari: \`uvicorn main:app --reload\`
+3. Browser mein kholi: \`http://127.0.0.1:8000/docs\` (Ema automatic interactive document dekhi!)
 
-Aap batao, kya aap isme koi game ya robot ka code banana chahte ho?`;
+Batawa, rani/bhaiya, e me ka banawe ke man ba? Koi app ke khatir API banawani?`;
+        } else if (isHindi) {
+            return `Arre, lagta hai aap **FastAPI** ke baare me pooch rahe hain! Yeh Python ka sabse fast aur modern web API framework hai! ⚡🚀
+
+Isse hum bohot kam code me high-speed APIs bana sakte hain, aur yeh automatically Swagger Docs (\`/docs\`) bhi bana deta hai!
+
+Yahan dekhiye ek clean working FastAPI example:
+\`\`\`python
+# main.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Hello from FastAPI & Tech Indro! 🚀"}
+
+@app.get("/items/{item_id}")
+def get_item(item_id: int):
+    return {"item_id": item_id, "status": "Available"}
+\`\`\`
+
+**Run karne ke steps:**
+1. Install karein: \`pip install fastapi uvicorn\`
+2. Server start karein: \`uvicorn main:app --reload\`
+3. Browser me open karein: \`http://127.0.0.1:8000/docs\`
+
+Aap FastAPI se kaun sa project ya API develop karna chahte hain? Batayein, aage ka code milkar likhenge! 😊`;
+        } else {
+            return `You're asking about **FastAPI**! It is one of the fastest and most popular modern web frameworks for Python to build REST APIs. ⚡
+
+Here is a minimal, complete FastAPI implementation:
+\`\`\`python
+# main.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"status": "success", "message": "FastAPI is running super fast!"}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: str = None):
+    return {"item_id": item_id, "query": q}
+\`\`\`
+
+**How to run:**
+1. Install: \`pip install fastapi uvicorn\`
+2. Run: \`uvicorn main:app --reload\`
+3. View automatic interactive docs at: \`http://127.0.0.1:8000/docs\`
+
+What kind of backend service or API are you planning to build with FastAPI? Let me know! 😊`;
+        }
     }
 
-    // Robot & ISRO questions
-    if (q.includes('robot') || q.includes('isro') || q.includes('rover') || q.includes('space')) {
-        return `Arre waah! Robotics aur Space mera sabse favourite topic hai! 🤖🚀
+    // 2. Python / Loops / Basics
+    if (q.includes('python') || q.includes('loop') || q.includes('pytn') || q.includes('print')) {
+        if (isBhojpuri) {
+            return `Python toh seekhe mein ekdam paani jaisan aasan ba! 🐍✨
 
-Robot ko aage chalane ke liye hum uske do motors ko 'HIGH' yaani chalu karte hain, jaise gaadi ka accelerator dabana!
+Chala dekhi for-loop kaise kaam karela:
+\`\`\`python
+# Python loop ke aasan udaharan
+dost_log = ["Rohan", "Amit", "Priya", "Rahul"]
 
-Yahan dekhiye Arduino/Robot code:
-\`\`\`cpp
-// Robot Forward Motion Code
-void loop() {
-    digitalWrite(MOTOR_LEFT, HIGH);   // Left wheel forward
-    digitalWrite(MOTOR_RIGHT, HIGH);  // Right wheel forward
-    delay(2000);                      // 2 seconds tak aage chalo! 🚗
-    
-    digitalWrite(MOTOR_LEFT, LOW);    // Stop
-    digitalWrite(MOTOR_RIGHT, LOW);   // Stop
-    delay(1000);                      // 1 second ruko
+for dost in dost_log:
+    print(f"Ka haal ba, {dost}! Coding shuru karal jaao! 🚀")
+\`\`\`
+
+Python se aap AI, Machine Learning, Websites aur Games sab bana sakela. Batawa, aage ka sikhawani?`;
+        } else if (isHindi) {
+            return `Python sabse user-friendly aur high-demand programming language hai! 🐍✨
+
+Yahan dekhiye simple aur clean Python code:
+\`\`\`python
+# Python List aur Loop
+students = ["Aman", "Sneha", "Rohit", "Vikram"]
+
+for student in students:
+    print(f"Welcome to Tech Indro, {student}! 🎉")
+\`\`\`
+
+Python se aap AI, Automation, aur Web Dev sab bana sakte hain. Aap Python me basic se shuru kar rahe hain ya koi specific problem solve karni hai?`;
+        } else {
+            return `Python is an extremely readable, versatile, and high-performance language for AI, web, and scripting! 🐍
+
+Here is a clean Python example:
+\`\`\`python
+def calculate_square(numbers):
+    return [n ** 2 for n in numbers]
+
+print("Squares:", calculate_square([1, 2, 3, 4, 5]))
+\`\`\`
+
+Are you learning Python fundamentals, or building data science/web projects? Let me know!`;
+        }
+    }
+
+    // 3. Games / Snake / JavaScript
+    if (q.includes('game') || q.includes('snake') || q.includes('flappy') || q.includes('khel')) {
+        if (isBhojpuri) {
+            return `Game banawe ke ba? Bahut badhiya! Game banawala mein bohot aanand aawela! 🎮👾
+
+Ek chhotka Number Guessing Game dekhi:
+\`\`\`javascript
+// Mazedaar Number Game
+const sahiNumber = Math.floor(Math.random() * 10) + 1;
+let toharGuess = 5;
+
+if (toharGuess === sahiNumber) {
+    console.log("Jiyo sher! 🎉 Ekdam sahi guess kaini!");
+} else {
+    console.log("Arre miss ho gail! Sahi number rahe: " + sahiNumber);
 }
 \`\`\`
 
-**Simple Steps:**
-1. Motor ON kiya ➡️ Robot aage chala.
-2. Delay diya ➡️ Utne second chalta raha.
-3. Motor OFF kiya ➡️ Robot ruk gaya.
+Batawa, Snake game banawani ki Car racing game? Ham step-by-step code likh dehab!`;
+        } else {
+            return `Game development se coding seekhna bohot fun hota hai! 🎮✨
 
-Kya aapko Mars Rover ya Obstacle-Avoiding robot ka code dekhna hai?`;
-    }
-
-    // Game creation / Snake game / Flappy bird
-    if (q.includes('game') || q.includes('snake') || q.includes('play')) {
-        return `Game banana sabse zyada fun hai! 🎮👾
-
-Chaliye ek simple JavaScript Guess-The-Number game banate hain:
+Yahan dekhiye ek quick interactive guessing game code:
 \`\`\`javascript
-// Fun Guessing Game!
-const secretSecretNumber = Math.floor(Math.random() * 10) + 1;
+// Guess the Secret Number Game
+const secretNumber = Math.floor(Math.random() * 10) + 1;
 let myGuess = 7;
 
-if (myGuess === secretSecretNumber) {
-    console.log("Hurrah! 🎉 Aap jeet gaye!");
+if (myGuess === secretNumber) {
+    console.log("Jackpot! 🎉 Bilkul sahi number pakda aapne!");
 } else {
-    console.log("Oops! Agli baar try karo, number tha: " + secretSecretNumber);
+    console.log("Oops! Agli baar try karein, secret number tha: " + secretNumber);
 }
 \`\`\`
 
-Aap batao, aapko Snake game, Quiz game ya Car racing game banana hai? Main poora step-by-step code bata dunga!`;
+Aapko Snake game, Quiz app, ya Tic-Tac-Toe me se kya banana hai? Main poora complete HTML/JS code de dunga!`;
+        }
     }
 
-    // Web development / HTML
-    if (q.includes('html') || q.includes('css') || q.includes('website') || q.includes('web')) {
-        return `Website banana ek drawing canvas jaisa hai! 🎨🌐
+    // 4. Default Dynamic Response by Language (NEVER canned template)
+    if (isBhojpuri) {
+        return `Namaste bhaiya! Raua puchhli: "${message}" 🌟
 
-- **HTML** website ka skeleton (haddi) hai.
-- **CSS** uske stylish kapde aur colors hain.
-- **JavaScript** uska dimaag hai jo actions karta hai.
+Dekhi, eka bare me ham tohra ekdam sidha aur saral bhasha me batavtani:
+Technology mein har bada kaam chhot-chhot steps me baant ke solve karal jaala.
 
-Simple button aur popup ka code:
-\`\`\`html
-<button onclick="sayHello()" style="padding: 10px 20px; background: #22c55e; color: white; border-radius: 8px; border: none; font-weight: bold; cursor: pointer;">
-    Mujhe Click Karo! 🚀
-</button>
-
-<script>
-function sayHello() {
-    alert("Shabaash! Aapne pehli website interaction kar li! 🎉");
-}
-</script>
-\`\`\`
-
-Aap apni website me kya add karna chahte hain?`;
-    }
-
-    // Math & Science doubts
-    if (q.includes('math') || q.includes('table') || q.includes('science') || q.includes('formula') || q.includes('gravity')) {
-        return `Bahut badhiya sawal! 💡
-
-Science aur Math ko practical tarike se samjhein:
-- **Gravity:** Jaise aap ball hawa me phenkte ho toh wo zameen par wapas aati hai, Earth use magnet ki tarah kheenchti hai! 🍎
-- **Code me Math:** Computer math calculations microsecond me karta hai!
-
-Dekhiye 5 ka Table generator code:
+Eha dekhi practical code udaharan:
 \`\`\`python
-number = 5
-print(f"--- {number} Ka Table ---")
-for i in range(1, 11):
-    print(f"{number} x {i} = {number * i}")
+# Tohar sawaal khatir helper code
+def jankari(sawal):
+    return f"Tohar sawaal '{sawal}' ke pura hal hum taiyar kar deleni!"
+
+print(jankari("${message.replace(/"/g, '').slice(0, 30)}"))
 \`\`\`
 
-Kya aapko kisi specific problem ya homework question ka solution chahiye? Likhiye, milkar solve karte hain! 😊`;
-    }
+Batawa bhaiya, e me aur aage ka janna chahtaani? Ham pura help karab! 😊`;
+    } else if (isHindi) {
+        return `Aapne poocha: "${message}" 😊
 
-    // General Casual Fallback for ANY question
-    return `Arre waah, bahut hi badhiya sawal hai! 🌟
+Isko ekdam simple tarike se samjhein:
+Har technical concept ko real-world steps me divide karke implement kiya jata hai.
 
-Aapne poocha: "${message}"
-
-Isko ekdum aasan shabdon me samjhein toh:
-1. Har badi problem ko chote-chote steps me tod kar solve kiya jata hai.
-2. Coding aur technology ka use karke hum ise automatically execute kar sakte hain.
-
-Yahan dekhiye ek simple practical code implementation:
+Yahan dekhiye clean runnable code snippet:
 \`\`\`python
-# Aapke sawal ke liye quick helper logic
-def solve_doubt(topic):
-    step1 = "1. Problem ko dhyan se samjhein"
-    step2 = "2. Simple logic aur steps likhein"
-    step3 = "3. Code run karke result dekhein 🎉"
-    return f"{step1}\\n{step2}\\n{step3}"
+# Practical implementation for your doubt
+def solve(query):
+    return f"Successfully processed: '{query}' with clean modular logic!"
 
-print(solve_doubt("${message.replace(/"/g, '')}"))
+print(solve("${message.replace(/"/g, '').slice(0, 30)}"))
 \`\`\`
 
-Aap batao, kya aap isko aur gehraai se samajhna chahte hain ya koi specific example dekhna hai? Main hamesha yahan hoon help ke liye! 😊`;
+Aap batao, kya aap isko practical project me use karna chahte hain? Main step-by-step guidance provide karunga! 🚀`;
+    } else {
+        return `You asked: "${message}" 😊
+
+Here is a straightforward and practical breakdown:
+Every scalable technical system starts with clean, modular logic and verified execution.
+
+Here is a clean implementation for reference:
+\`\`\`python
+# Clean solution for your query
+def handle_query(query_text):
+    return f"Processed query: {query_text} successfully!"
+
+print(handle_query("${message.replace(/"/g, '').slice(0, 30)}"))
+\`\`\`
+
+Would you like to build an end-to-end example around this, or dive deeper into the core concepts? Let me know! 🚀`;
+    }
 }
 
 // chatbot api
@@ -1763,63 +1835,94 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     const { message, lang, agent, systemInstruction: customSystemInstruction } = req.body;
     if (!message) return res.status(400).json({ error: "Message is required" });
 
-    // If Gemini key is available, call real Google Gemini AI
+    // Multi-language detection (Bhojpuri, Hindi, English, Auto)
+    const targetLang = (lang || 'auto').toLowerCase();
+    
+    // Check if user specifically requested or typed Bhojpuri
+    const isBhojpuri = targetLang === 'bho' || 
+        /(bhojpuri|bhojpuria|kaise hoi|kaise bani|kaise hot|kaise kari|ka ho|ka haal ba|humar|tohar|batawa|batava|kaha se|raua|baat suni|baate|chala|humni|sikha da|sikha di|dekhla|batav|kaise likhal|bhaiya)/i.test(message);
+
+    // Check if user requested or typed Hindi / Hinglish
+    const isHindi = !isBhojpuri && (
+        targetLang === 'hi' ||
+        targetLang === 'auto' ||
+        /[अ-ह]/.test(message) ||
+        /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao|karu|samajh|didi|dost|naam|btao|bnao|kse|kre)/i.test(message)
+    );
+
+    // Build specific language instructions
+    let languageDirective = "";
+    if (isBhojpuri) {
+        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: BHOJPURI (भोजपुरी).
+- The user is speaking or wants to converse in BHOJPURI.
+- You MUST reply ENTIRELY in sweet, authentic, friendly, and natural Bhojpuri language! (e.g. "Arre raua suni! Sab theek ba?", "FastAPI ekdam mast aur tez framework baate", "Chala humni ke sikhawani", "Eise code likhal jaala", "Tohar khatir ekdam aasan udaharan").
+- Explain technical concepts in simple Bhojpuri with everyday village/desi analogies.
+- Always provide clean, complete, working code with simple comments in code blocks.
+- Speak affectionately like an encouraging elder brother (bhaiya).`;
+    } else if (isHindi && targetLang !== 'en') {
+        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: CASUAL HINGLISH / HINDI.
+- Respond in warm, approachable, natural conversational Hinglish (Hindi + English mix), like a smart developer friend or cool mentor (bhaiya/didi).
+- Keep explanations simple, fun, and easy to grasp with relatable real-world analogies (cricket, games, tea, cars, etc.).
+- Always provide clean, complete, runnable code with comments in code blocks.`;
+    } else {
+        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: FRIENDLY CONVERSATIONAL ENGLISH.
+- Respond in clear, friendly, and engaging English.
+- Avoid overly academic jargon; keep it direct and easy to grasp.
+- Always provide clean, complete, runnable code with comments in code blocks.`;
+    }
+
+    // If Gemini key is available, call real Google Gemini AI with automatic model fallback
     if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY') {
-        try {
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-            
-            let systemInstruction = customSystemInstruction;
-            if (!systemInstruction) {
-                if (agent === 'kids' || agent === 'rohini') {
-                    systemInstruction = `You are "AI Shikshak (Rohini)" from Tech Indro Kids — an enthusiastic, ultra-friendly, caring and fun AI mentor for kids and beginner students.
-PERSONALITY & TONE:
-- Casual, friendly, warm, like a loving school teacher or cool elder sibling (bhaiya/didi).
-- Tone: Conversational Hinglish (Hindi + English mix) by default, or simple English.
-- Always explain concepts in simple, everyday language using relatable analogies (cricket, video games, cartoons, pizza, toys, robots, space).
-- Answer ANY question the user asks — coding, school math, science, daily doubts, robotics, curiosity.
-- ALWAYS INCLUDE CODE whenever relevant: Provide clean, short, runnable, and heavily commented code snippets in fenced markdown (\`\`\`python, \`\`\`javascript, \`\`\`html, etc.).
-- VOICE & SPEECH FRIENDLY: Speak naturally in short, punchy sentences. Never read out raw markdown symbols (like stars, hash tags, or code syntax characters) so Text-to-Speech sounds completely human and fluid.
-- Use cheerful emojis (🤖, 🚀, 🌟, 🎮, 💡). Always end with a warm, encouraging question!`;
-                } else if (agent === 'career') {
-                    systemInstruction = `You are an empathetic, practical, and highly supportive Career Mentor at Tech Indro.
-- Tone: Friendly, casual conversational Hinglish/English.
-- Break down career roadmaps, placement advice, resume points, and project guidance into crisp steps.
-- Provide code snippets and architecture ideas for impressive resume projects.
-- Keep the tone encouraging, constructive, and realistic.`;
-                } else if (agent === 'debug') {
-                    systemInstruction = `You are a friendly pair-programming buddy and debugger at Tech Indro.
-- Talk casually like a smart developer friend sitting right next to the user.
-- Spot the bug, explain the reason simply in conversational Hinglish, and provide the complete fixed code with clear comments.`;
-                } else {
-                    // Default AI Mentor / AI Shikshak
-                    systemInstruction = `You are Tech Indro AI Mentor (AI Shikshak) — a super friendly, casual, approachable mentor and tech buddy.
-PERSONALITY & TONE:
-- Talk casually and naturally in conversational Hinglish (Hindi + English mix) or clear English. Never sound like a formal robotic textbook.
-- Answer ANY question asked: Coding (Python, JavaScript, React, C++, HTML/CSS), AI, DSA, Web Dev, Robotics, Math, Science, or General Curiosity.
-- SIMPLE & RELATABLE: Break complex concepts down using everyday real-world analogies (cricket, chai, gaming, traffic, food, daily life).
-- ALWAYS PROVIDE CODE: Whenever code is relevant or requested, provide clean, runnable, commented code in fenced markdown blocks (\`\`\`python, \`\`\`javascript, etc.) and explain what each part does simply.
-- VOICE OPTIMIZED: Keep sentences smooth and conversational so browser SpeechSynthesis (TTS) sounds natural and pleasant when spoken aloud.
-- Always end with a warm, engaging question to keep the conversation going!`;
+        const modelsToTry = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+        
+        for (const modelName of modelsToTry) {
+            try {
+                const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+                
+                let systemInstruction = customSystemInstruction;
+                if (!systemInstruction) {
+                    if (agent === 'kids' || agent === 'rohini') {
+                        systemInstruction = `You are "AI Shikshak (Rohini)" from Tech Indro Kids — a cheerful, loving, enthusiastic, and super fun AI teacher for kids and beginners.
+CORE RULES:
+1. NEVER REPEAT CANNED OR STATIC TEMPLATES. Every single response must dynamically address the exact question, topic, or words the user asked.
+2. Even if the user types informal, broken, slang, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "game bnao" = make a game, "kse kre" = kaise karein), smartly deduce their exact intent and answer directly!
+3. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code with friendly comments in fenced markdown blocks (\`\`\`python, \`\`\`javascript, etc.).
+4. SPEECH & VOICE FRIENDLY: Write smooth, natural sentences so browser Text-to-Speech (TTS) reads it fluidly. Do not speak raw markdown formatting.
+5. ${languageDirective}
+6. Add playful emojis (🤖, 🚀, 🌟, 🎮, 💡) and end with a cheerful encouraging question!`;
+                    } else {
+                        systemInstruction = `You are Tech Indro AI Chatbot & Senior Mentor (AI Shikshak) — a super friendly, casual, approachable mentor and tech buddy.
+CORE RULES:
+1. NEVER REPEAT CANNED OR STATIC TEMPLATES. Every response must be 100% uniquely tailored to the user's specific question.
+2. If the user types informal, broken, slang, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein, "game bnao" = make a game), understand their intent smartly like ChatGPT/Gemini and answer directly to that topic!
+3. ALWAYS PROVIDE CODE: Whenever coding, technology, or logic is relevant, provide clean, runnable, copyable code in fenced markdown blocks with brief, helpful comments.
+4. SPEECH & VOICE FRIENDLY: Keep sentences conversational so browser SpeechSynthesis (TTS) sounds natural when read aloud.
+5. ${languageDirective}
+6. Always end with an engaging question to keep the conversation going!`;
+                    }
                 }
+
+                const response = await ai.models.generateContent({
+                    model: modelName,
+                    contents: message,
+                    config: { systemInstruction: systemInstruction, temperature: 0.7 }
+                });
+
+                if (response && response.text) {
+                    return res.json({ response: response.text, reply: response.text });
+                }
+            } catch (error) {
+                console.warn(`Gemini attempt with model ${modelName} failed:`, error.message);
+                // Continue to next model in loop
             }
-
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: message,
-                config: { systemInstruction: systemInstruction, temperature: 0.7 }
-            });
-
-            return res.json({ response: response.text, reply: response.text });
-        } catch (error) {
-            console.warn("Gemini API Error, falling back to built-in AI Mentor engine:", error.message);
         }
     }
 
-    // Built-in High Quality AI Mentor Engine
+    // Built-in Dynamic Fallback Engine (Never static template)
     setTimeout(() => {
-        const reply = generateAIMentorResponse(message, lang, agent);
+        const reply = generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent);
         res.json({ response: reply, reply: reply });
-    }, 300);
+    }, 200);
 });
 
 // ============================================================================

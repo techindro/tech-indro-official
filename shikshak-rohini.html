@@ -478,6 +478,12 @@
             </a>
             
             <div class="header-actions">
+                <select id="kidsLang" style="background: white; border: 1.5px solid #fdba74; color: #9a3412; padding: 5px 10px; border-radius: 18px; font-weight: 700; font-size: 0.84rem; outline: none; cursor: pointer;">
+                    <option value="auto">🌐 Auto Detect</option>
+                    <option value="hi">🇮🇳 Hindi / Hinglish</option>
+                    <option value="bho">🌾 Bhojpuri (भोजपुरी)</option>
+                    <option value="en">🇬🇧 English</option>
+                </select>
                 <button class="action-chip active-voice" id="voiceToggleBtn" onclick="toggleVoiceOutput()">
                     <i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>
                     <span id="voiceStatusText">Voice: ON</span>
@@ -517,15 +523,15 @@
 
                 <div id="welcomeText">
                     Arre Namaste! 😊 Main hoon aapka <strong>AI Shikshak Rohini</strong>! 🌟<br><br>
-                    Aap mujhse <strong>koi bhi sawal</strong> puch sakte ho — Coding, Python, Robots, Games, School Math, Science ya koi bhi curiosity! Main sab kuch simple, casual aur fun tarike se samjhaunga with code & voice. 🚀
+                    Aap mujhse <strong>Hindi, English ya Bhojpuri</strong> me koi bhi sawal puch sakte ho — Coding, Python, Robots, Games, School Math, Science ya koi bhi curiosity! Har sawal ka aasan jawab code aur voice ke sath milega. 🚀
                 </div>
 
                 <div class="chips-container">
                     <div class="prompt-chip" onclick="askPreset('Robot aage kaise chalayein code me?')">🤖 Robot Code</div>
+                    <div class="prompt-chip" onclick="askPreset('Python loop kaise kaam karela Bhojpuri me samjhaien?')">🌾 Bhojpuri me Coding</div>
                     <div class="prompt-chip" onclick="askPreset('Python me for loop kaise kaam karta hai cricket example se samjhao?')">🐍 Python Loop</div>
                     <div class="prompt-chip" onclick="askPreset('Ek simple JavaScript guessing game ka code banao!')">🎮 Mini Game Code</div>
                     <div class="prompt-chip" onclick="askPreset('Space me rocket kaise udta hai simple tarike se batao?')">🚀 Rocket Science</div>
-                    <div class="prompt-chip" onclick="askPreset('HTML aur CSS se button kaise banayein?')">🌐 Website Button</div>
                 </div>
 
                 <div class="reward-badge">
@@ -775,12 +781,13 @@
             historyEl.scrollTop = historyEl.scrollHeight;
 
             try {
+                const selectedLang = document.getElementById('kidsLang') ? document.getElementById('kidsLang').value : 'auto';
                 const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: msg,
-                        lang: 'hi',
+                        lang: selectedLang,
                         agent: 'kids'
                     })
                 });

@@ -356,8 +356,10 @@
                     <i data-lucide="volume-2" id="voiceIcon"></i> <span id="voiceText">Voice: ON</span>
                 </button>
                 <select id="chatLang" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 0.45rem 0.9rem; border-radius: 20px; outline: none; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.88rem;">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi / Hinglish</option>
+                    <option value="auto">🌐 Auto Detect (Same as Question)</option>
+                    <option value="hi">🇮🇳 Hindi / Hinglish</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="bho">🌾 Bhojpuri (भोजपुरी)</option>
                 </select>
             </div>
         </div>
@@ -465,10 +467,10 @@
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
 
-            const isHindi = langSelect.value === 'hi' || /[अ-ह]/.test(rawText) || /(namaste|karein|hai|hoon|samjhein|poocha|batayein)/i.test(clean);
+            const isIndianLang = langSelect.value === 'hi' || langSelect.value === 'bho' || langSelect.value === 'auto' || /[अ-ह]/.test(rawText) || /(namaste|karein|hai|hoon|samjhein|poocha|batayein|bhojpuri|bhaiya|haal|ba|baate|tohar|humar|kaise)/i.test(clean);
             
             const voices = window.speechSynthesis.getVoices();
-            if (isHindi) {
+            if (isIndianLang && langSelect.value !== 'en') {
                 utterance.lang = 'hi-IN';
                 const hiVoice = voices.find(v => v.lang && (v.lang.includes('hi') || v.lang.includes('IN')));
                 if (hiVoice) utterance.voice = hiVoice;
@@ -535,7 +537,7 @@
             if (isListening) {
                 recognition.stop();
             } else {
-                recognition.lang = langSelect.value === 'hi' ? 'hi-IN' : 'en-US';
+                recognition.lang = (langSelect.value === 'hi' || langSelect.value === 'bho' || langSelect.value === 'auto') ? 'hi-IN' : 'en-US';
                 recognition.start();
             }
         };
