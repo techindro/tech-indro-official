@@ -46,6 +46,25 @@ function ensureNavDrawer() {
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
+                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()" style="border: 1px solid rgba(139, 92, 246, 0.3); background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.05));">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
+                            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                            <circle cx="8.5" cy="14" r="1.5"></circle>
+                            <circle cx="15.5" cy="14" r="1.5"></circle>
+                            <line x1="8" y1="18" x2="16" y2="18"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #7c3aed;">AI Mentor</span>
+                            <span class="drawer-badge" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white;">24/7 Live AI</span>
+                        </div>
+                        <span class="drawer-card-desc">Ask coding doubts, get curated YouTube tutorials &amp; roadmaps</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
                 <a href="index.html#about" class="drawer-card" onclick="closeNavDrawer()">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -118,6 +137,19 @@ function ensureNavDrawer() {
                     </a>
                 </li>
                 <li>
+                    <a href="ai-mentor.html" onclick="closeNavDrawer()">
+                        <span class="drawer-icon-box bot-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="12" x="3" y="8" rx="2"></rect>
+                                <path d="M12 2v6"></path>
+                                <circle cx="8.5" cy="14" r="1.5"></circle>
+                                <circle cx="15.5" cy="14" r="1.5"></circle>
+                            </svg>
+                        </span>
+                        <span style="font-weight: 600; color: #7c3aed;">AI Mentor (24/7 Chat)</span>
+                    </a>
+                </li>
+                <li>
                     <a href="shikshak.html" onclick="closeNavDrawer()">
                         <span class="drawer-icon-box bot-icon">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +161,7 @@ function ensureNavDrawer() {
                                 <path d="M9 13v2"></path>
                             </svg>
                         </span>
-                        <span style="font-weight: 600;">Multilingual AI Mentor</span>
+                        <span style="font-weight: 600;">AI Tools Hub (Shikshak)</span>
                     </a>
                 </li>
             </ul>
@@ -168,6 +200,7 @@ window.openNavDrawer = function() {
     if (overlay) overlay.classList.add('active');
     btns.forEach(b => b.classList.add('active'));
     document.body.style.overflow = 'hidden';
+    if (window.lucide) lucide.createIcons();
 };
 
 window.closeNavDrawer = function() {
@@ -180,9 +213,20 @@ window.closeNavDrawer = function() {
     document.body.style.overflow = '';
 };
 
-window.toggleNavDrawer = function() {
+window.toggleNavDrawer = function(e) {
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
+    if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+
+    const now = Date.now();
+    if (window._lastDrawerToggle && (now - window._lastDrawerToggle) < 300) {
+        return;
+    }
+    window._lastDrawerToggle = now;
+
+    ensureNavDrawer();
     const drawer = document.getElementById('navDrawer');
-    if (drawer && drawer.classList.contains('active')) {
+    if (!drawer) return;
+    if (drawer.classList.contains('active')) {
         window.closeNavDrawer();
     } else {
         window.openNavDrawer();
@@ -192,8 +236,9 @@ window.toggleNavDrawer = function() {
 document.addEventListener('click', (e) => {
     const btn = e.target.closest('.hamburger-btn, .hamburger');
     if (btn) {
+        if (e.defaultPrevented) return;
         e.preventDefault();
-        window.toggleNavDrawer();
+        window.toggleNavDrawer(e);
     }
 });
 

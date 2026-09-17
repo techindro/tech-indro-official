@@ -8,6 +8,11 @@ const cluster = require('cluster');
 const os = require('os');
 const { exec, spawn } = require('child_process');
 
+// Tech Indro Infrastructure Services (Redis & Kafka)
+const redisClient = require('./src/services/redisClient');
+const kafkaClient = require('./src/services/kafkaClient');
+kafkaClient.startConsumer().catch(err => console.warn('[Kafka] Background consumer start error:', err.message));
+
 // Global error handlers to prevent program crashes
 process.on('uncaughtException', (err) => {
     console.error('Uncaught Exception:', err);
@@ -79,30 +84,28 @@ const cleanupTimer = setInterval(() => {
 if (cleanupTimer.unref) cleanupTimer.unref();
 
 function createRateLimiter(storeKey, maxRequests, windowMs, message) {
-    return (req, res, next) => {
+    const windowSec = Math.max(1, Math.ceil(windowMs / 1000));
+    return async (req, res, next) => {
         const forwarded = req.headers['x-forwarded-for'];
         const ip = (forwarded ? forwarded.split(',')[0].trim() : req.socket?.remoteAddress) || '127.0.0.1';
-        const now = Date.now();
-        const store = rateLimitStores[storeKey];
 
-        let record = store.get(ip);
-        if (!record || now > record.resetTime) {
-            record = { count: 1, resetTime: now + windowMs };
-            store.set(ip, record);
+        try {
+            const { allowed, remaining, resetTimeSec } = await redisClient.checkRateLimit(ip, storeKey, maxRequests, windowSec);
+            res.setHeader('X-RateLimit-Limit', maxRequests);
+            res.setHeader('X-RateLimit-Remaining', remaining);
+
+            if (!allowed) {
+                res.setHeader('Retry-After', resetTimeSec);
+                return res.status(429).json({
+                    error: message || 'Too many requests. Please slow down and try again later.',
+                    retryAfterSeconds: resetTimeSec,
+                    success: false
+                });
+            }
             return next();
+        } catch (err) {
+            return next(); // Resilient fallback
         }
-
-        record.count += 1;
-        if (record.count > maxRequests) {
-            const retryAfterSec = Math.max(1, Math.ceil((record.resetTime - now) / 1000));
-            res.setHeader('Retry-After', retryAfterSec);
-            return res.status(429).json({
-                error: message || 'Too many requests. Please slow down and try again later.',
-                retryAfterSeconds: retryAfterSec,
-                success: false
-            });
-        }
-        next();
     };
 }
 
@@ -110,6 +113,25 @@ const authLimiter = createRateLimiter('auth', 10, 15 * 60 * 1000, 'Security Noti
 const compilerLimiter = createRateLimiter('compiler', 20, 60 * 1000, 'Security Notice: Compiler execution rate limit reached (Max 20/min). Please wait a moment.');
 const chatLimiter = createRateLimiter('chat', 30, 60 * 1000, 'Security Notice: AI Mentor rate limit reached (Max 30 requests/min).');
 const contactLimiter = createRateLimiter('contact', 5, 10 * 60 * 1000, 'Please wait before sending another message.');
+
+// Infrastructure Diagnostics Endpoint (Redis & Apache Kafka Status)
+app.get('/api/infrastructure/health', async (req, res) => {
+    try {
+        const redisHealth = await redisClient.healthCheck();
+        const kafkaHealth = await kafkaClient.healthCheck();
+
+        res.json({
+            status: 'online',
+            service: 'Tech Indro Enterprise Infrastructure',
+            timestamp: new Date().toISOString(),
+            uptimeSeconds: Math.floor(process.uptime()),
+            redis: redisHealth,
+            kafka: kafkaHealth
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message, status: 'error' });
+    }
+});
 
 
 // setup db file if missing
@@ -251,6 +273,8 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
     }
 
     const { password: _, ...userWithoutPassword } = user;
+    // Emit Kafka event asynchronously
+    kafkaClient.publishEvent('techindro.users.activity', user.id, { action: 'user.login', email: user.email }).catch(() => {});
     res.json({ message: "Login successful", user: userWithoutPassword });
 });
 
@@ -267,6 +291,9 @@ app.post('/api/auth/register', authLimiter, (req, res) => {
     const newUser = { id: Date.now().toString(), name, email, password, createdAt: new Date().toISOString() };
     db.users.push(newUser);
     writeDB(db);
+
+    // Emit Kafka event asynchronously
+    kafkaClient.publishEvent('techindro.users.activity', newUser.id, { action: 'user.signup', email: newUser.email, name: newUser.name }).catch(() => {});
 
     const { password: _, ...userWithoutPassword } = newUser;
     res.json({ message: "Registration successful", user: userWithoutPassword });
@@ -363,23 +390,37 @@ app.post('/api/contact', contactLimiter, (req, res) => {
     res.json({ message: "Contact form submitted successfully!", contact: newContact });
 });
 
-// fetch all courses
-app.get('/api/courses', (req, res) => {
+// fetch all courses (with Redis Caching)
+app.get('/api/courses', async (req, res) => {
     try {
-        // Always read fresh from disk so edits to courses.json are instant (no restart needed)
+        const cached = await redisClient.get('cache:courses:all');
+        if (cached) {
+            res.setHeader('X-Cache', 'HIT');
+            return res.json(cached);
+        }
+
         const courses = JSON.parse(fs.readFileSync(COURSES_FILE, 'utf8'));
+        await redisClient.set('cache:courses:all', courses, 300); // 5 min TTL
+        res.setHeader('X-Cache', 'MISS');
         res.json(courses);
     } catch (err) {
-        // Fallback to in-memory if file read fails
         if (defaultCourses && defaultCourses.length > 0) return res.json(defaultCourses);
         res.status(500).json({ error: 'Failed to fetch courses data' });
     }
 });
 
-// fetch kids courses
-app.get('/api/shikshak-courses', (req, res) => {
+// fetch kids courses (with Redis Caching)
+app.get('/api/shikshak-courses', async (req, res) => {
     try {
+        const cached = await redisClient.get('cache:shikshak-courses:all');
+        if (cached) {
+            res.setHeader('X-Cache', 'HIT');
+            return res.json(cached);
+        }
+
         const courses = JSON.parse(fs.readFileSync(SHIKSHAK_COURSES_FILE, 'utf8'));
+        await redisClient.set('cache:shikshak-courses:all', courses, 300);
+        res.setHeader('X-Cache', 'MISS');
         res.json(courses);
     } catch (err) {
         if (defaultShikshakCourses && defaultShikshakCourses.length > 0) return res.json(defaultShikshakCourses);
@@ -387,10 +428,18 @@ app.get('/api/shikshak-courses', (req, res) => {
     }
 });
 
-// fetch ai tools
-app.get('/api/ai-tools', (req, res) => {
+// fetch ai tools (with Redis Caching)
+app.get('/api/ai-tools', async (req, res) => {
     try {
+        const cached = await redisClient.get('cache:ai-tools:all');
+        if (cached) {
+            res.setHeader('X-Cache', 'HIT');
+            return res.json(cached);
+        }
+
         const tools = JSON.parse(fs.readFileSync(AI_TOOLS_FILE, 'utf8'));
+        await redisClient.set('cache:ai-tools:all', tools, 300);
+        res.setHeader('X-Cache', 'MISS');
         res.json(tools);
     } catch (err) {
         if (defaultAiTools && defaultAiTools.length > 0) return res.json(defaultAiTools);

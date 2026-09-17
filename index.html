@@ -1276,7 +1276,7 @@
                     <a href="login.html" class="login-btn">Login / Sign Up</a>
                 </div>
                 <!-- Right-side Hamburger Menu Button -->
-                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" title="Open Navigation Menu">
+                <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleNavDrawer(event)" aria-label="Toggle Navigation Menu" title="Open Navigation Menu">
                     <span class="bar bar-1"></span>
                     <span class="bar bar-2"></span>
                     <span class="bar bar-3"></span>
@@ -1303,11 +1303,11 @@
 
                             </div>
 
-                            <div class="hero-stat">
+                            <div class="hero-stat" onclick="location.href='ai-mentor.html'" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" title="Try 24/7 AI Mentor">
 
                                 <h3>24/7</h3>
 
-                                <p>AI Mentors</p>
+                                <p style="color: #ffd700; font-weight: 600;">AI Mentors ➔</p>
 
                             </div>
 
@@ -1326,7 +1326,7 @@
                         <div class="hero-cta">
 
                             <a href="programs.html" class="btn-primary">🚀 Start Learning Free</a>
-                            <a href="programs.html" class="btn-secondary">View All Programs</a>
+                            <a href="ai-mentor.html" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">🤖 24/7 AI Mentor</a>
                         </div>
                         
                         <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 1.5rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; flex-wrap: wrap; color: var(--text-muted);">
@@ -1898,6 +1898,7 @@
                     margin: 0 0 4px;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
+                    line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     line-height: 1.35;
@@ -1917,17 +1918,19 @@
                     margin: 0;
                     display: -webkit-box;
                     -webkit-line-clamp: 1;
+                    line-clamp: 1;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                 }
 
                 .job-card-snippet {
                     color: #64748b;
-                    font-size: 0.86rem;
+                    font-size: 0.88rem;
                     line-height: 1.55;
                     margin: 0 0 1.2rem;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
+                    line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     flex-grow: 1;
@@ -2217,6 +2220,7 @@
                     #jobsGrid { grid-template-columns: 1fr !important; }
                     .jobs-main-title { font-size: 2.1rem !important; }
                     #jobsFilterBar { flex-direction: column; align-items: stretch !important; }
+                }
                 /* Smart Auto-Positioning Floating Chat Widget */
                 .floating-chat-widget {
                     position: fixed;
@@ -3571,8 +3575,8 @@
                     <div class="adv-doubt-badge">24x7 Available</div>
                     <h2>Stuck with a Doubt? Don't wait.</h2>
                     <p>Click a photo, type it, or just ask by voice. Our AI Mentor will instantly explain the core concepts step-by-step in Hindi, English, or 50+ other languages.</p>
-                    <a href="shikshak.html" class="adv-doubt-btn">
-                        <i data-lucide="camera" style="width: 20px; height: 20px;"></i> Ask Your Doubt Now
+                    <a href="ai-mentor.html" class="adv-doubt-btn">
+                        <i data-lucide="bot" style="width: 20px; height: 20px;"></i> Chat with AI Mentor Now
                     </a>
                 </div>
                 
@@ -3804,15 +3808,19 @@
                         <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0;">
                             India's most loved AI & Robotics learning platform. Empowering students with industry-relevant skills.
                         </p>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 1rem; color: #38bdf8; font-size: 0.85rem; font-weight: 600;">
-                            <i data-lucide="smartphone" style="width: 18px; height: 18px;"></i>
-                            <span>Native Mobile App for Android & iOS</span>
+                        <div style="display: flex; gap: 10px; margin-top: 1.25rem; align-items: center; flex-wrap: wrap;">
+                            <a href="https://play.google.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" style="height: 40px; cursor: pointer;">
+                            </a>
+                            <a href="https://apple.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" style="height: 40px; cursor: pointer;">
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Column 2: Popular Programs & Tools -->
+                    <!-- Column 2: Popular Programs -->
                     <div>
-                        <h3 style="color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.5px;">Programs & Labs</h3>
+                        <h3 style="color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.5px;">Popular Programs</h3>
                         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem;">
                             <li><a href="programs.html" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Ethical Hacking</a></li>
                             <li><a href="programs.html" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Data Science & AI</a></li>
@@ -3968,7 +3976,28 @@
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
 
-                <!-- 2. About us -->
+                <!-- 2. AI Mentor (24/7 AI Tutor & Video Guidance) -->
+                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()" style="border: 1px solid rgba(139, 92, 246, 0.3); background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.05));">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
+                            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                            <circle cx="8.5" cy="14" r="1.5"></circle>
+                            <circle cx="15.5" cy="14" r="1.5"></circle>
+                            <line x1="8" y1="18" x2="16" y2="18"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #7c3aed;">AI Mentor</span>
+                            <span class="drawer-badge" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white;">24/7 Live AI</span>
+                        </div>
+                        <span class="drawer-card-desc">Ask coding doubts, get curated YouTube tutorials &amp; roadmaps</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 3. About us -->
                 <a href="#about" class="drawer-card" onclick="closeNavDrawer()">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4064,6 +4093,19 @@
                     </a>
                 </li>
                 <li>
+                    <a href="ai-mentor.html" onclick="closeNavDrawer()">
+                        <span class="drawer-icon-box bot-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="12" x="3" y="8" rx="2"></rect>
+                                <path d="M12 2v6"></path>
+                                <circle cx="8.5" cy="14" r="1.5"></circle>
+                                <circle cx="15.5" cy="14" r="1.5"></circle>
+                            </svg>
+                        </span>
+                        <span style="font-weight: 600; color: #7c3aed;">AI Mentor (24/7 Chat)</span>
+                    </a>
+                </li>
+                <li>
                     <a href="shikshak.html" onclick="closeNavDrawer()">
                         <span class="drawer-icon-box bot-icon">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4075,7 +4117,7 @@
                                 <path d="M9 13v2"></path>
                             </svg>
                         </span>
-                        <span style="font-weight: 600;">Multilingual AI Mentor</span>
+                        <span style="font-weight: 600;">AI Tools Hub (Shikshak)</span>
                     </a>
                 </li>
             </ul>
@@ -4361,46 +4403,56 @@ vector<int> twoSum(vector<int>& nums, int target) {
         }
 
         // Right-Side Navigation Drawer Functions
-        function toggleNavDrawer() {
-            const drawer = document.getElementById('navDrawer');
-            if (!drawer) return;
-            if (drawer.classList.contains('active')) {
-                closeNavDrawer();
-            } else {
-                openNavDrawer();
+        window.toggleNavDrawer = function(e) {
+            if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
             }
-        }
+            const now = Date.now();
+            if (window._lastDrawerToggle && (now - window._lastDrawerToggle) < 300) {
+                return;
+            }
+            window._lastDrawerToggle = now;
 
-        function openNavDrawer() {
             const drawer = document.getElementById('navDrawer');
             const overlay = document.getElementById('drawerOverlay');
-            const btn = document.getElementById('hamburgerBtn') || document.querySelector('.hamburger');
+            const btns = document.querySelectorAll('.hamburger-btn, .hamburger');
+            if (!drawer) return;
+            const willOpen = !drawer.classList.contains('active');
+            if (willOpen) {
+                drawer.classList.add('active');
+                if (overlay) overlay.classList.add('active');
+                btns.forEach(b => b.classList.add('active'));
+                document.body.style.overflow = 'hidden';
+                if (window.lucide) lucide.createIcons();
+            } else {
+                drawer.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                btns.forEach(b => b.classList.remove('active'));
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.openNavDrawer = function() {
+            const drawer = document.getElementById('navDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const btns = document.querySelectorAll('.hamburger-btn, .hamburger');
             if (drawer) drawer.classList.add('active');
             if (overlay) overlay.classList.add('active');
-            if (btn) btn.classList.add('active');
+            btns.forEach(b => b.classList.add('active'));
             document.body.style.overflow = 'hidden';
             if (window.lucide) lucide.createIcons();
-        }
+        };
 
-        function closeNavDrawer() {
+        window.closeNavDrawer = function() {
             const drawer = document.getElementById('navDrawer');
             const overlay = document.getElementById('drawerOverlay');
-            const btn = document.getElementById('hamburgerBtn') || document.querySelector('.hamburger');
+            const btns = document.querySelectorAll('.hamburger-btn, .hamburger');
             if (drawer) drawer.classList.remove('active');
             if (overlay) overlay.classList.remove('active');
-            if (btn) btn.classList.remove('active');
+            btns.forEach(b => b.classList.remove('active'));
             document.body.style.overflow = '';
-        }
-
-        // Hamburger Button Event Listeners
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        if (hamburgerBtn) {
-            hamburgerBtn.addEventListener('click', toggleNavDrawer);
-        }
-        const legacyHamburger = document.querySelector('.hamburger');
-        if (legacyHamburger && legacyHamburger !== hamburgerBtn) {
-            legacyHamburger.addEventListener('click', toggleNavDrawer);
-        }
+        };
 
         // Close on Escape Key
         document.addEventListener('keydown', (e) => {
