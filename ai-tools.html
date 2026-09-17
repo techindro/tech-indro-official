@@ -262,8 +262,9 @@
         </div>
 
         <div class="category-scroll" id="categoryTabs">
-            <button class="cat-btn active" onclick="selectCategory('All')">All (54)</button>
+            <button class="cat-btn active" id="allCategoryBtn" onclick="selectCategory('All')">All</button>
             <button class="cat-btn" onclick="selectCategory('Coding')">💻 Coding</button>
+            <button class="cat-btn" onclick="selectCategory('Games')">🎮 Coding Games</button>
             <button class="cat-btn" onclick="selectCategory('Design')">🎨 Design</button>
             <button class="cat-btn" onclick="selectCategory('AI Agents')">🤖 AI Agents</button>
             <button class="cat-btn" onclick="selectCategory('Productivity')">⚡ Productivity</button>
@@ -335,6 +336,8 @@
                     }
                 }
             }
+            const allBtn = document.getElementById('allCategoryBtn');
+            if (allBtn) allBtn.innerText = `All (${allTools.length})`;
             renderTools(allTools);
         }
 
@@ -382,7 +385,15 @@
         function filterTools() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const filtered = allTools.filter(t => {
-                const matchesCat = (currentCategory === 'All' || t.category.toLowerCase() === currentCategory.toLowerCase());
+                let matchesCat = false;
+                if (currentCategory === 'All') {
+                    matchesCat = true;
+                } else if (currentCategory === 'Games') {
+                    const gameIds = ['t-sql-island', 't-codingame', 't-elevator-saga', 't-codecombat'];
+                    matchesCat = gameIds.includes(t.id) || t.category.toLowerCase() === 'gaming';
+                } else {
+                    matchesCat = (t.category.toLowerCase() === currentCategory.toLowerCase());
+                }
                 const matchesQuery = (
                     t.name.toLowerCase().includes(query) ||
                     t.description.toLowerCase().includes(query) ||

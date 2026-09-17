@@ -54,6 +54,26 @@
                 "title": "Attention Is All You Need (Transformers)",
                 "url": "https://arxiv.org/abs/1706.03762",
                 "type": "research"
+            },
+            {
+                "title": "CodeCombat — Play & Learn Python / JavaScript",
+                "url": "https://codecombat.com/",
+                "type": "game"
+            },
+            {
+                "title": "SQL Island — Interactive SQL Adventure Quest",
+                "url": "https://sql-island.informatik.uni-kl.de/",
+                "type": "game"
+            },
+            {
+                "title": "CodinGame — Multiplayer Coding Battles & AI Puzzles",
+                "url": "https://www.codingame.com/",
+                "type": "game"
+            },
+            {
+                "title": "Elevator Saga — JavaScript Algorithm & Logic Simulator",
+                "url": "https://play.elevatorsaga.com/",
+                "type": "game"
             }
         ],
         "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"

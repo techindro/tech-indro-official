@@ -80,6 +80,38 @@
     "icon": "🧬"
   },
   {
+    "id": "t-sql-island",
+    "name": "SQL Island",
+    "category": "Coding",
+    "description": "Interactive SQL Adventure Quest — Learn relational queries and solve island puzzles.",
+    "link": "https://sql-island.informatik.uni-kl.de/",
+    "icon": "🏝️"
+  },
+  {
+    "id": "t-codingame",
+    "name": "CodinGame",
+    "category": "Coding",
+    "description": "Multiplayer Coding Battles & AI Puzzles across 25+ programming languages.",
+    "link": "https://www.codingame.com/",
+    "icon": "🕹️"
+  },
+  {
+    "id": "t-elevator-saga",
+    "name": "Elevator Saga",
+    "category": "Coding",
+    "description": "JavaScript Algorithm & Logic Simulator to program elevator movement schedules.",
+    "link": "https://play.elevatorsaga.com/",
+    "icon": "🛗"
+  },
+  {
+    "id": "t-codecombat",
+    "name": "CodeCombat",
+    "category": "Coding",
+    "description": "Gamified coding adventure to learn Python and JavaScript syntax through RPG dungeons.",
+    "link": "https://codecombat.com/",
+    "icon": "⚔️"
+  },
+  {
     "id": "t11",
     "name": "Midjourney",
     "category": "Design",

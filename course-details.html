@@ -241,17 +241,19 @@
 
         <!-- Course Content -->
         <section class="container course-content-grid">
-            <div class="curriculum-section fade-in">
-                <h3>Course Curriculum</h3>
-                <div class="curriculum-list" id="courseModules">
-                    <!-- Modules dynamically loaded -->
+            <div class="course-left-column">
+                <div class="curriculum-section fade-in">
+                    <h3>Course Curriculum</h3>
+                    <div class="curriculum-list" id="courseModules">
+                        <!-- Modules dynamically loaded -->
+                    </div>
                 </div>
-            </div>
 
-            <div class="curriculum-section fade-in" style="margin-top: 3rem;">
-                <h3>Best Real-World Resources</h3>
-                <div class="curriculum-list" id="courseResources" style="display: grid; gap: 1rem;">
-                    <!-- Resources dynamically loaded -->
+                <div class="curriculum-section fade-in" style="margin-top: 3rem;">
+                    <h3>Best Real-World Resources</h3>
+                    <div class="curriculum-list" id="courseResources" style="display: grid; gap: 1rem;">
+                        <!-- Resources dynamically loaded -->
+                    </div>
                 </div>
             </div>
 
@@ -270,6 +272,10 @@
                     <a href="#" class="btn-primary" id="enrollBtn"
                         style="width: 100%; text-align: center; justify-content: center; font-size: 1.1rem; padding: 1rem;">Enroll
                         Now</a>
+                    <a href="agentic-ai.html" class="btn-secondary"
+                        style="width: 100%; text-align: center; justify-content: center; font-size: 0.95rem; padding: 0.8rem; margin-top: 0.8rem; border-color: #6366f1; color: #818cf8; background: rgba(99, 102, 241, 0.08); display: inline-flex; align-items: center; gap: 6px;">
+                        <i data-lucide="bot" style="width: 16px; height: 16px;"></i> Launch Agentic AI Lab
+                    </a>
                     <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem;">14-Day
                         Money-Back Guarantee</p>
                 </div>
@@ -515,10 +521,11 @@
                 if (course.resources && course.resources.length > 0) {
                     const resHtml = course.resources.map(r => {
                         let icon = 'external-link';
-                        let color = '#3b82f6';
-                        if (r.type === 'youtube') { icon = 'youtube'; color = '#ef4444'; }
+                        let color = '#ff6b35';
+                        if (r.type === 'youtube') { icon = 'video'; color = '#ef4444'; }
                         else if (r.type === 'newspaper') { icon = 'book-open'; color = '#10b981'; }
                         else if (r.type === 'research') { icon = 'file-text'; color = '#8b5cf6'; }
+                        else if (r.type === 'game') { icon = 'gamepad-2'; color = '#6366f1'; }
 
                         return `
                         <a href="${r.url}" target="_blank" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); text-decoration: none; color: var(--text); transition: all 0.2s;">

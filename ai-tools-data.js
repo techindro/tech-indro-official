@@ -1,5 +1,4 @@
 // Standalone AI Tools data for Tech Indro platform
-// Provides offline & file:// protocol fallback support
 window.TECH_INDRO_AI_TOOLS = [
   {
     "id": "t1",
@@ -80,6 +79,38 @@ window.TECH_INDRO_AI_TOOLS = [
     "description": "AI-accelerated software development.",
     "link": "https://mutable.ai",
     "icon": "🧬"
+  },
+  {
+    "id": "t-sql-island",
+    "name": "SQL Island",
+    "category": "Coding",
+    "description": "Interactive SQL Adventure Quest — Learn relational queries and solve island puzzles.",
+    "link": "https://sql-island.informatik.uni-kl.de/",
+    "icon": "🏝️"
+  },
+  {
+    "id": "t-codingame",
+    "name": "CodinGame",
+    "category": "Coding",
+    "description": "Multiplayer Coding Battles & AI Puzzles across 25+ programming languages.",
+    "link": "https://www.codingame.com/",
+    "icon": "🕹️"
+  },
+  {
+    "id": "t-elevator-saga",
+    "name": "Elevator Saga",
+    "category": "Coding",
+    "description": "JavaScript Algorithm & Logic Simulator to program elevator movement schedules.",
+    "link": "https://play.elevatorsaga.com/",
+    "icon": "🛗"
+  },
+  {
+    "id": "t-codecombat",
+    "name": "CodeCombat",
+    "category": "Coding",
+    "description": "Gamified coding adventure to learn Python and JavaScript syntax through RPG dungeons.",
+    "link": "https://codecombat.com/",
+    "icon": "⚔️"
   },
   {
     "id": "t11",
