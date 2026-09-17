@@ -680,10 +680,10 @@ export default function HomeScreen() {
                 <Ionicons name="chatbubbles" size={38} color="#4F46E5" />
               </View>
 
-              {/* Bubble 1: Physics? (Top Right) */}
+              {/* Bubble 1: LangChain? (Top Right) */}
               <View style={[styles.floatingBubble, styles.bubblePhysics]}>
                 <Ionicons name="help-circle-outline" size={17} color="#EF4444" />
-                <Text style={[styles.bubbleText, { color: '#EF4444' }]}>Physics?</Text>
+                <Text style={[styles.bubbleText, { color: '#EF4444' }]}>LangChain?</Text>
               </View>
 
               {/* Bubble 2: Startup Idea? (Middle Left) */}

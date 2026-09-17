@@ -21,6 +21,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 import ChatBubble, { Message } from '@/components/ChatBubble';
 import { sendChatMessage } from '@/services/api';
@@ -157,14 +158,46 @@ export default function AIMentorScreen() {
     }
   };
 
+  // Load chat history from AsyncStorage on mount
+  useEffect(() => {
+    (async () => {
+      try {
+        const saved = await AsyncStorage.getItem('tech_indro_mentor_chat_history');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setMessages(parsed);
+          }
+        }
+      } catch (e) {
+        // Fallback silently if storage unavailable
+      }
+    })();
+  }, []);
+
+  // Save chat history to AsyncStorage
+  useEffect(() => {
+    if (messages.length > 1) {
+      AsyncStorage.setItem('tech_indro_mentor_chat_history', JSON.stringify(messages.slice(-30))).catch(() => {});
+    }
+  }, [messages]);
+
   const getSystemInstruction = (currentRole: MentorRole) => {
+    const basePersona = `You are Tech Indro AI, a senior developer tutor at Tech Indro (India's premier learning platform).
+You explain in a natural, warm, and friendly Hinglish mix (Hindi + English).
+Give practical code examples with clean syntax, debug code step-by-step, and create structured learning roadmaps.
+Always be encouraging, highly technical, yet beginner-friendly.`;
+
     switch (currentRole) {
       case 'reviewer':
-        return 'You are an expert code reviewer at Tech Indro. Analyze code for bugs, edge cases, time/space complexity, and clean coding best practices. Use Hinglish if the user asks in Hindi/Hinglish.';
+        return `${basePersona}
+[TOOL: codeReview active]: Focus on code review, finding bugs, optimizing algorithmic complexity, and giving fixed code with clear explanation.`;
       case 'career':
-        return 'You are a career mentor at Tech Indro. Provide actionable career roadmaps, portfolio advice, interview questions, and tech industry guidance in Hinglish and English.';
+        return `${basePersona}
+[TOOL: generateRoadmap active]: Focus on career guidance, technical interviews, and structured learning roadmaps (weeks, milestones, projects).`;
       default:
-        return 'You are Tech Indro AI Shikshak / Mentor. You explain programming, computer science, and engineering concepts warmly and clearly using analogies in Hinglish/English with code examples.';
+        return `${basePersona}
+[TOOL: explainConcept active]: Explain complex programming concepts simply with intuitive real-world analogies and beginner mental models.`;
     }
   };
 

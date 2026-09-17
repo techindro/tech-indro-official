@@ -2,7 +2,7 @@
  * Verifiable Certificate Screen — Tech Indro
  * Official Academic Credential
  * Features burgundy ornate stepped-corner border, modern sans-serif typography,
- * centered crimson emblem seal, and dual dotted-line signatures for Tech Indro leadership (Shubham Patel & Dr. Arvind Sharma).
+ * centered crimson emblem seal, and dual dotted-line signatures for Tech Indro leadership (Shubham Patel & Sangharsh Singh).
  */
 import React, { useState, useEffect } from 'react';
 import {
@@ -15,6 +15,9 @@ import {
   Alert,
   Image,
   Platform,
+  TextInput,
+  Modal,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -48,7 +51,17 @@ export default function CertificateScreen() {
   }>();
 
   const [userName, setUserName] = useState(params.studentName || 'Rahul Sharma');
-  const courseTitle = params.courseName || 'Applied AI and Data Science Program';
+  const [courseTitle, setCourseTitle] = useState(params.courseName || 'Applied AI and Data Science Program');
+  const [certDate, setCertDate] = useState('July 2026');
+  const [hasHonors, setHasHonors] = useState(false);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAiCareerModalOpen, setIsAiCareerModalOpen] = useState(false);
+  const [aiTab, setAiTab] = useState<'bullets' | 'linkedin' | 'pitch'>('bullets');
+  const [editInputName, setEditInputName] = useState(params.studentName || 'Rahul Sharma');
+  const [editInputCourse, setEditInputCourse] = useState(params.courseName || 'Applied AI and Data Science Program');
+  const [editInputDate, setEditInputDate] = useState('July 2026');
+  const [editInputHonors, setEditInputHonors] = useState(false);
   const certId = params.certId || 'TI-CERT-2026-8942';
 
   // Inject web fonts
@@ -69,17 +82,46 @@ export default function CertificateScreen() {
   useEffect(() => {
     async function loadUser() {
       try {
-        const stored =
-          (await AsyncStorage.getItem('@tech_indro_user')) ||
-          (await AsyncStorage.getItem('user'));
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed.name) setUserName(parsed.name);
+        const savedCustom = await AsyncStorage.getItem('@tech_indro_user_cert_name');
+        if (savedCustom && savedCustom.trim()) {
+          setUserName(savedCustom.trim());
+          setEditInputName(savedCustom.trim());
         }
-        const profileData = await AsyncStorage.getItem('@tech_indro_user_profile');
-        if (profileData) {
-          const prof = JSON.parse(profileData);
-          if (prof.name) setUserName(prof.name);
+        const savedCourse = await AsyncStorage.getItem('@tech_indro_user_cert_course');
+        if (savedCourse && savedCourse.trim()) {
+          setCourseTitle(savedCourse.trim());
+          setEditInputCourse(savedCourse.trim());
+        }
+        const savedDate = await AsyncStorage.getItem('@tech_indro_user_cert_date');
+        if (savedDate && savedDate.trim()) {
+          setCertDate(savedDate.trim());
+          setEditInputDate(savedDate.trim());
+        }
+        const savedHonors = await AsyncStorage.getItem('@tech_indro_user_cert_honors');
+        if (savedHonors === '1') {
+          setHasHonors(true);
+          setEditInputHonors(true);
+        }
+
+        if (!savedCustom) {
+          const stored =
+            (await AsyncStorage.getItem('@tech_indro_user')) ||
+            (await AsyncStorage.getItem('user'));
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed.name) {
+              setUserName(parsed.name);
+              setEditInputName(parsed.name);
+            }
+          }
+          const profileData = await AsyncStorage.getItem('@tech_indro_user_profile');
+          if (profileData) {
+            const prof = JSON.parse(profileData);
+            if (prof.name) {
+              setUserName(prof.name);
+              setEditInputName(prof.name);
+            }
+          }
         }
       } catch {
         // ignore
@@ -90,8 +132,33 @@ export default function CertificateScreen() {
     }
   }, [params.studentName]);
 
+  const handleSaveDetails = async () => {
+    const trimmedName = editInputName.trim() || 'Rahul Sharma';
+    const trimmedCourse = editInputCourse.trim() || 'Applied AI and Data Science Program';
+    const trimmedDate = editInputDate.trim() || 'July 2026';
+
+    setUserName(trimmedName);
+    setCourseTitle(trimmedCourse);
+    setCertDate(trimmedDate);
+    setHasHonors(editInputHonors);
+    setIsEditModalOpen(false);
+
+    try {
+      await AsyncStorage.setItem('@tech_indro_user_cert_name', trimmedName);
+      await AsyncStorage.setItem('@tech_indro_user_cert_course', trimmedCourse);
+      await AsyncStorage.setItem('@tech_indro_user_cert_date', trimmedDate);
+      await AsyncStorage.setItem('@tech_indro_user_cert_honors', editInputHonors ? '1' : '0');
+    } catch {}
+
+    Alert.alert('✅ Certificate Updated', `Credentials customized for ${trimmedName}!`);
+  };
+
+  const handleCopyLink = () => {
+    Alert.alert('📋 Credential Link Copied', `https://techindro.com/verify/${certId} copied to clipboard.`);
+  };
+
   const shareUrl = `https://techindro.com/verify/${certId}`;
-  const shareText = `I am proud to share my verified Certificate of Completion from Tech Indro in "${courseTitle}"! 🎓\n\nVerify: ${shareUrl}`;
+  const shareText = `I, ${userName}, am proud to share my verified Certificate of Completion from Tech Indro in "${courseTitle}"! 🎓\n\nVerify: ${shareUrl}`;
 
   const handleShareLinkedIn = () => {
     Linking.openURL(
@@ -106,7 +173,7 @@ export default function CertificateScreen() {
   };
 
   const handleDownload = () => {
-    Alert.alert('📥 Certificate Downloaded', `Official Credential ${certId}.pdf generated.`, [
+    Alert.alert('📥 Certificate Downloaded', `Official Credential ${certId} for ${userName}.pdf generated.`, [
       { text: 'OK' },
     ]);
   };
@@ -153,6 +220,13 @@ export default function CertificateScreen() {
                 {/* Inner Content Padding */}
                 <View style={styles.certificateInnerContent}>
                   
+                  {/* India's 1st AI-Powered Platform Badge */}
+                  <View style={styles.indiaFirstBanner}>
+                    <Text style={styles.indiaFirstBannerText}>
+                      🇮🇳 INDIA'S 1ST AI-POWERED LEARNING PLATFORM • AI AUDITED
+                    </Text>
+                  </View>
+
                   {/* 1. TOP HEADER: Logo + "Professional Education" */}
                   <View style={styles.headerRow}>
                     <Image
@@ -169,8 +243,21 @@ export default function CertificateScreen() {
                   {/* 2. "This is to certify that" */}
                   <Text style={styles.certifyLabel}>This is to certify that</Text>
 
-                  {/* 3. RECIPIENT NAME (Bold Sans-Serif) */}
-                  <Text style={styles.recipientName}>{userName}</Text>
+                  {/* 3. RECIPIENT NAME (Bold Sans-Serif with Inline Edit Trigger) */}
+                  <TouchableOpacity
+                    style={styles.recipientRow}
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      setEditInputName(userName);
+                      setIsEditModalOpen(true);
+                    }}
+                  >
+                    <Text style={styles.recipientName}>{userName}</Text>
+                    <View style={styles.inlineEditBadge}>
+                      <Ionicons name="pencil" size={12} color={CERT_BURGUNDY} />
+                      <Text style={styles.inlineEditText}>Edit</Text>
+                    </View>
+                  </TouchableOpacity>
 
                   {/* 4. CENTER RED EMBLEM SEAL */}
                   <View style={styles.sealContainer}>
@@ -196,7 +283,31 @@ export default function CertificateScreen() {
                   <Text style={styles.courseTitle}>{courseTitle}</Text>
 
                   {/* 7. DATE */}
-                  <Text style={styles.dateText}>July 2026</Text>
+                  <Text style={styles.dateText}>{certDate}</Text>
+
+                  {/* AI Academic Citation */}
+                  <View style={styles.aiCitationBox}>
+                    <Text style={styles.aiCitationTag}>✨ AI ACADEMIC CITATION</Text>
+                    <Text style={styles.aiCitationText}>
+                      Demonstrated exceptional technical rigor in fine-tuning neural models, architecting scalable systems, and delivering production-ready solutions certified by Tech Indro's AI Academic Board.
+                    </Text>
+                  </View>
+
+                  {/* AI Neural Competency Matrix Strip */}
+                  <View style={styles.aiMatrixRow}>
+                    <View style={styles.aiMatrixCol}>
+                      <Text style={styles.aiMatrixVal}>98.4%</Text>
+                      <Text style={styles.aiMatrixLbl}>AI SCORE</Text>
+                    </View>
+                    <View style={styles.aiMatrixCol}>
+                      <Text style={styles.aiMatrixVal}>GRADE A+</Text>
+                      <Text style={styles.aiMatrixLbl}>AUDIT</Text>
+                    </View>
+                    <View style={styles.aiMatrixCol}>
+                      <Text style={styles.aiMatrixVal}>SHIKSHAK 4.2</Text>
+                      <Text style={styles.aiMatrixLbl}>AI ENGINE</Text>
+                    </View>
+                  </View>
 
                   {/* 8. TWO SIGNATURES WITH DOTTED LINES */}
                   <View style={styles.signaturesRow}>
@@ -211,13 +322,21 @@ export default function CertificateScreen() {
 
                     {/* Right Signatory: Dean of Academics */}
                     <View style={styles.signatureCol}>
-                      <Text style={styles.handwrittenSig}>Dr. Arvind Sharma</Text>
+                      <Text style={styles.handwrittenSig}>Sangharsh Singh</Text>
                       <View style={styles.dottedLine} />
-                      <Text style={styles.signatoryName}>Dr. Arvind Sharma</Text>
+                      <Text style={styles.signatoryName}>Sangharsh Singh</Text>
                       <Text style={styles.signatoryRole}>Dean of Academics</Text>
                       <Text style={styles.signatoryOrg}>Tech Indro</Text>
                     </View>
                   </View>
+
+                  {/* 9. Honors Ribbon Badge */}
+                  {hasHonors && (
+                    <View style={styles.appRibbonBadge}>
+                      <Ionicons name="ribbon" size={13} color="#FFFFFF" />
+                      <Text style={styles.appRibbonBadgeText}>WITH DISTINCTION • TOP 1%</Text>
+                    </View>
+                  )}
 
                 </View>
               </View>
@@ -234,9 +353,37 @@ export default function CertificateScreen() {
           </Text>
         </View>
 
+        {/* AI Career Copilot Button */}
+        <TouchableOpacity
+          style={styles.aiCareerBtn}
+          onPress={() => setIsAiCareerModalOpen(true)}
+        >
+          <Ionicons name="sparkles" size={18} color="#FFFFFF" />
+          <Text style={styles.aiCareerBtnText}>
+            🤖 AI Career Copilot (Resume Bullets & Pitch)
+          </Text>
+        </TouchableOpacity>
+
         {/* Action Buttons */}
         <View style={styles.actionsBox}>
-          <Text style={[styles.actionHeading, { color: colors.text }]}>Share Your Credential</Text>
+          {/* Customize Certificate Studio Button */}
+          <TouchableOpacity
+            style={[styles.editNameActionBtn, { borderColor: CERT_BURGUNDY }]}
+            onPress={() => {
+              setEditInputName(userName);
+              setEditInputCourse(courseTitle);
+              setEditInputDate(certDate);
+              setEditInputHonors(hasHonors);
+              setIsEditModalOpen(true);
+            }}
+          >
+            <Ionicons name="color-palette-outline" size={18} color={CERT_BURGUNDY} />
+            <Text style={[styles.editNameActionBtnText, { color: CERT_BURGUNDY }]}>
+              Customize Certificate (नाम, कोर्स, तारीख बदलें)
+            </Text>
+          </TouchableOpacity>
+
+          <Text style={[styles.actionHeading, { color: colors.text }]}>Share & Verify Credential</Text>
           <Text style={[styles.actionSub, { color: colors.textSecondary }]}>
             Display this verified Tech Indro credential on LinkedIn or share directly
           </Text>
@@ -254,7 +401,17 @@ export default function CertificateScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.downloadBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
+            style={[styles.copyLinkBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
+            onPress={handleCopyLink}
+          >
+            <Ionicons name="copy-outline" size={18} color={colors.text} />
+            <Text style={[styles.copyLinkBtnText, { color: colors.text }]}>
+              Copy Verification Link
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.downloadBtn, { backgroundColor: colors.card, borderColor: colors.border, marginTop: 10 }]}
             onPress={handleDownload}
           >
             <Ionicons name="cloud-download-outline" size={18} color={colors.text} />
@@ -264,6 +421,248 @@ export default function CertificateScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Modal for Customizing Certificate Details */}
+      <Modal
+        visible={isEditModalOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsEditModalOpen(false)}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.modalOverlay}
+        >
+          <ScrollView contentContainerStyle={styles.modalContentWrapper}>
+            <View style={[styles.modalCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <View style={styles.modalHeaderRow}>
+                <View>
+                  <Text style={[styles.modalTitle, { color: colors.text }]}>Certificate Studio</Text>
+                  <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
+                    Customize recipient name, course, and date
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={() => setIsEditModalOpen(false)} style={{ padding: 4 }}>
+                  <Ionicons name="close" size={22} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={[styles.modalFieldLabel, { color: colors.textSecondary }]}>RECIPIENT NAME:</Text>
+              <TextInput
+                value={editInputName}
+                onChangeText={setEditInputName}
+                style={[
+                  styles.nameTextInput,
+                  {
+                    color: colors.text,
+                    backgroundColor: isDark ? '#1F2937' : '#F9FAFB',
+                    borderColor: CERT_BURGUNDY,
+                  },
+                ]}
+                placeholder="Student Full Name"
+                placeholderTextColor={colors.textSecondary}
+              />
+
+              <Text style={[styles.modalFieldLabel, { color: colors.textSecondary }]}>COURSE PROGRAM:</Text>
+              <TextInput
+                value={editInputCourse}
+                onChangeText={setEditInputCourse}
+                style={[
+                  styles.nameTextInput,
+                  {
+                    color: colors.text,
+                    backgroundColor: isDark ? '#1F2937' : '#F9FAFB',
+                    borderColor: colors.border,
+                  },
+                ]}
+                placeholder="Course Title"
+                placeholderTextColor={colors.textSecondary}
+              />
+
+              <Text style={[styles.modalFieldLabel, { color: colors.textSecondary }]}>COMPLETION DATE:</Text>
+              <TextInput
+                value={editInputDate}
+                onChangeText={setEditInputDate}
+                style={[
+                  styles.nameTextInput,
+                  {
+                    color: colors.text,
+                    backgroundColor: isDark ? '#1F2937' : '#F9FAFB',
+                    borderColor: colors.border,
+                  },
+                ]}
+                placeholder="e.g. July 2026"
+                placeholderTextColor={colors.textSecondary}
+              />
+
+              <TouchableOpacity
+                style={[
+                  styles.honorsToggleRow,
+                  {
+                    backgroundColor: editInputHonors ? 'rgba(217, 119, 6, 0.12)' : 'transparent',
+                    borderColor: editInputHonors ? '#D97706' : colors.border,
+                  },
+                ]}
+                onPress={() => setEditInputHonors(!editInputHonors)}
+              >
+                <Ionicons
+                  name={editInputHonors ? 'checkbox' : 'square-outline'}
+                  size={20}
+                  color={editInputHonors ? '#D97706' : colors.textSecondary}
+                />
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.honorsToggleText, { color: editInputHonors ? '#D97706' : colors.text }]}>
+                    Award "WITH DISTINCTION" Ribbon
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+              <View style={styles.modalBtnRow}>
+                <TouchableOpacity
+                  style={[styles.modalCancelBtn, { borderColor: colors.border }]}
+                  onPress={() => setIsEditModalOpen(false)}
+                >
+                  <Text style={[styles.modalCancelText, { color: colors.text }]}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalSaveBtn, { backgroundColor: CERT_BURGUNDY }]}
+                  onPress={handleSaveDetails}
+                >
+                  <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+                  <Text style={styles.modalSaveText}>Apply Changes</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Modal>
+
+      {/* AI Career Copilot Modal */}
+      <Modal
+        visible={isAiCareerModalOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsAiCareerModalOpen(false)}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.modalOverlay}
+        >
+          <ScrollView contentContainerStyle={styles.modalContentWrapper}>
+            <View style={[styles.modalCard, { backgroundColor: colors.card, borderColor: '#8B5CF6' }]}>
+              <View style={styles.modalHeaderRow}>
+                <View>
+                  <Text style={[styles.modalTitle, { color: colors.text }]}>🤖 AI Career Copilot</Text>
+                  <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
+                    India's 1st AI-Powered Placement Prep • Shikshak Engine
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={() => setIsAiCareerModalOpen(false)} style={{ padding: 4 }}>
+                  <Ionicons name="close" size={22} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              {/* Tabs */}
+              <View style={styles.aiTabsRow}>
+                <TouchableOpacity
+                  style={[styles.aiTabPill, aiTab === 'bullets' && styles.aiTabPillActive]}
+                  onPress={() => setAiTab('bullets')}
+                >
+                  <Text style={[styles.aiTabPillText, aiTab === 'bullets' && styles.aiTabPillTextActive]}>
+                    ATS Bullets
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.aiTabPill, aiTab === 'linkedin' && styles.aiTabPillActive]}
+                  onPress={() => setAiTab('linkedin')}
+                >
+                  <Text style={[styles.aiTabPillText, aiTab === 'linkedin' && styles.aiTabPillTextActive]}>
+                    LinkedIn Post
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.aiTabPill, aiTab === 'pitch' && styles.aiTabPillActive]}
+                  onPress={() => setAiTab('pitch')}
+                >
+                  <Text style={[styles.aiTabPillText, aiTab === 'pitch' && styles.aiTabPillTextActive]}>
+                    30s Pitch
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Tab 1: ATS Bullets */}
+              {aiTab === 'bullets' && (
+                <View>
+                  <View style={styles.aiBulletCard}>
+                    <Text style={[styles.aiBulletText, { color: colors.text }]}>
+                      • Engineered production applications in {courseTitle}, achieving a verified 98.4% AI Skill Score on India's 1st AI-Powered Platform.
+                    </Text>
+                  </View>
+                  <View style={styles.aiBulletCard}>
+                    <Text style={[styles.aiBulletText, { color: colors.text }]}>
+                      • Optimized algorithmic pipelines and data structures, reducing runtime latency by 35% in automated benchmark simulations.
+                    </Text>
+                  </View>
+                  <View style={styles.aiBulletCard}>
+                    <Text style={[styles.aiBulletText, { color: colors.text }]}>
+                      • Led hands-on capstone engineering under continuous automated CI/CD and AI code quality audits.
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.copyLinkBtn, { borderColor: '#8B5CF6', marginTop: 8 }]}
+                    onPress={() => Alert.alert('📋 Copied', 'All ATS Resume Bullets copied to clipboard!')}
+                  >
+                    <Ionicons name="copy-outline" size={16} color="#8B5CF6" />
+                    <Text style={{ color: '#8B5CF6', fontWeight: '700', fontSize: 13 }}>
+                      Copy All ATS Bullets
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {/* Tab 2: LinkedIn Post */}
+              {aiTab === 'linkedin' && (
+                <View>
+                  <View style={[styles.aiBulletCard, { padding: 12 }]}>
+                    <Text style={[styles.aiBulletText, { color: colors.text, lineHeight: 20 }]}>
+                      🚀 Thrilled to announce that I have successfully completed "{courseTitle}" from Tech Indro — India's 1st AI-Powered Learning Platform! 🇮🇳✨{'\n\n'}
+                      My capstone projects were audited by Tech Indro's Shikshak AI Engine with a verified 98.4% AI Skill Score.{'\n\n'}
+                      #TechIndro #ArtificialIntelligence #Engineering #Placements2026 #AIReady
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.linkedinBtn, { marginTop: 8 }]}
+                    onPress={handleShareLinkedIn}
+                  >
+                    <Ionicons name="logo-linkedin" size={16} color="#FFFFFF" />
+                    <Text style={styles.shareBtnText}>Share on LinkedIn</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {/* Tab 3: Spoken Pitch */}
+              {aiTab === 'pitch' && (
+                <View>
+                  <View style={[styles.aiBulletCard, { padding: 12 }]}>
+                    <Text style={[styles.aiBulletText, { color: colors.text, lineHeight: 20 }]}>
+                      "I am {userName}, certified from Tech Indro's {courseTitle} with a 98.4% AI-audited score. I specialize in building robust systems and leveraging modern AI workflows to drive real engineering results."
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.copyLinkBtn, { borderColor: '#8B5CF6', marginTop: 8 }]}
+                    onPress={() => Alert.alert('📋 Copied', 'Elevator pitch copied to clipboard!')}
+                  >
+                    <Ionicons name="copy-outline" size={16} color="#8B5CF6" />
+                    <Text style={{ color: '#8B5CF6', fontWeight: '700', fontSize: 13 }}>
+                      Copy Pitch Script
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -413,7 +812,6 @@ const styles = StyleSheet.create({
     color: '#111827',
     textAlign: 'center',
     letterSpacing: -0.4,
-    marginBottom: 16,
   },
 
   /* ── Center Red Emblem Seal ── */
@@ -635,5 +1033,323 @@ const styles = StyleSheet.create({
   downloadBtnText: {
     fontSize: 13,
     fontWeight: '600',
+  },
+
+  /* ── Interactive Name Editing ── */
+  recipientRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  inlineEditBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#FFF5F6',
+    borderColor: 'rgba(139, 30, 45, 0.35)',
+    borderWidth: 1,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+  },
+  inlineEditText: {
+    color: CERT_BURGUNDY,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  editNameActionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    backgroundColor: 'rgba(139, 30, 45, 0.07)',
+    marginBottom: 16,
+  },
+  editNameActionBtnText: {
+    fontSize: 13.5,
+    fontWeight: '700',
+  },
+
+  /* ── Edit Modal Styles ── */
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 440,
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 22,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 12,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  modalTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  modalSubtitle: {
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 18,
+  },
+  nameTextInput: {
+    borderWidth: 1.5,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  modalBtnRow: {
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'flex-end',
+  },
+  modalCancelBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  modalCancelText: {
+    fontSize: 13.5,
+    fontWeight: '600',
+  },
+  modalSaveBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  modalSaveText: {
+    color: '#FFFFFF',
+    fontSize: 13.5,
+    fontWeight: '700',
+  },
+
+  /* ── Honors Ribbon Badge ── */
+  appRibbonBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#D97706',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    marginTop: 14,
+  },
+  appRibbonBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 10.5,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+
+  /* ── Copy Link Button ── */
+  copyLinkBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 13,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  copyLinkBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
+
+  /* ── Modal Extra Fields ── */
+  modalFieldLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  honorsToggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 16,
+  },
+  honorsToggleText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+
+  /* ── India's 1st AI Platform Banner ── */
+  indiaFirstBanner: {
+    backgroundColor: 'rgba(255, 153, 51, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(139, 30, 45, 0.25)',
+    borderRadius: 4,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+  indiaFirstBannerText: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: '#1F2937',
+    letterSpacing: 0.8,
+  },
+
+  /* ── AI Academic Citation ── */
+  aiCitationBox: {
+    backgroundColor: '#F9FAFB',
+    borderLeftWidth: 2.5,
+    borderLeftColor: CERT_BURGUNDY,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginVertical: 8,
+    width: '94%',
+    alignSelf: 'center',
+  },
+  aiCitationTag: {
+    fontSize: 7.5,
+    fontWeight: '800',
+    color: CERT_BURGUNDY,
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  aiCitationText: {
+    fontSize: 9.5,
+    color: '#4B5563',
+    fontStyle: 'italic',
+    lineHeight: 13.5,
+  },
+
+  /* ── AI Neural Matrix ── */
+  aiMatrixRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginVertical: 6,
+    width: '94%',
+    alignSelf: 'center',
+  },
+  aiMatrixCol: {
+    alignItems: 'center',
+  },
+  aiMatrixVal: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: CERT_BURGUNDY,
+  },
+  aiMatrixLbl: {
+    fontSize: 7,
+    fontWeight: '700',
+    color: '#6B7280',
+    marginTop: 1,
+  },
+
+  /* ── AI Career Copilot Button ── */
+  aiCareerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#7C3AED',
+    paddingVertical: 14,
+    borderRadius: 8,
+    marginBottom: 10,
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  aiCareerBtnText: {
+    color: '#FFFFFF',
+    fontSize: 13.5,
+    fontWeight: '800',
+  },
+
+  /* ── AI Career Modal Components ── */
+  modalContentWrapper: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
+  modalHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  aiTabsRow: {
+    flexDirection: 'row',
+    gap: 6,
+    marginBottom: 14,
+  },
+  aiTabPill: {
+    flex: 1,
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'transparent',
+  },
+  aiTabPillActive: {
+    backgroundColor: '#7C3AED',
+    borderColor: '#8B5CF6',
+  },
+  aiTabPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#9CA3AF',
+  },
+  aiTabPillTextActive: {
+    color: '#FFFFFF',
+  },
+  aiBulletCard: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 8,
+  },
+  aiBulletText: {
+    fontSize: 12.5,
+    lineHeight: 18,
   },
 });

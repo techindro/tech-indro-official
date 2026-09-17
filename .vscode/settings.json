@@ -1,5 +1,6 @@
 {
   "java.configuration.updateBuildConfiguration": "disabled",
   "java.import.gradle.enabled": false,
-  "java.autobuild.enabled": false
+  "java.autobuild.enabled": false,
+  "java.compile.nullAnalysis.mode": "automatic"
 }
