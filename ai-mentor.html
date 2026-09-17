@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             background-color: #f8fafc;
@@ -432,6 +433,295 @@
             color: #ff6b35;
             transform: scale(1.1);
         }
+
+        /* =================================================== */
+        /* RICH AI VISUAL COMPONENTS (Images, Charts, Notes, Flashcards) */
+        /* =================================================== */
+        .ai-media-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            margin: 0.85rem 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            max-width: 100%;
+        }
+
+        .media-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.5rem 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .media-action-btn {
+            background: #ff6b35;
+            color: white !important;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .media-action-btn:hover {
+            background: #e05a2b;
+        }
+
+        .ai-image-card img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .ai-image-card img:hover {
+            transform: scale(1.01);
+        }
+
+        .media-caption {
+            padding: 0.6rem 0.95rem;
+            font-size: 0.84rem;
+            color: #64748b;
+            background: #ffffff;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* 2. Sticky Notes */
+        .ai-stickynote {
+            background: #fef9c3;
+            color: #713f12;
+            border-radius: 8px;
+            padding: 1.25rem 1.25rem 1rem;
+            margin: 0.85rem 0;
+            box-shadow: 0 8px 20px rgba(234, 179, 8, 0.16), 0 2px 6px rgba(0, 0, 0, 0.06);
+            position: relative;
+            transform: rotate(-0.7deg);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-top: 6px solid #eab308;
+            max-width: 95%;
+        }
+
+        .ai-stickynote:hover {
+            transform: rotate(0deg) scale(1.01);
+            box-shadow: 0 12px 28px rgba(234, 179, 8, 0.25);
+        }
+
+        .stickynote-pin {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+            border: 2px solid white;
+        }
+
+        .stickynote-content {
+            font-size: 0.94rem;
+            line-height: 1.55;
+            font-weight: 500;
+        }
+
+        .stickynote-copy-btn {
+            background: rgba(0, 0, 0, 0.06);
+            border: none;
+            color: #713f12;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            float: right;
+            transition: background 0.2s;
+        }
+
+        .stickynote-copy-btn:hover {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        /* 3. 3D Flip Flashcards */
+        .flashcard-box {
+            perspective: 1000px;
+            margin: 0.85rem 0;
+            cursor: pointer;
+            width: 100%;
+            max-width: 480px;
+            height: 190px;
+            user-select: none;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard-box.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 14px;
+            padding: 1.2rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            border: 1.5px solid #e2e8f0;
+            box-sizing: border-box;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #0f172a;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            transform: rotateY(180deg);
+            border-color: #0284c7;
+        }
+
+        .flashcard-badge {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .flashcard-back .flashcard-badge {
+            color: #bae6fd;
+        }
+
+        .flashcard-text {
+            font-size: 0.96rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .flashcard-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            align-self: flex-end;
+        }
+
+        .flashcard-back .flashcard-hint {
+            color: #e0f2fe;
+        }
+
+        /* 4. Infographic Roadmap */
+        .ai-infographic-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1.15rem;
+            margin: 0.85rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .infographic-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: #0f172a;
+            margin-bottom: 0.85rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.35rem;
+            display: inline-block;
+        }
+
+        .infographic-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            position: relative;
+        }
+
+        .infographic-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 26px;
+            height: 26px;
+            background: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
+        }
+
+        .step-content {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.5rem 0.8rem;
+            flex: 1;
+        }
+
+        .step-content strong {
+            display: block;
+            font-size: 0.88rem;
+            color: #0f172a;
+        }
+
+        .step-content p {
+            margin: 0.2rem 0 0;
+            font-size: 0.82rem;
+            color: #475569;
+        }
+
+        /* 5. Video Player Card */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 
@@ -502,17 +792,26 @@
                 <div id="agentGreeting" style="font-size: 1.02rem; line-height: 1.6; margin-bottom: 12px; color: #1e293b;">Namaste! Main aapka 24/7 AI Coding Mentor hoon. Main aapke sawalon ka jawab dene ke sath aapse interact bhi karunga. Batayein, aaj hum kya build karein?</div>
                 <div class="chips-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
                     <button type="button" class="prompt-chip"
+                        onclick="askPreset('AI robot coding on multi-screen setup in dark futuristic cyber room image')"
+                        style="background: #fff7ed; border: 1.5px solid #ffedd5; color: #c2410c; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Generate AI Image</button>
+                    <button type="button" class="prompt-chip"
+                        onclick="askPreset('Programming languages popularity comparison bar chart')"
+                        style="background: #f0f9ff; border: 1.5px solid #e0f2fe; color: #0369a1; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Live Data Chart</button>
+                    <button type="button" class="prompt-chip"
+                        onclick="askPreset('Python backend best practices sticky note')"
+                        style="background: #fefce8; border: 1.5px solid #fef08a; color: #854d0e; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Sticky Note</button>
+                    <button type="button" class="prompt-chip"
+                        onclick="askPreset('Binary search algorithm flashcard')"
+                        style="background: #fdf2f8; border: 1.5px solid #fce7f3; color: #9d174d; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">3D Flashcard</button>
+                    <button type="button" class="prompt-chip"
+                        onclick="askPreset('Full stack developer career infographic roadmap')"
+                        style="background: #f0fdf4; border: 1.5px solid #dcfce7; color: #15803d; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Infographic Roadmap</button>
+                    <button type="button" class="prompt-chip"
+                        onclick="askPreset('FastAPI backend REST API tutorial video')"
+                        style="background: #faf5ff; border: 1.5px solid #f3e8ff; color: #7e22ce; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Video Tutorial</button>
+                    <button type="button" class="prompt-chip"
                         onclick="askPreset('FastAPI backend REST API implementation example')"
                         style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">FastAPI REST API</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Python database connection with SQLite or PostgreSQL')"
-                        style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Python Database</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('JavaScript async await and fetch error handling')"
-                        style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">JavaScript Async API</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Binary search algorithm with time and space complexity')"
-                        style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Binary Search DSA</button>
                     <button type="button" class="prompt-chip"
                         onclick="askPreset('FastAPI kaise kaam karela Bhojpuri me samjhaien')"
                         style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Bhojpuri me API</button>
@@ -595,6 +894,12 @@
 
                 // Format clean speech text (don't read raw brackets or asterisks)
                 let clean = rawText
+                    .replace(/```image[\s\S]*?```/gi, " Maine AI generated image screen par create kar di hai. ")
+                    .replace(/```chart[\s\S]*?```/gi, " Maine interactive chart screen par plot kar diya hai. ")
+                    .replace(/```stickynote[\s\S]*?```/gi, " Maine revision sticky note pin kar diya hai. ")
+                    .replace(/```flashcard[\s\S]*?```/gi, " Maine revision flashcard screen par create kar diya hai. ")
+                    .replace(/```infographic[\s\S]*?```/gi, " Maine visual roadmap infographic screen par provide kar di hai. ")
+                    .replace(/```video[\s\S]*?```/gi, " Maine tutorial video player attach kar diya hai. ")
                     .replace(/```[\s\S]*?```/g, " Maine code example screen par provide kar diya hai. ")
                     .replace(/\*\*(.*?)\*\*/g, "$1")
                     .replace(/\*(.*?)\*/g, "$1")
@@ -702,68 +1007,163 @@
             };
 
             // Clean Gemini-Style Markdown Formatter
+            // Clean Gemini-Style Markdown Formatter with Rich Visual Media
             function renderCleanMarkdown(rawText) {
                 if (!rawText) return '';
 
+                let text = rawText;
+
+                // 1. Fenced Image Generation Block (Free Pollinations AI Engine)
+                text = text.replace(/```image\s*([\s\S]*?)```/gi, function (match, prompt) {
+                    const cleanPrompt = prompt.trim();
+                    const encodedPrompt = encodeURIComponent(cleanPrompt);
+                    const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=480&nologo=true`;
+                    return `<div class="ai-media-card ai-image-card">
+                        <div class="media-header">
+                            <span>Free AI Generated Image</span>
+                            <a href="${imgUrl}" target="_blank" download="tech-indro-ai.jpg" class="media-action-btn">Download Image</a>
+                        </div>
+                        <div class="media-body">
+                            <img src="${imgUrl}" alt="${cleanPrompt}" loading="lazy" onclick="window.open('${imgUrl}', '_blank')" title="Click to open full view" />
+                        </div>
+                        <div class="media-caption">${cleanPrompt}</div>
+                    </div>`;
+                });
+
+                // 2. Fenced Chart.js Block (Interactive HTML5 Canvas)
+                text = text.replace(/```chart\s*([\s\S]*?)```/gi, function (match, chartContent) {
+                    const chartId = 'chart_' + Math.random().toString(36).substr(2, 9);
+                    const encodedData = encodeURIComponent(chartContent.trim());
+                    return `<div class="ai-media-card">
+                        <div class="media-header">
+                            <span>Live Interactive Chart</span>
+                        </div>
+                        <div style="position: relative; height: 260px; width: 100%; padding: 12px; box-sizing: border-box;">
+                            <canvas id="${chartId}" data-chart="${encodedData}"></canvas>
+                        </div>
+                    </div>`;
+                });
+
+                // 3. Fenced Sticky Note Block
+                text = text.replace(/```stickynote\s*([\s\S]*?)```/gi, function (match, noteContent) {
+                    const safe = noteContent.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<div class="ai-stickynote">
+                        <div class="stickynote-pin"></div>
+                        <div class="stickynote-content">${safe.replace(/\n/g, '<br>')}</div>
+                        <button type="button" class="stickynote-copy-btn" onclick="copyStickyNote(this)">Copy Note</button>
+                    </div>`;
+                });
+
+                // 4. Fenced 3D Flashcard Block
+                text = text.replace(/```flashcard\s*([\s\S]*?)```/gi, function (match, cardContent) {
+                    let q = "Concept";
+                    let a = "Explanation";
+                    const qMatch = cardContent.match(/Q:\s*([\s\S]*?)(?=\nA:|$)/i);
+                    const aMatch = cardContent.match(/A:\s*([\s\S]*)/i);
+                    if (qMatch) q = qMatch[1].trim();
+                    if (aMatch) a = aMatch[1].trim();
+                    return `<div class="flashcard-box" onclick="this.classList.toggle('flipped')" title="Click to flip card">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="flashcard-badge">Concept Flashcard</div>
+                                <div class="flashcard-text">${q}</div>
+                                <div class="flashcard-hint">Click to reveal answer</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="flashcard-badge">Solution / Answer</div>
+                                <div class="flashcard-text">${a}</div>
+                                <div class="flashcard-hint">Click to flip back</div>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+
+                // 5. Fenced Infographic Roadmap Block
+                text = text.replace(/```infographic\s*([\s\S]*?)```/gi, function (match, infoContent) {
+                    const lines = infoContent.trim().split('\n').filter(l => l.trim());
+                    let title = "Infographic Roadmap";
+                    let stepsHtml = '';
+                    let stepCount = 1;
+                    lines.forEach((line) => {
+                        if (line.toLowerCase().startsWith('title:')) {
+                            title = line.replace(/title:/i, '').trim();
+                        } else {
+                            const parts = line.split('|');
+                            const stepName = parts[0] ? parts[0].trim() : `Step ${stepCount}`;
+                            const stepDesc = parts[1] ? parts[1].trim() : '';
+                            stepsHtml += `<div class="infographic-step">
+                                <div class="step-number">${stepCount}</div>
+                                <div class="step-content">
+                                    <strong>${stepName}</strong>
+                                    ${stepDesc ? `<p>${stepDesc}</p>` : ''}
+                                </div>
+                            </div>`;
+                            stepCount++;
+                        }
+                    });
+                    return `<div class="ai-infographic-card">
+                        <div class="infographic-title">${title}</div>
+                        <div class="infographic-timeline">${stepsHtml}</div>
+                    </div>`;
+                });
+
+                // 6. Fenced Video Block
+                text = text.replace(/```video\s*([\s\S]*?)```/gi, function (match, videoContent) {
+                    let topic = "Video Explanation";
+                    let query = "web development tutorial";
+                    const tMatch = videoContent.match(/Topic:\s*(.*)/i);
+                    const qMatch = videoContent.match(/Query:\s*(.*)/i);
+                    if (tMatch) topic = tMatch[1].trim();
+                    if (qMatch) query = qMatch[1].trim();
+                    else query = topic;
+                    const embedUrl = `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(query)}`;
+                    return `<div class="ai-media-card">
+                        <div class="media-header">
+                            <span>Video Resource: ${topic}</span>
+                        </div>
+                        <div class="video-wrapper">
+                            <iframe src="${embedUrl}" title="${topic}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>`;
+                });
+
                 let html = '';
-                // Try Marked parser first if loaded
-                if (typeof marked !== 'undefined' && marked.parse) {
-                    try {
-                        marked.setOptions({ breaks: true, gfm: true });
-                        html = marked.parse(rawText);
-                    } catch (e) {
-                        html = '';
-                    }
-                }
-
-                // High-reliability clean parser fallback
-                if (!html) {
-                    let text = rawText;
-
-                    // Code blocks with syntax card and copy button
-                    text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function (match, lang, code) {
-                        const l = (lang || 'code').toUpperCase();
-                        const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        return `<div class="code-block-wrapper">
+                // Standard code blocks
+                text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function (match, lang, code) {
+                    const l = (lang || 'code').toUpperCase();
+                    const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<div class="code-block-wrapper">
                         <div class="code-header">
                             <span>${l}</span>
                             <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy</button>
                         </div>
                         <pre><code>${safe}</code></pre>
                     </div>`;
-                    });
+                });
 
-                    // Bold and italics
-                    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
-                    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                    text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+                // Bold and italics
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
 
-                    // Bullets
-                    text = text.replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>');
-                    text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
-                    text = text.replace(/<\/ul>\s*<ul>/g, '');
+                // Bullets
+                text = text.replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>');
+                text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
+                text = text.replace(/<\/ul>\s*<ul>/g, '');
 
-                    // Paragraphs
-                    html = text.split(/\n{2,}/).map(seg => {
-                        seg = seg.trim();
-                        if (!seg) return '';
-                        if (seg.startsWith('<div class="code-block-wrapper"') || seg.startsWith('<ul')) return seg;
-                        return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
-                    }).join('');
-                } else {
-                    // If marked produced standard pre code, wrap it in Gemini-style code-block-wrapper
-                    html = html.replace(/<pre><code(?:\s+class="language-([a-zA-Z0-9_-]+)")?>([\s\S]*?)<\/code><\/pre>/g, function (match, lang, code) {
-                        const l = (lang || 'code').toUpperCase();
-                        return `<div class="code-block-wrapper">
-                        <div class="code-header">
-                            <span>${l}</span>
-                            <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy</button>
-                        </div>
-                        <pre><code>${code}</code></pre>
-                    </div>`;
-                    });
-                }
+                // Paragraphs
+                html = text.split(/\n{2,}/).map(seg => {
+                    seg = seg.trim();
+                    if (!seg) return '';
+                    if (seg.startsWith('<div class="code-block-wrapper"') || 
+                        seg.startsWith('<div class="ai-media-card"') || 
+                        seg.startsWith('<div class="ai-stickynote"') || 
+                        seg.startsWith('<div class="flashcard-box"') || 
+                        seg.startsWith('<div class="ai-infographic-card"') || 
+                        seg.startsWith('<ul')) return seg;
+                    return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
+                }).join('');
 
                 // Completely eliminate any leftover raw markdown symbols and emojis
                 html = html.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '');
@@ -772,6 +1172,53 @@
                 html = html.replace(/```/g, '');
 
                 return html;
+            }
+
+            window.copyStickyNote = function(btn) {
+                const note = btn.parentElement.querySelector('.stickynote-content').innerText;
+                navigator.clipboard.writeText(note).then(() => {
+                    btn.innerText = 'Saved!';
+                    setTimeout(() => btn.innerText = 'Copy Note', 2000);
+                });
+            };
+
+            function initCharts(container) {
+                if (typeof Chart === 'undefined') return;
+                const canvases = container.querySelectorAll('canvas[data-chart]');
+                canvases.forEach(canvas => {
+                    if (canvas.getAttribute('data-rendered')) return;
+                    canvas.setAttribute('data-rendered', 'true');
+                    try {
+                        const rawJson = decodeURIComponent(canvas.getAttribute('data-chart'));
+                        const cfg = JSON.parse(rawJson);
+                        const ctx = canvas.getContext('2d');
+                        const palette = ['#ff6b35', '#0284c7', '#10b981', '#8b5cf6', '#f59e0b', '#ec4899', '#3b82f6'];
+                        new Chart(ctx, {
+                            type: cfg.type || 'bar',
+                            data: {
+                                labels: cfg.labels || ['A', 'B', 'C'],
+                                datasets: [{
+                                    label: cfg.title || 'Metrics',
+                                    data: cfg.data || [10, 20, 30],
+                                    backgroundColor: (cfg.type === 'pie' || cfg.type === 'doughnut') ? palette : '#ff6b35',
+                                    borderColor: '#ffffff',
+                                    borderWidth: 1.5,
+                                    borderRadius: (cfg.type === 'bar') ? 6 : 0
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: (cfg.type === 'pie' || cfg.type === 'doughnut') },
+                                    title: { display: true, text: cfg.title || 'Data Comparison', font: { size: 14, weight: 'bold' } }
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        console.warn('Failed to parse and render Chart.js data:', e);
+                    }
+                });
             }
 
             window.askPreset = function (presetText) {
@@ -850,6 +1297,9 @@
                         ${cleanFormattedHtml}
                     </div>
                 `;
+
+                    // Initialize any interactive Chart.js canvas elements
+                    initCharts(typingBubble);
 
                     // The AI Agent talks with the user!
                     speakText(replyText);

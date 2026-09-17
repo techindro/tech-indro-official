@@ -1612,7 +1612,92 @@ app.post('/api/payment/checkout', (req, res) => {
 function generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent) {
     const q = message.toLowerCase();
 
-    // 1. FastAPI / Web APIs / Backend
+    // 1. Free AI Image Generation
+    if (q.includes('image') || q.includes('photo') || q.includes('tasveer') || q.includes('chhavi') || q.includes('picture') || q.includes('draw')) {
+        const promptTarget = message.replace(/(image|photo|tasveer|picture|generate|banao|dikhao|karo|of|chhavi|draw)/gi, '').trim() || 'futuristic AI coding assistant robot in high tech cybersecurity laboratory';
+        return `Aapke request ke anusaar AI Image generate ki gayi hai:
+
+\`\`\`image
+${promptTarget}, photorealistic, cinematic lighting, 8k resolution, ultra detailed, modern digital art
+\`\`\`
+
+Aap is image ko high resolution me download kar sakte hain. Kya aap isme koi specific style ya theme change karna chahte hain?`;
+    }
+
+    // 2. Interactive Graphs & Charts
+    if (q.includes('chart') || q.includes('graph') || q.includes('pie') || q.includes('bar chart') || q.includes('plot')) {
+        return `Yahan dekhiye live interactive data chart:
+
+\`\`\`chart
+{
+  "type": "bar",
+  "title": "Programming Languages & Tech Stack Popularity",
+  "labels": ["Python", "JavaScript", "TypeScript", "Go", "Rust", "Java"],
+  "data": [94, 91, 82, 71, 65, 78]
+}
+\`\`\`
+
+Aap is chart ke upar hover karke exact metrics dekh sakte hain. Kya aapko pie chart ya line chart me data compare karna hai?`;
+    }
+
+    // 3. Sticky Notes / Cheat-Sheets
+    if (q.includes('sticky') || q.includes('note') || q.includes('notes') || q.includes('cheatsheet')) {
+        return `Yahan aapke revision ke liye important points ka Sticky Note pin kiya gaya hai:
+
+\`\`\`stickynote
+Title: Production Backend Best Practices
+- Always use environment variables (.env) for API keys and database credentials
+- Implement Pydantic request models for strict type validation
+- Use connection pooling for database clients like PostgreSQL
+- Add rate limiting and CORS policies to protect API endpoints
+- Write unit tests using pytest before pushing code to main
+\`\`\`
+
+Aap "Copy Note" button click karke is note ko apne clipboard me save kar sakte hain.`;
+    }
+
+    // 4. Interactive 3D Flashcards
+    if (q.includes('flashcard') || q.includes('flash card') || q.includes('quiz') || q.includes('card')) {
+        return `Yahan aapke practice aur self-assessment ke liye interactive 3D Flashcard hai. Card par click karke answer reveal karein:
+
+\`\`\`flashcard
+Q: Binary Search ka time complexity kya hai aur ye kis condition me kaam karta hai?
+A: Binary Search ka time complexity O(log N) hota hai. Ye sirf aur sirf SORTED array par hi kaam karta hai kyunki ye har step me search space ko aadha kar deta hai.
+\`\`\`
+
+Kya aap DSA ke aur flashcards practice karna chahte hain?`;
+    }
+
+    // 5. Infographics & Roadmaps
+    if (q.includes('infographic') || q.includes('roadmap') || q.includes('path') || q.includes('step') || q.includes('steps')) {
+        return `Yahan dekhiye structured Step-by-Step Infographic Roadmap:
+
+\`\`\`infographic
+Title: Full Stack AI & Web Developer Roadmap
+Step 1: Core Web Fundamentals | HTML5 Semantic, CSS3 Flex/Grid, Modern JavaScript ES6+
+Step 2: Frontend Frameworks | React.js or Next.js, Component Driven Design, State Management
+Step 3: Backend REST APIs | FastAPI or Node.js Express, Routing, JWT Authentication, Pydantic
+Step 4: Databases & Storage | PostgreSQL, Prisma or SQLAlchemy, Redis Cache
+Step 5: Cloud & Deployment | Docker Containers, CI/CD GitHub Actions, Vercel and AWS
+\`\`\`
+
+Aap is roadmap ke kisi bhi step ka detailed syllabus ya code dekhna chahte hain?`;
+    }
+
+    // 6. Video Tutorials
+    if (q.includes('video') || q.includes('lecture') || q.includes('tutorial video')) {
+        const topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo)/gi, '').trim() || 'FastAPI and Python Backend Development';
+        return `Yahan dekhiye is topic ka curated video tutorial aur practical explanation:
+
+\`\`\`video
+Topic: ${topicName}
+Query: ${topicName} complete tutorial
+\`\`\`
+
+Aap video ke sath sath niche diye gaye code examples se bhi practice kar sakte hain.`;
+    }
+
+    // 7. FastAPI / Web APIs / Backend
     if (q.includes('fastapi') || q.includes('fatapi') || q.includes('api') || q.includes('backend') || q.includes('uvicorn')) {
         if (isBhojpuri) {
             return `FastAPI Python ke sabse aadhunik aur tez framework baate, jisse production REST APIs banawala jaala.
@@ -1808,7 +1893,7 @@ loadUserData(1);
 Kya aap isko browser DOM elements ke sath render karna chahte hain ya React component me convert karna chahte hain?`;
     }
 
-    // 4. Default Dynamic Response by Language (Real, Clean, No Symbols)
+    // 10. Default Dynamic Response by Language (Real, Clean, No Symbols)
     if (isBhojpuri) {
         return `Raua puchhli: "${message}"
 
@@ -1908,10 +1993,48 @@ STRICT RULES:
 1. DO NOT USE ANY EMOJIS OR UNICODE DECORATIVE ICONS. Zero emojis allowed.
 2. DO NOT USE DISTRACTING MARKDOWN SYMBOLS like asterisks (** or *) around random words or multiple hashes (###). Use clean, plain text and standard paragraphs.
 3. SUGGEST REAL: Give real, practical, production-grade technical explanations and code (real APIs, real database schemas, real error handling) instead of toy or cartoonish analogies.
-4. If the user writes informal, broken, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein), accurately deduce their true intent and answer directly.
-5. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code in standard fenced code blocks (\`\`\`python, \`\`\`javascript, etc.) with concise comments.
-6. ${languageDirective}
-7. End with a real technical question to continue the architecture or implementation.`;
+4. RICH VISUAL MEDIA CAPABILITIES:
+- If the user asks for an image, diagram, photo, or visual, output a fenced block:
+\`\`\`image
+detailed descriptive prompt for the image
+\`\`\`
+- If the user asks for a chart, graph, or statistics comparison, output a fenced block:
+\`\`\`chart
+{
+  "type": "bar",
+  "title": "Title of Chart",
+  "labels": ["Label1", "Label2", "Label3"],
+  "data": [45, 80, 60]
+}
+\`\`\`
+- If the user asks for sticky notes, quick summary, or cheat-sheet notes, output a fenced block:
+\`\`\`stickynote
+Title: Topic Name
+- Key takeaway 1
+- Key takeaway 2
+- Key takeaway 3
+\`\`\`
+- If the user asks for flashcards, quiz, or revision cards, output a fenced block:
+\`\`\`flashcard
+Q: Question or concept here
+A: Real technical answer or code explanation here
+\`\`\`
+- If the user asks for an infographic or roadmap, output a fenced block:
+\`\`\`infographic
+Title: Roadmap Title
+Step 1: Stage Title | Description
+Step 2: Stage Title | Description
+Step 3: Stage Title | Description
+\`\`\`
+- If the user asks for a video or tutorial demo, output a fenced block:
+\`\`\`video
+Topic: Topic Title
+Query: youtube search query or topic
+\`\`\`
+5. If the user writes informal, broken, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein), accurately deduce their true intent and answer directly.
+6. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code in standard fenced code blocks (\`\`\`python, \`\`\`javascript, etc.) with concise comments.
+7. ${languageDirective}
+8. End with a real technical question to continue the architecture or implementation.`;
                 }
 
                 const response = await ai.models.generateContent({
