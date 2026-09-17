@@ -1107,19 +1107,42 @@
                     </div>`;
                 });
 
-                // 6. Fenced Video Block
+                // 6. Fenced Video Block (Verified Embeddable Videos)
                 text = text.replace(/```video\s*([\s\S]*?)```/gi, function (match, videoContent) {
-                    let topic = "Video Explanation";
+                    let topic = "Video Tutorial";
                     let query = "web development tutorial";
+                    let videoId = "";
+
                     const tMatch = videoContent.match(/Topic:\s*(.*)/i);
                     const qMatch = videoContent.match(/Query:\s*(.*)/i);
+                    const vMatch = videoContent.match(/VideoId:\s*(.*)/i);
+
                     if (tMatch) topic = tMatch[1].trim();
                     if (qMatch) query = qMatch[1].trim();
                     else query = topic;
-                    const embedUrl = `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(query)}`;
+                    if (vMatch) videoId = vMatch[1].trim();
+
+                    if (!videoId) {
+                        const low = (topic + " " + query).toLowerCase();
+                        if (low.includes('fastapi') || low.includes('api')) videoId = '0rsH7475pYg';
+                        else if (low.includes('python') || low.includes('loop')) videoId = 'rfscVS0vtbw';
+                        else if (low.includes('javascript') || low.includes('js')) videoId = 'W6NZfCO5SIk';
+                        else if (low.includes('react')) videoId = 'bMknfKXIFA8';
+                        else if (low.includes('binary') || low.includes('dsa') || low.includes('algorithm')) videoId = '6ysjqCUv3K4';
+                        else if (low.includes('web') || low.includes('html') || low.includes('full stack')) videoId = 'nu_pCVPKzTk';
+                        else if (low.includes('sql') || low.includes('database')) videoId = 'HXV3zeRR3h4';
+                        else if (low.includes('machine learning') || low.includes('ai')) videoId = 'i_LwzRVP7bg';
+                        else if (low.includes('robot')) videoId = '7dp7sXp3_1M';
+                        else videoId = '0rsH7475pYg';
+                    }
+
+                    const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
+                    const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
                     return `<div class="ai-media-card">
                         <div class="media-header">
-                            <span>Video Resource: ${topic}</span>
+                            <span>Video Tutorial: ${topic}</span>
+                            <a href="${ytSearchUrl}" target="_blank" class="media-action-btn">Watch on YouTube</a>
                         </div>
                         <div class="video-wrapper">
                             <iframe src="${embedUrl}" title="${topic}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

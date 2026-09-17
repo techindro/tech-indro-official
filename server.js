@@ -1686,12 +1686,22 @@ Aap is roadmap ke kisi bhi step ka detailed syllabus ya code dekhna chahte hain?
 
     // 6. Video Tutorials
     if (q.includes('video') || q.includes('lecture') || q.includes('tutorial video')) {
-        const topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo)/gi, '').trim() || 'FastAPI and Python Backend Development';
-        return `Yahan dekhiye is topic ka curated video tutorial aur practical explanation:
+        let topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo)/gi, '').trim() || 'FastAPI REST API';
+        let videoId = '0rsH7475pYg';
+        const tLower = topicName.toLowerCase();
+        if (tLower.includes('python') || tLower.includes('loop')) videoId = 'rfscVS0vtbw';
+        else if (tLower.includes('javascript') || tLower.includes('js')) videoId = 'W6NZfCO5SIk';
+        else if (tLower.includes('react')) videoId = 'bMknfKXIFA8';
+        else if (tLower.includes('binary') || tLower.includes('dsa') || tLower.includes('algorithm')) videoId = '6ysjqCUv3K4';
+        else if (tLower.includes('web') || tLower.includes('full stack')) videoId = 'nu_pCVPKzTk';
+        else if (tLower.includes('sql') || tLower.includes('database')) videoId = 'HXV3zeRR3h4';
+
+        return `Yahan dekhiye is topic ka curated video tutorial:
 
 \`\`\`video
 Topic: ${topicName}
-Query: ${topicName} complete tutorial
+VideoId: ${videoId}
+Query: ${topicName} tutorial
 \`\`\`
 
 Aap video ke sath sath niche diye gaye code examples se bhi practice kar sakte hain.`;
