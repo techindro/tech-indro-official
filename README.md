@@ -57,7 +57,7 @@ Tech Indro Ecosystem
 | :--- | :--- | :--- |
 | **🤖 AI Shikshak (24/7)** | Voice-to-voice conversational AI doubt solver with spoken voice answers, code formatting, and step-by-step solutions. | Web & Mobile |
 | **📚 Flagship Programs** | Structured masterclasses in AI, Ethical Hacking, Web3, Full-Stack, and Data Structures. | Web & Mobile |
-| **🏆 TSOC Fellowship** | Hands-on project mentorship with cutting-edge real-world repositories like *GhostPose (Wi-Fi 3D Sensing)* and *Khicho-Chatbots*. | Web & Mobile |
+| **🏆 TSOC Fellowship** | Hands-on project mentorship with cutting-edge real-world repositories like *MOM-OS (Mind-Oriented Machine OS)*, *GhostPose (Wi-Fi 3D Sensing)*, and *Chitra AI*. | Web & Mobile |
 | **💻 IndroLabs Playground** | In-browser multi-language compiler for Python, JavaScript, and HTML/CSS with immediate output. | Web & Mobile |
 | **📝 Adaptive Test Series** | Live mock exams, timed quizzes, instant scoring, rank prediction, and comprehensive answer analytics. | Web & Mobile |
 | **🛡️ Cybersecurity Playground** | Ethical hacking CTF challenges, WAF simulators, sandbox code inspection, and defense labs. | Web |
@@ -156,12 +156,14 @@ fetch("https://tech-indro-official.vercel.app/api/courses")
 
 ## 🔬 Featured TSOC Open-Source Projects
 
-1. **[GhostPose: Through-Wall Wi-Fi 3D Sensing](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)**  
+1. **[MOM-OS: Mind-Oriented Machine Operating System](https://github.com/techindro/MOM-OS)**  
+   *An autonomous intent-driven agent layer for Linux, translating human goals directly into executable system workflows and toolchains.*
+2. **[GhostPose: Through-Wall Wi-Fi 3D Sensing](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)**  
    *AI-driven real-time human pose estimation using standard Wi-Fi CSI signals without cameras.*
-2. **[ZiaLabs-AI (Research Assistant)](https://github.com/techindro/ZiaLabs-AI)**  
+3. **[ZiaLabs-AI (Research Assistant)](https://github.com/techindro/ZiaLabs-AI)**  
    *Full-stack multilingual academic research assistant with ArXiv & Semantic Scholar search, PDF extraction, and Gemini AI.*
-3. **[Khicho-Chatbots](https://github.com/techindro/Khicho-Chatbots)**  
-   *Next-gen multilingual conversational chatbot system with natural language intelligence.*
+4. **[Chitra-AI (Image Studio & Vision)](https://github.com/techindro/Khicho-Chatbots)**  
+   *Intelligent conversational assistant and multi-style text-to-image generator with artistic vision models.*
 
 ---
 

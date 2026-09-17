@@ -24,7 +24,7 @@ The **Tech Indro Mobile App** brings the comprehensive **Tech Indro learning eco
 
 - 🎯 **Interactive Course Journey**: Browse flagship programs, track chapter progress, and enroll in live batches.
 - 🤖 **24/7 AI Shikshak (Pocket Doubts)**: Instant voice & text doubt resolution powered by conversational AI.
-- 🏆 **TSOC Project Hub**: Review real-world open-source repositories (*GhostPose 3D Sensing*, *Khicho-Chatbots*) with architecture diagrams and source links.
+- 🏆 **TSOC Project Hub**: Review real-world open-source repositories (*MOM-OS Agent OS*, *GhostPose 3D Sensing*, *Chitra AI*) with architecture diagrams and source links.
 - 💻 **IndroLabs Mobile Code Runner**: Execute code snippets on-the-go without needing a PC.
 - 📝 **Live Mock Quizzes**: Timed assessments, instant ranks, scorecards, and solution explanations.
 - 🌓 **Adaptive Dark / Light Mode**: Beautiful custom palettes tailored for late-night study sessions without eye strain.
