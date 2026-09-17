@@ -1684,27 +1684,49 @@ Step 5: Cloud & Deployment | Docker Containers, CI/CD GitHub Actions, Vercel and
 Aap is roadmap ke kisi bhi step ka detailed syllabus ya code dekhna chahte hain?`;
     }
 
-    // 6. Video Tutorials
-    if (q.includes('video') || q.includes('lecture') || q.includes('tutorial video')) {
-        let topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo)/gi, '').trim() || 'FastAPI REST API';
+    // 6. Video Recommendations (Direct Best Video Link)
+    if (q.includes('video') || q.includes('lecture') || q.includes('tutorial video') || q.includes('link')) {
+        let topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo|ka|link|de|do|best)/gi, '').trim() || 'FastAPI REST API';
         let videoId = '0rsH7475pYg';
+        let channel = 'freeCodeCamp.org';
+        let title = 'FastAPI Full Course for Beginners';
         const tLower = topicName.toLowerCase();
-        if (tLower.includes('python') || tLower.includes('loop')) videoId = 'rfscVS0vtbw';
-        else if (tLower.includes('javascript') || tLower.includes('js')) videoId = 'W6NZfCO5SIk';
-        else if (tLower.includes('react')) videoId = 'bMknfKXIFA8';
-        else if (tLower.includes('binary') || tLower.includes('dsa') || tLower.includes('algorithm')) videoId = '6ysjqCUv3K4';
-        else if (tLower.includes('web') || tLower.includes('full stack')) videoId = 'nu_pCVPKzTk';
-        else if (tLower.includes('sql') || tLower.includes('database')) videoId = 'HXV3zeRR3h4';
+        if (tLower.includes('python') || tLower.includes('loop')) {
+            videoId = 'rfscVS0vtbw';
+            title = 'Python for Beginners Full Course';
+            channel = 'freeCodeCamp.org';
+        } else if (tLower.includes('javascript') || tLower.includes('js')) {
+            videoId = 'W6NZfCO5SIk';
+            title = 'JavaScript Tutorial for Beginners';
+            channel = 'Programming with Mosh';
+        } else if (tLower.includes('react')) {
+            videoId = 'bMknfKXIFA8';
+            title = 'React Course for Beginners';
+            channel = 'freeCodeCamp.org';
+        } else if (tLower.includes('binary') || tLower.includes('dsa') || tLower.includes('algorithm')) {
+            videoId = '6ysjqCUv3K4';
+            title = 'Binary Search Algorithm & Practice';
+            channel = 'freeCodeCamp.org';
+        } else if (tLower.includes('web') || tLower.includes('full stack')) {
+            videoId = 'nu_pCVPKzTk';
+            title = 'Full Stack Web Development Roadmap & Tutorial';
+            channel = 'freeCodeCamp.org';
+        } else if (tLower.includes('sql') || tLower.includes('database')) {
+            videoId = 'HXV3zeRR3h4';
+            title = 'SQL Database Tutorial for Beginners';
+            channel = 'freeCodeCamp.org';
+        }
 
-        return `Yahan dekhiye is topic ka curated video tutorial:
+        const ytUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        return `Yahan dekhiye is topic ka best curated YouTube video tutorial link:
 
 \`\`\`video
-Topic: ${topicName}
-VideoId: ${videoId}
-Query: ${topicName} tutorial
+Title: ${title}
+Channel: ${channel}
+Url: ${ytUrl}
 \`\`\`
 
-Aap video ke sath sath niche diye gaye code examples se bhi practice kar sakte hain.`;
+Aap diye gaye button par click karke direct YouTube par full HD quality me ye video dekh sakte hain.`;
     }
 
     // 7. FastAPI / Web APIs / Backend
@@ -2036,10 +2058,11 @@ Step 1: Stage Title | Description
 Step 2: Stage Title | Description
 Step 3: Stage Title | Description
 \`\`\`
-- If the user asks for a video or tutorial demo, output a fenced block:
+- If the user asks for a video or tutorial, DO NOT try to generate video files. Instead recommend the single best YouTube tutorial with its exact title, channel name, and direct link:
 \`\`\`video
-Topic: Topic Title
-Query: youtube search query or topic
+Title: Complete Tutorial Title
+Channel: Channel Name (e.g. freeCodeCamp.org)
+Url: https://www.youtube.com/results?search_query=topic or direct link
 \`\`\`
 5. If the user writes informal, broken, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein), accurately deduce their true intent and answer directly.
 6. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code in standard fenced code blocks (\`\`\`python, \`\`\`javascript, etc.) with concise comments.

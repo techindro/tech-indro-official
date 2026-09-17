@@ -705,22 +705,105 @@
             color: #475569;
         }
 
-        /* 5. Video Player Card */
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            background: #000;
+        /* 5. Direct Video Link Recommendation Card */
+        .ai-video-link-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fff7f7 100%);
+            border: 1.5px solid #fed7d7;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            margin: 0.85rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.1rem;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+        .ai-video-link-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
+        }
+
+        .video-link-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #ef4444;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .video-link-details {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .video-link-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ef4444;
+            margin-bottom: 2px;
+        }
+
+        .video-link-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.35;
+        }
+
+        .video-link-channel {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .video-link-actions {
+            flex-shrink: 0;
+        }
+
+        .video-link-btn {
+            background: #ef4444;
+            color: #ffffff !important;
+            padding: 0.6rem 1.15rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.25);
+            transition: background 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+
+        .video-link-btn:hover {
+            background: #dc2626;
+            transform: scale(1.03);
+            color: #ffffff !important;
+        }
+
+        @media (max-width: 600px) {
+            .ai-video-link-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .video-link-actions {
+                width: 100%;
+            }
+            .video-link-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -1107,45 +1190,93 @@
                     </div>`;
                 });
 
-                // 6. Fenced Video Block (Verified Embeddable Videos)
+                // 6. Fenced Video Block (Direct YouTube Tutorial Recommendation Link Card)
                 text = text.replace(/```video\s*([\s\S]*?)```/gi, function (match, videoContent) {
-                    let topic = "Video Tutorial";
-                    let query = "web development tutorial";
+                    let title = "";
+                    let channel = "";
+                    let url = "";
                     let videoId = "";
+                    let topic = "";
 
-                    const tMatch = videoContent.match(/Topic:\s*(.*)/i);
-                    const qMatch = videoContent.match(/Query:\s*(.*)/i);
+                    const titleMatch = videoContent.match(/Title:\s*(.*)/i);
+                    const channelMatch = videoContent.match(/Channel:\s*(.*)/i);
+                    const urlMatch = videoContent.match(/Url:\s*(.*)/i);
+                    const topicMatch = videoContent.match(/Topic:\s*(.*)/i);
                     const vMatch = videoContent.match(/VideoId:\s*(.*)/i);
 
-                    if (tMatch) topic = tMatch[1].trim();
-                    if (qMatch) query = qMatch[1].trim();
-                    else query = topic;
+                    if (titleMatch) title = titleMatch[1].trim();
+                    if (channelMatch) channel = channelMatch[1].trim();
+                    if (urlMatch) url = urlMatch[1].trim();
+                    if (topicMatch) topic = topicMatch[1].trim();
                     if (vMatch) videoId = vMatch[1].trim();
 
-                    if (!videoId) {
-                        const low = (topic + " " + query).toLowerCase();
-                        if (low.includes('fastapi') || low.includes('api')) videoId = '0rsH7475pYg';
-                        else if (low.includes('python') || low.includes('loop')) videoId = 'rfscVS0vtbw';
-                        else if (low.includes('javascript') || low.includes('js')) videoId = 'W6NZfCO5SIk';
-                        else if (low.includes('react')) videoId = 'bMknfKXIFA8';
-                        else if (low.includes('binary') || low.includes('dsa') || low.includes('algorithm')) videoId = '6ysjqCUv3K4';
-                        else if (low.includes('web') || low.includes('html') || low.includes('full stack')) videoId = 'nu_pCVPKzTk';
-                        else if (low.includes('sql') || low.includes('database')) videoId = 'HXV3zeRR3h4';
-                        else if (low.includes('machine learning') || low.includes('ai')) videoId = 'i_LwzRVP7bg';
-                        else if (low.includes('robot')) videoId = '7dp7sXp3_1M';
-                        else videoId = '0rsH7475pYg';
+                    if (!title) {
+                        title = topic ? topic + " Tutorial" : "Recommended Video Tutorial";
                     }
 
-                    const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
-                    const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+                    if (!channel) {
+                        channel = "freeCodeCamp.org / YouTube";
+                    }
 
-                    return `<div class="ai-media-card">
-                        <div class="media-header">
-                            <span>Video Tutorial: ${topic}</span>
-                            <a href="${ytSearchUrl}" target="_blank" class="media-action-btn">Watch on YouTube</a>
+                    if (!url) {
+                        if (videoId) {
+                            url = `https://www.youtube.com/watch?v=${videoId}`;
+                        } else {
+                            const low = (title + " " + topic + " " + videoContent).toLowerCase();
+                            if (low.includes('fastapi') || low.includes('api')) {
+                                videoId = '0rsH7475pYg';
+                                title = title || 'FastAPI Full Course for Beginners';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('python') || low.includes('loop')) {
+                                videoId = 'rfscVS0vtbw';
+                                title = title || 'Python for Beginners Full Course';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('javascript') || low.includes('js')) {
+                                videoId = 'W6NZfCO5SIk';
+                                title = title || 'JavaScript Tutorial for Beginners';
+                                channel = 'Programming with Mosh';
+                            } else if (low.includes('react')) {
+                                videoId = 'bMknfKXIFA8';
+                                title = title || 'React Course for Beginners';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('binary') || low.includes('dsa') || low.includes('algorithm')) {
+                                videoId = '6ysjqCUv3K4';
+                                title = title || 'Binary Search Algorithm & Practice';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('web') || low.includes('html') || low.includes('full stack')) {
+                                videoId = 'nu_pCVPKzTk';
+                                title = title || 'Full Stack Web Development Course';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('sql') || low.includes('database')) {
+                                videoId = 'HXV3zeRR3h4';
+                                title = title || 'SQL Database Tutorial for Beginners';
+                                channel = 'freeCodeCamp.org';
+                            } else if (low.includes('machine learning') || low.includes('ai')) {
+                                videoId = 'i_LwzRVP7bg';
+                                title = title || 'Machine Learning for Everybody';
+                                channel = 'freeCodeCamp.org';
+                            } else {
+                                videoId = '0rsH7475pYg';
+                                title = title || 'Complete Programming & Software Tutorial';
+                                channel = 'freeCodeCamp.org';
+                            }
+                            url = `https://www.youtube.com/watch?v=${videoId}`;
+                        }
+                    }
+
+                    return `<div class="ai-video-link-card">
+                        <div class="video-link-icon">
+                            <i data-lucide="play" style="width: 20px; height: 20px; fill: currentColor;"></i>
                         </div>
-                        <div class="video-wrapper">
-                            <iframe src="${embedUrl}" title="${topic}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-link-details">
+                            <span class="video-link-badge">Curated Video Tutorial</span>
+                            <div class="video-link-title">${title}</div>
+                            <div class="video-link-channel">Platform: ${channel}</div>
+                        </div>
+                        <div class="video-link-actions">
+                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="video-link-btn">
+                                <i data-lucide="external-link" style="width: 15px; height: 15px;"></i> Watch on YouTube
+                            </a>
                         </div>
                     </div>`;
                 });
