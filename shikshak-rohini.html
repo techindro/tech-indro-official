@@ -3,210 +3,848 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Indro - Shikshak AI Rohini</title>
+    <title>Tech Indro Kids - AI Shikshak Rohini</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        :root {
+            --kids-primary: #f59e0b;
+            --kids-secondary: #ff6b35;
+            --kids-accent: #10b981;
+            --kids-bg: #fffbf5;
+            --kids-card: #ffffff;
+            --kids-text: #1e293b;
+        }
+
         body {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            color: #1f2937;
+            background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 50%, #f0fdf4 100%);
+            color: var(--kids-text);
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
         }
-        #header {
-            background: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-        .nav-links a, .logo-text { color: #1f2937; }
 
+        #header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid rgba(245, 158, 11, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.08);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, #f59e0b, #ff6b35);
+            color: white;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .kids-tag {
+            background: #fef08a;
+            color: #854d0e;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-chip:hover {
+            border-color: var(--kids-primary);
+            color: var(--kids-primary);
+            transform: translateY(-1px);
+        }
+
+        .action-chip.active-voice {
+            background: #ecfdf5;
+            color: #059669;
+            border-color: #10b981;
+        }
+
+        /* Chat Layout */
         .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            max-width: 900px;
-            margin: 80px auto 0;
+            max-width: 960px;
+            margin: 75px auto 0;
             width: 100%;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 75px);
             padding: 1rem;
+            box-sizing: border-box;
         }
+
         .chat-history {
             flex: 1;
             overflow-y: auto;
-            padding: 2rem 1rem;
+            padding: 1rem 0.5rem 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.25rem;
+            scroll-behavior: smooth;
         }
+
+        /* Message Bubbles */
         .bubble {
-            max-width: 80%;
-            padding: 1.5rem;
-            border-radius: 24px;
+            max-width: 85%;
+            padding: 1.15rem 1.4rem;
+            border-radius: 22px;
             line-height: 1.6;
-            font-size: 1.2rem;
-            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            font-size: 1.02rem;
+            animation: bounceIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            position: relative;
+            word-break: break-word;
         }
+
         @keyframes bounceIn {
-            0% { transform: scale(0.8); opacity: 0; }
+            0% { transform: scale(0.92); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        .bubble-ai {
-            align-self: flex-start;
-            background: white;
-            border: 2px solid #f59e0b;
-            border-bottom-left-radius: 4px;
-            position: relative;
-        }
-        .ai-avatar {
-            position: absolute;
-            bottom: -20px;
-            left: -20px;
-            width: 50px;
-            height: 50px;
-            background: #f59e0b;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            border: 4px solid #fdfbfb;
-            font-size: 1.5rem;
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
-        }
+
         .bubble-kid {
             align-self: flex-end;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
         }
 
-        .controls {
-            padding: 2rem;
-            text-align: center;
-            background: white;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+        .bubble-ai {
+            align-self: flex-start;
+            background: #ffffff;
+            border: 2px solid #fed7aa;
+            border-bottom-left-radius: 6px;
+            color: #1e293b;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.1);
         }
 
-        .mic-btn {
-            background: linear-gradient(135deg, #ef4444, #f97316);
-            border: none;
-            width: 80px;
-            height: 80px;
+        .ai-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px dashed #fed7aa;
+        }
+
+        .ai-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            color: #b45309;
+            font-size: 0.95rem;
+        }
+
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #f59e0b, #ff6b35);
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             color: white;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
-            transition: all 0.2s ease;
-        }
-        .mic-btn:hover {
-            transform: scale(1.1);
-        }
-        .mic-btn.recording {
-            animation: pulse 1s infinite;
-            background: linear-gradient(135deg, #22c55e, #10b981);
-            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(34, 197, 94, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+            font-size: 1.1rem;
+            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.3);
         }
 
+        .ai-bubble-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .icon-action-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-action-btn:hover {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+        }
+
+        /* Sound waves animation */
+        .sound-wave {
+            display: none;
+            align-items: center;
+            gap: 3px;
+            height: 14px;
+            margin-left: 6px;
+        }
+
+        .sound-wave span {
+            width: 3px;
+            height: 100%;
+            background-color: #ff6b35;
+            border-radius: 2px;
+            animation: waveMotion 0.8s infinite ease-in-out;
+        }
+
+        .sound-wave span:nth-child(2) { animation-delay: 0.15s; }
+        .sound-wave span:nth-child(3) { animation-delay: 0.3s; }
+        .sound-wave span:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes waveMotion {
+            0%, 100% { height: 4px; }
+            50% { height: 14px; }
+        }
+
+        /* Code Block Wrapper */
+        .code-block-wrapper {
+            background: #0f172a;
+            border-radius: 12px;
+            margin: 0.9rem 0;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.4rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .copy-code-btn {
+            background: rgba(255,255,255,0.12);
+            border: none;
+            color: #e2e8f0;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-code-btn:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .code-block-wrapper pre {
+            padding: 0.9rem 1.15rem;
+            margin: 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #f8fafc;
+        }
+
+        .code-block-wrapper code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .inline-code {
+            background: #f1f5f9;
+            color: #b45309;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Reward points badge */
         .reward-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            background: #fef08a;
+            gap: 6px;
+            background: #fef9c3;
+            border: 1px solid #fde047;
             color: #854d0e;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-top: 1rem;
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-top: 0.8rem;
         }
 
+        /* Suggestion Chips */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.75rem;
+        }
+
+        .prompt-chip {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .prompt-chip:hover {
+            background: #ffedd5;
+            transform: scale(1.03);
+            border-color: #f97316;
+        }
+
+        /* Input Controls Area */
+        .controls-area {
+            background: white;
+            border-radius: 24px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.12);
+            border: 2px solid rgba(245, 158, 11, 0.2);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            color: #1e293b;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .chat-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-send {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            flex-shrink: 0;
+        }
+
+        .btn-send:hover {
+            transform: scale(1.06);
+        }
+
+        .btn-mic {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+            flex-shrink: 0;
+        }
+
+        .btn-mic:hover {
+            transform: scale(1.08);
+        }
+
+        .btn-mic.recording {
+            animation: pulseRecord 1s infinite;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        @keyframes pulseRecord {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.12); box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .mic-caption {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .bubble { max-width: 92%; padding: 1rem; font-size: 0.95rem; }
+            .chat-container { padding: 0.5rem; margin-top: 65px; height: calc(100vh - 65px); }
+            .btn-mic { width: 44px; height: 44px; }
+            .btn-send { width: 40px; height: 40px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header id="header">
-        <div class="container nav-container">
-            <nav>
-                <a href="shikshak.html" class="logo">
-                    <div class="logo-icon" style="background: #f59e0b;">TI</div>
-                    <span class="logo-text">TECH INDRO <span style="color: #f59e0b;">KIDS</span></span>
+        <div class="header-content">
+            <a href="shikshak.html" class="logo-box">
+                <div class="logo-badge">TI</div>
+                <div class="logo-title">
+                    <span>TECH INDRO</span>
+                    <span class="kids-tag">KIDS</span>
+                </div>
+            </a>
+            
+            <div class="header-actions">
+                <button class="action-chip active-voice" id="voiceToggleBtn" onclick="toggleVoiceOutput()">
+                    <i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>
+                    <span id="voiceStatusText">Voice: ON</span>
+                </button>
+                <button class="action-chip" onclick="clearChat()">
+                    <i data-lucide="rotate-ccw" style="width: 15px; height: 15px;"></i>
+                    <span>Reset</span>
+                </button>
+                <a href="shikshak.html" class="action-chip" style="text-decoration: none;">
+                    <i data-lucide="arrow-left" style="width: 15px; height: 15px;"></i>
+                    <span>Back</span>
                 </a>
-            </nav>
+            </div>
         </div>
     </header>
 
+    <!-- Main Chat Window -->
     <div class="chat-container">
         <div class="chat-history" id="chatHistory">
+            
+            <!-- Welcome Bubble -->
             <div class="bubble bubble-ai">
-                <div class="ai-avatar">🤖</div>
-                <strong>AI Shikshak (Teacher)</strong><br><br>
-                Namaste! Main aapka AI Teacher hoon. Tap the big microphone below and ask me anything about Coding, Robotics, or AI in Hindi or English!
+                <div class="ai-header">
+                    <div class="ai-title">
+                        <div class="ai-avatar">🤖</div>
+                        <span>AI Shikshak (Rohini)</span>
+                        <div class="sound-wave" id="welcomeWave">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="ai-bubble-actions">
+                        <button class="icon-action-btn" title="Sunen" onclick="speakText(document.getElementById('welcomeText').innerText)">
+                            <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="welcomeText">
+                    Arre Namaste! 😊 Main hoon aapka <strong>AI Shikshak Rohini</strong>! 🌟<br><br>
+                    Aap mujhse <strong>koi bhi sawal</strong> puch sakte ho — Coding, Python, Robots, Games, School Math, Science ya koi bhi curiosity! Main sab kuch simple, casual aur fun tarike se samjhaunga with code & voice. 🚀
+                </div>
+
+                <div class="chips-container">
+                    <div class="prompt-chip" onclick="askPreset('Robot aage kaise chalayein code me?')">🤖 Robot Code</div>
+                    <div class="prompt-chip" onclick="askPreset('Python me for loop kaise kaam karta hai cricket example se samjhao?')">🐍 Python Loop</div>
+                    <div class="prompt-chip" onclick="askPreset('Ek simple JavaScript guessing game ka code banao!')">🎮 Mini Game Code</div>
+                    <div class="prompt-chip" onclick="askPreset('Space me rocket kaise udta hai simple tarike se batao?')">🚀 Rocket Science</div>
+                    <div class="prompt-chip" onclick="askPreset('HTML aur CSS se button kaise banayein?')">🌐 Website Button</div>
+                </div>
+
+                <div class="reward-badge">
+                    🌟 Ready to Earn Tech Points!
+                </div>
             </div>
+
         </div>
-        
-        <div class="controls">
-            <p style="margin-bottom: 1rem; color: #6b7280; font-weight: bold;">Tap and Speak</p>
-            <button class="mic-btn" id="micBtn" onclick="toggleRecord()">
-                <i data-lucide="mic" style="width: 40px; height: 40px;"></i>
-            </button>
+
+        <!-- Controls Area -->
+        <div class="controls-area">
+            <form id="chatForm" onsubmit="handleSend(event)" class="input-row">
+                <button type="button" class="btn-mic" id="micBtn" onclick="toggleMic()" title="Mic se boliye">
+                    <i data-lucide="mic" style="width: 24px; height: 24px;" id="micIcon"></i>
+                </button>
+                
+                <input 
+                    type="text" 
+                    id="chatInput" 
+                    class="chat-input" 
+                    placeholder="Puchiye koi bhi sawal... ya mic daba kar boliye 🎙️" 
+                    autocomplete="off"
+                />
+
+                <button type="submit" class="btn-send" id="sendBtn" title="Send message">
+                    <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                </button>
+            </form>
+            <div class="mic-caption" id="micCaption">Bolein ya Type karein • Voice aur Code dono milenge!</div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        const history = document.getElementById('chatHistory');
-        const micBtn = document.getElementById('micBtn');
-        let isRecording = false;
 
-        function toggleRecord() {
-            if(!isRecording) {
-                isRecording = true;
-                micBtn.classList.add('recording');
+        const historyEl = document.getElementById('chatHistory');
+        const inputEl = document.getElementById('chatInput');
+        const micBtn = document.getElementById('micBtn');
+        const micIcon = document.getElementById('micIcon');
+        const micCaption = document.getElementById('micCaption');
+        const voiceToggleBtn = document.getElementById('voiceToggleBtn');
+        const voiceStatusText = document.getElementById('voiceStatusText');
+
+        let isListening = false;
+        let voiceEnabled = true;
+        let recognition = null;
+        let points = 10;
+
+        // Clean Markdown renderer
+        function renderMarkdown(raw) {
+            if (!raw) return '';
+            let html = '';
+            if (typeof marked !== 'undefined' && marked.parse) {
+                try {
+                    marked.setOptions({ breaks: true, gfm: true });
+                    html = marked.parse(raw);
+                } catch(e) { html = ''; }
+            }
+
+            if (!html) {
+                let text = raw;
+                // Code blocks
+                text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function(match, lang, code) {
+                    const l = (lang || 'code').toUpperCase();
+                    const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<div class="code-block-wrapper">
+                        <div class="code-header">
+                            <span>${l}</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy Code</button>
+                        </div>
+                        <pre><code>${safe}</code></pre>
+                    </div>`;
+                });
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+                html = text.split(/\n{2,}/).map(seg => `<p>${seg.replace(/\n/g, '<br>')}</p>`).join('');
             } else {
-                isRecording = false;
+                html = html.replace(/<pre><code(?:\s+class="language-([a-zA-Z0-9_-]+)")?>([\s\S]*?)<\/code><\/pre>/g, function(match, lang, code) {
+                    const l = (lang || 'code').toUpperCase();
+                    return `<div class="code-block-wrapper">
+                        <div class="code-header">
+                            <span>${l}</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy Code</button>
+                        </div>
+                        <pre><code>${code}</code></pre>
+                    </div>`;
+                });
+            }
+
+            // eliminate residual asterisks
+            html = html.replace(/\*\*/g, '');
+            return html;
+        }
+
+        window.copyCode = function(btn) {
+            const codeEl = btn.closest('.code-block-wrapper').querySelector('code');
+            if (codeEl) {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    btn.innerText = 'Copied! ✅';
+                    setTimeout(() => btn.innerText = 'Copy Code', 2000);
+                });
+            }
+        };
+
+        // Voice Output (SpeechSynthesis)
+        function speakText(rawText) {
+            if (!voiceEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            // Prepare spoken text (don't read raw code character by character)
+            let clean = rawText
+                .replace(/```[\s\S]*?```/g, " Maine iska aasan code screen par likh diya hai, aap use dekh aur copy kar sakte ho! ")
+                .replace(/\*\*(.*?)\*\*/g, "$1")
+                .replace(/\*(.*?)\*/g, "$1")
+                .replace(/`([^`]+)`/g, "$1")
+                .replace(/#+\s+/g, "")
+                .replace(/[-*•]\s+/g, "")
+                .trim();
+
+            if (!clean) return;
+
+            const utterance = new SpeechSynthesisUtterance(clean);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.05; // Slightly friendly cheerful pitch
+
+            const voices = window.speechSynthesis.getVoices();
+            const hindiVoice = voices.find(v => v.lang && (v.lang.includes('hi') || v.name.includes('Hindi') || v.lang.includes('IN')));
+            if (hindiVoice) {
+                utterance.voice = hindiVoice;
+                utterance.lang = 'hi-IN';
+            } else {
+                const enVoice = voices.find(v => v.lang && v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural')));
+                if (enVoice) utterance.voice = enVoice;
+            }
+
+            const waves = document.querySelectorAll('.sound-wave');
+            utterance.onstart = () => waves.forEach(w => w.style.display = 'inline-flex');
+            utterance.onend = () => waves.forEach(w => w.style.display = 'none');
+            utterance.onerror = () => waves.forEach(w => w.style.display = 'none');
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function toggleVoiceOutput() {
+            voiceEnabled = !voiceEnabled;
+            if (!voiceEnabled) {
+                window.speechSynthesis.cancel();
+                voiceToggleBtn.classList.remove('active-voice');
+                voiceStatusText.innerText = 'Voice: OFF';
+                voiceToggleBtn.querySelector('i').setAttribute('data-lucide', 'volume-x');
+            } else {
+                voiceToggleBtn.classList.add('active-voice');
+                voiceStatusText.innerText = 'Voice: ON';
+                voiceToggleBtn.querySelector('i').setAttribute('data-lucide', 'volume-2');
+                speakText("Voice chalu ho gaya hai!");
+            }
+            lucide.createIcons();
+        }
+
+        // Voice Recognition (Speech Input)
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'hi-IN';
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('recording');
+                micCaption.innerText = "🎙️ Sun raha hoon... Boliye!";
+                inputEl.placeholder = "Listening... Speak your question now...";
+            };
+
+            recognition.onresult = (e) => {
+                const text = e.results[0][0].transcript;
+                inputEl.value = text;
+                sendMessage(text);
+            };
+
+            recognition.onend = () => {
+                isListening = false;
                 micBtn.classList.remove('recording');
-                simulateInteraction();
+                micCaption.innerText = "Bolein ya Type karein • Voice aur Code dono milenge!";
+                inputEl.placeholder = "Puchiye koi bhi sawal... ya mic daba kar boliye 🎙️";
+            };
+
+            recognition.onerror = () => {
+                isListening = false;
+                micBtn.classList.remove('recording');
+                micCaption.innerText = "Mic connect nahi hua, type karke puchiye!";
+            };
+        }
+
+        function toggleMic() {
+            if (!recognition) {
+                alert("Voice recognition is not supported in this browser. Chrome or Edge recommended!");
+                return;
+            }
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
             }
         }
 
-        function simulateInteraction() {
-            // Child asks something
+        // Send logic
+        async function handleSend(e) {
+            e.preventDefault();
+            const msg = inputEl.value.trim();
+            if (!msg) return;
+            inputEl.value = '';
+            await sendMessage(msg);
+        }
+
+        function askPreset(promptText) {
+            inputEl.value = promptText;
+            sendMessage(promptText);
+        }
+
+        async function sendMessage(msg) {
+            // Add user bubble
             const kidBubble = document.createElement('div');
             kidBubble.className = 'bubble bubble-kid';
-            kidBubble.innerText = "🎤 (Audio recorded) Robot ko aage move karne ke liye code kaise likhein?";
-            history.appendChild(kidBubble);
-            history.scrollTop = history.scrollHeight;
+            kidBubble.innerText = msg;
+            historyEl.appendChild(kidBubble);
+            historyEl.scrollTop = historyEl.scrollHeight;
 
-            // AI Replies
-            setTimeout(() => {
-                const aiBubble = document.createElement('div');
-                aiBubble.className = 'bubble bubble-ai';
-                aiBubble.innerHTML = `
-                    <div class="ai-avatar">🤖</div>
-                    <strong>AI Shikshak</strong><br><br>
-                    Arre waah! Good try! Main aapka AI Mentor hoon. 😊<br><br>
-                    Think of loops like a Cricket bowler. A bowler runs up, bowls the ball, and walks back to the start, right? They repeat this exact same sequence 6 times for an over! 🏏<br><br>
-                    To move the robot forward, hum 'Motor On' command likhenge. Can you guess what command we use to make it wait for 1 second? (Hint: Think about the English word for 'delay'!) 🚀<br>
-                    <div class="reward-badge">🌟 +10 Robotics Points!</div>
+            // Typing indicator bubble
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'bubble bubble-ai';
+            typingBubble.innerHTML = `
+                <div class="ai-header">
+                    <div class="ai-title">
+                        <div class="ai-avatar">🤖</div>
+                        <span>AI Shikshak (Rohini)</span>
+                        <div class="sound-wave" style="display: inline-flex;">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+                <em>Soch raha hoon aur simple code & answer taiyar kar raha hoon... ✨</em>
+            `;
+            historyEl.appendChild(typingBubble);
+            lucide.createIcons();
+            historyEl.scrollTop = historyEl.scrollHeight;
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: msg,
+                        lang: 'hi',
+                        agent: 'kids'
+                    })
+                });
+
+                const data = await res.json();
+                const reply = data.response || data.reply || 'Arre, jawab formulate karne me dikkat hui. Dobara puchiye!';
+                points += 10;
+
+                const formattedHtml = renderMarkdown(reply);
+
+                typingBubble.innerHTML = `
+                    <div class="ai-header">
+                        <div class="ai-title">
+                            <div class="ai-avatar">🤖</div>
+                            <span>AI Shikshak (Rohini)</span>
+                            <div class="sound-wave">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <div class="ai-bubble-actions">
+                            <button class="icon-action-btn" title="Dubara Sunen" onclick="speakText(this.getAttribute('data-text'))" data-text="${reply.replace(/"/g, '&quot;')}">
+                                <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ai-body-content">
+                        ${formattedHtml}
+                    </div>
+                    <div class="reward-badge">
+                        🌟 +10 Coding Points! (Total: ${points})
+                    </div>
                 `;
-                history.appendChild(aiBubble);
-                history.scrollTop = history.scrollHeight;
-            }, 1500);
+
+                // Automatically speak response
+                speakText(reply);
+
+            } catch (err) {
+                typingBubble.innerHTML = `
+                    <div class="ai-header">
+                        <div class="ai-title">
+                            <div class="ai-avatar">🤖</div>
+                            <span>AI Shikshak (Rohini)</span>
+                        </div>
+                    </div>
+                    <div>Network me problem aayi! Please check internet connection.</div>
+                `;
+            }
+
+            lucide.createIcons();
+            historyEl.scrollTop = historyEl.scrollHeight;
         }
+
+        function clearChat() {
+            window.location.reload();
+        }
+
+        // Voice greeting after 1 second
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const welcome = document.getElementById('welcomeText');
+                if (welcome) speakText(welcome.innerText);
+            }, 1000);
+        });
     </script>
-<script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

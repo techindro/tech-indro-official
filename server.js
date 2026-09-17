@@ -1608,58 +1608,154 @@ app.post('/api/payment/checkout', (req, res) => {
 });
 
 
-// Smart AI Knowledge Engine Fallback (Conversational AI Agent - Clean Gemini Style)
+// Smart AI Knowledge Engine Fallback (Conversational AI Agent - Simple, Casual & Friendly)
 function generateAIMentorResponse(message, lang, agent) {
     const q = message.toLowerCase();
-    const isHindi = lang === 'hi' || /[अ-ह]/.test(message) || /(karein|kaise|kya|hai|batayein|batao|chahiye)/i.test(q);
+    const isHindi = lang === 'hi' || /[अ-ह]/.test(message) || /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao)/i.test(q);
 
     // Greetings
     if (/^(hi|hello|hey|namaste|pranam|hola|greetings)/i.test(q)) {
-        if (isHindi) {
-            return "Namaste! Main aapka Tech Indro AI Agent hoon.\n\nMain aapke sath milkar Coding, AI, Web Development, DSA aur Space Robotics problems solve karne ke liye available hoon.\n\nBatayein, aaj hum kya naya seekhne wale hain? Aap kisi specific topic ya code error par meri help chahte hain?";
+        if (isHindi || agent === 'kids' || agent === 'rohini') {
+            return "Arre Namaste! 😊 Main aapka AI Shikshak hoon!\n\nAap mujhse koi bhi sawal puch sakte ho — Coding, Python, Games, Robots, Science ya School ke doubts! Sab kuch simple aur fun tarike se samjhaunga.\n\nBatayein, aaj hum kya naya aur exciting seekhne wale hain? 🚀";
         }
-        return "Hello there! I'm your Tech Indro AI Agent.\n\nI'm right here with you to level up your Coding, Data Structures, AI, and Placement preparation.\n\nWhat are we building or exploring together today? Feel free to ask any technical doubt or project problem!";
+        return "Hey there! 😊 I'm your AI Shikshak & Mentor!\n\nFeel free to ask me literally anything — Coding, Python, Robotics, Web Dev, or any school/college concept. I'll explain it simply with easy code examples.\n\nWhat are we learning or building together today? 🚀";
     }
 
     // Python questions
-    if (q.includes('python')) {
-        if (isHindi) {
-            return "Haan bilkul! Python ek bahut hi powerful aur beginner-friendly programming language hai.\n\nHere is a clean example:\n```python\ndef create_ai_agent(name):\n    return f'Welcome to Tech Indro, {name}!'\n\nprint(create_ai_agent('Engineer'))\n```\n\nPython ke main use cases:\n- Artificial Intelligence & Machine Learning\n- Backend Web Development (FastAPI, Django)\n- Automation Scripts aur Robotics\n\nKya aap Python basic se seekhna chahte hain, ya Generative AI aur Data Science ke projects par work karna chahte hain? Mujhe batayein, main waisa roadmap share karunga!";
-        }
-        return "Python is one of the most versatile and high-demand languages today, especially for AI and automation.\n\nHere is a clean Python example:\n```python\ndef calculate_factorial(n):\n    return 1 if n <= 1 else n * calculate_factorial(n - 1)\n\nprint('Factorial of 5 is:', calculate_factorial(5))\n```\n\nKey Highlights:\n- Clear, human-readable syntax\n- Massive ecosystem for AI (PyTorch, TensorFlow, Pandas)\n- Rapid development for web backends and microservices\n\nAre you starting from scratch, or preparing for technical interviews? Let me know so I can guide you effectively!";
+    if (q.includes('python') || q.includes('loop') || q.includes('print')) {
+        return `Haan bilkul! Python sabse aasan aur mazedaar language hai, jaise English bolna! 🐍✨
+
+Socho loops ek cricket bowler ki tarah hain jo 6 balls baar-baar phenkta hai.
+
+Yahan dekhiye simple Python code:
+\`\`\`python
+# Simple Python loop - bowler 6 balls bowl kar raha hai
+for ball in range(1, 7):
+    print(f"Ball #{ball}: Yorker bowl daali! 🏏")
+
+print("Over complete! Shabaash! 🎉")
+\`\`\`
+
+**Yeh kaise kaam karta hai:**
+- \`range(1, 7)\` 1 se 6 tak ginti karta hai.
+- \`print()\` screen par message dikhata hai.
+
+Aap batao, kya aap isme koi game ya robot ka code banana chahte ho?`;
     }
 
-    // DSA / Algorithms
-    if (q.includes('dsa') || q.includes('reverse') || q.includes('sort') || q.includes('search') || q.includes('array') || q.includes('linked list') || q.includes('tree') || q.includes('graph')) {
-        return "DSA technical interviews crack karne ke liye sabse important foundation hai.\n\nHere is an in-place Two-Pointer Array Reversal example:\n```python\ndef reverse_array(arr):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        arr[left], arr[right] = arr[right], arr[left]\n        left += 1\n        right -= 1\n    return arr\n\nprint(reverse_array([1, 2, 3, 4, 5]))\n```\n\nPerformance metrics:\n- Time Complexity: O(n)\n- Space Complexity: O(1) in-place\n\nKya aapko is algorithm ki logic samajh aayi? Aap chahein toh hum actual interview problems live solve kar sakte hain!";
+    // Robot & ISRO questions
+    if (q.includes('robot') || q.includes('isro') || q.includes('rover') || q.includes('space')) {
+        return `Arre waah! Robotics aur Space mera sabse favourite topic hai! 🤖🚀
+
+Robot ko aage chalane ke liye hum uske do motors ko 'HIGH' yaani chalu karte hain, jaise gaadi ka accelerator dabana!
+
+Yahan dekhiye Arduino/Robot code:
+\`\`\`cpp
+// Robot Forward Motion Code
+void loop() {
+    digitalWrite(MOTOR_LEFT, HIGH);   // Left wheel forward
+    digitalWrite(MOTOR_RIGHT, HIGH);  // Right wheel forward
+    delay(2000);                      // 2 seconds tak aage chalo! 🚗
+    
+    digitalWrite(MOTOR_LEFT, LOW);    // Stop
+    digitalWrite(MOTOR_RIGHT, LOW);   // Stop
+    delay(1000);                      // 1 second ruko
+}
+\`\`\`
+
+**Simple Steps:**
+1. Motor ON kiya ➡️ Robot aage chala.
+2. Delay diya ➡️ Utne second chalta raha.
+3. Motor OFF kiya ➡️ Robot ruk gaya.
+
+Kya aapko Mars Rover ya Obstacle-Avoiding robot ka code dekhna hai?`;
     }
 
-    // Robotics & ISRO Lab
-    if (q.includes('isro') || q.includes('robot') || q.includes('space') || q.includes('rover')) {
-        return "Tech Indro ke ISRO Virtual Space Lab me hum hands-on space robotics sikhate hain.\n\nKey areas covered:\n- Autonomous Mars/Lunar Rover Telemetry\n- ROS 2 (Robot Operating System)\n- Arduino, ESP32 aur Sensor Programming pipelines\n\nKya aap hardware robotics me interested hain ya software navigation algorithms me? Batayein, main step-by-step roadmap share karunga!";
+    // Game creation / Snake game / Flappy bird
+    if (q.includes('game') || q.includes('snake') || q.includes('play')) {
+        return `Game banana sabse zyada fun hai! 🎮👾
+
+Chaliye ek simple JavaScript Guess-The-Number game banate hain:
+\`\`\`javascript
+// Fun Guessing Game!
+const secretSecretNumber = Math.floor(Math.random() * 10) + 1;
+let myGuess = 7;
+
+if (myGuess === secretSecretNumber) {
+    console.log("Hurrah! 🎉 Aap jeet gaye!");
+} else {
+    console.log("Oops! Agli baar try karo, number tha: " + secretSecretNumber);
+}
+\`\`\`
+
+Aap batao, aapko Snake game, Quiz game ya Car racing game banana hai? Main poora step-by-step code bata dunga!`;
     }
 
-    // TSOC / Summer of Code
-    if (q.includes('tsoc') || q.includes('intern') || q.includes('summer of code')) {
-        return "TSOC (Tech Indro Summer of Code 2026) open source engineering aur mentorship ka premium program hai.\n\nProgram highlights:\n- 10 weeks live mentorship with senior engineers\n- Real open-source pull requests & code reviews\n- Certificates, stipends, aur direct placement referrals\n\nKya aapne abhi tak apna proposal prepare kiya hai? Agar aap chahein toh main aapka proposal draft karne me abhi help kar sakta hoon!";
+    // Web development / HTML
+    if (q.includes('html') || q.includes('css') || q.includes('website') || q.includes('web')) {
+        return `Website banana ek drawing canvas jaisa hai! 🎨🌐
+
+- **HTML** website ka skeleton (haddi) hai.
+- **CSS** uske stylish kapde aur colors hain.
+- **JavaScript** uska dimaag hai jo actions karta hai.
+
+Simple button aur popup ka code:
+\`\`\`html
+<button onclick="sayHello()" style="padding: 10px 20px; background: #22c55e; color: white; border-radius: 8px; border: none; font-weight: bold; cursor: pointer;">
+    Mujhe Click Karo! 🚀
+</button>
+
+<script>
+function sayHello() {
+    alert("Shabaash! Aapne pehli website interaction kar li! 🎉");
+}
+</script>
+\`\`\`
+
+Aap apni website me kya add karna chahte hain?`;
     }
 
-    // Bug Fixing / Error
-    if (agent === 'debug' || q.includes('error') || q.includes('bug') || q.includes('fix') || q.includes('syntax')) {
-        return "Chaliye milkar is issue ko solve karte hain!\n\nAap apna code snippet aur terminal ka exact error message yahan paste kijiye. Main line-by-line analyze karke clean fixed code aur reason explain kar dunga.\n\nKahan par code run nahi ho raha?";
+    // Math & Science doubts
+    if (q.includes('math') || q.includes('table') || q.includes('science') || q.includes('formula') || q.includes('gravity')) {
+        return `Bahut badhiya sawal! 💡
+
+Science aur Math ko practical tarike se samjhein:
+- **Gravity:** Jaise aap ball hawa me phenkte ho toh wo zameen par wapas aati hai, Earth use magnet ki tarah kheenchti hai! 🍎
+- **Code me Math:** Computer math calculations microsecond me karta hai!
+
+Dekhiye 5 ka Table generator code:
+\`\`\`python
+number = 5
+print(f"--- {number} Ka Table ---")
+for i in range(1, 11):
+    print(f"{number} x {i} = {number * i}")
+\`\`\`
+
+Kya aapko kisi specific problem ya homework question ka solution chahiye? Likhiye, milkar solve karte hain! 😊`;
     }
 
-    // Career / Placement
-    if (agent === 'career' || q.includes('placement') || q.includes('resume') || q.includes('interview') || q.includes('job') || q.includes('salary')) {
-        return "Placement preparation ke liye hume in 3 steps par focus karna chahiye:\n\n1. Core Projects: GitHub par 2-3 production-grade full-stack ya AI projects host karein.\n2. DSA Consistency: Daily 2 medium problems solve karein (Arrays, Trees, Graphs).\n3. Mock Interviews: System design aur behavioral questions ki continuous practice karein.\n\nAap abhi kaunse year me hain aur aapka target role (SDE, AI Engineer, Full Stack) kya hai?";
-    }
+    // General Casual Fallback for ANY question
+    return `Arre waah, bahut hi badhiya sawal hai! 🌟
 
-    // General Conversational Fallback
-    if (isHindi) {
-        return `Aapne poocha: "${message}"\n\nYeh ek bahut hi accha technical question hai! Tech Indro par hum practical implementation par focus karte hain.\n\nKya aap iska code example dekhna chahte hain, ya concept ko detail me samajhna chahte hain? Mujhe batayein, main turant help karunga!`;
-    }
+Aapne poocha: "${message}"
 
-    return `You asked: "${message}"\n\nThat's a great question! As your AI Agent, I'm here to break it down simply and clearly.\n\nWould you like a clean code implementation, or should we discuss the architectural concepts first? Let me know how you'd like to proceed!`;
+Isko ekdum aasan shabdon me samjhein toh:
+1. Har badi problem ko chote-chote steps me tod kar solve kiya jata hai.
+2. Coding aur technology ka use karke hum ise automatically execute kar sakte hain.
+
+Yahan dekhiye ek simple practical code implementation:
+\`\`\`python
+# Aapke sawal ke liye quick helper logic
+def solve_doubt(topic):
+    step1 = "1. Problem ko dhyan se samjhein"
+    step2 = "2. Simple logic aur steps likhein"
+    step3 = "3. Code run karke result dekhein 🎉"
+    return f"{step1}\\n{step2}\\n{step3}"
+
+print(solve_doubt("${message.replace(/"/g, '')}"))
+\`\`\`
+
+Aap batao, kya aap isko aur gehraai se samajhna chahte hain ya koi specific example dekhna hai? Main hamesha yahan hoon help ke liye! 😊`;
 }
 
 // chatbot api
@@ -1671,14 +1767,41 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY') {
         try {
             const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-            const languageInstruction = lang === 'hi' ? 'Respond completely in friendly Hinglish/Hindi as an approachable Indian mentor.' : 
-                                        lang === 'ta' ? 'Respond completely in Tamil.' : 'Respond in engaging, friendly conversational English.';
-
-            let agentPersona = "You are Tech Indro AI, a senior developer tutor. You explain in Hinglish mix, friendly, give code examples, debug code, create roadmaps. Always be helpful.";
-            if (agent === 'career') agentPersona = "You are an empathetic, expert Career Coach and HR Interviewer talking 1-on-1 with a student. Give sharp actionable advice and ask follow-up questions.";
-            else if (agent === 'debug') agentPersona = "You are a hands-on pairing programmer and debugger. Talk with the student, explain the bug clearly, give fixed code, and check if it resolved their issue.";
-
-            const systemInstruction = customSystemInstruction || `${agentPersona}\nAlways converse like a human AI agent: acknowledge what the user said warmly, explain clearly with code examples, and end with an engaging follow-up question to keep the conversation flowing.\n${languageInstruction}`;
+            
+            let systemInstruction = customSystemInstruction;
+            if (!systemInstruction) {
+                if (agent === 'kids' || agent === 'rohini') {
+                    systemInstruction = `You are "AI Shikshak (Rohini)" from Tech Indro Kids — an enthusiastic, ultra-friendly, caring and fun AI mentor for kids and beginner students.
+PERSONALITY & TONE:
+- Casual, friendly, warm, like a loving school teacher or cool elder sibling (bhaiya/didi).
+- Tone: Conversational Hinglish (Hindi + English mix) by default, or simple English.
+- Always explain concepts in simple, everyday language using relatable analogies (cricket, video games, cartoons, pizza, toys, robots, space).
+- Answer ANY question the user asks — coding, school math, science, daily doubts, robotics, curiosity.
+- ALWAYS INCLUDE CODE whenever relevant: Provide clean, short, runnable, and heavily commented code snippets in fenced markdown (\`\`\`python, \`\`\`javascript, \`\`\`html, etc.).
+- VOICE & SPEECH FRIENDLY: Speak naturally in short, punchy sentences. Never read out raw markdown symbols (like stars, hash tags, or code syntax characters) so Text-to-Speech sounds completely human and fluid.
+- Use cheerful emojis (🤖, 🚀, 🌟, 🎮, 💡). Always end with a warm, encouraging question!`;
+                } else if (agent === 'career') {
+                    systemInstruction = `You are an empathetic, practical, and highly supportive Career Mentor at Tech Indro.
+- Tone: Friendly, casual conversational Hinglish/English.
+- Break down career roadmaps, placement advice, resume points, and project guidance into crisp steps.
+- Provide code snippets and architecture ideas for impressive resume projects.
+- Keep the tone encouraging, constructive, and realistic.`;
+                } else if (agent === 'debug') {
+                    systemInstruction = `You are a friendly pair-programming buddy and debugger at Tech Indro.
+- Talk casually like a smart developer friend sitting right next to the user.
+- Spot the bug, explain the reason simply in conversational Hinglish, and provide the complete fixed code with clear comments.`;
+                } else {
+                    // Default AI Mentor / AI Shikshak
+                    systemInstruction = `You are Tech Indro AI Mentor (AI Shikshak) — a super friendly, casual, approachable mentor and tech buddy.
+PERSONALITY & TONE:
+- Talk casually and naturally in conversational Hinglish (Hindi + English mix) or clear English. Never sound like a formal robotic textbook.
+- Answer ANY question asked: Coding (Python, JavaScript, React, C++, HTML/CSS), AI, DSA, Web Dev, Robotics, Math, Science, or General Curiosity.
+- SIMPLE & RELATABLE: Break complex concepts down using everyday real-world analogies (cricket, chai, gaming, traffic, food, daily life).
+- ALWAYS PROVIDE CODE: Whenever code is relevant or requested, provide clean, runnable, commented code in fenced markdown blocks (\`\`\`python, \`\`\`javascript, etc.) and explain what each part does simply.
+- VOICE OPTIMIZED: Keep sentences smooth and conversational so browser SpeechSynthesis (TTS) sounds natural and pleasant when spoken aloud.
+- Always end with a warm, engaging question to keep the conversation going!`;
+                }
+            }
 
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
@@ -1696,7 +1819,7 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     setTimeout(() => {
         const reply = generateAIMentorResponse(message, lang, agent);
         res.json({ response: reply, reply: reply });
-    }, 400);
+    }, 300);
 });
 
 // ============================================================================
