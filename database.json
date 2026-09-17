@@ -4,8 +4,9 @@
       "id": "1783169904703",
       "name": "shubham",
       "email": "test@gmail.com",
-      "password": "test@123",
-      "createdAt": "2026-07-04T12:58:24.703Z"
+      "password": "$2b$10$rVoFR8UIeUbdxTX.07PdL.K3fHiOI6dewuxwl5DUCCkNY1uOnAow6",
+      "createdAt": "2026-07-04T12:58:24.703Z",
+      "role": "student"
     },
     {
       "id": "1788793376699",

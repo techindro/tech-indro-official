@@ -24,10 +24,13 @@
   "homepage": "https://github.com/techindro/tech-indro-website#readme",
   "dependencies": {
     "@google/genai": "^2.10.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
     "kafkajs": "^2.2.4"
   }
 }

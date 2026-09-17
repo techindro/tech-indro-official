@@ -8,10 +8,18 @@ const cluster = require('cluster');
 const os = require('os');
 const { exec, spawn } = require('child_process');
 
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 // Tech Indro Infrastructure Services (Redis & Kafka)
 const redisClient = require('./src/services/redisClient');
 const kafkaClient = require('./src/services/kafkaClient');
 kafkaClient.startConsumer().catch(err => console.warn('[Kafka] Background consumer start error:', err.message));
+
+// Authentication Configuration
+const JWT_SECRET = process.env.JWT_SECRET || 'techindro_super_secret_jwt_key_2026_secure';
+const JWT_EXPIRES_IN = '7d';
 
 // Global error handlers to prevent program crashes
 process.on('uncaughtException', (err) => {
@@ -51,13 +59,93 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: '*',
+    origin: true,
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token']
 }));
+app.use(cookieParser());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(express.static(__dirname)); // Serve static files from the same directory
+
+// --- Tech Indro Enterprise Authentication & RBAC Helpers ---
+function generateToken(user) {
+    return jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role || 'student'
+        },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN }
+    );
+}
+
+function verifyToken(token) {
+    try {
+        return jwt.verify(token, JWT_SECRET);
+    } catch (e) {
+        return null;
+    }
+}
+
+function sendAuthSuccess(res, user, message = 'Authentication successful') {
+    const { password: _, ...userSafe } = user;
+    userSafe.role = userSafe.role || 'student';
+    const token = generateToken(userSafe);
+
+    // Set HTTP-only secure cookie
+    res.cookie('techIndroToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    return res.json({
+        message,
+        token,
+        user: userSafe,
+        success: true
+    });
+}
+
+function requireAuth(req, res, next) {
+    let token = null;
+    const authHeader = req.headers['authorization'];
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7).trim();
+    } else if (req.cookies && req.cookies.techIndroToken) {
+        token = req.cookies.techIndroToken;
+    }
+
+    if (!token) {
+        return res.status(401).json({ error: 'Authentication required. Please log in.', code: 'UNAUTHORIZED' });
+    }
+
+    const decoded = verifyToken(token);
+    if (!decoded) {
+        return res.status(401).json({ error: 'Session expired or invalid. Please log in again.', code: 'INVALID_TOKEN' });
+    }
+
+    req.user = decoded;
+    next();
+}
+
+function requireRole(...allowedRoles) {
+    return (req, res, next) => {
+        if (!req.user) {
+            return res.status(401).json({ error: 'Authentication required.', code: 'UNAUTHORIZED' });
+        }
+        const userRole = req.user.role || 'student';
+        if (!allowedRoles.includes(userRole) && userRole !== 'admin') {
+            return res.status(403).json({ error: 'Access denied: insufficient privileges.', code: 'FORBIDDEN' });
+        }
+        next();
+    };
+}
 
 // Clean Route for Certificate
 app.get('/certificate', (req, res) => {
@@ -261,42 +349,147 @@ app.get('/verify', (req, res) => {
     res.redirect(`/certificate.html?verify=true&certId=${encodeURIComponent(certId)}&studentName=${encodeURIComponent(studentName)}&courseName=${encodeURIComponent(courseName)}`);
 });
 
-app.post('/api/auth/login', authLimiter, (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
+app.post('/api/auth/login', authLimiter, async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
 
-    const db = readDB();
-    const user = db.users.find(u => u.email === email);
-    
-    if (!user || user.password !== password) {
-        return res.status(401).json({ error: "Invalid email or password" });
+        const cleanEmail = String(email).trim().toLowerCase();
+        const db = readDB();
+        const userIndex = db.users.findIndex(u => u.email && u.email.toLowerCase() === cleanEmail);
+
+        if (userIndex === -1) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+
+        const user = db.users[userIndex];
+        let passwordMatches = false;
+
+        // Check if password is a bcrypt hash ($2a$, $2b$, $2y$)
+        const isBcryptHash = typeof user.password === 'string' && (user.password.startsWith('$2a$') || user.password.startsWith('$2b$') || user.password.startsWith('$2y$'));
+
+        if (isBcryptHash) {
+            passwordMatches = await bcrypt.compare(password, user.password);
+        } else {
+            // Legacy plain-text check
+            passwordMatches = (user.password === password);
+            if (passwordMatches) {
+                // Auto-upgrade legacy password to bcrypt!
+                try {
+                    const upgradedHash = await bcrypt.hash(password, 10);
+                    user.password = upgradedHash;
+                    db.users[userIndex] = user;
+                    writeDB(db);
+                    console.log(`[Auth Security] Auto-upgraded user ${user.email} password to bcrypt`);
+                } catch (migrationErr) {
+                    console.warn('[Auth Security] Auto-upgrade failed:', migrationErr.message);
+                }
+            }
+        }
+
+        if (!passwordMatches) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+
+        if (!user.role) {
+            user.role = cleanEmail.includes('admin@techindro') ? 'admin' : 'student';
+            db.users[userIndex] = user;
+            writeDB(db);
+        }
+
+        // Emit Kafka event asynchronously
+        kafkaClient.publishEvent('techindro.users.activity', user.id, { 
+            action: 'user.login', 
+            email: user.email,
+            role: user.role 
+        }).catch(() => {});
+
+        return sendAuthSuccess(res, user, "Login successful");
+    } catch (err) {
+        console.error("Login Error:", err);
+        return res.status(500).json({ error: "Authentication service error. Please try again." });
     }
-
-    const { password: _, ...userWithoutPassword } = user;
-    // Emit Kafka event asynchronously
-    kafkaClient.publishEvent('techindro.users.activity', user.id, { action: 'user.login', email: user.email }).catch(() => {});
-    res.json({ message: "Login successful", user: userWithoutPassword });
 });
 
 // register user
-app.post('/api/auth/register', authLimiter, (req, res) => {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) return res.status(400).json({ error: "All fields are required" });
+app.post('/api/auth/register', authLimiter, async (req, res) => {
+    try {
+        const { name, email, password, role } = req.body;
+        if (!name || !email || !password) return res.status(400).json({ error: "All fields are required" });
 
-    const db = readDB();
-    if (db.users.find(u => u.email === email)) {
-        return res.status(409).json({ error: "An account with this email already exists." });
+        const cleanEmail = String(email).trim().toLowerCase();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(cleanEmail)) {
+            return res.status(400).json({ error: "Please provide a valid email address." });
+        }
+
+        if (String(password).length < 6) {
+            return res.status(400).json({ error: "Password must be at least 6 characters long." });
+        }
+
+        const db = readDB();
+        if (db.users.find(u => u.email && u.email.toLowerCase() === cleanEmail)) {
+            return res.status(409).json({ error: "An account with this email already exists." });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const assignedRole = (role && ['student', 'mentor', 'parent'].includes(role.toLowerCase())) 
+            ? role.toLowerCase() 
+            : (cleanEmail.includes('admin@techindro') ? 'admin' : 'student');
+
+        const newUser = { 
+            id: Date.now().toString(), 
+            name: String(name).trim(), 
+            email: cleanEmail, 
+            password: hashedPassword, 
+            role: assignedRole,
+            createdAt: new Date().toISOString() 
+        };
+        db.users.push(newUser);
+        writeDB(db);
+
+        // Emit Kafka event asynchronously
+        kafkaClient.publishEvent('techindro.users.activity', newUser.id, { 
+            action: 'user.signup', 
+            email: newUser.email, 
+            name: newUser.name,
+            role: newUser.role 
+        }).catch(() => {});
+
+        return sendAuthSuccess(res, newUser, "Registration successful");
+    } catch (err) {
+        console.error("Registration Error:", err);
+        return res.status(500).json({ error: "Registration service error. Please try again." });
     }
+});
 
-    const newUser = { id: Date.now().toString(), name, email, password, createdAt: new Date().toISOString() };
-    db.users.push(newUser);
-    writeDB(db);
+// Get current user profile (JWT verification)
+app.get('/api/auth/me', requireAuth, (req, res) => {
+    try {
+        const db = readDB();
+        const user = db.users.find(u => u.id === req.user.id || (u.email && u.email.toLowerCase() === req.user.email.toLowerCase()));
+        if (!user) {
+            return res.status(404).json({ error: 'User profile not found' });
+        }
+        const { password: _, ...userWithoutPassword } = user;
+        userWithoutPassword.role = userWithoutPassword.role || req.user.role || 'student';
+        res.json({
+            authenticated: true,
+            user: userWithoutPassword
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve profile' });
+    }
+});
 
-    // Emit Kafka event asynchronously
-    kafkaClient.publishEvent('techindro.users.activity', newUser.id, { action: 'user.signup', email: newUser.email, name: newUser.name }).catch(() => {});
-
-    const { password: _, ...userWithoutPassword } = newUser;
-    res.json({ message: "Registration successful", user: userWithoutPassword });
+// Logout endpoint
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('techIndroToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
+    });
+    res.json({ message: "Logged out successfully", success: true });
 });
 
 // OTP in-memory store for mobile phone verification
@@ -368,12 +561,7 @@ app.post('/api/auth/verify-otp', authLimiter, (req, res) => {
     }
 
     otpCache.delete(cleanPhone);
-    const { password: _, ...safeUser } = user;
-    res.json({
-        message: "Login successful",
-        isNewUser,
-        user: safeUser
-    });
+    return sendAuthSuccess(res, user, isNewUser ? "Account created and logged in successfully" : "Login successful");
 });
 
 // contact form submission
@@ -2693,7 +2881,10 @@ if (isVercel) {
 } else {
     // Local environment with cluster
     if (cluster.isPrimary) {
-        const numCPUs = os.cpus().length;
+        if (!cluster.settings.exec) {
+            cluster.setupPrimary({ exec: path.join(__dirname, 'server.js') });
+        }
+        const numCPUs = Math.min(4, os.cpus().length); // Limit workers locally for efficiency
         console.log(`\n=========================================`);
         console.log(`🛡️ Load Balancer Active! Primary PID: ${process.pid}`);
         console.log(`🚀 Forking ${numCPUs} worker processes to prevent crashes...`);
