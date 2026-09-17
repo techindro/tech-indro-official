@@ -8,6 +8,23 @@
   "settings": {
     "java.configuration.updateBuildConfiguration": "disabled",
     "java.import.gradle.enabled": false,
-    "java.autobuild.enabled": false
+    "java.autobuild.enabled": false,
+    "java.import.exclusions": [
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/tech-indro-website/**"
+    ],
+    "gradle.autoDetect": "off",
+    "gradle.nestedProjects": false,
+    "files.exclude": {
+      "**/node_modules": true,
+      "tech-indro-website/tech-indro-website": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/android/.gradle/**": true,
+      "**/android/build/**": true,
+      "**/android/app/build/**": true
+    }
   }
 }

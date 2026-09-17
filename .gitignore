@@ -37,3 +37,6 @@ yarn-error.log*
 *.p12
 *.key
 *.mobileprovision
+
+# Nested redundant folder
+tech-indro-website/
