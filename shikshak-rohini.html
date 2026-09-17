@@ -522,20 +522,19 @@
                 </div>
 
                 <div id="welcomeText">
-                    Arre Namaste! 😊 Main hoon aapka <strong>AI Shikshak Rohini</strong>! 🌟<br><br>
-                    Aap mujhse <strong>Hindi, English ya Bhojpuri</strong> me koi bhi sawal puch sakte ho — Coding, Python, Robots, Games, School Math, Science ya koi bhi curiosity! Har sawal ka aasan jawab code aur voice ke sath milega. 🚀
+                    Namaste! Main hoon aapka AI Shikshak Rohini. Aap mujhse Hindi, English ya Bhojpuri me koi bhi technical sawal puch sakte ho jaise Python, FastAPI, Robotics, Web Development, ya Math. Har sawal ka real technical solution aur code voice ke sath milega.
                 </div>
 
                 <div class="chips-container">
-                    <div class="prompt-chip" onclick="askPreset('Robot aage kaise chalayein code me?')">🤖 Robot Code</div>
-                    <div class="prompt-chip" onclick="askPreset('Python loop kaise kaam karela Bhojpuri me samjhaien?')">🌾 Bhojpuri me Coding</div>
-                    <div class="prompt-chip" onclick="askPreset('Python me for loop kaise kaam karta hai cricket example se samjhao?')">🐍 Python Loop</div>
-                    <div class="prompt-chip" onclick="askPreset('Ek simple JavaScript guessing game ka code banao!')">🎮 Mini Game Code</div>
-                    <div class="prompt-chip" onclick="askPreset('Space me rocket kaise udta hai simple tarike se batao?')">🚀 Rocket Science</div>
+                    <div class="prompt-chip" onclick="askPreset('FastAPI backend REST API implementation example')">FastAPI REST API</div>
+                    <div class="prompt-chip" onclick="askPreset('Python loop kaise kaam karela Bhojpuri me samjhaien')">Bhojpuri me Python</div>
+                    <div class="prompt-chip" onclick="askPreset('Robot motor control code in Arduino')">Robot Motor Controller</div>
+                    <div class="prompt-chip" onclick="askPreset('JavaScript DOM event listener code')">JavaScript DOM Events</div>
+                    <div class="prompt-chip" onclick="askPreset('Binary search algorithm with complexity')">Binary Search DSA</div>
                 </div>
 
                 <div class="reward-badge">
-                    🌟 Ready to Earn Tech Points!
+                    Active Learning Mode
                 </div>
             </div>
 
@@ -622,8 +621,10 @@
                 });
             }
 
-            // eliminate residual asterisks
+            // eliminate residual asterisks, markdown clutter and emojis
+            html = html.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '');
             html = html.replace(/\*\*/g, '');
+            html = html.replace(/###+/g, '');
             return html;
         }
 
@@ -631,7 +632,7 @@
             const codeEl = btn.closest('.code-block-wrapper').querySelector('code');
             if (codeEl) {
                 navigator.clipboard.writeText(codeEl.innerText).then(() => {
-                    btn.innerText = 'Copied! ✅';
+                    btn.innerText = 'Copied';
                     setTimeout(() => btn.innerText = 'Copy Code', 2000);
                 });
             }

@@ -377,8 +377,14 @@
                     <button class="icon-btn" onclick="speakText(document.getElementById('agentGreeting').innerText)" style="padding: 2px; color: #94a3b8;" title="Listen to AI Agent">
                         <i data-lucide="volume-2" style="width: 17px; height: 17px;"></i>
                     </button>
+                <div id="agentGreeting">Namaste! Main aapka 24/7 AI Coding Mentor hoon. Main aapke sawalon ka jawab dene ke sath aapse interact bhi karunga. Batayein, aaj hum kya build karein?</div>
+                <div class="chips-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+                    <button type="button" class="prompt-chip" onclick="askPreset('FastAPI backend REST API implementation example')" style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">FastAPI REST API</button>
+                    <button type="button" class="prompt-chip" onclick="askPreset('Python database connection with SQLite or PostgreSQL')" style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Python Database</button>
+                    <button type="button" class="prompt-chip" onclick="askPreset('JavaScript async await and fetch error handling')" style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">JavaScript Async API</button>
+                    <button type="button" class="prompt-chip" onclick="askPreset('Binary search algorithm with time and space complexity')" style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Binary Search DSA</button>
+                    <button type="button" class="prompt-chip" onclick="askPreset('FastAPI kaise kaam karela Bhojpuri me samjhaien')" style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Bhojpuri me API</button>
                 </div>
-                <span id="agentGreeting">Namaste! Main aapka 24/7 AI Coding Mentor hoon. Main aapke sawalon ka jawab dene ke sath aapse interact bhi karunga. Batayein, aaj hum kya build karein?</span>
             </div>
         </div>
         
@@ -623,12 +629,19 @@
                 });
             }
 
-            // Completely eliminate any leftover raw markdown symbols
+            // Completely eliminate any leftover raw markdown symbols and emojis
+            html = html.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '');
             html = html.replace(/\*\*/g, '');
+            html = html.replace(/###+/g, '');
             html = html.replace(/```/g, '');
 
             return html;
         }
+
+        window.askPreset = function(presetText) {
+            input.value = presetText;
+            form.dispatchEvent(new Event('submit'));
+        };
 
         window.copyCode = function(btn) {
             const codeEl = btn.closest('.code-block-wrapper').querySelector('code');

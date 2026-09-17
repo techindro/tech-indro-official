@@ -1608,225 +1608,249 @@ app.post('/api/payment/checkout', (req, res) => {
 });
 
 
-// Smart Dynamic Local Fallback Engine (Hindi, English, Bhojpuri - Never static)
+// Smart Dynamic Local Fallback Engine (Hindi, English, Bhojpuri - Real Technical Suggestions, No Symbols)
 function generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent) {
     const q = message.toLowerCase();
 
     // 1. FastAPI / Web APIs / Backend
     if (q.includes('fastapi') || q.includes('fatapi') || q.includes('api') || q.includes('backend') || q.includes('uvicorn')) {
         if (isBhojpuri) {
-            return `Arre wah bhaiya! FastAPI ke baare mein puchle baani, e toh ekdam rocket jaisan tez framework ba! 🚀✨
+            return `FastAPI Python ke sabse aadhunik aur tez framework baate, jisse production REST APIs banawala jaala.
 
-Dekha, FastAPI Python ke sabse aadhunik aur tez web framework baate, jisse hum log REST APIs banawani ja.
-
-Eha dekhi ekdam aasan udaharan:
+Yahan dekhi real FastAPI backend code:
 \`\`\`python
-# FastAPI ke aasan udaharan (main.py)
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-app = FastAPI()
+app = FastAPI(title="Tech Indro API")
 
-@app.get("/")
-def home():
-    return {"message": "Namaste! Tohar FastAPI API chalu ho gail ba! 🎉"}
+class Item(BaseModel):
+    name: str
+    price: float
+    in_stock: bool = True
 
-@app.get("/hello/{naam}")
-def greet(naam: str):
-    return {"reply": f"Ka haal ba, {naam} bhaiya!"}
-\`\`\`
-
-**Kaise chalaayi:**
-1. Terminal mein likhi: \`pip install fastapi uvicorn\`
-2. Run kari: \`uvicorn main:app --reload\`
-3. Browser mein kholi: \`http://127.0.0.1:8000/docs\` (Ema automatic interactive document dekhi!)
-
-Batawa, rani/bhaiya, e me ka banawe ke man ba? Koi app ke khatir API banawani?`;
-        } else if (isHindi) {
-            return `Arre, lagta hai aap **FastAPI** ke baare me pooch rahe hain! Yeh Python ka sabse fast aur modern web API framework hai! ⚡🚀
-
-Isse hum bohot kam code me high-speed APIs bana sakte hain, aur yeh automatically Swagger Docs (\`/docs\`) bhi bana deta hai!
-
-Yahan dekhiye ek clean working FastAPI example:
-\`\`\`python
-# main.py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-def home():
-    return {"message": "Hello from FastAPI & Tech Indro! 🚀"}
-
-@app.get("/items/{item_id}")
-def get_item(item_id: int):
-    return {"item_id": item_id, "status": "Available"}
-\`\`\`
-
-**Run karne ke steps:**
-1. Install karein: \`pip install fastapi uvicorn\`
-2. Server start karein: \`uvicorn main:app --reload\`
-3. Browser me open karein: \`http://127.0.0.1:8000/docs\`
-
-Aap FastAPI se kaun sa project ya API develop karna chahte hain? Batayein, aage ka code milkar likhenge! 😊`;
-        } else {
-            return `You're asking about **FastAPI**! It is one of the fastest and most popular modern web frameworks for Python to build REST APIs. ⚡
-
-Here is a minimal, complete FastAPI implementation:
-\`\`\`python
-# main.py
-from fastapi import FastAPI
-
-app = FastAPI()
+db = []
 
 @app.get("/")
 def read_root():
-    return {"status": "success", "message": "FastAPI is running super fast!"}
+    return {"status": "online", "message": "Tech Indro API Server is active"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "query": q}
+@app.get("/items")
+def get_items():
+    return {"total": len(db), "items": db}
+
+@app.post("/items")
+def create_item(item: Item):
+    db.append(item.dict())
+    return {"message": "Item successfully added", "data": item}
 \`\`\`
 
-**How to run:**
-1. Install: \`pip install fastapi uvicorn\`
-2. Run: \`uvicorn main:app --reload\`
-3. View automatic interactive docs at: \`http://127.0.0.1:8000/docs\`
+Kaise chalai:
+1. Terminal mein run kari: pip install fastapi uvicorn
+2. Server start kari: uvicorn main:app --reload
+3. Browser mein open kari: http://127.0.0.1:8000/docs
 
-What kind of backend service or API are you planning to build with FastAPI? Let me know! 😊`;
+Aap isme kaun sa real project banawe ke chahtaani, jaise authentication ya database connection?`;
+        } else if (isHindi) {
+            return `FastAPI Python ka modern aur high-performance web framework hai jo production REST APIs develop karne ke liye use hota hai.
+
+Yahan dekhiye real FastAPI backend implementation:
+\`\`\`python
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI(title="Tech Indro Production API")
+
+class UserRegister(BaseModel):
+    username: str
+    email: str
+    role: str = "student"
+
+users_db = []
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "service": "auth-service"}
+
+@app.post("/api/users")
+def register_user(user: UserRegister):
+    users_db.append(user.dict())
+    return {"message": "User registered successfully", "user": user}
+\`\`\`
+
+Run karne ke steps:
+1. Terminal me run karein: pip install fastapi uvicorn
+2. Server start karein: uvicorn main:app --reload
+3. Interactive Swagger documentation dekhein: http://127.0.0.1:8000/docs
+
+Kya aap isme PostgreSQL database ya JWT authentication integrate karna chahte hain?`;
+        } else {
+            return `FastAPI is a modern, high-performance web framework for building APIs with Python based on standard Python type hints.
+
+Here is a real production-grade FastAPI implementation with request validation:
+\`\`\`python
+from fastapi import FastAPI, HTTPException, status
+from pydantic import BaseModel, EmailStr
+from typing import List
+
+app = FastAPI(title="Production API")
+
+class UserPayload(BaseModel):
+    username: str
+    email: str
+
+database = []
+
+@app.get("/health", status_code=status.HTTP_200_OK)
+def check_health():
+    return {"status": "healthy"}
+
+@app.get("/users", response_model=List[dict])
+def list_users():
+    return database
+
+@app.post("/users", status_code=status.HTTP_201_CREATED)
+def add_user(user: UserPayload):
+    database.append(user.dict())
+    return {"message": "User registered", "user": user}
+\`\`\`
+
+How to run:
+1. Install dependencies: pip install fastapi uvicorn
+2. Launch server: uvicorn main:app --reload
+3. Access automatic Swagger documentation at: http://127.0.0.1:8000/docs
+
+Would you like to connect this to an SQLite/PostgreSQL database or add JWT security?`;
         }
     }
 
     // 2. Python / Loops / Basics
     if (q.includes('python') || q.includes('loop') || q.includes('pytn') || q.includes('print')) {
         if (isBhojpuri) {
-            return `Python toh seekhe mein ekdam paani jaisan aasan ba! 🐍✨
+            return `Python ek powerful programming language baate jawan Data Science, AI aur Backend engineering mein use hoyela.
 
-Chala dekhi for-loop kaise kaam karela:
+Yahan dekhi real Python list aur dictionary processing code:
 \`\`\`python
-# Python loop ke aasan udaharan
-dost_log = ["Rohan", "Amit", "Priya", "Rahul"]
+students = [
+    {"name": "Amit", "marks": 85},
+    {"name": "Priya", "marks": 92},
+    {"name": "Rahul", "marks": 78}
+]
 
-for dost in dost_log:
-    print(f"Ka haal ba, {dost}! Coding shuru karal jaao! 🚀")
+top_students = [s for s in students if s["marks"] >= 80]
+
+print("Top Scoring Candidates:")
+for student in top_students:
+    print(f"Name: {student['name']} | Marks: {student['marks']}")
 \`\`\`
 
-Python se aap AI, Machine Learning, Websites aur Games sab bana sakela. Batawa, aage ka sikhawani?`;
+Kya aap Python me file handling ya API request call karna chahte hain?`;
         } else if (isHindi) {
-            return `Python sabse user-friendly aur high-demand programming language hai! 🐍✨
+            return `Python ek dynamic aur multi-paradigm programming language hai jo Web Development, Automation aur Machine Learning me industry standard hai.
 
-Yahan dekhiye simple aur clean Python code:
+Yahan dekhiye real Python data processing ka code:
 \`\`\`python
-# Python List aur Loop
-students = ["Aman", "Sneha", "Rohit", "Vikram"]
+def analyze_scores(scores):
+    if not scores:
+        return {"average": 0, "highest": 0}
+    return {
+        "average": sum(scores) / len(scores),
+        "highest": max(scores),
+        "lowest": min(scores),
+        "count": len(scores)
+    }
 
-for student in students:
-    print(f"Welcome to Tech Indro, {student}! 🎉")
+metrics = analyze_scores([88, 92, 79, 95, 84])
+print("Calculated Performance Metrics:", metrics)
 \`\`\`
 
-Python se aap AI, Automation, aur Web Dev sab bana sakte hain. Aap Python me basic se shuru kar rahe hain ya koi specific problem solve karni hai?`;
+Aap Python me kaun sa technical domain explore karna chahte hain, jaise Data Structures ya Web Scraping?`;
         } else {
-            return `Python is an extremely readable, versatile, and high-performance language for AI, web, and scripting! 🐍
+            return `Python is a readable, robust language widely utilized across cloud backends, data engineering, and machine learning pipelines.
 
-Here is a clean Python example:
+Here is a real practical example showing list comprehension and data transformation:
 \`\`\`python
-def calculate_square(numbers):
-    return [n ** 2 for n in numbers]
+records = [
+    {"service": "auth", "latency_ms": 42},
+    {"service": "payment", "latency_ms": 128},
+    {"service": "database", "latency_ms": 15}
+]
 
-print("Squares:", calculate_square([1, 2, 3, 4, 5]))
+slow_services = [r["service"] for r in records if r["latency_ms"] > 50]
+print("Services exceeding latency threshold:", slow_services)
 \`\`\`
 
-Are you learning Python fundamentals, or building data science/web projects? Let me know!`;
+Would you like to explore object-oriented programming patterns or asynchronous programming in Python?`;
         }
     }
 
-    // 3. Games / Snake / JavaScript
-    if (q.includes('game') || q.includes('snake') || q.includes('flappy') || q.includes('khel')) {
-        if (isBhojpuri) {
-            return `Game banawe ke ba? Bahut badhiya! Game banawala mein bohot aanand aawela! 🎮👾
+    // 3. JavaScript / Web Development
+    if (q.includes('javascript') || q.includes('js') || q.includes('html') || q.includes('css') || q.includes('react') || q.includes('game')) {
+        return `Web Development me JavaScript DOM manipulation aur REST API interaction ka core foundation hai.
 
-Ek chhotka Number Guessing Game dekhi:
+Yahan dekhiye real JavaScript Fetch API aur Event handling implementation:
 \`\`\`javascript
-// Mazedaar Number Game
-const sahiNumber = Math.floor(Math.random() * 10) + 1;
-let toharGuess = 5;
-
-if (toharGuess === sahiNumber) {
-    console.log("Jiyo sher! 🎉 Ekdam sahi guess kaini!");
-} else {
-    console.log("Arre miss ho gail! Sahi number rahe: " + sahiNumber);
+async function loadUserData(userId) {
+    try {
+        const response = await fetch(\`https://jsonplaceholder.typicode.com/users/\${userId}\`);
+        if (!response.ok) throw new Error("HTTP error: " + response.status);
+        const data = await response.json();
+        console.log("User retrieved:", data.name, data.email);
+        return data;
+    } catch (error) {
+        console.error("Failed to load user:", error.message);
+    }
 }
+
+loadUserData(1);
 \`\`\`
 
-Batawa, Snake game banawani ki Car racing game? Ham step-by-step code likh dehab!`;
-        } else {
-            return `Game development se coding seekhna bohot fun hota hai! 🎮✨
-
-Yahan dekhiye ek quick interactive guessing game code:
-\`\`\`javascript
-// Guess the Secret Number Game
-const secretNumber = Math.floor(Math.random() * 10) + 1;
-let myGuess = 7;
-
-if (myGuess === secretNumber) {
-    console.log("Jackpot! 🎉 Bilkul sahi number pakda aapne!");
-} else {
-    console.log("Oops! Agli baar try karein, secret number tha: " + secretNumber);
-}
-\`\`\`
-
-Aapko Snake game, Quiz app, ya Tic-Tac-Toe me se kya banana hai? Main poora complete HTML/JS code de dunga!`;
-        }
+Kya aap isko browser DOM elements ke sath render karna chahte hain ya React component me convert karna chahte hain?`;
     }
 
-    // 4. Default Dynamic Response by Language (NEVER canned template)
+    // 4. Default Dynamic Response by Language (Real, Clean, No Symbols)
     if (isBhojpuri) {
-        return `Namaste bhaiya! Raua puchhli: "${message}" 🌟
+        return `Raua puchhli: "${message}"
 
-Dekhi, eka bare me ham tohra ekdam sidha aur saral bhasha me batavtani:
-Technology mein har bada kaam chhot-chhot steps me baant ke solve karal jaala.
-
-Eha dekhi practical code udaharan:
+Ikar real aur practical technical solution dekhi:
 \`\`\`python
-# Tohar sawaal khatir helper code
-def jankari(sawal):
-    return f"Tohar sawaal '{sawal}' ke pura hal hum taiyar kar deleni!"
+def process_data(query_string):
+    sanitized = query_string.strip().lower()
+    return {"query": sanitized, "status": "processed"}
 
-print(jankari("${message.replace(/"/g, '').slice(0, 30)}"))
+result = process_data("${message.replace(/"/g, '').slice(0, 40)}")
+print("Output:", result)
 \`\`\`
 
-Batawa bhaiya, e me aur aage ka janna chahtaani? Ham pura help karab! 😊`;
+Batawa bhaiya, isme kaun sa specific feature ya database table aap add karna chahte hain?`;
     } else if (isHindi) {
-        return `Aapne poocha: "${message}" 😊
+        return `Aapne poocha: "${message}"
 
-Isko ekdam simple tarike se samjhein:
-Har technical concept ko real-world steps me divide karke implement kiya jata hai.
-
-Yahan dekhiye clean runnable code snippet:
+Yahan dekhiye iska real aur clean technical implementation:
 \`\`\`python
-# Practical implementation for your doubt
-def solve(query):
-    return f"Successfully processed: '{query}' with clean modular logic!"
+def execute_task(input_data):
+    clean_input = input_data.strip()
+    return {"input": clean_input, "ready": True}
 
-print(solve("${message.replace(/"/g, '').slice(0, 30)}"))
+output = execute_task("${message.replace(/"/g, '').slice(0, 40)}")
+print("Execution Result:", output)
 \`\`\`
 
-Aap batao, kya aap isko practical project me use karna chahte hain? Main step-by-step guidance provide karunga! 🚀`;
+Aap is code ko apne project me kis tarah integrate karna chahte hain? Mujhe batayein, aage ka logic implement karenge.`;
     } else {
-        return `You asked: "${message}" 😊
+        return `You inquired about: "${message}"
 
-Here is a straightforward and practical breakdown:
-Every scalable technical system starts with clean, modular logic and verified execution.
-
-Here is a clean implementation for reference:
+Here is a clean, production-oriented technical implementation:
 \`\`\`python
-# Clean solution for your query
-def handle_query(query_text):
-    return f"Processed query: {query_text} successfully!"
+def handle_request(payload: str) -> dict:
+    processed = payload.strip()
+    return {"payload": processed, "active": True}
 
-print(handle_query("${message.replace(/"/g, '').slice(0, 30)}"))
+response = handle_request("${message.replace(/"/g, '').slice(0, 40)}")
+print("Result:", response)
 \`\`\`
 
-Would you like to build an end-to-end example around this, or dive deeper into the core concepts? Let me know! 🚀`;
+How would you like to expand this implementation within your application architecture?`;
     }
 }
 
@@ -1850,25 +1874,23 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
         /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao|karu|samajh|didi|dost|naam|btao|bnao|kse|kre)/i.test(message)
     );
 
-    // Build specific language instructions
+    // Build language instructions with STRICT NO-EMOJI & NO-SYMBOL policy
     let languageDirective = "";
     if (isBhojpuri) {
-        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: BHOJPURI (भोजपुरी).
-- The user is speaking or wants to converse in BHOJPURI.
-- You MUST reply ENTIRELY in sweet, authentic, friendly, and natural Bhojpuri language! (e.g. "Arre raua suni! Sab theek ba?", "FastAPI ekdam mast aur tez framework baate", "Chala humni ke sikhawani", "Eise code likhal jaala", "Tohar khatir ekdam aasan udaharan").
-- Explain technical concepts in simple Bhojpuri with everyday village/desi analogies.
-- Always provide clean, complete, working code with simple comments in code blocks.
-- Speak affectionately like an encouraging elder brother (bhaiya).`;
+        languageDirective = `LANGUAGE REQUIREMENT: BHOJPURI (भोजपुरी).
+- The user is communicating in Bhojpuri.
+- Reply completely in clean, natural, respectful Bhojpuri.
+- Explain concepts clearly in Bhojpuri without emojis or decorative characters.
+- Provide real, runnable code with clean comments.`;
     } else if (isHindi && targetLang !== 'en') {
-        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: CASUAL HINGLISH / HINDI.
-- Respond in warm, approachable, natural conversational Hinglish (Hindi + English mix), like a smart developer friend or cool mentor (bhaiya/didi).
-- Keep explanations simple, fun, and easy to grasp with relatable real-world analogies (cricket, games, tea, cars, etc.).
-- Always provide clean, complete, runnable code with comments in code blocks.`;
+        languageDirective = `LANGUAGE REQUIREMENT: CASUAL HINGLISH / HINDI.
+- Respond in natural, clean, professional Hinglish (Hindi + English mix).
+- Explain simply and practically without emojis or decorative symbols.
+- Provide real, runnable code with clean comments.`;
     } else {
-        languageDirective = `CRITICAL LANGUAGE REQUIREMENT: FRIENDLY CONVERSATIONAL ENGLISH.
-- Respond in clear, friendly, and engaging English.
-- Avoid overly academic jargon; keep it direct and easy to grasp.
-- Always provide clean, complete, runnable code with comments in code blocks.`;
+        languageDirective = `LANGUAGE REQUIREMENT: CLEAN CONVERSATIONAL ENGLISH.
+- Respond in clear, straightforward, professional English.
+- Avoid academic fluff. Provide real, runnable code with clean comments.`;
     }
 
     // If Gemini key is available, call real Google Gemini AI with automatic model fallback
@@ -1881,25 +1903,15 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
                 
                 let systemInstruction = customSystemInstruction;
                 if (!systemInstruction) {
-                    if (agent === 'kids' || agent === 'rohini') {
-                        systemInstruction = `You are "AI Shikshak (Rohini)" from Tech Indro Kids — a cheerful, loving, enthusiastic, and super fun AI teacher for kids and beginners.
-CORE RULES:
-1. NEVER REPEAT CANNED OR STATIC TEMPLATES. Every single response must dynamically address the exact question, topic, or words the user asked.
-2. Even if the user types informal, broken, slang, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "game bnao" = make a game, "kse kre" = kaise karein), smartly deduce their exact intent and answer directly!
-3. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code with friendly comments in fenced markdown blocks (\`\`\`python, \`\`\`javascript, etc.).
-4. SPEECH & VOICE FRIENDLY: Write smooth, natural sentences so browser Text-to-Speech (TTS) reads it fluidly. Do not speak raw markdown formatting.
-5. ${languageDirective}
-6. Add playful emojis (🤖, 🚀, 🌟, 🎮, 💡) and end with a cheerful encouraging question!`;
-                    } else {
-                        systemInstruction = `You are Tech Indro AI Chatbot & Senior Mentor (AI Shikshak) — a super friendly, casual, approachable mentor and tech buddy.
-CORE RULES:
-1. NEVER REPEAT CANNED OR STATIC TEMPLATES. Every response must be 100% uniquely tailored to the user's specific question.
-2. If the user types informal, broken, slang, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein, "game bnao" = make a game), understand their intent smartly like ChatGPT/Gemini and answer directly to that topic!
-3. ALWAYS PROVIDE CODE: Whenever coding, technology, or logic is relevant, provide clean, runnable, copyable code in fenced markdown blocks with brief, helpful comments.
-4. SPEECH & VOICE FRIENDLY: Keep sentences conversational so browser SpeechSynthesis (TTS) sounds natural when read aloud.
-5. ${languageDirective}
-6. Always end with an engaging question to keep the conversation going!`;
-                    }
+                    systemInstruction = `You are Tech Indro AI Chatbot & Senior Mentor.
+STRICT RULES:
+1. DO NOT USE ANY EMOJIS OR UNICODE DECORATIVE ICONS. Zero emojis allowed.
+2. DO NOT USE DISTRACTING MARKDOWN SYMBOLS like asterisks (** or *) around random words or multiple hashes (###). Use clean, plain text and standard paragraphs.
+3. SUGGEST REAL: Give real, practical, production-grade technical explanations and code (real APIs, real database schemas, real error handling) instead of toy or cartoonish analogies.
+4. If the user writes informal, broken, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein), accurately deduce their true intent and answer directly.
+5. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code in standard fenced code blocks (\`\`\`python, \`\`\`javascript, etc.) with concise comments.
+6. ${languageDirective}
+7. End with a real technical question to continue the architecture or implementation.`;
                 }
 
                 const response = await ai.models.generateContent({
@@ -1909,16 +1921,22 @@ CORE RULES:
                 });
 
                 if (response && response.text) {
-                    return res.json({ response: response.text, reply: response.text });
+                    // Sanitize output: remove any residual emojis or markdown asterisk wrappers
+                    let cleanOutput = response.text
+                        .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
+                        .replace(/\*\*/g, '')
+                        .replace(/^###+\s*/gm, '')
+                        .trim();
+
+                    return res.json({ response: cleanOutput, reply: cleanOutput });
                 }
             } catch (error) {
                 console.warn(`Gemini attempt with model ${modelName} failed:`, error.message);
-                // Continue to next model in loop
             }
         }
     }
 
-    // Built-in Dynamic Fallback Engine (Never static template)
+    // Built-in Dynamic Fallback Engine (Never static template, Real Code, No Symbols)
     setTimeout(() => {
         const reply = generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent);
         res.json({ response: reply, reply: reply });
