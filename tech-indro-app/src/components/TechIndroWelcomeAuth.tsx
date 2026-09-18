@@ -312,7 +312,7 @@ export default function TechIndroWelcomeAuth({
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.8★</Text>
+            <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9★</Text>
             <Text style={styles.statLabel}>Student Rating</Text>
           </View>
         </View>

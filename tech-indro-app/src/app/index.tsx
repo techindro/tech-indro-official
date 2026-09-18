@@ -300,7 +300,7 @@ export default function HomeScreen() {
                   <Text style={[styles.statLabel, { color: '#ffd700', fontWeight: '700' }]}>AI Mentors ➔</Text>
                 </View>
                 <View style={styles.stat}>
-                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.8★</Text>
+                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9★</Text>
                   <Text style={styles.statLabel}>Student Rating</Text>
                 </View>
               </View>
