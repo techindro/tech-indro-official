@@ -3790,9 +3790,9 @@
         <!-- ═══════════════════════════════════════════════════════════
              AR / VR IMMERSIVE LEARNING SECTION
         ═══════════════════════════════════════════════════════════ -->
-        <section class="container fade-in" id="ar-vr-section" style="margin-top: 5rem; margin-bottom: 5rem;">
+        <section class="container fade-in" id="ar-vr-section" style="margin-top: 4.5rem; margin-bottom: 4.5rem;">
             <style>
-                /* ── AR/VR Section - Tech Indro Platform Cohesive Theme ── */
+                /* ── AR/VR Hero Card - Clean & Concise ── */
                 .arvr-hero {
                     background: #ffffff;
                     border: 1.5px solid #e2e8f0;
@@ -3927,116 +3927,6 @@
                     transform: translateY(-1px);
                 }
 
-                /* Cards Grid */
-                .arvr-cards {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                    gap: 1.25rem;
-                    position: relative;
-                    z-index: 1;
-                }
-                .arvr-card {
-                    background: #ffffff;
-                    border: 1.5px solid #e2e8f0;
-                    border-radius: 18px;
-                    padding: 1.75rem 1.5rem;
-                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-                    cursor: pointer;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-                    display: flex;
-                    flex-direction: column;
-                }
-                .arvr-card::before {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: 0; right: 0;
-                    height: 3px;
-                    background: linear-gradient(90deg, #ff6b35, #6366f1);
-                    transform: scaleX(0);
-                    transform-origin: left;
-                    transition: transform 0.3s ease;
-                }
-                .arvr-card:hover {
-                    border-color: #ff6b35;
-                    transform: translateY(-4px);
-                    box-shadow: 0 14px 30px rgba(255, 107, 53, 0.12);
-                }
-                .arvr-card:hover::before {
-                    transform: scaleX(1);
-                }
-
-                /* Platform Feature Squircle Icon (Matches Drawer Platform Features) */
-                .arvr-card-icon {
-                    width: 52px;
-                    height: 52px;
-                    border-radius: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin-bottom: 1.15rem;
-                    flex-shrink: 0;
-                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-                }
-                .arvr-card-title {
-                    font-size: 1.05rem;
-                    font-weight: 800;
-                    color: #0f172a;
-                    margin-bottom: 0.45rem;
-                }
-                .arvr-card-desc {
-                    font-size: 0.88rem;
-                    color: #64748b;
-                    line-height: 1.6;
-                    margin-bottom: 1rem;
-                    flex-grow: 1;
-                }
-                .arvr-card-tag {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 5px;
-                    align-self: flex-start;
-                    padding: 4px 12px;
-                    border-radius: 20px;
-                    font-size: 0.72rem;
-                    font-weight: 700;
-                    letter-spacing: 0.3px;
-                    background: #fff7ed;
-                    color: #ea580c;
-                    border: 1px solid #fed7aa;
-                }
-
-                /* Stats Row */
-                .arvr-stats {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 2rem;
-                    margin-top: 2.5rem;
-                    padding: 1.5rem 2rem;
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
-                    border-radius: 16px;
-                    position: relative;
-                    z-index: 1;
-                    align-items: center;
-                }
-                .arvr-stat-item {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2px;
-                }
-                .arvr-stat-val {
-                    font-size: 1.85rem;
-                    font-weight: 900;
-                    color: #ff6b35;
-                }
-                .arvr-stat-label {
-                    font-size: 0.82rem;
-                    color: #64748b;
-                    font-weight: 600;
-                }
-
                 /* Visual Preview Box */
                 .arvr-preview-card {
                     background: #ffffff;
@@ -4049,7 +3939,9 @@
                     flex-direction: column;
                     align-items: center;
                     text-align: center;
-                    min-width: 280px;
+                    min-width: 300px;
+                    max-width: 360px;
+                    transition: all 0.3s ease;
                 }
                 .arvr-headset-badge {
                     width: 76px;
@@ -4062,6 +3954,7 @@
                     box-shadow: 0 10px 25px rgba(255, 107, 53, 0.35);
                     margin-bottom: 1.25rem;
                     position: relative;
+                    transition: all 0.3s ease;
                 }
                 .arvr-headset-badge::after {
                     content: '';
@@ -4130,25 +4023,19 @@
                     transform: translateY(-2px);
                 }
 
-                /* Tab content panels */
-                .arvr-panel { display: none; }
-                .arvr-panel.active { display: grid; }
-
                 @media (max-width: 768px) {
                     .arvr-heading { font-size: 2rem; }
                     .arvr-hero { padding: 2.25rem 1.5rem; }
-                    .arvr-cards { grid-template-columns: 1fr; }
-                    .arvr-stats { gap: 1.5rem; }
-                    .arvr-preview-card { width: 100%; }
+                    .arvr-preview-card { width: 100%; min-width: auto; }
                 }
             </style>
 
-            <!-- Main AR/VR Hero Card (Platform Theme) -->
+            <!-- Main AR/VR Hero Card (Clean & Focused) -->
             <div class="arvr-hero">
                 <div class="arvr-grid-bg"></div>
 
-                <!-- Top Row: Text + Preview Showcase -->
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2.5rem; margin-bottom: 2.5rem;">
+                <!-- Row: Text + Interactive Preview Showcase -->
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2.5rem;">
                     <div style="flex: 1; min-width: 300px;">
                         <div class="arvr-badge">
                             <span class="arvr-badge-dot"></span>
@@ -4190,219 +4077,112 @@
                         </div>
                     </div>
 
-                    <!-- Right Side: Platform Preview Showcase -->
-                    <div class="arvr-preview-card">
-                        <div class="arvr-headset-badge">
+                    <!-- Right Side: Interactive Preview Showcase -->
+                    <div class="arvr-preview-card" id="arvrPreviewCard">
+                        <div class="arvr-headset-badge" id="arvrBadgeIcon">
                             <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
                                 <circle cx="12" cy="12" r="3"/>
                             </svg>
                         </div>
-                        <h4 style="margin: 0 0 6px; font-size: 1.15rem; font-weight: 800; color: #0f172a;">WebXR Spatial Engine</h4>
-                        <p style="margin: 0 0 1.25rem; font-size: 0.85rem; color: #64748b; max-width: 220px; line-height: 1.5;">Runs directly in Chrome, Edge, and mobile browsers.</p>
+                        <h4 style="margin: 0 0 6px; font-size: 1.15rem; font-weight: 800; color: #0f172a;" id="arvrPreviewTitle">WebXR Spatial Engine</h4>
+                        <p style="margin: 0 0 1.25rem; font-size: 0.85rem; color: #64748b; max-width: 250px; line-height: 1.5;" id="arvrPreviewDesc">Runs directly in Chrome, Edge, and mobile browsers.</p>
                         
-                        <!-- Floating Tech Feature Chips -->
-                        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155;">
+                        <!-- Floating Tech Feature Chips (with clean spacing) -->
+                        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;" id="arvrPreviewChips">
+                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155; gap: 12px;">
                                 <span style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></span>
                                     Zero Headset Setup
                                 </span>
-                                <span style="color: #059669; font-size: 0.72rem; font-weight: 800;">BROWSER</span>
+                                <span style="color: #059669; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; flex-shrink: 0;">BROWSER</span>
                             </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155; gap: 12px;">
                                 <span style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #6366f1;"></span>
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #6366f1; flex-shrink: 0;"></span>
                                     Spatial 3D Audio
                                 </span>
-                                <span style="color: #4f46e5; font-size: 0.72rem; font-weight: 800;">IMMERSIVE</span>
+                                <span style="color: #4f46e5; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; flex-shrink: 0;">IMMERSIVE</span>
                             </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155; gap: 12px;">
                                 <span style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b35;"></span>
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b35; flex-shrink: 0;"></span>
                                     Course Project Sync
                                 </span>
-                                <span style="color: #ea580c; font-size: 0.72rem; font-weight: 800;">AUTO</span>
+                                <span style="color: #ea580c; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; flex-shrink: 0;">AUTO</span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Tab Panels -->
-
-                <!-- AR Panel -->
-                <div class="arvr-panel active" id="panel-ar" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem;">
-                    <div class="arvr-card">
-                        <!-- Orange Squircle (Tech Indro Primary) -->
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #ff6b35, #ea580c);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
-                        </div>
-                        <div class="arvr-card-title">AR Circuit Overlay</div>
-                        <div class="arvr-card-desc">Planned: Overlay virtual circuit diagrams directly on physical breadboards via your phone camera for Hardware &amp; Embedded Systems learners.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <!-- Indigo Squircle (Tech Indro Indigo) -->
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="12" x="3" y="8" rx="2"/><path d="M12 2v6"/><circle cx="8.5" cy="14" r="1.5"/><circle cx="15.5" cy="14" r="1.5"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
-                        </div>
-                        <div class="arvr-card-title">AR Robot Arm Viewer</div>
-                        <div class="arvr-card-desc">Planned: Place and control an interactive 6-axis robotic arm model on your desk — an XR companion for our Advanced Robotics live program.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <!-- Blue Squircle (Tech Indro Blue) -->
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                        </div>
-                        <div class="arvr-card-title">AR Neural Net Viewer</div>
-                        <div class="arvr-card-desc">Planned: Walk through neural network layers in 3D AR space to inspect weights, activations, and tensors from your AI Bootcamp projects.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <!-- Emerald Squircle (Tech Indro Emerald) -->
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="arvr-card-title">AR Cyber Topology Map</div>
-                        <div class="arvr-card-desc">Planned: See live server subnets, honeypots, and packet traces projected onto physical surfaces for Ethical Hacking students.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                </div>
-
-                <!-- VR Panel -->
-                <div class="arvr-panel" id="panel-vr" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem;">
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                        </div>
-                        <div class="arvr-card-title">VR Live Classroom</div>
-                        <div class="arvr-card-desc">Planned: Attend Tech Indro live masterclasses and mentor office hours inside an immersive 3D virtual lecture theatre.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
-                        </div>
-                        <div class="arvr-card-title">VR ISRO Space Sim</div>
-                        <div class="arvr-card-desc">Planned: Test orbital mechanics and rover kinematics in virtual low-gravity — an XR layer for our ISRO Antariksh Hackathon track.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #ea580c, #c2410c);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        </div>
-                        <div class="arvr-card-title">VR Coding Workspace</div>
-                        <div class="arvr-card-desc">Planned: Multi-monitor virtual workspace with distraction-free focus, integrating directly with our online IndroLabs cloud compiler.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </div>
-                        <div class="arvr-card-title">VR Hackathon Arena</div>
-                        <div class="arvr-card-desc">Planned: Collaborate with your hackathon team on 3D whiteboard sketches and live prototype walkthroughs for Smart India Hackathon.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                </div>
-
-                <!-- MR Panel -->
-                <div class="arvr-panel" id="panel-mr" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem;">
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                        </div>
-                        <div class="arvr-card-title">MR Industrial Sim</div>
-                        <div class="arvr-card-desc">Planned: Blend your real desktop with virtual assembly lines — simulated PLC circuits and conveyor belt automation for IoT learners.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                        </div>
-                        <div class="arvr-card-title">MR Portfolio Showcase</div>
-                        <div class="arvr-card-desc">Planned: Walk recruiters through interactive 3D demos of your projects — seamlessly powered by our live Portfolio Generator.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        </div>
-                        <div class="arvr-card-title">MR Data Dashboard</div>
-                        <div class="arvr-card-desc">Planned: Transform complex multidimensional data arrays into spatial 3D cluster graphs floating in your room.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                    <div class="arvr-card">
-                        <div class="arvr-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/><path d="M6.6 8.4 4.4 6.2M17.4 8.4l2.2-2.2"/></svg>
-                        </div>
-                        <div class="arvr-card-title">MR Drone Swarm Lab</div>
-                        <div class="arvr-card-desc">Planned: Simulate autonomous drone collision avoidance on a miniature spatial coordinate mesh overlaid in real rooms.</div>
-                        <span class="arvr-card-tag">Planned Feature</span>
-                    </div>
-                </div>
-
-                <!-- Stats Row (Cohesive Light Theme) -->
-                <div class="arvr-stats">
-                    <div class="arvr-stat-item">
-                        <span class="arvr-stat-val">25+</span>
-                        <span class="arvr-stat-label">Live Core Courses</span>
-                    </div>
-                    <div class="arvr-stat-item">
-                        <span class="arvr-stat-val" style="color: #6366f1;">WebXR</span>
-                        <span class="arvr-stat-label">Browser-First Engine</span>
-                    </div>
-                    <div class="arvr-stat-item">
-                        <span class="arvr-stat-val" style="color: #10b981;">Free</span>
-                        <span class="arvr-stat-label">Early Access Registration</span>
-                    </div>
-                    <div class="arvr-stat-item">
-                        <span class="arvr-stat-val" style="color: #0284c7;">3D</span>
-                        <span class="arvr-stat-label">Spatial Interaction Canvas</span>
-                    </div>
-                    <div style="margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="font-size: 0.82rem; color: #64748b; font-weight: 700;">Tech Stack:</span>
-                        <span style="background: #ffffff; border: 1px solid #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">WebXR</span>
-                        <span style="background: #ffffff; border: 1px solid #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">Three.js</span>
-                        <span style="background: #ffffff; border: 1px solid #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">A-Frame</span>
-                        <span style="background: #ffffff; border: 1px solid #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">Unity WebGL</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Devices Compatibility Row (Clean Theme) -->
-            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2rem; align-items: center;">
-                <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">Works on:</span>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #334155; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35';this.style.color='#ff6b35'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#334155'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>Meta Quest 2/3
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #334155; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35';this.style.color='#ff6b35'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#334155'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path d="M9.5 9.5c.5-1 1.5-1.5 2.5-1.5"/></svg>Apple Vision Pro
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #334155; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35';this.style.color='#ff6b35'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#334155'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>Android / iOS (ARCore/ARKit)
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #334155; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35';this.style.color='#ff6b35'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#334155'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Chrome / Edge (WebXR)
-                    </span>
-                    <span style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #334155; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35';this.style.color='#ff6b35'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#334155'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>HTC Vive / PICO 4
-                    </span>
                 </div>
             </div>
         </section>
 
         <script>
+            const arvrTabData = {
+                ar: {
+                    title: "WebXR Spatial Engine",
+                    desc: "Runs directly in Chrome, Edge, and mobile browsers.",
+                    bg: "linear-gradient(135deg, #ff6b35, #ea580c)",
+                    icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+                    chips: [
+                        { dot: "#10b981", text: "Zero Headset Setup", badge: "BROWSER", badgeColor: "#059669" },
+                        { dot: "#6366f1", text: "Spatial 3D Audio", badge: "IMMERSIVE", badgeColor: "#4f46e5" },
+                        { dot: "#ff6b35", text: "Course Project Sync", badge: "AUTO", badgeColor: "#ea580c" }
+                    ]
+                },
+                vr: {
+                    title: "Immersive VR Metaverse",
+                    desc: "Virtual lecture theaters & zero-gravity space simulations.",
+                    bg: "linear-gradient(135deg, #6366f1, #4f46e5)",
+                    icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+                    chips: [
+                        { dot: "#6366f1", text: "360° Classroom Theater", badge: "SPATIAL", badgeColor: "#4f46e5" },
+                        { dot: "#0284c7", text: "ISRO Space & Orbit Sim", badge: "PHYSICS", badgeColor: "#0284c7" },
+                        { dot: "#ea580c", text: "Multi-Screen Cloud IDE", badge: "IN-VR", badgeColor: "#ea580c" }
+                    ]
+                },
+                mr: {
+                    title: "Spatial Mixed Reality",
+                    desc: "Blend real desk workspace with 3D digital twins & robotics.",
+                    bg: "linear-gradient(135deg, #0284c7, #0369a1)",
+                    icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+                    chips: [
+                        { dot: "#0284c7", text: "3D Portfolio Showcase", badge: "WEBGL", badgeColor: "#0284c7" },
+                        { dot: "#f59e0b", text: "Industrial PLC Automation", badge: "INDUSTRY", badgeColor: "#d97706" },
+                        { dot: "#10b981", text: "Drone Swarm Mesh", badge: "REAL-TIME", badgeColor: "#059669" }
+                    ]
+                }
+            };
+
             function switchArvrTab(tab, btn) {
-                // Hide all panels
-                document.querySelectorAll('.arvr-panel').forEach(p => p.classList.remove('active'));
-                // Deactivate all tabs
                 document.querySelectorAll('.arvr-tab').forEach(t => t.classList.remove('active'));
-                // Show selected
-                var panel = document.getElementById('panel-' + tab);
-                if (panel) panel.classList.add('active');
                 if (btn) btn.classList.add('active');
+
+                const data = arvrTabData[tab];
+                if (!data) return;
+
+                const badge = document.getElementById('arvrBadgeIcon');
+                const title = document.getElementById('arvrPreviewTitle');
+                const desc = document.getElementById('arvrPreviewDesc');
+                const chips = document.getElementById('arvrPreviewChips');
+
+                if (badge) {
+                    badge.style.background = data.bg;
+                    badge.innerHTML = data.icon;
+                }
+                if (title) title.textContent = data.title;
+                if (desc) desc.textContent = data.desc;
+                if (chips) {
+                    chips.innerHTML = data.chips.map(c => `
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; color: #334155; gap: 12px;">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: ${c.dot}; flex-shrink: 0;"></span>
+                                ${c.text}
+                            </span>
+                            <span style="color: ${c.badgeColor}; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; flex-shrink: 0;">${c.badge}</span>
+                        </div>
+                    `).join('');
+                }
             }
         </script>
 
