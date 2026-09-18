@@ -433,6 +433,54 @@
             background: rgba(100, 116, 139, 0.02);
         }
 
+        /* Persistent Floating Cookie Trigger (Bottom-Left) */
+        .ti-cookie-trigger-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--ti-cookie-bg, #ffffff);
+            border: 1.5px solid var(--ti-cookie-border, #e2e8f0);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99990;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #ff6b35;
+            outline: none;
+            padding: 0;
+        }
+        .ti-cookie-trigger-btn:hover {
+            transform: scale(1.08) translateY(-2px);
+            border-color: #ff6b35;
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.25);
+        }
+        .ti-cookie-trigger-btn .ti-cookie-tooltip {
+            position: absolute;
+            left: 56px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .ti-cookie-trigger-btn:hover .ti-cookie-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(4px);
+        }
+
         @media (max-width: 768px) {
             .ti-cookie-banner {
                 bottom: 14px;
@@ -453,6 +501,15 @@
             .ti-modal-header, .ti-modal-body, .ti-modal-footer {
                 padding-left: 18px;
                 padding-right: 18px;
+            }
+            .ti-cookie-trigger-btn {
+                bottom: 18px;
+                left: 18px;
+                width: 42px;
+                height: 42px;
+            }
+            .ti-cookie-trigger-btn .ti-cookie-tooltip {
+                display: none;
             }
         }
     `;
@@ -517,6 +574,45 @@
     // DOM Elements
     let bannerEl = null;
     let modalEl = null;
+    let triggerBtnEl = null;
+
+    function buildFloatingTrigger() {
+        if (document.getElementById('techIndroCookieTriggerBtn')) return;
+
+        const btn = document.createElement('button');
+        btn.id = 'techIndroCookieTriggerBtn';
+        btn.className = 'ti-cookie-trigger-btn';
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('aria-label', 'Cookie & Privacy Preferences');
+        btn.title = 'Cookie & Privacy Preferences';
+
+        btn.innerHTML = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+                <path d="M8.5 8.5v.01"/>
+                <path d="M11.5 15.5v.01"/>
+                <path d="M8.5 15.5v.01"/>
+                <path d="M15.5 11.5v.01"/>
+            </svg>
+            <span class="ti-cookie-tooltip">Cookie Preferences</span>
+        `;
+
+        btn.addEventListener('click', () => {
+            window.TechIndroCookies.openPreferences();
+        });
+
+        document.body.appendChild(btn);
+        triggerBtnEl = btn;
+    }
+
+    function showFloatingTrigger() {
+        if (!triggerBtnEl) buildFloatingTrigger();
+        if (triggerBtnEl) triggerBtnEl.style.display = 'flex';
+    }
+
+    function hideFloatingTrigger() {
+        if (triggerBtnEl) triggerBtnEl.style.display = 'none';
+    }
 
     function buildBanner() {
         if (document.getElementById('techIndroCookieBanner')) return;
@@ -709,6 +805,7 @@
     }
 
     function showBanner() {
+        hideFloatingTrigger();
         if (!bannerEl) buildBanner();
         requestAnimationFrame(() => {
             setTimeout(() => {
@@ -721,6 +818,7 @@
         if (bannerEl) {
             bannerEl.classList.remove('ti-cookie-show');
         }
+        showFloatingTrigger();
     }
 
     // Public API
@@ -837,15 +935,19 @@
     function init() {
         injectStyles();
         buildModal();
+        buildFloatingTrigger();
 
         // Check if user has previously answered
         const existingConsent = loadSavedConsent();
         if (!existingConsent) {
+            hideFloatingTrigger();
             buildBanner();
             // Give 1 second delay so page loads cleanly before presenting banner
             setTimeout(() => {
                 showBanner();
             }, 1000);
+        } else {
+            showFloatingTrigger();
         }
 
         // Attach click listener for any links like <a href="#cookie-preferences"> or class .btn-cookie-preferences

@@ -4300,10 +4300,11 @@
             <div style="border-top: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 0;">
                 <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                     <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">&copy; 2026 Tech Indro. All Rights Reserved<a href="shikshak-coding.html" style="color: inherit; text-decoration: none; cursor: pointer;" title="Tech Indro Workspace">.</a></p>
-                    <div style="display: flex; gap: 1.5rem;">
-                        <a href="#" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Terms & Conditions</a>
-                        <a href="#" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
-                        <a href="#" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a>
+                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                        <a href="terms.html" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Terms & Conditions</a>
+                        <a href="privacy.html" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+                        <a href="#cookie-preferences" class="btn-cookie-preferences" style="color: #ff6b35; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Cookie Preferences</a>
+                        <a href="refund.html" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a>
                     </div>
                 </div>
             </div>
@@ -4648,6 +4649,20 @@
                             </svg>
                         </span>
                         <span style="font-weight: 600;">24/7 AI Agent (Doubt Solver)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#cookie-preferences" class="btn-cookie-preferences" onclick="closeNavDrawer(); window.TechIndroCookies && window.TechIndroCookies.openPreferences();">
+                        <span class="drawer-icon-box" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+                                <path d="M8.5 8.5v.01"/>
+                                <path d="M11.5 15.5v.01"/>
+                                <path d="M8.5 15.5v.01"/>
+                                <path d="M15.5 11.5v.01"/>
+                            </svg>
+                        </span>
+                        <span style="font-weight: 600;">Cookie &amp; Privacy Preferences</span>
                     </a>
                 </li>
             </ul>
