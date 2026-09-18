@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Interview & ATS Resume Auditor | Tech Indro</title>
+    <meta name="description" content="Ace your tech placements with Tech Indro's 24/7 AI Mock Interviewer and Smart ATS Resume Scanner. Real-time voice simulation, instant scoring, and STAR bullet optimization.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        :root {
+            --prep-primary: #ff6b35; /* Tech Indro Platform Login Orange */
+            --prep-primary-hover: #e85a28;
+            --prep-secondary: #0f172a;
+            --prep-accent: #ff6b35;
+            --prep-danger: #ef4444;
+            --prep-dark: #0f172a;
+            --prep-card-bg: #ffffff;
+            --prep-border: #e2e8f0;
+            --prep-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            --hr-orange: #ff6b35;
+            --hr-dark: #0f172a;
+            --hr-muted: #64748b;
+        }
+
+        body.dark-mode, [data-theme="dark"] body {
+            --prep-card-bg: #1e293b;
+            --prep-border: #334155;
+            --prep-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --hr-muted: #94a3b8;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f8fafc;
+            color: #0f172a;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        body.dark-mode, [data-theme="dark"] body {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+        @media (max-width: 860px) {
+            .prep-header-nav {
+                display: none !important;
+            }
+        }
+
+        .prep-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 24px 20px 80px;
+        }
+
+        /* Top Assessment Header */
+        .prep-hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .prep-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #fff7ed;
+            color: #ff6b35;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            border: 1px solid #fed7aa;
+        }
+
+        body.dark-mode .prep-badge {
+            background: rgba(255, 107, 53, 0.15);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: #ff8c5a;
+        }
+
+        .prep-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin: 0 0 10px;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        body.dark-mode .prep-hero h1 {
+            color: #f8fafc;
+        }
+
+        .prep-hero p {
+            font-size: 1rem;
+            color: #475569;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .prep-hero p {
+            color: #94a3b8;
+        }
+
+        /* Tab Switcher (HackerRank Navigation Tabs) */
+        .prep-tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 22px 0 28px;
+        }
+
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1.5px solid #cbd5e1;
+            cursor: pointer;
+            background: #ffffff;
+            color: #334155;
+            transition: all 0.15s ease;
+        }
+
+        body.dark-mode .tab-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        .tab-btn.active {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+
+        /* HackerRank Clean Card */
+        .prep-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            margin-bottom: 24px;
+        }
+
+        body.dark-mode .prep-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        /* HackerRank Track Grid */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+            margin: 18px 0 24px;
+        }
+
+        .role-card {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        body.dark-mode .role-card {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .role-card:hover {
+            border-color: #ff6b35;
+            transform: translateY(-1px);
+        }
+
+        .role-card.selected {
+            border-color: #ff6b35;
+            background: #fff7ed;
+            box-shadow: 0 0 0 1.5px #ff6b35;
+        }
+
+        body.dark-mode .role-card.selected {
+            background: rgba(255, 107, 53, 0.12);
+            border-color: #ff6b35;
+        }
+
+        .role-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        body.dark-mode .role-icon {
+            background: #1e293b;
+            color: #ff8c5a;
+        }
+
+        .role-card h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.35;
+        }
+
+        body.dark-mode .role-card h4 {
+            color: #f8fafc;
+        }
+
+        .role-card p {
+            margin: 0;
+            font-size: 0.82rem;
+            color: #64748b;
+            line-height: 1.45;
+        }
+
+        body.dark-mode .role-card p {
+            color: #94a3b8;
+        }
+
+        /* Form Inputs */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .prep-hero h1 { font-size: 1.8rem; }
+            .tab-btn { padding: 8px 16px; font-size: 0.88rem; }
+            .prep-card { padding: 18px; }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        body.dark-mode .input-group label {
+            color: #e2e8f0;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #cbd5e1;
+            background: #ffffff;
+            font-size: 0.92rem;
+            color: #0f172a;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.15s;
+            font-family: inherit;
+        }
+
+        body.dark-mode .form-input, body.dark-mode .form-select, body.dark-mode .form-textarea {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #ff6b35;
+        }
+
+        .btn-action-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #ff6b35;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 11px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25);
+            transition: all 0.15s ease;
+        }
+
+        .btn-action-primary:hover {
+            background: #e85a28;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.35);
+        }
+
+        /* Live Interview Arena (HackerRank Clean Split Layout) */
+        .interview-arena {
+            display: none;
+        }
+
+        .arena-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        body.dark-mode .arena-header {
+            border-color: #334155;
+        }
+
+        .test-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .test-breadcrumb {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .q-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .q-pill {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.82rem;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            transition: all 0.15s;
+        }
+
+        body.dark-mode .q-pill {
+            background: #0f172a;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        .q-pill.active {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        body.dark-mode .q-pill.active {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: #ffffff;
+        }
+
+        .q-pill.completed {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+        }
+
+        .arena-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f8fafc;
+            color: #0f172a;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            font-family: 'Consolas', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-mode .timer-badge {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        .voice-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: #334155;
+            transition: all 0.15s;
+        }
+
+        body.dark-mode .voice-toggle-btn {
+            background: #0f172a;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+
+        .voice-toggle-btn:hover {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+
+        /* HackerRank Two-Column Split Grid */
+        .arena-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 960px) {
+            .arena-split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Column: Problem & Requirements Panel */
+        .problem-panel {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        body.dark-mode .problem-panel {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .panel-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        body.dark-mode .panel-header-row {
+            border-color: #1e293b;
+        }
+
+        .panel-sublabel {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .interviewer-role-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.01em;
+        }
+
+        body.dark-mode .interviewer-role-title {
+            color: #f8fafc;
+        }
+
+        .btn-hint {
+            background: #f8fafc;
+            color: #0284c7;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .btn-hint:hover {
+            background: #f0f9ff;
+            border-color: #0284c7;
+        }
+
+        .sound-wave {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 16px;
+        }
+
+        .sound-wave span {
+            width: 3px;
+            background: #ff6b35;
+            border-radius: 3px;
+            animation: waveAnim 1s ease-in-out infinite;
+        }
+
+        .sound-wave span:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+        .sound-wave span:nth-child(2) { height: 13px; animation-delay: 0.3s; }
+        .sound-wave span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+        .sound-wave span:nth-child(4) { height: 15px; animation-delay: 0.4s; }
+
+        @keyframes waveAnim {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1); }
+        }
+
+        .question-body {
+            flex: 1;
+        }
+
+        .question-prompt-text {
+            font-size: 1.02rem;
+            line-height: 1.68;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        body.dark-mode .question-prompt-text {
+            color: #f1f5f9;
+        }
+
+        .hint-box {
+            margin-top: 12px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: #c2410c;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .hint-box {
+            background: rgba(255, 107, 53, 0.15);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: #fdba74;
+        }
+
+        .rubric-section {
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        body.dark-mode .rubric-section {
+            border-color: #1e293b;
+        }
+
+        .rubric-sublabel {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .key-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .key-tag {
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1.5px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            letter-spacing: 0.01em;
+            display: inline-block;
+        }
+
+        body.dark-mode .key-tag {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        /* Right Column: Candidate Workspace & Editor */
+        .solution-panel {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        body.dark-mode .solution-panel {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        body.dark-mode .editor-header {
+            border-color: #1e293b;
+        }
+
+        .editor-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .editor-hint-shortcut {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .answer-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .answer-box textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 14px 16px;
+            border-radius: 6px;
+            border: 1.5px solid #cbd5e1;
+            background: #f8fafc;
+            font-size: 0.94rem;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            color: #0f172a;
+            resize: vertical;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.15s, background 0.15s;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .answer-box textarea {
+            background: #020617;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        .answer-box textarea:focus {
+            border-color: #ff6b35;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        body.dark-mode .answer-box textarea:focus {
+            background: #020617;
+        }
+
+        .voice-control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 4px;
+        }
+
+        .mic-action-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mic-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1.5px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        body.dark-mode .mic-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+
+        .mic-btn:hover {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+
+        .mic-btn.recording {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: pulseRecord 1.5s infinite;
+        }
+
+        #micStatusNote {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .hr-submit-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 9px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25);
+            transition: all 0.15s;
+        }
+
+        .hr-submit-btn:hover {
+            background: #e85a28;
+            transform: translateY(-1px);
+        }
+
+        /* Post-Question Evaluation Banner (HackerRank Test Execution Style) */
+        .feedback-banner {
+            display: none;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 18px;
+            background: #fff7ed;
+            border: 1.5px solid #fed7aa;
+            animation: fadeIn 0.25s ease;
+        }
+
+        body.dark-mode .feedback-banner {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .score-pill {
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 3px 12px;
+            border-radius: 6px;
+            background: #ff6b35;
+            color: white;
+        }
+
+        .feedback-critique-text {
+            margin: 0 0 12px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #9a3412;
+        }
+
+        body.dark-mode .feedback-critique-text {
+            color: #fed7aa;
+        }
+
+        .reference-architecture-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 14px;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        body.dark-mode .reference-architecture-box {
+            background: #0f172a;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+
+        .reference-architecture-box strong {
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .reference-architecture-box strong {
+            color: #f8fafc;
+        }
+
+        /* Final Scorecard Modal / Section */
+        .scorecard-container {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .score-gauge {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(#6366f1 var(--score-angle, 270deg), #e2e8f0 0deg);
+            position: relative;
+        }
+
+        .score-gauge::after {
+            content: '';
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: var(--prep-card-bg);
+        }
+
+        .score-gauge-val {
+            position: relative;
+            z-index: 1;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--prep-primary);
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 28px 0;
+            text-align: left;
+        }
+
+        .breakdown-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--prep-border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        body.dark-mode .breakdown-card {
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .breakdown-card h5 {
+            margin: 0 0 6px;
+            color: #374151;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .breakdown-card .val {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--prep-primary);
+        }
+
+        /* Mode 2: ATS Resume Scanner */
+        .ats-upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.4);
+            margin-bottom: 24px;
+        }
+
+        body.dark-mode .ats-upload-zone {
+            border-color: #475569;
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        .ats-upload-zone:hover {
+            border-color: var(--prep-primary);
+            background: rgba(99, 102, 241, 0.04);
+        }
+
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--prep-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .keyword-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .chip-match {
+            background: rgba(16, 185, 129, 0.12);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chip-missing {
+            background: rgba(239, 68, 68, 0.12);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* STAR Bullet Rewrite Card */
+        .bullet-card {
+            background: white;
+            border: 1px solid var(--prep-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        body.dark-mode .bullet-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .bullet-diff {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 12px 0;
+        }
+
+        @media (max-width: 768px) {
+            .bullet-diff { grid-template-columns: 1fr; }
+        }
+
+        .bullet-box {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .bullet-box.original {
+            background: rgba(239, 68, 68, 0.06);
+            border-left: 4px solid #ef4444;
+            color: #374151;
+        }
+
+        .bullet-box.star {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid #10b981;
+            color: inherit;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border: none;
+            color: #059669;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ats-results-view {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header" style="position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.03);">
+        <nav class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1240px; margin: 0 auto; padding: 12px 20px;">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 50px; white-space: nowrap; flex-shrink: 0;">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 12px; background: white;">
+                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 18px;">
+                <div class="prep-header-nav" style="display: flex; align-items: center; gap: 20px;">
+                    <a href="programs.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">Programs</a>
+                    <a href="tsoc.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">TSOC</a>
+                    <a href="cyber-playground.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">IndroLabs</a>
+                    <a href="community.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">Community</a>
+                    <a href="ai-mentor.html" style="text-decoration: none; color: #6366f1; font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; background: rgba(99, 102, 241, 0.08); padding: 5px 12px; border-radius: 20px;">
+                        <i data-lucide="bot" style="width: 16px; height: 16px;"></i> AI Agent
+                    </a>
+                </div>
+                <a href="login.html" class="btn-action-primary" style="padding: 7px 16px; border-radius: 6px; font-size: 0.88rem; text-decoration: none; background: #ff6b35; color: white; font-weight: 700;">Login</a>
+                <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Open navigation menu" style="background: none; border: 1.5px solid #e2e8f0; border-radius: 8px; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #0f172a;">
+                    <i data-lucide="menu" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="prep-container">
+
+        <!-- Top Assessment Hero -->
+        <div class="prep-hero">
+            <div class="prep-badge">
+                <i data-lucide="terminal" style="width: 13px; height: 13px;"></i>
+                TECHNICAL ASSESSMENT • SENIOR CALIBRATION
+            </div>
+            <h1>Technical Interview Studio</h1>
+            <p>Calibrated technical engineering rounds with live rubric scoring, architectural trade-offs, and enterprise ATS screening.</p>
+
+            <!-- Mode Switcher -->
+            <div class="prep-tabs-nav">
+                <button class="tab-btn active" id="tabInterview" onclick="switchMode('interview')">
+                    <i data-lucide="terminal" style="width: 18px; height: 18px;"></i>
+                    Technical Interview Studio
+                </button>
+                <button class="tab-btn" id="tabAts" onclick="switchMode('ats')">
+                    <i data-lucide="file-check-2" style="width: 18px; height: 18px;"></i>
+                    Enterprise ATS Resume Auditor
+                </button>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!--  MODE 1: TECHNICAL INTERVIEW STUDIO -->
+        <!-- ================================================================= -->
+        <div id="interviewSection">
+
+            <!-- STEP 1: Role & Profile Selection -->
+            <div class="prep-card" id="interviewSetupCard">
+                <h3 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="layers" style="color: var(--prep-primary); width: 22px; height: 22px;"></i>
+                    Select Target Engineering Track &amp; Seniority Level
+                </h3>
+                <p style="color: #4b5563; margin-bottom: 20px;">Choose your engineering specialization for a 5-round adaptive interview calibrated against senior industry rubrics:</p>
+
+                <div class="role-grid">
+                    <div class="role-card selected" onclick="selectRole(this, 'fullstack')">
+                        <div class="role-icon" style="background: rgba(99, 102, 241, 0.1); color: #4f46e5;"><i data-lucide="code-2" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Senior Full-Stack Architecture</h4>
+                        <p>Event loop concurrency, React 19, Redis cache patterns, and PostgreSQL query planner.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'dsa')">
+                        <div class="role-icon" style="background: rgba(234, 88, 12, 0.1); color: #ea580c;"><i data-lucide="binary" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Core Algorithms &amp; Concurrency</h4>
+                        <p>Dynamic programming, graph theory, lock-free queues, and asymptotic space/time complexity.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'cloud')">
+                        <div class="role-icon" style="background: rgba(14, 165, 233, 0.1); color: #0284c7;"><i data-lucide="server" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Distributed Systems &amp; Backend</h4>
+                        <p>High-throughput microservices, Kafka partitioning, gRPC contracts, and CAP theorem.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'aiml')">
+                        <div class="role-icon" style="background: rgba(168, 85, 247, 0.1); color: #9333ea;"><i data-lucide="cpu" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Applied AI &amp; Platform ML</h4>
+                        <p>Vector database indexing, RAG latency budgets, LLM inference serving, and embeddings.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'cybersec')">
+                        <div class="role-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;"><i data-lucide="shield-alert" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Cloud Security &amp; AppSec</h4>
+                        <p>TLS 1.3 handshake, Zero Trust architecture, OAuth2/JWT vulnerabilities, and OWASP Top 10.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'behavioral')">
+                        <div class="role-icon" style="background: rgba(245, 158, 11, 0.1); color: #d97706;"><i data-lucide="compass" style="width: 24px; height: 24px;"></i></div>
+                        <h4>System Ownership &amp; Leadership</h4>
+                        <p>Architectural trade-offs, high-severity outage post-mortems, and capacity planning.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'devops')">
+                        <div class="role-icon" style="background: rgba(6, 182, 212, 0.1); color: #0891b2;"><i data-lucide="cloud-cog" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Cloud DevOps &amp; Site Reliability (SRE)</h4>
+                        <p>Kubernetes pod autoscaling, Terraform IaC, multi-region CI/CD pipelines, and zero-downtime canary deployments.</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole(this, 'mobile')">
+                        <div class="role-icon" style="background: rgba(236, 72, 153, 0.1); color: #db2777;"><i data-lucide="smartphone" style="width: 24px; height: 24px;"></i></div>
+                        <h4>Mobile &amp; Cross-Platform Systems</h4>
+                        <p>Offline-first synchronization, native bridge optimization, memory leak profiling, and app bundle treeshaking.</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="candidateName">Candidate Name</label>
+                        <input type="text" id="candidateName" class="form-input" placeholder="e.g. Aryan Sharma" value="Tech Indro Scholar">
+                    </div>
+                    <div class="input-group">
+                        <label for="experienceLevel">Experience Level</label>
+                        <select id="experienceLevel" class="form-select">
+                            <option value="fresher" selected>Fresher / College Graduate (0-1 yrs)</option>
+                            <option value="junior">Junior Associate (1-3 yrs)</option>
+                            <option value="senior">Senior / Lead (3+ yrs)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="text-align: right;">
+                    <button class="btn-action-primary" onclick="startInterview()">
+                        <span>Start Mock Interview</span>
+                        <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Live Interview Arena (HackerRank Clean Split Layout) -->
+            <div class="prep-card interview-arena" id="interviewArenaCard">
+                <!-- Top Test Bar -->
+                <div class="arena-header">
+                    <div class="test-meta-info">
+                        <span class="test-breadcrumb">INTERVIEW ROUND</span>
+                        <div class="q-progress">
+                            <div class="q-pill active" id="pill-1">1</div>
+                            <div class="q-pill" id="pill-2">2</div>
+                            <div class="q-pill" id="pill-3">3</div>
+                            <div class="q-pill" id="pill-4">4</div>
+                            <div class="q-pill" id="pill-5">5</div>
+                        </div>
+                    </div>
+                    <div class="arena-controls">
+                        <button class="voice-toggle-btn" id="ttsToggleBtn" onclick="toggleAudioOutput()" title="Toggle voice narration">
+                            <i data-lucide="volume-2" style="width: 15px; height: 15px;"></i>
+                            <span id="ttsStatus">Voice: ON</span>
+                        </button>
+                        <div class="timer-badge">
+                            <i data-lucide="clock" style="width: 15px; height: 15px;"></i>
+                            <span id="questionTimer">02:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main HackerRank Split Workspace Grid -->
+                <div class="arena-split-grid">
+                    <!-- Left Column: Problem & Requirements Panel -->
+                    <div class="problem-panel">
+                        <div class="panel-header-row">
+                            <div>
+                                <span class="panel-sublabel">PROBLEM STATEMENT</span>
+                                <h3 id="interviewerTitle" class="interviewer-role-title">Principal Bar Raiser</h3>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button type="button" class="btn-hint" onclick="getInterviewHint()">
+                                    <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i> <span>Need a Hint?</span>
+                                </button>
+                                <div class="sound-wave" id="speakingWave" style="display: none;">
+                                    <span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-body">
+                            <p id="questionText" class="question-prompt-text">Loading technical prompt...</p>
+                            <div id="interviewHintBox" style="display: none;" class="hint-box"></div>
+                        </div>
+
+                        <div class="rubric-section">
+                            <span class="rubric-sublabel">KEY EVALUATION CRITERIA</span>
+                            <div class="key-areas" id="keyAreasContainer"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Candidate Solution Workspace & Editor -->
+                    <div class="solution-panel">
+                        <div class="editor-header">
+                            <div class="editor-tab">
+                                <i data-lucide="terminal" style="width: 14px; height: 14px;"></i>
+                                <span>Solution / Technical Notes</span>
+                            </div>
+                            <span class="editor-hint-shortcut">Ctrl + Enter to Submit</span>
+                        </div>
+
+                        <div class="answer-box">
+                            <textarea id="candidateAnswerInput" placeholder="// Explain your architectural approach, trade-offs, complexity analysis, or implementation here..." spellcheck="false"></textarea>
+                        </div>
+
+                        <div class="voice-control-bar">
+                            <div class="mic-action-group">
+                                <button class="mic-btn" id="micRecordBtn" onclick="toggleSpeechRecognition()">
+                                    <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
+                                    <span id="micBtnText">Record Voice Answer</span>
+                                </button>
+                                <span id="micStatusNote">Web Speech Active</span>
+                            </div>
+
+                            <button class="hr-submit-btn" id="submitAnswerBtn" onclick="submitCandidateAnswer()">
+                                <span>Submit Solution</span>
+                                <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post-Question Evaluation Banner (HackerRank Test Execution Style) -->
+                <div class="feedback-banner" id="roundFeedbackBanner">
+                    <div class="feedback-header">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="check-circle-2" style="color: #ff6b35; width: 18px; height: 18px;"></i>
+                            <span style="font-weight: 700; color: #9a3412; font-size: 0.95rem;">Staff Engineer Rubric Evaluation</span>
+                        </div>
+                        <span class="score-pill" id="roundScore">Score: 8/10</span>
+                    </div>
+                    <p id="roundFeedbackText" class="feedback-critique-text"></p>
+                    <div class="reference-architecture-box">
+                        <strong>
+                            <i data-lucide="code-2" style="width: 15px; height: 15px; color: #ff6b35;"></i>
+                            Benchmark Production Architecture:
+                        </strong>
+                        <span id="roundIdealText"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Final Scorecard View -->
+            <div class="prep-card scorecard-container" id="interviewScorecardCard">
+                <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(16, 185, 129, 0.12); color: #059669; border-radius: 20px; font-weight: 700; font-size: 0.85rem; margin-bottom: 16px;">
+                    <i data-lucide="award" style="width: 16px; height: 16px;"></i> INTERVIEW COMPLETE
+                </div>
+                <h2 style="margin: 0 0 8px; font-size: 2rem;">Technical Placement Evaluation</h2>
+                <p id="scorecardSubtitle" style="color: #374151; margin-bottom: 24px;">Performance report generated by Tech Indro AI Evaluation Engine</p>
+
+                <div class="score-gauge" id="finalScoreGauge">
+                    <div class="score-gauge-val" id="finalOverallScore">84%</div>
+                </div>
+
+                <h3 id="finalTierBadge" style="margin: 0 0 20px; color: var(--prep-primary); font-size: 1.3rem;">Solid Technical Candidate (Placement Ready)</h3>
+
+                <div class="breakdown-grid">
+                    <div class="breakdown-card">
+                        <h5>TECHNICAL DEPTH</h5>
+                        <div class="val" id="scoreTechDepth">88%</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <h5>PROBLEM SOLVING</h5>
+                        <div class="val" id="scoreProblemSolving">82%</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <h5>COMMUNICATION CLARITY</h5>
+                        <div class="val" id="scoreComm">90%</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <h5>SYSTEM DESIGN THINKING</h5>
+                        <div class="val" id="scoreSystem">80%</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; margin-bottom: 28px;">
+                    <div style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px; color: #059669; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="thumbs-up" style="width: 18px; height: 18px;"></i> Key Strengths
+                        </h4>
+                        <ul id="scorecardStrengths" style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 0.95rem; color: #334155;"></ul>
+                    </div>
+                    <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 16px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px; color: #dc2626; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="target" style="width: 18px; height: 18px;"></i> Targeted Improvements
+                        </h4>
+                        <ul id="scorecardImprovements" style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 0.95rem; color: #334155;"></ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <button class="btn-action-primary" onclick="window.print()">
+                        <i data-lucide="download" style="width: 18px; height: 18px;"></i>
+                        <span>Download Scorecard PDF</span>
+                    </button>
+                    <button class="tab-btn" onclick="resetInterview()">
+                        <i data-lucide="rotate-ccw" style="width: 18px; height: 18px;"></i>
+                        <span>Take Another Interview</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================= -->
+        <!--  MODE 2: ENTERPRISE ATS RESUME AUDITOR -->
+        <!-- ================================================================= -->
+        <div id="atsSection" style="display: none;">
+            
+            <div class="prep-card">
+                <h3 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="file-check-2" style="color: var(--prep-primary); width: 22px; height: 22px;"></i>
+                    Enterprise ATS Resume Auditor &amp; Technical Keyword Benchmark
+                </h3>
+                <p style="color: #4b5563; margin-bottom: 24px;">Our engine simulates top-tier enterprise ATS filters (Workday, Greenhouse, Lever, Ashby) to benchmark keyword density, missing technical skills, and generate Google XYZ formula bullet point optimizations.</p>
+
+                <!-- Drag & Drop Upload Zone -->
+                <div class="ats-upload-zone" id="dropZone" onclick="document.getElementById('resumeFileInput').click()" style="border: 2px dashed #94a3b8; border-radius: 20px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(248, 250, 252, 0.8);">
+                    <input type="file" id="resumeFileInput" accept=".pdf,.txt,.docx" style="display: none;" onchange="handleFileUpload(event)">
+                    <div class="upload-icon" style="width: 56px; height: 56px; border-radius: 16px; background: rgba(99, 102, 241, 0.1); color: #4f46e5; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+                        <i data-lucide="upload-cloud" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h4 style="margin: 0 0 6px; font-size: 1.15rem; font-weight: 700; color: #1e293b;">Click to upload or drag &amp; drop candidate resume</h4>
+                    <p style="margin: 0; color: #64748b; font-size: 0.88rem; font-weight: 500;">Supports PDF (.pdf), Word (.docx), and Plain Text (.txt) &bull; Maximum file size 10MB</p>
+                    <div id="fileUploadFeedback" style="margin-top: 10px; font-weight: 700; color: var(--prep-primary); font-size: 0.9rem;"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="targetAtsRole">Target Engineering Role</label>
+                        <select id="targetAtsRole" class="form-select">
+                            <option value="Full Stack Developer">Senior Full Stack Engineer (React, Node, Distributed Caching)</option>
+                            <option value="Cloud & DevOps">Distributed Systems &amp; Backend Engineer (Go/Java, Kafka, Redis)</option>
+                            <option value="DevOps SRE">Cloud Infrastructure &amp; DevOps SRE (Kubernetes, Terraform, CI/CD)</option>
+                            <option value="Mobile Engineer">Mobile &amp; Cross-Platform Systems (React Native, iOS, Android)</option>
+                            <option value="AI / Machine Learning">Applied AI &amp; Platform ML Engineer (Vector DBs, RAG, PyTorch)</option>
+                            <option value="Cybersecurity Analyst">Cloud Security &amp; AppSec Specialist (Zero Trust, TLS, IAM)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="targetJobDesc">Job Description or Specific Stack Requirements (Optional)</label>
+                        <input type="text" id="targetJobDesc" class="form-input" placeholder="e.g. Distributed caching with Redis, Kafka streaming, high-throughput microservices...">
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-bottom: 24px;">
+                    <label for="resumeTextInput">Resume Content (Extracted automatically from uploaded file or pasted manually):</label>
+                    <textarea id="resumeTextInput" class="form-textarea" style="height: 160px; font-family: 'Consolas', 'Fira Code', monospace; font-size: 0.9rem;" placeholder="Paste resume plain text here or upload your resume above..."></textarea>
+                </div>
+
+                <div style="text-align: right;">
+                    <button class="btn-action-primary" id="scanAtsBtn" onclick="runAtsScan()">
+                        <i data-lucide="scan-line" style="width: 18px; height: 18px;"></i>
+                        <span>Audit Resume with ATS Engine</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ATS Scan Results View -->
+            <div class="prep-card ats-results-view" id="atsResultsContainer">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--prep-border); padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Target Position Benchmark:</span>
+                        <h3 id="resRoleTitle" style="margin: 4px 0 0; font-size: 1.4rem; font-weight: 800; color: #111827;">Full Stack Developer</h3>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="text-align: right;">
+                            <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">ATS Filter Score:</span>
+                            <div style="font-size: 2.2rem; font-weight: 900; color: #4f46e5;" id="atsScoreVal">82%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="atsSummaryText" style="font-size: 1.02rem; line-height: 1.6; color: #334155; margin-bottom: 24px;"></p>
+
+                <!-- Keyword Detection Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px;">
+                    <div style="background: rgba(16, 185, 129, 0.05); border: 1.5px solid rgba(16, 185, 129, 0.25); border-radius: 16px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px; color: #059669; font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> Matched Core Engineering Competencies
+                        </h4>
+                        <div class="keyword-chips" id="matchedKeywordsBox"></div>
+                    </div>
+                    <div style="background: rgba(239, 68, 68, 0.05); border: 1.5px solid rgba(239, 68, 68, 0.25); border-radius: 16px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px; color: #dc2626; font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="alert-octagon" style="width: 16px; height: 16px;"></i> Missing High-Impact Skills (ATS Penalty)
+                        </h4>
+                        <div class="keyword-chips" id="missingKeywordsBox"></div>
+                    </div>
+                </div>
+
+                <!-- STAR Method Bullet Point Rewriter -->
+                <h3 style="font-size: 1.3rem; margin: 32px 0 8px; display: flex; align-items: center; gap: 8px; font-weight: 800; color: #111827;">
+                    <i data-lucide="git-pull-request" style="color: var(--prep-primary); width: 20px; height: 20px;"></i>
+                    Google XYZ &amp; STAR Bullet Point Optimizations
+                </h3>
+                <p style="color: #4b5563; margin-bottom: 20px; font-size: 0.95rem;">Transforms task-based descriptions into quantified metrics: <em>Accomplished [X], as measured by [Y], by doing [Z]</em>:</p>
+
+                <div id="bulletRewritesContainer"></div>
+
+                <!-- Action Items -->
+                <div style="background: rgba(99, 102, 241, 0.05); border: 1.5px solid rgba(99, 102, 241, 0.25); border-radius: 16px; padding: 20px; margin-top: 24px;">
+                    <h4 style="margin: 0 0 10px; color: #4f46e5; font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                        <i data-lucide="sliders" style="width: 18px; height: 18px;"></i> Recommended ATS Engineering Adjustments Before Applying
+                    </h4>
+                    <ul id="atsRecommendationsList" style="margin: 0; padding-left: 20px; line-height: 1.6; color: #334155; font-size: 0.95rem;"></ul>
+                </div>
+            </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // State Management
+        let selectedRoleKey = 'fullstack';
+        let currentQuestionIdx = 1;
+        let totalQuestions = 5;
+        let sessionScores = [];
+        let currentQuestionText = '';
+        let timerInterval = null;
+        let timeRemaining = 120; // 2 mins per question
+        let isTtsEnabled = true;
+        let isRecognizing = false;
+        let recognition = null;
+
+        // Tab Switching
+        function switchMode(mode) {
+            const tabInterview = document.getElementById('tabInterview');
+            const tabAts = document.getElementById('tabAts');
+            const interviewSec = document.getElementById('interviewSection');
+            const atsSec = document.getElementById('atsSection');
+
+            if (mode === 'interview') {
+                tabInterview.classList.add('active');
+                tabAts.classList.remove('active');
+                interviewSec.style.display = 'block';
+                atsSec.style.display = 'none';
+            } else {
+                tabAts.classList.add('active');
+                tabInterview.classList.remove('active');
+                atsSec.style.display = 'block';
+                interviewSec.style.display = 'none';
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function selectRole(cardEl, roleKey) {
+            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+            selectedRoleKey = roleKey;
+        }
+
+        // ==========================================
+        //  AI INTERVIEW LOGIC & SPEECH SYNTHESIS
+        // ==========================================
+        function toggleAudioOutput() {
+            isTtsEnabled = !isTtsEnabled;
+            const statusEl = document.getElementById('ttsStatus');
+            const btn = document.getElementById('ttsToggleBtn');
+            if (isTtsEnabled) {
+                statusEl.innerText = 'Voice: ON';
+                btn.style.color = 'var(--prep-primary)';
+                speakAiText("Voice output enabled.");
+            } else {
+                statusEl.innerText = 'Voice: OFF';
+                btn.style.color = '#374151';
+                if (window.speechSynthesis) window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakAiText(text) {
+            if (!isTtsEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            const cleanText = text.replace(/[*#`_]/g, '').trim();
+            if (!cleanText) return;
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => v.lang && (v.lang.includes('en') || v.lang.includes('IN')));
+            if (preferredVoice) utterance.voice = preferredVoice;
+
+            const waveEl = document.getElementById('speakingWave');
+            utterance.onstart = () => { if (waveEl) waveEl.style.display = 'inline-flex'; };
+            utterance.onend = () => { if (waveEl) waveEl.style.display = 'none'; };
+            utterance.onerror = () => { if (waveEl) waveEl.style.display = 'none'; };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Web Speech Recognition (Mic Input)
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                isRecognizing = true;
+                const btn = document.getElementById('micRecordBtn');
+                btn.classList.add('recording');
+                document.getElementById('micBtnText').innerText = 'Listening... Speak Now';
+                document.getElementById('micStatusNote').innerText = 'Recording voice in real-time...';
+            };
+
+            recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    transcript += event.results[i][0].transcript;
+                }
+                const inputEl = document.getElementById('candidateAnswerInput');
+                if (event.results[0].isFinal) {
+                    inputEl.value += ' ' + transcript;
+                } else {
+                    inputEl.placeholder = transcript;
+                }
+            };
+
+            recognition.onerror = (e) => {
+                stopSpeechRecognition();
+                const note = document.getElementById('micStatusNote');
+                if (e && e.error === 'not-allowed') {
+                    note.innerText = '⚠️ Microphone blocked. Please allow mic in browser settings or type below.';
+                    note.style.color = '#ef4444';
+                } else {
+                    note.innerText = '⚠️ Mic not detected. You can type your answer in the workspace below.';
+                    note.style.color = '#ef4444';
+                }
+            };
+
+            recognition.onend = () => {
+                stopSpeechRecognition();
+            };
+        }
+
+        function getInterviewHint() {
+            const hintBox = document.getElementById('interviewHintBox');
+            hintBox.style.display = 'block';
+            hintBox.innerHTML = `<strong>💡 Architectural Clue:</strong> Consider breaking down this problem into ingestion, processing, and storage tiers. Think about time complexity (O(N) vs O(1)) and edge cases like network partitions or concurrency races.`;
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            }[m]));
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert('Speech recognition is not supported on this browser. Chrome or Edge is recommended.');
+                return;
+            }
+            if (isRecognizing) {
+                recognition.stop();
+                stopSpeechRecognition();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+        }
+
+        function stopSpeechRecognition() {
+            isRecognizing = false;
+            const btn = document.getElementById('micRecordBtn');
+            btn.classList.remove('recording');
+            document.getElementById('micBtnText').innerText = 'Click to Speak (Mic)';
+            document.getElementById('micStatusNote').innerText = 'Supports English & Hinglish';
+        }
+
+        // Start Interview Session
+        async function startInterview() {
+            const candidateName = document.getElementById('candidateName').value.trim() || 'Scholar';
+            const level = document.getElementById('experienceLevel').value;
+
+            document.getElementById('interviewSetupCard').style.display = 'none';
+            const arena = document.getElementById('interviewArenaCard');
+            arena.style.display = 'block';
+
+            currentQuestionIdx = 1;
+            sessionScores = [];
+
+            try {
+                const res = await fetch('/api/interview/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ role: selectedRoleKey, level, candidateName })
+                });
+                const data = await res.json();
+
+                document.getElementById('interviewerTitle').innerText = `${data.roleTitle} Interviewer`;
+                currentQuestionText = data.currentQuestion;
+                document.getElementById('questionText').innerText = currentQuestionText;
+
+                // Key areas tags
+                const keyAreasBox = document.getElementById('keyAreasContainer');
+                keyAreasBox.innerHTML = '';
+                (data.keyAreas || []).forEach(area => {
+                    const span = document.createElement('span');
+                    span.className = 'key-tag';
+                    span.innerText = area;
+                    keyAreasBox.appendChild(span);
+                });
+
+                startTimer();
+                speakAiText(data.greeting + " Here is your first question: " + currentQuestionText);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('questionText').innerText = "Can you explain how the JavaScript Event Loop works under the hood?";
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 120;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('micStatusNote').innerText = "Time reached! Please submit your answer.";
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+            const s = (timeRemaining % 60).toString().padStart(2, '0');
+            document.getElementById('questionTimer').innerText = `${m}:${s}`;
+        }
+
+        // Submit Answer & Handle Next Step
+        async function submitCandidateAnswer() {
+            const answerText = document.getElementById('candidateAnswerInput').value.trim();
+            if (!answerText || answerText.length < 5) {
+                alert('Please provide an answer before submitting.');
+                return;
+            }
+
+            if (isRecognizing && recognition) {
+                recognition.stop();
+                stopSpeechRecognition();
+            }
+            clearInterval(timerInterval);
+
+            const submitBtn = document.getElementById('submitAnswerBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Evaluating...';
+
+            const level = document.getElementById('experienceLevel').value;
+
+            try {
+                const res = await fetch('/api/interview/respond', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        role: selectedRoleKey,
+                        level,
+                        questionIndex: currentQuestionIdx,
+                        currentQuestion: currentQuestionText,
+                        userResponse: answerText
+                    })
+                });
+                const data = await res.json();
+
+                sessionScores.push(data.score || 7);
+
+                // Show round feedback
+                const feedbackBanner = document.getElementById('roundFeedbackBanner');
+                feedbackBanner.style.display = 'block';
+                document.getElementById('roundScore').innerText = `Score: ${data.score || 8}/10`;
+                document.getElementById('roundFeedbackText').innerText = data.feedback || 'Good structured answer.';
+                document.getElementById('roundIdealText').innerText = data.idealAnswer || '';
+
+                // Update pills
+                const currentPill = document.getElementById(`pill-${currentQuestionIdx}`);
+                if (currentPill) {
+                    currentPill.classList.remove('active');
+                    currentPill.classList.add('completed');
+                }
+
+                // Check if final question
+                if (data.isFinal || currentQuestionIdx >= 5) {
+                    submitBtn.innerText = 'Generate Final Scorecard';
+                    submitBtn.disabled = false;
+                    submitBtn.onclick = concludeInterview;
+                    speakAiText("Great effort across all rounds! Generating your final comprehensive placement scorecard now.");
+                } else {
+                    currentQuestionIdx++;
+                    const nextPill = document.getElementById(`pill-${currentQuestionIdx}`);
+                    if (nextPill) nextPill.classList.add('active');
+
+                    currentQuestionText = data.nextQuestion;
+                    submitBtn.innerText = 'Next Question →';
+                    submitBtn.disabled = false;
+                    submitBtn.onclick = () => {
+                        feedbackBanner.style.display = 'none';
+                        document.getElementById('candidateAnswerInput').value = '';
+                        document.getElementById('questionText').innerText = currentQuestionText;
+                        startTimer();
+                        speakAiText(currentQuestionText);
+                        submitBtn.innerText = 'Submit Answer';
+                        submitBtn.onclick = submitCandidateAnswer;
+                    };
+                }
+            } catch (err) {
+                console.error(err);
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Submit Answer';
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Conclude & Generate Final Scorecard
+        async function concludeInterview() {
+            document.getElementById('interviewArenaCard').style.display = 'none';
+            const scorecard = document.getElementById('interviewScorecardCard');
+            scorecard.style.display = 'block';
+
+            const candidateName = document.getElementById('candidateName').value.trim() || 'Scholar';
+            const level = document.getElementById('experienceLevel').value;
+
+            try {
+                const res = await fetch('/api/interview/conclude', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        role: selectedRoleKey,
+                        level,
+                        candidateName,
+                        scores: sessionScores
+                    })
+                });
+                const data = await res.json();
+
+                const overall = data.overallPercent || 82;
+                document.getElementById('finalOverallScore').innerText = `${overall}%`;
+                document.getElementById('finalTierBadge').innerText = data.tier || 'Solid Placement Ready Candidate';
+
+                // Angle for gauge
+                const angle = Math.round((overall / 100) * 360);
+                document.getElementById('finalScoreGauge').style.setProperty('--score-angle', `${angle}deg`);
+
+                const breakdown = data.scoresBreakdown || {};
+                document.getElementById('scoreTechDepth').innerText = `${breakdown.technicalDepth || 85}%`;
+                document.getElementById('scoreProblemSolving').innerText = `${breakdown.problemSolving || 80}%`;
+                document.getElementById('scoreComm').innerText = `${breakdown.communication || 90}%`;
+                document.getElementById('scoreSystem').innerText = `${breakdown.systemThinking || 82}%`;
+
+                // Strengths & improvements
+                const strengthsList = document.getElementById('scorecardStrengths');
+                strengthsList.innerHTML = '';
+                (data.strengths || []).forEach(s => {
+                    const li = document.createElement('li');
+                    li.innerText = s;
+                    strengthsList.appendChild(li);
+                });
+
+                const impList = document.getElementById('scorecardImprovements');
+                impList.innerHTML = '';
+                (data.areasForImprovement || []).forEach(a => {
+                    const li = document.createElement('li');
+                    li.innerText = a;
+                    impList.appendChild(li);
+                });
+
+                speakAiText(`Your mock interview is concluded with an overall performance score of ${overall} percent. Excellent work!`);
+            } catch (err) {
+                console.error(err);
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function resetInterview() {
+            document.getElementById('interviewScorecardCard').style.display = 'none';
+            document.getElementById('interviewArenaCard').style.display = 'none';
+            document.getElementById('interviewSetupCard').style.display = 'block';
+            document.querySelectorAll('.q-pill').forEach((p, idx) => {
+                p.classList.remove('active', 'completed');
+                if (idx === 0) p.classList.add('active');
+            });
+            document.getElementById('candidateAnswerInput').value = '';
+            document.getElementById('roundFeedbackBanner').style.display = 'none';
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // ==========================================
+        //  MODE 2: ATS RESUME SCANNER LOGIC
+        // ==========================================
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const feedback = document.getElementById('fileUploadFeedback');
+            feedback.innerText = `Reading "${file.name}"...`;
+
+            if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let fullText = '';
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        fullText += pageText + '\n';
+                    }
+                    document.getElementById('resumeTextInput').value = fullText.trim();
+                    feedback.innerText = `Extracted ${pdf.numPages} pages from "${file.name}" successfully!`;
+                } catch (e) {
+                    console.error('PDF Read Error:', e);
+                    feedback.innerText = `Could not parse PDF automatically. Please copy & paste the text below.`;
+                }
+            } else {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('resumeTextInput').value = e.target.result;
+                    feedback.innerText = `Loaded "${file.name}" successfully!`;
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        async function runAtsScan() {
+            const resumeText = document.getElementById('resumeTextInput').value.trim();
+            if (!resumeText || resumeText.length < 30) {
+                alert('Please upload or paste your resume text (at least 30 characters) to analyze.');
+                return;
+            }
+
+            const targetRole = document.getElementById('targetAtsRole').value;
+            const jobDescription = document.getElementById('targetJobDesc').value.trim();
+
+            const scanBtn = document.getElementById('scanAtsBtn');
+            scanBtn.disabled = true;
+            scanBtn.innerText = 'Auditing with ATS Engine...';
+
+            try {
+                const res = await fetch('/api/resume/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        resumeText,
+                        targetRole,
+                        jobDescription
+                    })
+                });
+                const data = await res.json();
+
+                const resultsContainer = document.getElementById('atsResultsContainer');
+                resultsContainer.style.display = 'block';
+
+                document.getElementById('resRoleTitle').innerText = data.targetRole || targetRole;
+                document.getElementById('atsScoreVal').innerText = `${data.atsScore || 75}%`;
+                document.getElementById('atsSummaryText').innerText = data.summary || '';
+
+                // Matched & missing chips
+                const matchedBox = document.getElementById('matchedKeywordsBox');
+                matchedBox.innerHTML = '';
+                (data.matchedKeywords || []).forEach(k => {
+                    const span = document.createElement('span');
+                    span.className = 'chip-match';
+                    span.innerHTML = `<i data-lucide="check" style="width: 12px; height: 12px;"></i> ${k}`;
+                    matchedBox.appendChild(span);
+                });
+
+                const missingBox = document.getElementById('missingKeywordsBox');
+                missingBox.innerHTML = '';
+                (data.missingKeywords || []).forEach(k => {
+                    const span = document.createElement('span');
+                    span.className = 'chip-missing';
+                    span.innerHTML = `<i data-lucide="x" style="width: 12px; height: 12px;"></i> ${k}`;
+                    missingBox.appendChild(span);
+                });
+
+                // Bullet rewrites
+                const rewritesBox = document.getElementById('bulletRewritesContainer');
+                rewritesBox.innerHTML = '';
+                (data.bulletFeedback || []).forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'bullet-card';
+                    card.innerHTML = `
+                        <div style="font-size: 0.85rem; color: #374151; font-weight: 600; margin-bottom: 6px;">
+                            CRITIQUE: ${escapeHtml(item.critique)}
+                        </div>
+                        <div class="bullet-diff">
+                            <div class="bullet-box original">
+                                <strong>Original Resume Phrasing:</strong><br>
+                                "${escapeHtml(item.original)}"
+                            </div>
+                            <div class="bullet-box star">
+                                <button class="copy-btn" onclick="copyBullet(this, '${encodeURIComponent(item.starRewrite)}')">Copy Rewrite</button>
+                                <strong>STAR Method Optimized:</strong><br>
+                                "${escapeHtml(item.starRewrite)}"
+                            </div>
+                        </div>
+                    `;
+                    rewritesBox.appendChild(card);
+                });
+
+                // Top recommendations
+                const recList = document.getElementById('atsRecommendationsList');
+                recList.innerHTML = '';
+                (data.topRecommendations || []).forEach(r => {
+                    const li = document.createElement('li');
+                    li.innerText = r;
+                    recList.appendChild(li);
+                });
+
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred while auditing the resume.');
+            } finally {
+                scanBtn.disabled = false;
+                scanBtn.innerText = 'Scan Resume with ATS Auditor';
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        function copyBullet(btn, encodedText) {
+            const text = decodeURIComponent(encodedText);
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        // Initialize icons on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

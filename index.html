@@ -146,10 +146,11 @@
         }
 
         .hero-highlight {
-            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            background: linear-gradient(90deg, #ffd700 0%, #ff8c00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            display: inline-block;
+            font-weight: 800;
         }
 
         .hero-subtitle {
@@ -1273,7 +1274,7 @@
                     <a href="cyber-playground.html">IndroLabs</a>
                     <a href="#features">Features</a>
                     <a href="quiz.html">Test Series</a>
-                    <a href="login.html" class="login-btn">Login / Sign Up</a>
+                    <a href="login.html" class="login-btn">Login</a>
                 </div>
                 <!-- Right-side Hamburger Menu Button -->
                 <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleNavDrawer(event)" aria-label="Toggle Navigation Menu" title="Open Navigation Menu">
@@ -1290,7 +1291,9 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
-                        <h1>India's First <span class="hero-highlight">AI-Powered</span> Learning Platform</h1>
+                        <h1>India's First <span style="color: #FECF00; font-weight: 800;">AI-</span><br>
+                        <span style="background: linear-gradient(90deg, #FFC400 0%, #FF8D00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; font-weight: 800; color: #FDA801;">Powered</span> Learning<br>
+                        Platform</h1>
                         <p class="hero-subtitle">Master in-demand tech skills from scratch. Guided by 24/7 personal AI assistants. <b>Built for everyone — no laptop or tech background required.</b></p>
                         
                         <div class="hero-stats">
@@ -1307,13 +1310,13 @@
 
                                 <h3>24/7</h3>
 
-                                <p style="color: #ffd700; font-weight: 600;">AI Mentors ➔</p>
+                                <p style="color: #ffd700; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;">AI Mentors <i data-lucide="arrow-right" style="width: 14px; height: 14px; stroke: #ffd700;"></i></p>
 
                             </div>
 
                             <div class="hero-stat">
 
-                                <h3>4.8★</h3>
+                                <h3 style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #ffd700;">4.8 <i data-lucide="star" style="width: 22px; height: 22px; color: #ffd700; fill: #ffd700;"></i></h3>
 
                                 <p>Student Rating</p>
 
@@ -1324,9 +1327,8 @@
                         
 
                         <div class="hero-cta">
-
-                            <a href="programs.html" class="btn-primary">🚀 Start Learning Free</a>
-                            <a href="ai-mentor.html" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">🤖 24/7 AI Mentor</a>
+                            <a href="programs.html" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;"><i data-lucide="rocket" style="width: 18px; height: 18px;"></i> Start Learning Free</a>
+                            <a href="ai-mentor.html" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;"><i data-lucide="bot" style="width: 18px; height: 18px;"></i> 24/7 AI Mentor</a>
                         </div>
                         
                         <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 1.5rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; flex-wrap: wrap; color: var(--text-muted);">
@@ -1441,9 +1443,9 @@
                         HANDS-ON LEARNING &amp; PROOF-OF-WORK
                     </div>
                     <h2 style="font-size: 2.4rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem; letter-spacing: -0.5px;">
-                        Master Modern <span style="background: linear-gradient(135deg, #ff6b35, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tech Stacks &amp; Tools</span>
+                        Master Modern <span style="color: #ff6b35;">Tech Stacks &amp; Tools</span>
                     </h2>
-                    <p style="font-size: 1.05rem; color: #64748b; margin: 0;">
+                    <p style="font-size: 1.05rem; color: #374151; margin: 0;">
                         Build production-grade web applications, AI models, and robotics hardware with industry-standard technologies.
                     </p>
                 </div>
@@ -1453,22 +1455,22 @@
                     <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#ff6b35';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                         <div style="font-size: 2.4rem; font-weight: 900; color: #ff6b35; margin-bottom: 0.3rem;">100%</div>
                         <div style="font-weight: 700; color: #0f172a; font-size: 1.05rem; margin-bottom: 0.2rem;">Project-First Learning</div>
-                        <div style="font-size: 0.85rem; color: #64748b;">Real production apps &amp; hardware builds</div>
+                        <div style="font-size: 0.85rem; color: #374151; font-weight: 500;">Real production apps &amp; hardware builds</div>
                     </div>
                     <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#10b981';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                         <div style="font-size: 2.4rem; font-weight: 900; color: #10b981; margin-bottom: 0.3rem;">1 : 1</div>
                         <div style="font-weight: 700; color: #0f172a; font-size: 1.05rem; margin-bottom: 0.2rem;">AI &amp; Expert Mentorship</div>
-                        <div style="font-size: 0.85rem; color: #64748b;">Personal code reviews &amp; live doubt clearing</div>
+                        <div style="font-size: 0.85rem; color: #374151; font-weight: 500;">Personal code reviews &amp; live doubt clearing</div>
                     </div>
                     <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#3b82f6';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                         <div style="font-size: 2.4rem; font-weight: 900; color: #3b82f6; margin-bottom: 0.3rem;">SIH &amp; TSoC</div>
                         <div style="font-weight: 700; color: #0f172a; font-size: 1.05rem; margin-bottom: 0.2rem;">Hackathon &amp; Open Source</div>
-                        <div style="font-size: 0.85rem; color: #64748b;">National competition &amp; GitHub portfolio</div>
+                        <div style="font-size: 0.85rem; color: #374151; font-weight: 500;">National competition &amp; GitHub portfolio</div>
                     </div>
                     <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#8b5cf6';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                         <div style="font-size: 2.4rem; font-weight: 900; color: #8b5cf6; margin-bottom: 0.3rem;">Live</div>
                         <div style="font-weight: 700; color: #0f172a; font-size: 1.05rem; margin-bottom: 0.2rem;">Proof of Work &amp; Network</div>
-                        <div style="font-size: 0.85rem; color: #64748b;">Verified certificate &amp; startup referrals</div>
+                        <div style="font-size: 0.85rem; color: #374151; font-weight: 500;">Verified certificate &amp; startup referrals</div>
                     </div>
                 </div>
 
@@ -1520,9 +1522,9 @@
                             </span>
                         </div>
                         <h2 class="jobs-main-title" style="font-size: 2.3rem; font-weight: 800; color: #0f172a; margin: 0 0 0.6rem; letter-spacing: -0.5px; line-height: 1.2;">
-                            Latest <span style="background: linear-gradient(135deg, #ff6b35, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Job &amp; Internship</span> Updates
+                            Latest <span style="color: #ff6b35;">Job &amp; Internship</span> Updates
                         </h2>
-                        <p class="jobs-main-subtitle" style="color: #64748b; font-size: 1.02rem; margin: 0; line-height: 1.5;">
+                        <p class="jobs-main-subtitle" style="color: #374151; font-size: 1.02rem; margin: 0; line-height: 1.5;">
                             Find the newest jobs, internships &amp; fellowships — updated daily.
                         </p>
                     </div>
@@ -2760,9 +2762,9 @@
                             OFFICIAL VERIFIED CREDENTIALS
                         </div>
                         <h3 style="font-size: 2.3rem; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 1rem; letter-spacing: -0.5px;">
-                            Earn an Industry-Recognized <span style="background: linear-gradient(135deg, #ff6b35, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tech Indro Certificate</span>
+                            Earn an Industry-Recognized <span style="color: #ff6b35;">Tech Indro Certificate</span>
                         </h3>
-                        <p style="font-size: 1.05rem; color: #94a3b8; line-height: 1.6; margin-bottom: 2rem;">
+                        <p style="font-size: 1.05rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 2rem;">
                             Every learner who successfully builds and evaluates capstone projects receives an authentic, tamper-proof certificate backed by unique cryptographic verification IDs.
                         </p>
 
@@ -3020,7 +3022,7 @@
                 <div class="section-header fade-in" style="margin-bottom: 4.5rem; text-align: center;">
                     <div style="display: inline-block; padding: 8px 24px; background: rgba(255, 107, 53, 0.1); color: #ff6b35; font-weight: 800; border-radius: 30px; margin-bottom: 1.5rem; font-size: 0.95rem; letter-spacing: 2px; text-transform: uppercase;">Discover Pathways</div>
                     <h2 class="section-title" style="font-size: 3rem; font-weight: 800; color: #0f172a; letter-spacing: -1px; margin-bottom: 1.5rem;">Choose Your Learning Path</h2>
-                    <p class="section-subtitle" style="font-size: 1.2rem; color: #64748b; max-width: 650px; margin: 0 auto; line-height: 1.6;">Master the highly-demanded technologies that shape tomorrow. Pick a category and start your journey from zero to one.</p>
+                    <p class="section-subtitle" style="font-size: 1.2rem; color: #374151; max-width: 650px; margin: 0 auto; line-height: 1.6;">Master the highly-demanded technologies that shape tomorrow. Pick a category and start your journey from zero to one.</p>
                 </div>
 
                 <div class="adv-path-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;">
@@ -3031,8 +3033,8 @@
                             <i data-lucide="code" style="width: 36px; height: 36px;"></i>
                         </div>
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Coding & Development</h3>
-                        <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin: 0;">AI, Full-Stack Web Dev, Open Source, and Data Structures.</p>
-                        <div class="adv-path-arrow">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
+                        <p style="color: #374151; font-size: 1.05rem; line-height: 1.6; margin: 0;">AI, Full-Stack Web Dev, Open Source, and Data Structures.</p>
+                        <div class="adv-path-arrow" style="color: #374151;">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
                     </div>
 
                     <!-- Card 2 -->
@@ -3041,8 +3043,8 @@
                             <i data-lucide="brain" style="width: 36px; height: 36px;"></i>
                         </div>
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Life & Health</h3>
-                        <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin: 0;">Physical Fitness, Mental Resilience, and Bio-hacking.</p>
-                        <div class="adv-path-arrow">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
+                        <p style="color: #374151; font-size: 1.05rem; line-height: 1.6; margin: 0;">Physical Fitness, Mental Resilience, and Bio-hacking.</p>
+                        <div class="adv-path-arrow" style="color: #374151;">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
                     </div>
 
                     <!-- Card 3 -->
@@ -3051,8 +3053,8 @@
                             <i data-lucide="trending-up" style="width: 36px; height: 36px;"></i>
                         </div>
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Business & Startups</h3>
-                        <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin: 0;">Sales, Marketing, Entrepreneurship, and Pitching.</p>
-                        <div class="adv-path-arrow">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
+                        <p style="color: #374151; font-size: 1.05rem; line-height: 1.6; margin: 0;">Sales, Marketing, Entrepreneurship, and Pitching.</p>
+                        <div class="adv-path-arrow" style="color: #374151;">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
                     </div>
 
                     <!-- Card 4 -->
@@ -3061,8 +3063,8 @@
                             <i data-lucide="newspaper" style="width: 36px; height: 36px;"></i>
                         </div>
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Communication Skills</h3>
-                        <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin: 0;">English Fluency, The Hindu Analysis, and Interviews.</p>
-                        <div class="adv-path-arrow">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
+                        <p style="color: #374151; font-size: 1.05rem; line-height: 1.6; margin: 0;">English Fluency, The Hindu Analysis, and Interviews.</p>
+                        <div class="adv-path-arrow" style="color: #374151;">Explore Path <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i></div>
                     </div>
 
                 </div>
@@ -3572,21 +3574,20 @@
 
             <div class="adv-doubt-banner">
                 <div class="adv-doubt-content">
-                    <div class="adv-doubt-badge">24x7 Available</div>
-                    <h2>Stuck with a Doubt? Don't wait.</h2>
+                    <div class="adv-doubt-badge">24X7 AVAILABLE</div>
+                    <h2>Stuck with a Doubt?<br>Don't wait.</h2>
                     <p>Click a photo, type it, or just ask by voice. Our AI Mentor will instantly explain the core concepts step-by-step in Hindi, English, or 50+ other languages.</p>
                     <a href="ai-mentor.html" class="adv-doubt-btn">
-                        <i data-lucide="bot" style="width: 20px; height: 20px;"></i> Chat with AI Mentor Now
+                        <i data-lucide="message-square" style="width: 20px; height: 20px;"></i> Ask Your Doubt Now
                     </a>
                 </div>
                 
                 <div class="adv-doubt-visual">
-                    <div class="floating-bubble bubble-1"><i data-lucide="help-circle"></i> LangChain?</div>
-                    <div class="floating-bubble bubble-2"><i data-lucide="code"></i> Python Bug?</div>
-                    <div class="floating-bubble bubble-3"><i data-lucide="lightbulb"></i> Startup Idea?</div>
+                    <div class="floating-bubble bubble-1"><i data-lucide="help-circle" style="color: #ef4444; width: 18px; height: 18px;"></i> Python?</div>
+                    <div class="floating-bubble bubble-3"><i data-lucide="lightbulb" style="color: #f59e0b; width: 18px; height: 18px;"></i> Startup Idea?</div>
+                    <div class="floating-bubble bubble-2"><i data-lucide="code-2" style="color: #10b981; width: 18px; height: 18px;"></i> Python Bug?</div>
                     
-                    <div class="adv-doubt-center-icon">
-                    </div>
+                    <div class="adv-doubt-center-icon"></div>
                 </div>
             </div>
         </section>
@@ -3976,12 +3977,33 @@
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
 
-                <!-- 2. AI Mentor (24/7 AI Tutor & Video Guidance) -->
-                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()" style="border: 1px solid rgba(139, 92, 246, 0.3); background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.05));">
-                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                <!-- 2. AI Tools Hub (50+ Curated Tools) -->
+                <a href="ai-tools.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
-                            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                            <path d="M5 3v4"></path>
+                            <path d="M19 17v4"></path>
+                            <path d="M3 5h4"></path>
+                            <path d="M17 19h4"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Tools Hub</span>
+                            <span class="drawer-badge" style="background: #8b5cf6; color: white;">50+ Tools</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Best AI tools for coding, design, agents &amp; productivity</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 3. AI Agent (24/7 Autonomous Assistant & Doubt Solver) -->
+                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #6366f1, #4338ca);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="12" x="3" y="8" rx="2"></rect>
+                            <path d="M12 2v6"></path>
                             <circle cx="8.5" cy="14" r="1.5"></circle>
                             <circle cx="15.5" cy="14" r="1.5"></circle>
                             <line x1="8" y1="18" x2="16" y2="18"></line>
@@ -3989,15 +4011,15 @@
                     </div>
                     <div class="drawer-card-info">
                         <div class="drawer-card-title-row">
-                            <span class="drawer-card-title" style="color: #7c3aed;">AI Mentor</span>
-                            <span class="drawer-badge" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white;">24/7 Live AI</span>
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Agent</span>
+                            <span class="drawer-badge" style="background: #6366f1; color: white;">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc">Ask coding doubts, get curated YouTube tutorials &amp; roadmaps</span>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Autonomous conversational agent for voice doubts &amp; code solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
 
-                <!-- 3. About us -->
+                <!-- 4. About us -->
                 <a href="#about" class="drawer-card" onclick="closeNavDrawer()">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4044,7 +4066,7 @@
                     <div class="drawer-card-info">
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title">Latest Jobs</span>
-                            <span class="drawer-badge" style="background: #16a34a;">🇮🇳 Live Feed</span>
+                            <span class="drawer-badge" style="background: #16a34a;">Live Feed</span>
                         </div>
                         <span class="drawer-card-desc">Bengaluru, Hyderabad, Pune, Mumbai &amp; Remote openings</span>
                     </div>
@@ -4052,10 +4074,108 @@
                 </a>
             </div>
 
-            <!-- Quick Links -->
-            <div class="drawer-section-title" style="margin-top: 1rem;">MORE PLATFORM TOOLS</div>
-            <ul class="drawer-links-list">
+            <!-- Platform Features Section -->
+            <div class="drawer-section-title" style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>PLATFORM FEATURES</span>
+                <span class="drawer-badge" style="background: linear-gradient(135deg, #ec4899, #f43f5e); font-size: 0.65rem; color: white;">NEW</span>
+            </div>
+            <div class="drawer-primary-links">
+                <!-- 1. Technical Interview Studio -->
+                <a href="interview-prep.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" x2="12" y1="19" y2="22"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Technical Interview Studio</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Simulate tech rounds &amp; benchmark resume against ATS algorithms</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
 
+                <!-- 2. Code Clash (1v1 Arena) -->
+                <a href="code-clash.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #ea580c, #c2410c);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Code Clash Arena</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Live algorithmic duels, test case runner &amp; Elo benchmarks</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 3. 3D Portfolio & Digital ID -->
+                <a href="portfolio-generator.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Engineering Portfolio Studio</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Production developer profile builder with verified credentials</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 4. System Design Canvas -->
+                <a href="system-design.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="16" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="2" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="9" y="2" width="6" height="6" rx="1"></rect>
+                            <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path>
+                            <path d="M12 12V8"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">System Design Canvas</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Interactive distributed architecture canvas &amp; 100k RPS simulator</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 5. Community & Doubt Hub -->
+                <a href="community.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #a855f7, #7e22ce);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <path d="M8 9h8"></path>
+                            <path d="M8 13h5"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Community &amp; Doubt Hub</span>
+                            <span class="drawer-badge" style="background: #9333ea; color: white;">Doubt Hub</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Peer questions &amp; 24/7 AI Mentor instant solutions</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+            </div>
+
+            <!-- Core Academic & Practice Tools -->
+            <div class="drawer-section-title" style="margin-top: 1.25rem;">MORE PLATFORM TOOLS</div>
+            <ul class="drawer-links-list">
                 <li>
                     <a href="tsoc.html" onclick="closeNavDrawer()">
                         <span class="drawer-icon-box tsoc-icon">
@@ -4077,7 +4197,7 @@
                                 <line x1="12" y1="19" x2="20" y2="19"></line>
                             </svg>
                         </span>
-                        <span style="font-weight: 600;">IndroLabs Compiler & Labs</span>
+                        <span style="font-weight: 600;">IndroLabs Compiler &amp; Labs</span>
                     </a>
                 </li>
                 <li>
@@ -4094,20 +4214,7 @@
                 </li>
                 <li>
                     <a href="ai-mentor.html" onclick="closeNavDrawer()">
-                        <span class="drawer-icon-box bot-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="18" height="12" x="3" y="8" rx="2"></rect>
-                                <path d="M12 2v6"></path>
-                                <circle cx="8.5" cy="14" r="1.5"></circle>
-                                <circle cx="15.5" cy="14" r="1.5"></circle>
-                            </svg>
-                        </span>
-                        <span style="font-weight: 600; color: #7c3aed;">AI Mentor (24/7 Chat)</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="shikshak.html" onclick="closeNavDrawer()">
-                        <span class="drawer-icon-box bot-icon">
+                        <span class="drawer-icon-box bot-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 8V4H8"></path>
                                 <rect width="16" height="12" x="4" y="8" rx="2"></rect>
@@ -4117,7 +4224,7 @@
                                 <path d="M9 13v2"></path>
                             </svg>
                         </span>
-                        <span style="font-weight: 600;">AI Tools Hub (Shikshak)</span>
+                        <span style="font-weight: 600;">24/7 AI Agent (Doubt Solver)</span>
                     </a>
                 </li>
             </ul>
@@ -4531,6 +4638,6 @@ vector<int> twoSum(vector<int>& nums, int target) {
         }
     };
     </script>
-
+    <script src="main.js"></script>
 </body>
 </html>

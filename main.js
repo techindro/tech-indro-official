@@ -46,11 +46,32 @@ function ensureNavDrawer() {
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
-                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()" style="border: 1px solid rgba(139, 92, 246, 0.3); background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.05));">
-                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                <!-- 2. AI Tools Hub (50+ Curated Tools) -->
+                <a href="ai-tools.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
-                            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                            <path d="M5 3v4"></path>
+                            <path d="M19 17v4"></path>
+                            <path d="M3 5h4"></path>
+                            <path d="M17 19h4"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Tools Hub</span>
+                            <span class="drawer-badge" style="background: #8b5cf6; color: white;">50+ Tools</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Best AI tools for coding, design, agents &amp; productivity</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+                <!-- 3. AI Agent (24/7 Autonomous Assistant & Doubt Solver) -->
+                <a href="ai-mentor.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #6366f1, #4338ca);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="12" x="3" y="8" rx="2"></rect>
+                            <path d="M12 2v6"></path>
                             <circle cx="8.5" cy="14" r="1.5"></circle>
                             <circle cx="15.5" cy="14" r="1.5"></circle>
                             <line x1="8" y1="18" x2="16" y2="18"></line>
@@ -58,10 +79,10 @@ function ensureNavDrawer() {
                     </div>
                     <div class="drawer-card-info">
                         <div class="drawer-card-title-row">
-                            <span class="drawer-card-title" style="color: #7c3aed;">AI Mentor</span>
-                            <span class="drawer-badge" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white;">24/7 Live AI</span>
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Agent</span>
+                            <span class="drawer-badge" style="background: #6366f1; color: white;">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc">Ask coding doubts, get curated YouTube tutorials &amp; roadmaps</span>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Autonomous conversational agent for voice doubts &amp; code solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -98,7 +119,108 @@ function ensureNavDrawer() {
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             </div>
-            <div class="drawer-section-title" style="margin-top: 1rem;">MORE PLATFORM TOOLS</div>
+
+            <!-- Platform Features Section -->
+            <div class="drawer-section-title" style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>PLATFORM FEATURES</span>
+                <span class="drawer-badge" style="background: linear-gradient(135deg, #ec4899, #f43f5e); font-size: 0.65rem; color: white;">NEW</span>
+            </div>
+            <div class="drawer-primary-links">
+                <!-- 1. Technical Interview Studio -->
+                <a href="interview-prep.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #ff6b35, #ea580c);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" x2="12" y1="19" y2="22"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Technical Interview Studio</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Simulate tech rounds &amp; benchmark resume against ATS algorithms</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 2. Code Clash (1v1 Arena) -->
+                <a href="code-clash.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #ea580c, #c2410c);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Code Clash Arena</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Live algorithmic duels, test case runner &amp; Elo benchmarks</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 3. 3D Portfolio & Digital ID -->
+                <a href="portfolio-generator.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Engineering Portfolio Studio</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Production developer profile builder with verified credentials</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 4. System Design Canvas -->
+                <a href="system-design.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="16" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="2" y="16" width="6" height="6" rx="1"></rect>
+                            <rect x="9" y="2" width="6" height="6" rx="1"></rect>
+                            <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path>
+                            <path d="M12 12V8"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">System Design Canvas</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Interactive distributed architecture canvas &amp; 100k RPS simulator</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
+                <!-- 5. Community & Doubt Hub -->
+                <a href="community.html" class="drawer-card" onclick="closeNavDrawer()">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #a855f7, #7e22ce);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <path d="M8 9h8"></path>
+                            <path d="M8 13h5"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Community &amp; Doubt Hub</span>
+                            <span class="drawer-badge" style="background: #9333ea; color: white;">Doubt Hub</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Peer questions &amp; 24/7 AI Mentor instant solutions</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+            </div>
+
+            <!-- Core Academic & Practice Tools -->
+            <div class="drawer-section-title" style="margin-top: 1.25rem;">MORE PLATFORM TOOLS</div>
             <ul class="drawer-links-list">
                 <li>
                     <a href="tsoc.html" onclick="closeNavDrawer()">
@@ -138,20 +260,7 @@ function ensureNavDrawer() {
                 </li>
                 <li>
                     <a href="ai-mentor.html" onclick="closeNavDrawer()">
-                        <span class="drawer-icon-box bot-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="18" height="12" x="3" y="8" rx="2"></rect>
-                                <path d="M12 2v6"></path>
-                                <circle cx="8.5" cy="14" r="1.5"></circle>
-                                <circle cx="15.5" cy="14" r="1.5"></circle>
-                            </svg>
-                        </span>
-                        <span style="font-weight: 600; color: #7c3aed;">AI Mentor (24/7 Chat)</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="shikshak.html" onclick="closeNavDrawer()">
-                        <span class="drawer-icon-box bot-icon">
+                        <span class="drawer-icon-box bot-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 8V4H8"></path>
                                 <rect width="16" height="12" x="4" y="8" rx="2"></rect>
@@ -161,7 +270,7 @@ function ensureNavDrawer() {
                                 <path d="M9 13v2"></path>
                             </svg>
                         </span>
-                        <span style="font-weight: 600;">AI Tools Hub (Shikshak)</span>
+                        <span style="font-weight: 600;">24/7 AI Agent (Doubt Solver)</span>
                     </a>
                 </li>
             </ul>

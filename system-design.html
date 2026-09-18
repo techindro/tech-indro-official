@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Architecture Canvas &amp; High-Throughput Load Simulator | Tech Indro</title>
+    <meta name="description" content="Design, benchmark, and stress-test production distributed topologies. Model Envoy gateways, Redis clusters, partitioned Kafka streams, and multi-region databases with realistic P99 tail latency and fault domain analysis.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --sys-bg: #ffffff;
+            --sys-card: #ffffff;
+            --sys-border: #e2e8f0;
+            --sys-cyan: #0284c7;
+            --sys-accent: #ff6b35;
+            --sys-purple: #6747a8;
+            --sys-orange: #ff6b35;
+            --sys-green: #10b981;
+            --sys-red: #ef4444;
+            --sys-gold: #d97706;
+            --sys-text-main: #0f172a;
+            --sys-text-sub: #374151;
+        }
+
+        [data-theme="dark"] {
+            --sys-bg: #0f172a;
+            --sys-card: #1e293b;
+            --sys-border: #334155;
+            --sys-text-main: #f8fafc;
+            --sys-text-sub: #94a3b8;
+        }
+
+        [data-theme="dark"] header#header {
+            background: rgba(15, 23, 42, 0.96);
+            border-bottom-color: #334155;
+        }
+
+        [data-theme="dark"] header#header .logo span {
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .palette-panel,
+        [data-theme="dark"] .telemetry-panel,
+        [data-theme="dark"] .arch-node,
+        [data-theme="dark"] .gauge-card,
+        [data-theme="dark"] .preset-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .canvas-board {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        [data-theme="dark"] .sys-hero h1,
+        [data-theme="dark"] .palette-panel h4,
+        [data-theme="dark"] .telemetry-panel h4,
+        [data-theme="dark"] .arch-node h4 {
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .component-item {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .component-item:hover {
+            background: #1e293b;
+            border-color: var(--sys-cyan);
+        }
+
+        [data-theme="dark"] .hamburger-btn {
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+
+        body {
+            background-color: var(--sys-bg);
+            color: var(--sys-text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding-top: 76px;
+            min-height: 100vh;
+        }
+
+        .sys-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        /* Top Header */
+        header#header {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--sys-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .header-wrap {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Hero Banner */
+        .sys-hero {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .sys-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 107, 53, 0.08);
+            color: #ea580c;
+            border: 1.5px solid rgba(255, 107, 53, 0.3);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 12px;
+        }
+
+        .node-del-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 5;
+        }
+
+        .arch-node:hover .node-del-btn {
+            display: flex;
+        }
+
+        .node-del-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .canvas-dragover {
+            border-color: #0284c7 !important;
+            background: #f0f9ff !important;
+        }
+
+        @media print {
+            body { background: white !important; padding: 0 !important; }
+            header#header, .palette-panel, .sim-control-bar, .preset-bar, .sys-hero, .btn-audit, #exportCanvasBtn, .node-del-btn {
+                display: none !important;
+            }
+            .canvas-layout { display: block !important; }
+            .canvas-board { border: 1.5px solid #cbd5e1 !important; box-shadow: none !important; }
+        }
+
+        .sys-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #111827;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+
+        .sys-hero p {
+            color: #374151;
+            font-size: clamp(0.98rem, 1.8vw, 1.08rem);
+            line-height: 1.6;
+            max-width: 740px;
+            margin: 0 auto;
+        }
+
+        /* Presets Toolbar */
+        .preset-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--sys-border);
+            color: #111827;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .preset-btn:hover {
+            border-color: #ff6b35;
+            color: #ff6b35;
+            transform: translateY(-2px);
+        }
+
+        .preset-btn.active {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
+        }
+
+        /* Main Canvas Layout */
+        .canvas-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 1200px) {
+            .canvas-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Left Components Palette */
+        .palette-panel {
+            background: var(--sys-card);
+            border: 1px solid var(--sys-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .palette-panel h4 {
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .component-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: grab;
+            transition: all 0.2s;
+            color: #0f172a;
+        }
+
+        .component-item:hover {
+            border-color: var(--sys-cyan);
+            background: #f0f9ff;
+            transform: translateX(4px);
+        }
+
+        .c-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--sys-cyan);
+            flex-shrink: 0;
+        }
+
+        /* Center Canvas */
+        .canvas-board {
+            background: #ffffff;
+            border: 2px dashed #cbd5e1;
+            border-radius: 24px;
+            min-height: 520px;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .canvas-board::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(15, 23, 42, 0.1) 1.2px, transparent 1.2px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        /* Architecture Nodes in Canvas */
+        .topology-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .arch-node {
+            background: #ffffff;
+            border: 2px solid var(--sys-border);
+            border-radius: 18px;
+            padding: 20px 16px;
+            width: 140px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            color: #0f172a;
+        }
+
+        .arch-node.bottleneck {
+            border-color: var(--sys-red) !important;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.4) !important;
+            animation: pulseDanger 1.2s infinite;
+        }
+
+        @keyframes pulseDanger {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .arch-node.healthy {
+            border-color: var(--sys-green);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .node-symbol {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sys-cyan);
+            font-size: 1.5rem;
+        }
+
+        .arch-node h5 {
+            margin: 0 0 4px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .arch-node span {
+            font-size: 0.75rem;
+            color: #374151;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.4rem;
+            position: relative;
+        }
+
+        .flow-arrow.animating {
+            color: var(--sys-cyan);
+            animation: pulseArrow 0.8s infinite alternate;
+        }
+
+        @keyframes pulseArrow {
+            from { transform: translateX(-3px); opacity: 0.5; }
+            to { transform: translateX(3px); opacity: 1; }
+        }
+
+        /* Simulation Controls Bar */
+        .sim-control-bar {
+            background: #ffffff;
+            border: 1px solid var(--sys-border);
+            border-radius: 18px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 3;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            color: #0f172a;
+        }
+
+        .traffic-slider-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .traffic-slider {
+            flex: 1;
+            accent-color: var(--sys-cyan);
+        }
+
+        .btn-run-sim {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 22px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+            transition: all 0.2s;
+        }
+
+        .btn-run-sim:hover {
+            background: #e55a2b;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
+        }
+
+        /* Right Telemetry & AI Audit Panel */
+        .telemetry-panel {
+            background: var(--sys-card);
+            border: 1px solid var(--sys-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .gauge-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .gauge-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .gauge-card h6 {
+            margin: 0 0 6px;
+            color: #64748b;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .gauge-card .val {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--sys-cyan);
+        }
+
+        .alert-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #b91c1c;
+        }
+
+        .alert-box.green {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.25);
+            color: #047857;
+        }
+
+        .btn-audit {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 16px;
+            width: 100%;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <div class="header-wrap">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 50px; white-space: nowrap; flex-shrink: 0;">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 12px; background: white;">
+                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span style="font-size: 0.85rem; color: #ff6b35; font-weight: 700; background: #fff7ed; padding: 4px 10px; border-radius: 8px; border: 1px solid #fed7aa;">SYSTEM DESIGN LAB</span>
+                <a href="index.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">Home</a>
+                <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Open navigation menu" style="background: none; border: 1.5px solid #e2e8f0; border-radius: 10px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #111827;">
+                    <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="sys-container">
+
+        <div class="sys-hero">
+            <div class="sys-tag">
+                <i data-lucide="cpu" style="width: 14px; height: 14px;"></i> DISTRIBUTED SYSTEMS ARCHITECTURE STUDIO
+            </div>
+            <h1>Distributed Architecture Canvas &amp; High-Throughput Load Simulator</h1>
+            <p>Design, benchmark, and stress-test production distributed topologies. Model Envoy gateways, Redis clusters, partitioned Kafka streams, and multi-region databases with realistic P99 tail latency and fault domain analysis.</p>
+        </div>
+
+        <!-- Presets Selection Bar -->
+        <div class="preset-bar">
+            <button class="preset-btn active" onclick="loadPreset('url-shortener')">
+                <i data-lucide="link" style="width: 16px; height: 16px; color: var(--sys-cyan);"></i>
+                <span>High-Throughput URL Shortener (100k+ RPS)</span>
+            </button>
+            <button class="preset-btn" onclick="loadPreset('chat-kafka')">
+                <i data-lucide="message-square" style="width: 16px; height: 16px; color: var(--sys-purple);"></i>
+                <span>Distributed Chat &amp; Event Stream (Discord/Slack Scale)</span>
+            </button>
+            <button class="preset-btn" onclick="loadPreset('flash-sale')">
+                <i data-lucide="zap" style="width: 16px; height: 16px; color: var(--sys-orange);"></i>
+                <span>E-Commerce Flash Sale &amp; Saga Orchestration</span>
+            </button>
+            <button class="preset-btn" onclick="loadPreset('video-stream')">
+                <i data-lucide="video" style="width: 16px; height: 16px; color: var(--sys-green);"></i>
+                <span>Adaptive Bitrate Video Pipeline (HLS/DASH + Edge CDN)</span>
+            </button>
+        </div>
+
+        <div class="canvas-layout">
+
+            <!-- LEFT: Component Palette -->
+            <div class="palette-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="margin: 0;">Component Library</h4>
+                    <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Drag or Click</span>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'client', 'Global Clients', 'smartphone', 'Multi-Region HTTP/3 Traffic')" onclick="addComponentToTopology('client', 'Global Clients', 'smartphone', 'Multi-Region HTTP/3 Traffic')">
+                    <div class="c-icon"><i data-lucide="smartphone" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Global Clients</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">Multi-Region HTTP/3 Traffic</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'dns', 'Cloudflare Edge CDN', 'shield', 'DDoS Shield & Anycast Routing')" onclick="addComponentToTopology('dns', 'Cloudflare Edge CDN', 'shield', 'DDoS Shield & Anycast Routing')">
+                    <div class="c-icon"><i data-lucide="shield" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Cloudflare Edge CDN / WAF</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">DDoS Shield &amp; Anycast Routing</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'lb', 'Envoy Gateway / ALB', 'network', 'L7 Rate Limiting & Routing')" onclick="addComponentToTopology('lb', 'Envoy Gateway / ALB', 'network', 'L7 Rate Limiting & Routing')">
+                    <div class="c-icon"><i data-lucide="network" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Envoy Gateway / ALB</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">L7 Rate Limiting &amp; Routing</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'app', 'Kubernetes Microservices', 'server', 'Stateless Autoscaled Pods')" onclick="addComponentToTopology('app', 'Kubernetes Microservices', 'server', 'Stateless Autoscaled Pods')">
+                    <div class="c-icon"><i data-lucide="server" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Kubernetes Microservices</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">Stateless Autoscaled Pods</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'cache', 'Redis Sentinel / Cluster', 'zap', 'Sub-Millisecond L2 Caching')" onclick="addComponentToTopology('cache', 'Redis Sentinel / Cluster', 'zap', 'Sub-Millisecond L2 Caching')">
+                    <div class="c-icon"><i data-lucide="zap" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Redis Sentinel / Cluster</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">Sub-Millisecond L2 Caching</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'queue', 'Apache Kafka Cluster', 'inbox', 'Partitioned Event Log')" onclick="addComponentToTopology('queue', 'Apache Kafka Cluster', 'inbox', 'Partitioned Event Log')">
+                    <div class="c-icon"><i data-lucide="inbox" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Apache Kafka Cluster</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">Partitioned Event Log</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 'db', 'PostgreSQL Primary / Replicas', 'database', 'ACID & Read/Write Split')" onclick="addComponentToTopology('db', 'PostgreSQL Primary / Replicas', 'database', 'ACID & Read/Write Split')">
+                    <div class="c-icon"><i data-lucide="database" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">PostgreSQL Primary / Replicas</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">ACID &amp; Read/Write Split</div>
+                    </div>
+                </div>
+
+                <div class="component-item" draggable="true" ondragstart="handleDragStart(event, 's3', 'S3 Blob Storage', 'hard-drive', 'Immutable Object Tier')" onclick="addComponentToTopology('s3', 'S3 Blob Storage', 'hard-drive', 'Immutable Object Tier')">
+                    <div class="c-icon"><i data-lucide="hard-drive" style="width: 18px; height: 18px;"></i></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">S3 Blob Storage</div>
+                        <div style="font-size: 0.75rem; color: #374151; font-weight: 500;">Immutable Object Tier</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER: Interactive Canvas -->
+            <div class="canvas-board" id="canvasBoardEl">
+                <div style="display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h3 id="currentSystemName" style="margin: 0; font-size: 1.3rem; color: #0f172a;">High-Throughput URL Shortener Topology</h3>
+                        <span style="font-size: 0.8rem; color: #374151; font-weight: 500;" id="topologySub">Bitly Scale Architecture • Read-Heavy (100:1 Read-to-Write Ratio)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="clearTopology()" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; color: #64748b; cursor: pointer;">
+                            Clear
+                        </button>
+                        <button onclick="resetToCurrentPreset()" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; color: #0f172a; cursor: pointer;">
+                            Reset
+                        </button>
+                        <button id="exportCanvasBtn" onclick="window.print()" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; color: #0284c7; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="download" style="width: 14px; height: 14px;"></i> Export PDF
+                        </button>
+                        <span style="background: rgba(16, 185, 129, 0.12); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;" id="liveStatusBadge">
+                            ● READY FOR LOAD TEST
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Live Topology Nodes with Drag & Drop Zone -->
+                <div class="topology-flow" id="topologyContainer" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Simulation Control Slider -->
+                <div class="sim-control-bar">
+                    <div class="traffic-slider-box">
+                        <span style="font-size: 0.85rem; font-weight: 700;">CONCURRENT LOAD:</span>
+                        <input type="range" class="traffic-slider" id="trafficRpsSlider" min="10000" max="200000" step="10000" value="70000" oninput="updateRpsLabel()">
+                        <span id="rpsValueLabel" style="font-family: monospace; font-weight: 800; color: var(--sys-cyan); min-width: 90px;">70,000 RPS</span>
+                    </div>
+
+                    <button class="btn-run-sim" id="runSimBtn" onclick="runTrafficSimulation()">
+                        <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                        <span>Execute Load Benchmark</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT: Telemetry Gauges & AI Audit -->
+            <div class="telemetry-panel">
+                <h4 style="margin: 0 0 16px; font-size: 0.95rem; color: #374151; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Distributed Telemetry &amp; SLO
+                </h4>
+
+                <div class="gauge-grid">
+                    <div class="gauge-card">
+                        <h6>P99 TAIL LATENCY</h6>
+                        <div class="val" id="telemetryP99">12ms</div>
+                    </div>
+                    <div class="gauge-card">
+                        <h6>THROUGHPUT</h6>
+                        <div class="val" id="telemetryThroughput">70k RPS</div>
+                    </div>
+                    <div class="gauge-card">
+                        <h6>ERROR RATE (5xx)</h6>
+                        <div class="val" id="telemetryErrors" style="color: #059669;">0.01%</div>
+                    </div>
+                    <div class="gauge-card">
+                        <h6>CACHE HIT RATIO</h6>
+                        <div class="val" id="telemetryCache">94.2%</div>
+                    </div>
+                </div>
+
+                <div id="alertsContainer">
+                    <div class="alert-box green" id="mainAlertBox">
+                        <strong>Topology Stable:</strong> Redis cache successfully shields PostgreSQL database from 94% of read queries.
+                    </div>
+                </div>
+
+                <button class="btn-audit" onclick="runAiArchitectureAudit()">
+                    <i data-lucide="shield-alert" style="width: 16px; height: 16px;"></i>
+                    <span>Staff Architect Resilience &amp; Fault Audit</span>
+                </button>
+
+                <div id="aiAuditResultBox" style="margin-top: 16px; font-size: 0.85rem; line-height: 1.5; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: none;"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const PRESETS = {
+            'url-shortener': {
+                name: 'High-Throughput URL Shortener Topology',
+                subtitle: 'Bitly Scale Architecture • Read-Heavy (100:1 Read-to-Write Ratio)',
+                nodes: [
+                    { id: 'client', name: 'Global Traffic', icon: 'smartphone', desc: '100M+ Monthly Users' },
+                    { id: 'dns', name: 'Cloudflare Edge CDN', icon: 'shield', desc: 'Anycast DNS & WAF' },
+                    { id: 'lb', name: 'Envoy API Gateway', icon: 'network', desc: 'L7 Rate Limiting & SSL' },
+                    { id: 'app', name: 'Stateless URL Cluster', icon: 'server', desc: 'K8s Autoscaled Pods' },
+                    { id: 'cache', name: 'Redis L2 Cluster', icon: 'zap', desc: 'Sub-millisecond Reads' },
+                    { id: 'db', name: 'PostgreSQL Primary/Replica', icon: 'database', desc: 'ACID Persistent Store' }
+                ]
+            },
+            'chat-kafka': {
+                name: 'Distributed Real-Time Chat & Streaming Engine',
+                subtitle: 'Discord / Slack Scale • Full-Duplex WebSockets & Partitioned Kafka Topics',
+                nodes: [
+                    { id: 'client', name: 'Client Gateways', icon: 'message-square', desc: 'Web & Mobile WebSocket' },
+                    { id: 'gateway', name: 'WebSocket Gateway Fleet', icon: 'network', desc: 'Persistent TLS Ingress' },
+                    { id: 'kafka', name: 'Apache Kafka Cluster', icon: 'inbox', desc: 'Partitioned Event Log' },
+                    { id: 'worker', name: 'Fan-out Dispatchers', icon: 'cpu', desc: 'Concurrent Push Fleet' },
+                    { id: 'redis', name: 'Redis Pub/Sub', icon: 'zap', desc: 'Presence & State Cache' },
+                    { id: 'db', name: 'ScyllaDB / Cassandra', icon: 'database', desc: 'Multi-Region Chat Log' }
+                ]
+            },
+            'flash-sale': {
+                name: 'High-Concurrency Flash Sale & Checkout Pipeline',
+                subtitle: 'E-Commerce Tier-1 Scale • Distributed Lock, Saga Orchestrator & Rate Limiting',
+                nodes: [
+                    { id: 'client', name: 'Concurrent Ingress', icon: 'shopping-cart', desc: '250k Peak Simultaneous' },
+                    { id: 'waf', name: 'CloudFront WAF', icon: 'shield', desc: 'Bot Throttling & Token Gate' },
+                    { id: 'order', name: 'Order Ingestion Service', icon: 'package', desc: 'Idempotent Fast-ACK' },
+                    { id: 'queue', name: 'Kafka Order Log', icon: 'inbox', desc: 'Durable Event Stream' },
+                    { id: 'payment', name: 'Saga Checkout Fleet', icon: 'credit-card', desc: 'Async Banking & Escrow' },
+                    { id: 'db', name: 'Aurora PostgreSQL Multi-AZ', icon: 'database', desc: 'ACID Financial Ledger' }
+                ]
+            },
+            'video-stream': {
+                name: 'Adaptive Video Ingestion & Transcoding Pipeline',
+                subtitle: 'Netflix / YouTube Scale • Distributed Chunk Processing & Edge Delivery',
+                nodes: [
+                    { id: 'creator', name: 'Ingestion Sources', icon: 'video', desc: 'High-Bitrate 4K Stream' },
+                    { id: 's3', name: 'S3 Object Storage', icon: 'hard-drive', desc: 'Raw Chunk Ingestion Tier' },
+                    { id: 'sqs', name: 'Kafka / SQS Pipeline', icon: 'inbox', desc: 'Transcoding Task Shards' },
+                    { id: 'transcoder', name: 'GPU Transcoder Fleet', icon: 'cpu', desc: 'Multi-Bitrate HLS/DASH' },
+                    { id: 'cdn', name: 'Multi-CDN Edge', icon: 'globe', desc: 'Low-Latency Video Delivery' }
+                ]
+            }
+        };
+
+        let currentPresetKey = 'url-shortener';
+        let currentTopologyNodes = [...PRESETS['url-shortener'].nodes];
+
+        function loadPreset(key) {
+            currentPresetKey = key;
+            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+            event.target.closest('button').classList.add('active');
+
+            const preset = PRESETS[key];
+            document.getElementById('currentSystemName').innerText = preset.name;
+            document.getElementById('topologySub').innerText = preset.subtitle;
+
+            currentTopologyNodes = JSON.parse(JSON.stringify(preset.nodes));
+            renderTopology(currentTopologyNodes);
+        }
+
+        function resetToCurrentPreset() {
+            currentTopologyNodes = JSON.parse(JSON.stringify(PRESETS[currentPresetKey].nodes));
+            renderTopology(currentTopologyNodes);
+        }
+
+        function clearTopology() {
+            currentTopologyNodes = [];
+            renderTopology(currentTopologyNodes);
+            document.getElementById('liveStatusBadge').innerText = '● BLANK CANVAS (DRAG COMPONENTS)';
+            document.getElementById('liveStatusBadge').style.color = '#64748b';
+            document.getElementById('liveStatusBadge').style.borderColor = '#cbd5e1';
+            document.getElementById('liveStatusBadge').style.background = '#f1f5f9';
+        }
+
+        function handleDragStart(event, id, name, icon, desc) {
+            const data = JSON.stringify({ id, name, icon, desc });
+            event.dataTransfer.setData('application/json', data);
+            event.dataTransfer.effectAllowed = 'copy';
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+            const board = document.getElementById('canvasBoardEl');
+            if (board) board.classList.add('canvas-dragover');
+        }
+
+        function handleDragLeave(event) {
+            const board = document.getElementById('canvasBoardEl');
+            if (board) board.classList.remove('canvas-dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const board = document.getElementById('canvasBoardEl');
+            if (board) board.classList.remove('canvas-dragover');
+
+            try {
+                const raw = event.dataTransfer.getData('application/json');
+                if (!raw) return;
+                const node = JSON.parse(raw);
+                addComponentToTopology(node.id, node.name, node.icon, node.desc);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function addComponentToTopology(id, name, icon, desc) {
+            const uniqueId = `${id}_${Date.now()}`;
+            currentTopologyNodes.push({ id: uniqueId, name, icon, desc });
+            renderTopology(currentTopologyNodes);
+
+            // Visual pulse feedback
+            const lastNode = document.getElementById(`node-${uniqueId}`);
+            if (lastNode) {
+                lastNode.style.transform = 'scale(1.1)';
+                setTimeout(() => lastNode.style.transform = '', 300);
+            }
+        }
+
+        function removeNode(idx) {
+            currentTopologyNodes.splice(idx, 1);
+            renderTopology(currentTopologyNodes);
+        }
+
+        function renderTopology(nodes) {
+            const container = document.getElementById('topologyContainer');
+            container.innerHTML = '';
+
+            if (!nodes || nodes.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #64748b; width: 100%;">
+                        <i data-lucide="plus-circle" style="width: 36px; height: 36px; margin: 0 auto 10px; color: #94a3b8; display: block;"></i>
+                        <h4 style="margin: 0 0 6px; font-size: 1.1rem; color: #1e293b;">Canvas is Empty</h4>
+                        <p style="margin: 0; font-size: 0.85rem;">Click or drag components from the left library to build your custom architecture.</p>
+                    </div>
+                `;
+                if (window.lucide) lucide.createIcons();
+                return;
+            }
+
+            nodes.forEach((node, idx) => {
+                const nodeDiv = document.createElement('div');
+                nodeDiv.className = 'arch-node healthy';
+                nodeDiv.id = `node-${node.id}`;
+                nodeDiv.innerHTML = `
+                    <button type="button" class="node-del-btn" onclick="removeNode(${idx})" title="Remove node">✕</button>
+                    <div class="node-symbol"><i data-lucide="${node.icon}" style="width: 22px; height: 22px;"></i></div>
+                    <h5>${node.name}</h5>
+                    <span>${node.desc}</span>
+                `;
+                container.appendChild(nodeDiv);
+
+                if (idx < nodes.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'flow-arrow';
+                    arrow.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+                    container.appendChild(arrow);
+                }
+            });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function updateRpsLabel() {
+            const val = parseInt(document.getElementById('trafficRpsSlider').value);
+            document.getElementById('rpsValueLabel').innerText = (val / 1000).toLocaleString() + 'k RPS';
+        }
+
+        async function runTrafficSimulation() {
+            const rps = parseInt(document.getElementById('trafficRpsSlider').value);
+            const btn = document.getElementById('runSimBtn');
+            btn.innerHTML = '<i data-lucide="loader" style="width: 18px; height: 18px; animation: spin 1s linear infinite;"></i> <span>Executing Stress Test...</span>';
+            btn.disabled = true;
+
+            const arrows = document.querySelectorAll('.flow-arrow');
+            arrows.forEach(a => a.classList.add('animating'));
+
+            const nodes = currentTopologyNodes.length > 0 ? currentTopologyNodes : PRESETS[currentPresetKey].nodes;
+
+            try {
+                const res = await fetch('/api/system-design/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nodes, rps })
+                });
+                const data = await res.json();
+
+                // Telemetry updates
+                document.getElementById('telemetryP99').innerText = data.p99Latency;
+                document.getElementById('telemetryThroughput').innerText = (data.throughputRps / 1000).toFixed(0) + 'k RPS';
+                document.getElementById('telemetryErrors').innerText = data.errorRate;
+                document.getElementById('telemetryCache').innerText = data.cacheHitRatio;
+
+                // Alerts update
+                const alertContainer = document.getElementById('alertsContainer');
+                alertContainer.innerHTML = '';
+                (data.alerts || []).forEach(al => {
+                    const box = document.createElement('div');
+                    box.className = al.severity === 'critical' ? 'alert-box' : 'alert-box green';
+                    box.innerHTML = `<strong>${al.node}:</strong> ${al.message}`;
+                    alertContainer.appendChild(box);
+                });
+
+                // Visual bottleneck highlights
+                document.querySelectorAll('.arch-node').forEach(n => n.classList.remove('bottleneck'));
+                if (data.bottleneckNodes && data.bottleneckNodes.length > 0) {
+                    data.bottleneckNodes.forEach(name => {
+                        const target = document.querySelector(`[id*="${name.toLowerCase()}"]`);
+                        if (target) target.classList.add('bottleneck');
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                btn.innerHTML = '<i data-lucide="play" style="width: 18px; height: 18px;"></i> <span>Execute Load Benchmark</span>';
+                btn.disabled = false;
+                arrows.forEach(a => a.classList.remove('animating'));
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        async function runAiArchitectureAudit() {
+            const btn = event.target.closest('button');
+            btn.innerHTML = '<i data-lucide="loader" style="width: 16px; height: 16px; animation: spin 1s linear infinite;"></i> <span>Auditing Fault Domains...</span>';
+            btn.disabled = true;
+
+            const resultBox = document.getElementById('aiAuditResultBox');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = '<div style="color: #475569; font-weight: 500;"><i data-lucide="clock" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Analyzing topological dependencies & single points of failure...</div>';
+            if (window.lucide) lucide.createIcons();
+
+            const nodes = currentTopologyNodes.length > 0 ? currentTopologyNodes : PRESETS[currentPresetKey].nodes;
+
+            try {
+                const res = await fetch('/api/system-design/audit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemName: document.getElementById('currentSystemName').innerText,
+                        nodes: nodes
+                    })
+                });
+                const data = await res.json();
+                const audit = data.audit;
+
+                resultBox.innerHTML = `
+                    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.9rem;">Architect Resilience Rating</strong>
+                            <span style="font-weight: 900; color: #0284c7; font-size: 1.05rem;">${audit.resilienceScore || 88}/100 Target</span>
+                        </div>
+                        <p style="margin: 0 0 10px; font-size: 0.85rem; color: #334155; line-height: 1.5;">${audit.verdict}</p>
+                        <strong style="color: #b91c1c; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px;">Fault Domains &amp; SPOF Mitigation:</strong>
+                        <ul style="margin: 4px 0 10px; padding-left: 18px; font-size: 0.8rem; color: #475569; line-height: 1.5;">
+                            ${(audit.spofRisks || []).map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                        ${audit.scalingRecommendations && audit.scalingRecommendations.length > 0 ? `
+                        <strong style="color: #047857; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px;">Scaling &amp; Durability Directives:</strong>
+                        <ul style="margin: 4px 0 0; padding-left: 18px; font-size: 0.8rem; color: #475569; line-height: 1.5;">
+                            ${audit.scalingRecommendations.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                        ` : ''}
+                    </div>
+                `;
+            } catch (e) {
+                console.error(e);
+            } finally {
+                btn.innerHTML = '<i data-lucide="shield-alert" style="width: 16px; height: 16px;"></i> <span>Staff Architect Resilience &amp; Fault Audit</span>';
+                btn.disabled = false;
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            currentTopologyNodes = JSON.parse(JSON.stringify(PRESETS['url-shortener'].nodes));
+            renderTopology(currentTopologyNodes);
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

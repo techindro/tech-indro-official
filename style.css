@@ -8,8 +8,8 @@
     --bg: #ffffff;
     --surface: #ffffff;
     --surface-glass: rgba(255, 255, 255, 0.95);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
+    --text-main: #111827;
+    --text-muted: #374151;
     --border: #e2e8f0;
     --card-bg: #ffffff;
     --card-border: #e2e8f0;
@@ -384,7 +384,12 @@ nav {
 }
 
 .hero-highlight {
-    color: var(--accent);
+    background: linear-gradient(90deg, #ffd700 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: 800;
 }
 
 .hero-subtitle {
@@ -1945,10 +1950,7 @@ footer {
     font-size: 1.6rem;
     margin-bottom: 0.75rem;
     font-weight: 700;
-    background: linear-gradient(to right, #fff, #a5b4fc);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
 }
 
 .batch-meta {

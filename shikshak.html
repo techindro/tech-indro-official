@@ -183,8 +183,30 @@
             </a>
         </div>
 
+        <!-- 24/7 AI Mentor Doubt Solver Banner -->
+        <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid #ff6b35; border-radius: 20px; padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; box-shadow: 0 4px 20px rgba(255, 107, 53, 0.1);">
+            <div style="display: flex; align-items: center; gap: 1.25rem;">
+                <div style="background: #ff6b35; color: white; width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);">
+                    <i data-lucide="bot" style="width: 28px; height: 28px;"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0 0 4px; font-size: 1.35rem; color: #9a3412; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                        24/7 AI Mentor (Doubt Solver)
+                        <span style="background: #ff6b35; color: white; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; font-weight: 700;">Live AI</span>
+                    </h3>
+                    <p style="margin: 0; color: #7c2d12; font-size: 0.95rem; font-weight: 500;">
+                        Got a coding doubt or technical problem? Chat in voice or text with our AI Mentor for instant step-by-step guidance.
+                    </p>
+                </div>
+            </div>
+            <a href="ai-mentor.html" style="background: #ff6b35; color: white; text-decoration: none; padding: 0.85rem 1.6rem; border-radius: 14px; font-weight: 800; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35); transition: all 0.2s;">
+                <i data-lucide="message-square" style="width: 18px; height: 18px;"></i>
+                Ask Your Doubt with AI Mentor
+            </a>
+        </div>
+
         <div class="tools-header">
-            <h1>Tech Indro AI Tools Hub</h1>
+            <h1>Tech Indro AI Developer Tools Hub</h1>
             <p style="color:#6b7280; font-size:1.2rem; max-width: 600px; margin: 0 auto 2rem;">Discover, search, and access the top 50+ AI tools across coding, design, video, and more.</p>
         </div>
 
@@ -306,7 +328,7 @@
                 card.innerHTML = `
                     <div class="tool-header">
                         <div class="tool-icon">
-                            <img src="https://www.google.com/s2/favicons?sz=64&domain=${new URL(tool.link).hostname}" alt="${tool.name}" style="width: 40px; height: 40px; border-radius: 8px;" onerror="this.outerHTML=\`<span style='font-size:1.5rem;'>\${tool.icon}</span>\`" />
+                            <img src="https://www.google.com/s2/favicons?sz=64&domain=${new URL(tool.link).hostname}" alt="${tool.name}" style="width: 40px; height: 40px; border-radius: 8px;" onerror="this.outerHTML=\`<i data-lucide='sparkles' style='width:24px;height:24px;color:#ff6b35;'></i>\`; if(window.lucide) lucide.createIcons();" />
                         </div>
                         <div class="tool-info">
                             <div class="tool-category">${tool.category}</div>

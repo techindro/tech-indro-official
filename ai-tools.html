@@ -3,304 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Hub (54+ Curated Tools) - TECH INDRO</title>
+    <title>AI Tools Hub (58+ Curated AI Tools) | TECH INDRO</title>
+    <meta name="description" content="Discover, search, and access 58+ top-tier AI tools across coding, UI design, LLM agents, generative media, and engineering productivity. Curated by Tech Indro Labs.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-dark: #070a12;
-            --surface-dark: #0f172a;
-            --border-dark: rgba(255, 255, 255, 0.08);
-            --primary: #3b82f6;
-            --accent-cyan: #06b6d4;
+            --tools-bg: #ffffff;
+            --tools-card: #ffffff;
+            --tools-border: #e2e8f0;
+            --tools-primary: #ff6b35;
+            --tools-primary-hover: #ea580c;
+            --tools-primary-light: #fff7ed;
+            --tools-text-main: #0f172a;
+            --tools-text-sub: #374151;
+            --tools-text-muted: #64748b;
         }
+
         body {
-            background-color: var(--bg-dark);
-            color: #f8fafc;
-            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--tools-bg);
+            color: var(--tools-text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 0;
+            padding-top: 80px;
             min-height: 100vh;
         }
+
+        /* Top Header */
+        header#header, header.site-header {
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--tools-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-item-link {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-item-link:hover {
+            color: var(--tools-primary);
+        }
+
+        .btn-header-login {
+            background: #ff6b35;
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn-header-login:hover {
+            background: #ea580c;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
         .hero-section {
-            padding: 120px 20px 40px;
+            padding: 48px 20px 24px;
             text-align: center;
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
         }
+
         .badge-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            color: #60a5fa;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            gap: 8px;
+            background: var(--tools-primary-light);
+            border: 1px solid #fed7aa;
+            color: var(--tools-primary);
+            padding: 7px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
             margin-bottom: 20px;
         }
+
         .hero-title {
-            font-size: 2.5rem;
+            font-size: clamp(1.9rem, 4.5vw, 2.75rem);
             font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            color: var(--tools-text-main);
+            margin: 0 0 14px;
+            line-height: 1.22;
+            letter-spacing: -0.02em;
         }
+
+        .hero-title .highlight {
+            color: var(--tools-primary);
+        }
+
         .hero-subtitle {
-            color: #94a3b8;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            color: var(--tools-text-sub);
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.55;
+            max-width: 700px;
+            margin: 0 auto 28px;
+            font-weight: 500;
         }
+
+        /* Search Bar */
         .search-container {
             position: relative;
-            max-width: 600px;
+            max-width: 640px;
             margin: 0 auto 30px;
         }
+
         .search-input {
             width: 100%;
-            padding: 14px 20px 14px 48px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1rem;
+            padding: 16px 20px 16px 52px;
+            background: #ffffff;
+            border: 1.5px solid var(--tools-border);
+            border-radius: 16px;
+            color: #111827;
+            font-size: 1.02rem;
+            font-weight: 500;
+            font-family: inherit;
             outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             transition: all 0.2s ease;
             box-sizing: border-box;
         }
+
         .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-            background: rgba(15, 23, 42, 1);
+            border-color: var(--tools-primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
         }
+
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+
         .search-icon {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            color: #64748b;
+            color: #94a3b8;
+            pointer-events: none;
         }
+
+        /* Category Filter Chips */
         .category-scroll {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding: 10px 0 20px;
+            padding: 6px 4px 20px;
             justify-content: flex-start;
             scrollbar-width: none;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        @media (min-width: 768px) {
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media (min-width: 860px) {
             .category-scroll {
                 justify-content: center;
                 flex-wrap: wrap;
             }
         }
+
         .cat-btn {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #94a3b8;
-            padding: 8px 18px;
-            border-radius: 20px;
+            background: #ffffff;
+            border: 1.5px solid var(--tools-border);
+            color: #111827;
+            padding: 9px 18px;
+            border-radius: 999px;
             font-size: 0.88rem;
-            font-weight: 500;
+            font-weight: 700;
+            font-family: inherit;
             cursor: pointer;
             white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
             transition: all 0.2s ease;
         }
+
         .cat-btn:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #f8fafc;
+            border-color: var(--tools-primary);
+            color: var(--tools-primary);
+            transform: translateY(-1px);
         }
+
         .cat-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            background: var(--tools-primary);
+            border-color: var(--tools-primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
         }
+
+        .cat-btn.active svg {
+            stroke: #ffffff;
+        }
+
+        /* Stats Bar */
         .stats-bar {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto 20px;
-            padding: 0 20px;
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #64748b;
-            font-size: 0.88rem;
+            color: var(--tools-text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
         }
+
+        /* Tools Grid */
         .tools-grid {
-            max-width: 1200px;
-            margin: 0 auto 60px;
+            max-width: 1240px;
+            margin: 0 auto 70px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 22px;
         }
+
+        /* Tool Card */
         .tool-card {
-            background: rgba(15, 23, 42, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 16px;
+            background: #ffffff;
+            border: 1.5px solid var(--tools-border);
+            border-radius: 18px;
             padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
             transition: all 0.25s ease;
-            backdrop-filter: blur(10px);
+            position: relative;
         }
+
         .tool-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
-            background: rgba(15, 23, 42, 0.9);
+            border-color: var(--tools-primary);
+            box-shadow: 0 12px 28px rgba(255, 107, 53, 0.12);
         }
+
         .tool-top {
             display: flex;
             align-items: center;
             gap: 14px;
             margin-bottom: 14px;
         }
-        .tool-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+        .tool-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1.5px solid var(--tools-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: all 0.25s ease;
         }
+
+        .tool-card:hover .tool-icon-box {
+            border-color: var(--tools-primary);
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.2);
+            transform: scale(1.05);
+        }
+
+        .tool-brand-img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .tool-fallback-icon {
+            color: var(--tools-primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .tool-info h3 {
             margin: 0 0 4px 0;
-            font-size: 1.1rem;
-            color: #f8fafc;
-            font-weight: 700;
+            font-size: 1.18rem;
+            color: #111827;
+            font-weight: 800;
         }
+
         .tool-category-badge {
             font-size: 0.72rem;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: 600;
+            color: var(--tools-primary);
+            background: var(--tools-primary-light);
+            border: 1px solid #fed7aa;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
+
         .tool-desc {
-            color: #94a3b8;
-            font-size: 0.88rem;
-            line-height: 1.5;
+            color: var(--tools-text-sub);
+            font-size: 0.92rem;
+            line-height: 1.55;
             margin: 0 0 20px 0;
+            font-weight: 500;
         }
+
         .tool-card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 16px;
+            border-top: 1px solid var(--tools-border);
         }
-        .btn-launch {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            text-decoration: none;
+
+        .tool-hostname {
+            font-size: 0.8rem;
+            color: var(--tools-text-muted);
+            font-family: 'Consolas', monospace;
             font-weight: 600;
+        }
+
+        .btn-launch {
+            background: var(--tools-primary);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
             transition: all 0.2s ease;
         }
+
         .btn-launch:hover {
-            background: linear-gradient(135deg, #4f46e5, #06b6d4);
-            border-color: transparent;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+            background: var(--tools-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
         }
+
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 60px 20px;
-            color: #64748b;
+            padding: 70px 20px;
+            color: var(--tools-text-muted);
+        }
+
+        .empty-state h3 {
+            color: #111827;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 12px 0 6px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.1rem;
+            }
+            .header-nav {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 55px;">
-                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 15px; box-shadow: 0 4px 12px rgba(255,255,255,0.1); background: white;">
-                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black;">TECH INDRO</span>
+
+    <!-- Header Navigation -->
+    <header id="header" class="site-header">
+        <div class="header-wrap">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 50px; white-space: nowrap; flex-shrink: 0;">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 12px; background: white;">
+                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="programs.html">Programs</a></li>
-                <li><a href="tsoc.html">TSOC</a></li>
-                <li><a href="cyber-playground.html">IndroLabs</a></li>
-                <li><a href="index.html#features">Features</a></li>
-                <li><a href="quiz.html">Test Series</a></li>
-                <li><a href="login.html" class="login-btn">Login / Sign Up</a></li>
-            </ul>
-        </nav>
+            <div style="display: flex; align-items: center; gap: 18px;">
+                <nav class="header-nav">
+                    <a href="programs.html" class="nav-item-link">Programs</a>
+                    <a href="tsoc.html" class="nav-item-link">TSOC</a>
+                    <a href="cyber-playground.html" class="nav-item-link">IndroLabs</a>
+                    <a href="community.html" class="nav-item-link">Community</a>
+                    <a href="quiz.html" class="nav-item-link">Test Series</a>
+                </nav>
+                <a href="login.html" class="btn-header-login">Login / Sign Up</a>
+                <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Open navigation menu" style="background: none; border: 1.5px solid #e2e8f0; border-radius: 10px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #111827;">
+                    <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+        </div>
     </header>
 
+    <!-- Hero Section -->
     <div class="hero-section">
         <div class="badge-pill">
-            <i data-lucide="sparkles" style="width:14px;height:14px;"></i> CURATED DIRECTORY 2026
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+            <span>Curated AI Ecosystem</span>
         </div>
-        <h1 class="hero-title">50+ Best AI Tools for Developers</h1>
+        <h1 class="hero-title">
+            Explore 58+ Curated <span class="highlight">AI Tools</span> for Modern Builders
+        </h1>
         <p class="hero-subtitle">
-            Explore cutting-edge tools for autonomous coding, UI generation, multimodal intelligence, and creative productivity.
+            Handpicked tools and autonomous agents for coding, full-stack prototyping, UI design, and generative media.
         </p>
 
+        <!-- Search Bar -->
         <div class="search-container">
             <i data-lucide="search" class="search-icon" style="width: 20px; height: 20px;"></i>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search Cursor, Devin, v0, ChatGPT, Midjourney..." oninput="filterTools()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search Cursor, Devin, v0, ChatGPT, Midjourney, Claude..." oninput="filterTools()">
         </div>
 
+        <!-- Filter Chips with Real Lucide Vector Icons (Zero Emojis) -->
         <div class="category-scroll" id="categoryTabs">
-            <button class="cat-btn active" id="allCategoryBtn" onclick="selectCategory('All')">All</button>
-            <button class="cat-btn" onclick="selectCategory('Coding')">💻 Coding</button>
-            <button class="cat-btn" onclick="selectCategory('Games')">🎮 Coding Games</button>
-            <button class="cat-btn" onclick="selectCategory('Design')">🎨 Design</button>
-            <button class="cat-btn" onclick="selectCategory('AI Agents')">🤖 AI Agents</button>
-            <button class="cat-btn" onclick="selectCategory('Productivity')">⚡ Productivity</button>
-            <button class="cat-btn" onclick="selectCategory('Chatbots')">💬 Chatbots</button>
-            <button class="cat-btn" onclick="selectCategory('Video')">🎥 Video</button>
-            <button class="cat-btn" onclick="selectCategory('Audio')">🎙️ Audio</button>
-            <button class="cat-btn" onclick="selectCategory('Writing')">✍️ Writing</button>
-            <button class="cat-btn" onclick="selectCategory('Marketing')">📈 Marketing</button>
+            <button class="cat-btn active" data-category="All" onclick="selectCategory('All')">
+                <i data-lucide="layout-grid" style="width: 15px; height: 15px;"></i>
+                <span id="allBtnText">All (58)</span>
+            </button>
+            <button class="cat-btn" data-category="Coding" onclick="selectCategory('Coding')">
+                <i data-lucide="code-2" style="width: 15px; height: 15px;"></i>
+                <span>Coding</span>
+            </button>
+            <button class="cat-btn" data-category="Games" onclick="selectCategory('Games')">
+                <i data-lucide="gamepad-2" style="width: 15px; height: 15px;"></i>
+                <span>Coding Games</span>
+            </button>
+            <button class="cat-btn" data-category="Design" onclick="selectCategory('Design')">
+                <i data-lucide="palette" style="width: 15px; height: 15px;"></i>
+                <span>Design</span>
+            </button>
+            <button class="cat-btn" data-category="AI Agents" onclick="selectCategory('AI Agents')">
+                <i data-lucide="bot" style="width: 15px; height: 15px;"></i>
+                <span>AI Agents</span>
+            </button>
+            <button class="cat-btn" data-category="Productivity" onclick="selectCategory('Productivity')">
+                <i data-lucide="zap" style="width: 15px; height: 15px;"></i>
+                <span>Productivity</span>
+            </button>
+            <button class="cat-btn" data-category="Chatbots" onclick="selectCategory('Chatbots')">
+                <i data-lucide="message-square" style="width: 15px; height: 15px;"></i>
+                <span>Chatbots</span>
+            </button>
+            <button class="cat-btn" data-category="Video" onclick="selectCategory('Video')">
+                <i data-lucide="video" style="width: 15px; height: 15px;"></i>
+                <span>Video</span>
+            </button>
+            <button class="cat-btn" data-category="Audio" onclick="selectCategory('Audio')">
+                <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
+                <span>Audio</span>
+            </button>
+            <button class="cat-btn" data-category="Writing" onclick="selectCategory('Writing')">
+                <i data-lucide="pen-tool" style="width: 15px; height: 15px;"></i>
+                <span>Writing</span>
+            </button>
+            <button class="cat-btn" data-category="Marketing" onclick="selectCategory('Marketing')">
+                <i data-lucide="trending-up" style="width: 15px; height: 15px;"></i>
+                <span>Marketing</span>
+            </button>
         </div>
     </div>
 
+    <!-- Stats Bar -->
     <div class="stats-bar">
-        <span id="toolsCount">Showing 54 tools</span>
-        <span>Curated by Tech Indro Labs</span>
+        <span id="toolsCount">Showing 58 tools</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="check-circle" style="width: 15px; height: 15px; color: #10b981;"></i>
+            Curated by Tech Indro Labs
+        </span>
     </div>
 
+    <!-- Tools Grid -->
     <div class="tools-grid" id="toolsGrid">
-        <!-- Dynamically rendered from ai-tools.json -->
+        <!-- Rendered via JavaScript with real Lucide vector icons -->
     </div>
 
-    <footer style="background:#070a12; border-top:1px solid #1e293b; padding:40px 20px; text-align:center; color:#64748b; font-size:0.9rem;">
-        <p>© 2026 Tech Indro Engineering Hub. All Rights Reserved.</p>
-        <p style="margin-top:8px;">
-            <a href="index.html" style="color:#94a3b8; margin:0 10px; text-decoration:none;">Home</a> •
-            <a href="cyber-playground.html" style="color:#94a3b8; margin:0 10px; text-decoration:none;">IndroLabs</a> •
-            <a href="portfolio.html" style="color:#94a3b8; margin:0 10px; text-decoration:none;">Portfolio Builder</a> •
-            <a href="programs.html" style="color:#94a3b8; margin:0 10px; text-decoration:none;">Courses</a>
-        </p>
-    </footer>
-
+    <!-- Include Standalone Data and Universal Drawer -->
     <script src="ai-tools-data.js"></script>
+    <script src="main.js"></script>
     <script>
         lucide.createIcons();
 
         let allTools = [];
         let currentCategory = 'All';
+
+        // 100% Real Vector Icon Mapper (Zero raw emojis)
+        function getToolIcon(tool) {
+            const cat = (tool.category || '').toLowerCase();
+            const name = (tool.name || '').toLowerCase();
+
+            if (name.includes('code') || name.includes('devin') || name.includes('cursor') || name.includes('copilot') || name.includes('replit') || cat.includes('coding')) {
+                return 'code-2';
+            }
+            if (cat.includes('game') || name.includes('island') || name.includes('game') || name.includes('saga')) {
+                return 'gamepad-2';
+            }
+            if (cat.includes('design') || name.includes('figma') || name.includes('canva') || name.includes('ui') || name.includes('v0')) {
+                return 'palette';
+            }
+            if (cat.includes('agent') || name.includes('agent') || name.includes('crew') || name.includes('autogen')) {
+                return 'bot';
+            }
+            if (cat.includes('chat') || name.includes('gpt') || name.includes('claude') || name.includes('gemini') || name.includes('perplexity')) {
+                return 'message-square';
+            }
+            if (cat.includes('video') || name.includes('sora') || name.includes('runway') || name.includes('pika') || name.includes('kling')) {
+                return 'video';
+            }
+            if (cat.includes('audio') || cat.includes('voice') || name.includes('eleven') || name.includes('suno') || name.includes('udio')) {
+                return 'mic';
+            }
+            if (cat.includes('writing') || name.includes('copy') || name.includes('jasper') || name.includes('notion')) {
+                return 'pen-tool';
+            }
+            if (cat.includes('marketing') || name.includes('seo') || name.includes('ad')) {
+                return 'trending-up';
+            }
+            if (cat.includes('productiv') || name.includes('bolt')) {
+                return 'zap';
+            }
+            return 'sparkles';
+        }
 
         async function loadTools() {
             try {
@@ -321,23 +582,24 @@
                         if (Array.isArray(window.TECH_INDRO_AI_TOOLS) && window.TECH_INDRO_AI_TOOLS.length > 0) {
                             allTools = [...window.TECH_INDRO_AI_TOOLS];
                         } else {
-                            console.error("Could not load ai-tools data", err3);
+                            console.error("Could not load AI tools data", err3);
                             document.getElementById('toolsGrid').innerHTML = `
                                 <div class="empty-state">
-                                    <i data-lucide="alert-circle" style="width:48px;height:48px; margin-bottom:12px; color:#ef4444;"></i>
-                                    <h3>Error loading AI Tools</h3>
-                                    <p>Please make sure the backend server is running (<code style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; color:#38bdf8;">npm start</code>) or launch from <a href="http://localhost:5000/ai-tools.html" style="color:#38bdf8;">http://localhost:5000/ai-tools.html</a>.</p>
-                                    <button onclick="loadTools()" class="cat-btn active" style="margin-top:16px; cursor:pointer;">Retry Connection</button>
+                                    <i data-lucide="alert-circle" style="width: 48px; height: 48px; margin-bottom: 12px; color: #ef4444;"></i>
+                                    <h3>Unable to load AI Tools</h3>
+                                    <p>Please check your connection and reload the page.</p>
+                                    <button onclick="loadTools()" class="cat-btn active" style="margin-top: 16px; cursor: pointer;">Retry Connection</button>
                                 </div>
                             `;
-                            if (window.lucide) lucide.createIcons();
+                            lucide.createIcons();
                             return;
                         }
                     }
                 }
             }
-            const allBtn = document.getElementById('allCategoryBtn');
-            if (allBtn) allBtn.innerText = `All (${allTools.length})`;
+
+            const allText = document.getElementById('allBtnText');
+            if (allText) allText.innerText = `All (${allTools.length})`;
             renderTools(allTools);
         }
 
@@ -349,35 +611,54 @@
             if (tools.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
-                        <i data-lucide="search-x" style="width:48px;height:48px; margin-bottom:12px; color:#475569;"></i>
+                        <i data-lucide="search-x" style="width: 48px; height: 48px; margin-bottom: 12px; color: #94a3b8;"></i>
                         <h3>No tools found matching your search</h3>
-                        <p>Try searching for a different keyword or category.</p>
+                        <p>Try searching for a different keyword or select another category.</p>
                     </div>
                 `;
                 lucide.createIcons();
                 return;
             }
 
-            grid.innerHTML = tools.map(t => `
-                <div class="tool-card">
-                    <div>
-                        <div class="tool-top">
-                            <div class="tool-icon">${t.icon || '⚡'}</div>
-                            <div class="tool-info">
-                                <h3>${t.name}</h3>
-                                <span class="tool-category-badge">${t.category}</span>
+            grid.innerHTML = tools.map(t => {
+                let hostname = '';
+                try {
+                    hostname = new URL(t.link).hostname.replace('www.', '');
+                } catch (e) {
+                    hostname = t.link;
+                }
+                const iconName = getToolIcon(t);
+
+                return `
+                    <div class="tool-card">
+                        <div>
+                            <div class="tool-top">
+                                <div class="tool-icon-box">
+                                    <img src="https://www.google.com/s2/favicons?domain=${hostname}&sz=128" 
+                                         alt="${t.name} Logo" 
+                                         class="tool-brand-img"
+                                         loading="lazy"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" />
+                                    <span class="tool-fallback-icon" style="display: none;">
+                                        <i data-lucide="${iconName}" style="width: 24px; height: 24px;"></i>
+                                    </span>
+                                </div>
+                                <div class="tool-info">
+                                    <h3>${t.name}</h3>
+                                    <span class="tool-category-badge">${t.category}</span>
+                                </div>
                             </div>
+                            <p class="tool-desc">${t.description}</p>
                         </div>
-                        <p class="tool-desc">${t.description}</p>
+                        <div class="tool-card-footer">
+                            <span class="tool-hostname">${hostname}</span>
+                            <a href="${t.link}" target="_blank" rel="noopener noreferrer" class="btn-launch">
+                                Launch <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="tool-card-footer">
-                        <span style="font-size:0.75rem; color:#64748b; font-family:monospace;">${new URL(t.link).hostname.replace('www.', '')}</span>
-                        <a href="${t.link}" target="_blank" rel="noopener noreferrer" class="btn-launch">
-                            Launch <i data-lucide="external-link" style="width:14px;height:14px;"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             lucide.createIcons();
         }
@@ -390,14 +671,14 @@
                     matchesCat = true;
                 } else if (currentCategory === 'Games') {
                     const gameIds = ['t-sql-island', 't-codingame', 't-elevator-saga', 't-codecombat'];
-                    matchesCat = gameIds.includes(t.id) || t.category.toLowerCase() === 'gaming';
+                    matchesCat = gameIds.includes(t.id) || (t.category || '').toLowerCase() === 'gaming';
                 } else {
-                    matchesCat = (t.category.toLowerCase() === currentCategory.toLowerCase());
+                    matchesCat = ((t.category || '').toLowerCase() === currentCategory.toLowerCase());
                 }
                 const matchesQuery = (
-                    t.name.toLowerCase().includes(query) ||
-                    t.description.toLowerCase().includes(query) ||
-                    t.category.toLowerCase().includes(query)
+                    (t.name || '').toLowerCase().includes(query) ||
+                    (t.description || '').toLowerCase().includes(query) ||
+                    (t.category || '').toLowerCase().includes(query)
                 );
                 return matchesCat && matchesQuery;
             });
@@ -408,8 +689,11 @@
             currentCategory = cat;
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(b => {
-                if (b.innerText.includes(cat)) b.classList.add('active');
-                else b.classList.remove('active');
+                if (b.getAttribute('data-category') === cat) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
             });
             filterTools();
         }

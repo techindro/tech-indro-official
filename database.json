@@ -72,6 +72,649 @@
   },
   "jobs": [
     {
+      "id": "adzuna_1789748606862_stn3iw",
+      "title": "Storage Software Engineer",
+      "company": "eBay",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5888968480?se=gLCMRn2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=AD8EFEB1E017D6757299919FE0239DE44E47F74C",
+      "source": "adzuna",
+      "snippet": "This job is with eBay, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At eBay, we're more t",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T14:36:05Z",
+      "fetchedAt": "2026-09-18T16:23:26.862Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ebay.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748606863_3v80e8",
+      "title": "Software Engineer – MES",
+      "company": "ABB",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5888300208?se=gLCMRn2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=5C8657A3D99211FF6802B4D5E9FCFC1DF44D7A5A",
+      "source": "adzuna",
+      "snippet": "This job is with ABB, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At ABB, we help indust",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T04:29:39Z",
+      "fetchedAt": "2026-09-18T16:23:26.863Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=abb.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748607922_rbtdlv",
+      "title": "Staff AI Developer",
+      "company": "Thermo Fisher Scientific",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886486783?se=hApqR32z8RGImO42KzEvAQ&utm_medium=api&utm_source=440a82d2&v=6B02C61BF14692B5AB5E71376A86FB140ED27EB3",
+      "source": "adzuna",
+      "snippet": "This job is with Thermo Fisher Scientific, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. W",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:34:59Z",
+      "fetchedAt": "2026-09-18T16:23:27.922Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=thermofisherscientific.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748607922_kheg8n",
+      "title": "Data Scientist & AI Developer",
+      "company": "TE Connectivity",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5887061009?se=hApqR32z8RGImO42KzEvAQ&utm_medium=api&utm_source=440a82d2&v=2C5020B38A68C97176AF82FBDAF60D51E32F4705",
+      "source": "adzuna",
+      "snippet": "This job is with TE Connectivity, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At TE, you",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T08:30:58Z",
+      "fetchedAt": "2026-09-18T16:23:27.922Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=teconnectivity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748607922_kk390o",
+      "title": "Senior Java AI Developer_D-2678",
+      "company": "Allianz Commercial",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886487266?se=hApqR32z8RGImO42KzEvAQ&utm_medium=api&utm_source=440a82d2&v=0566293C67D96F41AE709E42338972C678A7B741",
+      "source": "adzuna",
+      "snippet": "This job is with Allianz Commercial, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. OBJECTI",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:35:03Z",
+      "fetchedAt": "2026-09-18T16:23:27.922Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=allianzcommercial.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748607923_jdp5v7",
+      "title": "Backend Developer - Python & AI",
+      "company": "CustomerInsights.AI",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889222934?se=hApqR32z8RGImO42KzEvAQ&utm_medium=api&utm_source=440a82d2&v=FCFB3170C71BEB117A19E27AF41168C0A2938038",
+      "source": "adzuna",
+      "snippet": "About CustomerInsights.AI CustomerInsights.AI is a global analytics and AI-driven company founded in 2018, enabling data-driven commercial decision-making for Life Sciences organizations. Our product",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T17:31:52Z",
+      "fetchedAt": "2026-09-18T16:23:27.923Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=customerinsightsai.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748607923_adgh1n",
+      "title": "AI-Driven Business Development Manager – Plant Supply",
+      "company": "plantsship",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886092183?se=hApqR32z8RGImO42KzEvAQ&utm_medium=api&utm_source=440a82d2&v=8F9AE95C8F6797D0811E80F81B5344169E586384",
+      "source": "adzuna",
+      "snippet": "AI-Driven B2B Business Development & Market Intelligence Manager Company: Plantsship Location: Kadiyam Employment Type: Full-time Experience: 3–8 years ABOUT THE ROLE Plantsship is looking for an AI-d",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T17:23:02Z",
+      "fetchedAt": "2026-09-18T16:23:27.923Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=plantsship.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748608817_h1544b",
+      "title": "Full stack Developer",
+      "company": "Thermo Fisher Scientific",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886487601?se=DnsFSH2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=1D98EC0FEFEBEAB1DC5E26AEFE882ABC0AC4515E",
+      "source": "adzuna",
+      "snippet": "This job is with Thermo Fisher Scientific, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. W",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:35:06Z",
+      "fetchedAt": "2026-09-18T16:23:28.817Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=thermofisherscientific.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748609731_gboxg2",
+      "title": "Data Scientist",
+      "company": "Tessembl",
+      "location": "Mumbai, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886611021?se=YCyTSH2z8RGSI57gYuD12g&utm_medium=api&utm_source=440a82d2&v=04CE5652A0313421FC40BEEB4DC01D60FA0D1113",
+      "source": "adzuna",
+      "snippet": "Founding Data Scientist / Quant Lead Tessembl | Founding Data Scientist / Quant Lead Location: [Mumbai / Hybrid] Type: Full-time Compensation: Competitive  meaningful ESOP Apply: ilhan@tessembl.com Ab",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T01:17:22Z",
+      "fetchedAt": "2026-09-18T16:23:29.731Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tessembl.com&sz=128",
+      "companyTier": "hft-quant",
+      "companyTierLabel": "HFT & Quant",
+      "companyTierBadge": "HFT & Quant",
+      "companyTierIcon": "zap",
+      "companyTierColor": "#d97706",
+      "companyTierBg": "rgba(217, 119, 6, 0.1)",
+      "companyTierBorder": "rgba(217, 119, 6, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite",
+        "ivy-league"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite",
+        "US Ivy League"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)",
+        "US Ivy League"
+      ]
+    },
+    {
+      "id": "adzuna_1789748609733_3vweke",
+      "title": "Data Scientist",
+      "company": "Tata Consultancy Services",
+      "location": "Kolkata, West Bengal",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886604074?se=YCyTSH2z8RGSI57gYuD12g&utm_medium=api&utm_source=440a82d2&v=DEA9941EC334721DD12308D3A6D3550083B84E2C",
+      "source": "adzuna",
+      "snippet": "JD : Role : Data Scientist Experience : 4 to 10 years Location : Kolkata Join us for our Walk-in Drive in Kolkata on 19th September 2026 (Saturday) and explore exciting career opportunities. If you ar",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T01:14:59Z",
+      "fetchedAt": "2026-09-18T16:23:29.733Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1789748610889_mw1gaw",
+      "title": "Frontend Developer",
+      "company": "Insight Global",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889222280?se=ypEdSX2z8RG_FdWNMu3dvg&utm_medium=api&utm_source=440a82d2&v=C619CA8917BF1F8F39FB3DCACE97206B719CF0D9",
+      "source": "adzuna",
+      "snippet": "Insight Global is seeking a Senior UI Engineer to support a strategic metadata platform migration programme for one of our premier financial services clients in Bengaluru. This initiative will bring a",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T17:30:53Z",
+      "fetchedAt": "2026-09-18T16:23:30.889Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=insightglobal.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748610889_yb4oz7",
+      "title": "Senior Frontend Developer",
+      "company": "Sysnora Technologies Private Limited",
+      "location": "Kochi, Ernakulam",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5882593986?se=ypEdSX2z8RG_FdWNMu3dvg&utm_medium=api&utm_source=440a82d2&v=91BBD7A26C9DCF7B711AEF3EA2F3AFA5E8CEE691",
+      "source": "adzuna",
+      "snippet": "Company Description Sysnora Technologies Private Limited is the technology and digital innovation company of Shaji Coatings, born from its in-house technology division. The team focuses on turning com",
+      "type": "Full-time",
+      "postedAt": "2026-09-13T17:19:54Z",
+      "fetchedAt": "2026-09-18T16:23:30.889Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748611914_0is2pg",
+      "title": "Cloud Security Engineers",
+      "company": "Alignity",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886099430?se=jB3PSX2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=5E99602F5936F4197AD3F64A4CCCABBA2C7B2A12",
+      "source": "adzuna",
+      "snippet": "Do you love a career where you Experience, Grow & Contribute at the same time, while earning at least 10% above the market? If so, we are excited to have bumped onto you. Learn how we are redefining t",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T17:34:56Z",
+      "fetchedAt": "2026-09-18T16:23:31.914Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=alignity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748611915_lxrqhv",
+      "title": "Cloud Security Engineer - I",
+      "company": "Invesco",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886487621?se=jB3PSX2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=E93854A713D21044C881AA295DC2AFB4C2176F22",
+      "source": "adzuna",
+      "snippet": "This job is with Invesco, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. As one of the worl",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:35:06Z",
+      "fetchedAt": "2026-09-18T16:23:31.915Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=invesco.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748611915_gvslvq",
+      "title": "Cloud Services Operations Engineer",
+      "company": "PTC",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889223441?se=jB3PSX2z8RGk6dCvHcHp9g&utm_medium=api&utm_source=440a82d2&v=59288017D86D703776C2BEA8A02000CC512AB71A",
+      "source": "adzuna",
+      "snippet": "Job Summary The Associate Engineer – Windchill Cloud is responsible for supporting the deployment, configuration, maintenance, and upgrade of PTC Windchill applications hosted in cloud environments. W",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T17:32:27Z",
+      "fetchedAt": "2026-09-18T16:23:31.915Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ptc.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748612955_j2wmnr",
+      "title": "Subject Matter Expert (Data Science)",
+      "company": "FACE Prep",
+      "location": "Coimbatore, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886611491?se=YLRoSn2z8RGYY90tonIvlQ&utm_medium=api&utm_source=440a82d2&v=A897460B2CF7078D8AF5F32F77744996E0955983",
+      "source": "adzuna",
+      "snippet": "Company Description FACE Prep is one of India’s largest placement-focused skill development companies, specializing in job preparation for the tech sector. Since 2008, the organization has supported m",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T01:17:36Z",
+      "fetchedAt": "2026-09-18T16:23:32.955Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=faceprep.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748612955_tczd7k",
+      "title": "Senior CAD Engineer",
+      "company": "TYLsemi",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5885975159?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Role Overview We are seeking an experienced Senior CAD Engineer to develop, deployment, and support of advanced VLSI CAD methodologies and automation solutions. The role focuses on improving design pr",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T16:15:28Z",
+      "fetchedAt": "2026-09-18T16:23:32.955Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tylsemi.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1789748612956_c2efyd",
+      "title": "DFT Architect",
+      "company": "TYLsemi",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5885975155?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About The Role We are looking for an experienced DFT Architect to lead Design-for-Test strategy, architecture definition, and implementation for complex ASIC/SOC designs across advanced technology nod",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T16:15:28Z",
+      "fetchedAt": "2026-09-18T16:23:32.956Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tylsemi.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "remotive_1789748604444_dae5e6",
+      "title": "Senior Data Scientist",
+      "company": "Lemon.io",
+      "location": "Northern America, LATAM, Europe, APAC",
+      "salary": null,
+      "url": "https://remotive.com/remote-jobs/data/senior-data-scientist-2091129",
+      "source": "remotive",
+      "snippet": "Are you a talented Senior Data Scientist looking for a remote job that lets you show your skills and get decent compensation? Look no further than Lemon.io — the marketplace that connects you with han",
+      "type": "full-time",
+      "postedAt": "2026-09-16T12:35:28",
+      "fetchedAt": "2026-09-18T16:23:24.445Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=lemonio.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
       "id": "adzuna_1789620919572_km638x",
       "title": "Software Engineer in Test",
       "company": "TELNA",
@@ -6491,11 +7134,11 @@
     }
   ],
   "jobsMeta": {
-    "lastFetchedAt": "2026-09-17T04:55:30.418Z",
-    "totalFetched": 159,
+    "lastFetchedAt": "2026-09-18T16:23:37.965Z",
+    "totalFetched": 178,
     "providers": {
-      "adzuna": 488,
-      "remotive": 252
+      "adzuna": 604,
+      "remotive": 316
     }
   },
   "certificates": [

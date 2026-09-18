@@ -4,107 +4,769 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Indro - AI Mentor</title>
+    <title>Tech Indro AI Mentor - Engineering SaaS Workspace</title>
+    <meta name="description" content="24/7 Multi-Role AI Engineering Mentor for CS students and developers. DSA, System Design, Code Debugging, and FAANG Career Guidance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --ai-primary: #ff6b35; /* Tech Indro Platform Brand Orange */
+            --ai-primary-hover: #e85a28;
+            --ai-primary-tint: #fff7ed;
+            --ai-border: #e2e8f0;
+            --ai-border-hover: #cbd5e1;
+            --ai-text-main: #0f172a;
+            --ai-text-muted: #64748b;
+            --ai-sidebar-bg: #f8fafc;
+            --ai-canvas-bg: #ffffff;
+            --ai-card-bg: #ffffff;
+            --ai-shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --ai-shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --ai-shadow-float: 0 10px 30px rgba(0,0,0,0.08);
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: var(--ai-canvas-bg);
+            color: var(--ai-text-main);
             height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
+            font-family: var(--font-main);
+            display: flex;
+        }
+
+        /* =================================================== */
+        /* SAAS SHELL LAYOUT: SIDEBAR + MAIN STAGE */
+        /* =================================================== */
+        .saas-app {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 1. LEFT COLLAPSIBLE SIDEBAR */
+        .ai-sidebar {
+            width: 270px;
+            min-width: 270px;
+            background: var(--ai-sidebar-bg);
+            border-right: 1px solid var(--ai-border);
             display: flex;
             flex-direction: column;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 100%;
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            user-select: none;
         }
 
-        /* Gemini Style Clean Typography & Formatting */
-        .chat-ai {
-            color: #1e293b;
-            line-height: 1.65;
-            font-size: 0.98rem;
+        .ai-sidebar.collapsed {
+            margin-left: -270px;
         }
 
-        .chat-ai p {
-            margin: 0.6rem 0;
-            color: #334155;
+        /* Sidebar Header */
+        .sidebar-header {
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--ai-border);
+            background: var(--ai-sidebar-bg);
         }
 
-        .chat-ai strong {
-            color: #0f172a;
-            font-weight: 600;
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--ai-text-main);
         }
 
-        .chat-ai ul,
-        .chat-ai ol {
-            margin: 0.5rem 0 0.75rem 1.4rem;
-            padding-left: 0.2rem;
+        .sidebar-brand img {
+            height: 32px;
+            width: 32px;
+            border-radius: 8px;
+            background: #ffffff;
+            padding: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .chat-ai li {
-            margin-bottom: 0.35rem;
-            color: #334155;
-            line-height: 1.55;
+        .sidebar-brand-title {
+            font-weight: 800;
+            font-size: 1.05rem;
+            letter-spacing: -0.01em;
+            color: var(--ai-text-main);
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .inline-code,
-        .chat-ai :not(pre)>code {
-            background: #e2e8f0;
-            color: #0f172a;
-            padding: 2px 7px;
+        .sidebar-brand-title span.ai-tag {
+            background: var(--ai-primary);
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 6px;
             border-radius: 6px;
-            font-size: 0.88em;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
+        .btn-icon-soft {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--ai-text-muted);
+            cursor: pointer;
+            padding: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .btn-icon-soft:hover {
+            background: #ffffff;
+            border-color: var(--ai-border);
+            color: var(--ai-text-main);
+        }
+
+        /* New Chat CTA */
+        .sidebar-action-box {
+            padding: 14px 16px 10px;
+        }
+
+        .btn-new-chat {
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid var(--ai-border);
+            color: var(--ai-text-main);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 9px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            transition: all 0.18s ease;
+        }
+
+        .btn-new-chat:hover {
+            border-color: var(--ai-primary);
+            color: var(--ai-primary);
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-new-chat span.icon-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kbd-shortcut {
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            color: var(--ai-text-muted);
+            background: #f1f5f9;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px solid var(--ai-border);
+        }
+
+        /* Sidebar Scrollable Body */
+        .sidebar-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 12px 16px;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 12px 10px 6px;
+            margin-top: 4px;
+        }
+
+        /* Multi-Role Personas */
+        .role-nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .role-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: #334155;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: all 0.15s ease;
+        }
+
+        .role-nav-item:hover {
+            background: #ffffff;
+            border-color: var(--ai-border);
+            color: var(--ai-text-main);
+        }
+
+        .role-nav-item.active {
+            background: var(--ai-primary-tint);
+            border-color: #fed7aa;
+            color: #c2410c;
+            font-weight: 700;
+        }
+
+        .role-icon-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 1px solid var(--ai-border);
+            color: #475569;
+        }
+
+        .role-nav-item.active .role-icon-box {
+            background: var(--ai-primary);
+            border-color: var(--ai-primary);
+            color: #ffffff;
+        }
+
+        /* History Items */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .history-item:hover {
+            background: #ffffff;
+            color: var(--ai-text-main);
+        }
+
+        .history-item span.title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .history-item button.del-btn {
+            opacity: 0;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 2px;
+            transition: opacity 0.15s, color 0.15s;
+        }
+
+        .history-item:hover button.del-btn {
+            opacity: 1;
+        }
+
+        .history-item button.del-btn:hover {
+            color: #ef4444;
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--ai-border);
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-profile-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 8px;
+            background: #f8fafc;
+            border: 1px solid var(--ai-border);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .scholar-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--ai-primary);
+            font-size: 0.74rem;
+            font-weight: 800;
+        }
+
+        .sidebar-ext-links {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            padding: 0 4px;
+        }
+
+        .sidebar-ext-links a {
+            color: var(--ai-text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.15s;
+        }
+
+        .sidebar-ext-links a:hover {
+            color: var(--ai-primary);
+        }
+
+        /* Mobile Overlay Backdrop */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+        }
+
+        /* =================================================== */
+        /* 2. MAIN CHAT STAGE (HEADER + MESSAGES + PROMPT) */
+        /* =================================================== */
+        .ai-main-stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: var(--ai-canvas-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Minimalist Top App Bar */
+        .stage-top-bar {
+            height: 58px;
+            min-height: 58px;
+            border-bottom: 1px solid var(--ai-border);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 20;
+        }
+
+        .bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .active-persona-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            background: #f8fafc;
+            border: 1px solid var(--ai-border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ai-text-main);
+        }
+
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .bar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-select-box {
+            background: #ffffff;
+            border: 1px solid var(--ai-border);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #334155;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+
+        .lang-select-box:focus {
+            border-color: var(--ai-primary);
+        }
+
+        .btn-voice-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: #e0f2fe;
+            color: #0284c7;
+            border: 1px solid #bae6fd;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-voice-toggle.voice-off {
+            background: #f1f5f9;
+            color: #64748b;
+            border-color: #cbd5e1;
+        }
+
+        /* Chat Viewport Area */
+        .chat-viewport {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 20px 140px;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .chat-centered-container {
+            max-width: 820px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Empty State Hero ("Where should we begin?") */
+        .empty-state-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 50px 16px 20px;
+            margin: auto auto 30px;
+            max-width: 720px;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .hero-sparkle-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--ai-primary-tint);
+            color: var(--ai-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1.5px solid #fed7aa;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.12);
+        }
+
+        .empty-state-hero h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: var(--ai-text-main);
+            margin: 0 0 10px;
+        }
+
+        .empty-state-hero p {
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: #475569;
+            margin: 0 0 28px;
+            max-width: 560px;
+        }
+
+        /* Quick Prompt Grid */
+        .prompt-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+        }
+
+        @media (max-width: 640px) {
+            .prompt-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prompt-card-chip {
+            background: #ffffff;
+            border: 1.5px solid var(--ai-border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .prompt-card-chip:hover {
+            border-color: var(--ai-primary);
+            background: var(--ai-primary-tint);
+            transform: translateY(-1.5px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.12);
+        }
+
+        .prompt-chip-text {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--ai-text-main);
+            line-height: 1.4;
+        }
+
+        .prompt-chip-arrow {
+            color: #94a3b8;
+            transition: transform 0.15s, color 0.15s;
+        }
+
+        .prompt-card-chip:hover .prompt-chip-arrow {
+            color: var(--ai-primary);
+            transform: translateX(2px);
+        }
+
+        /* Message Bubbles & Stream */
+        .message-row {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .message-row.ai {
+            justify-content: flex-start;
+        }
+
+        .ai-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--ai-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+            margin-top: 2px;
+        }
+
+        .bubble-ai-wrap {
+            flex: 1;
+            max-width: 88%;
+        }
+
+        .message-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .message-author {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--ai-text-main);
+            letter-spacing: -0.01em;
+        }
+
+        .message-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bubble-content-ai {
+            background: #ffffff;
+            border: 1.5px solid var(--ai-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 0.98rem;
+            line-height: 1.68;
+            color: #1e293b;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .bubble-content-ai p {
+            margin: 0.5rem 0;
+            color: #334155;
+        }
+
+        .bubble-content-ai strong {
+            color: var(--ai-text-main);
+            font-weight: 700;
+        }
+
+        .bubble-user-text {
+            background: #0f172a;
+            color: #ffffff;
+            border-radius: 16px;
+            border-bottom-right-radius: 4px;
+            padding: 12px 18px;
+            font-size: 0.96rem;
+            font-weight: 500;
+            line-height: 1.55;
+            max-width: 80%;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Sound Wave Speaking Animation */
+        .speaking-wave {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            height: 14px;
+            vertical-align: middle;
+        }
+
+        .speaking-wave span {
+            width: 3px;
+            height: 100%;
+            background-color: var(--ai-primary);
+            border-radius: 2px;
+            animation: waveAnim 0.8s infinite ease-in-out;
+        }
+
+        .speaking-wave span:nth-child(2) { animation-delay: 0.15s; }
+        .speaking-wave span:nth-child(3) { animation-delay: 0.3s; }
+        .speaking-wave span:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes waveAnim {
+            0%, 100% { height: 4px; }
+            50% { height: 14px; }
+        }
+
+        /* Code Blocks */
         .code-block-wrapper {
             background: #0f172a;
-            border-radius: 12px;
-            margin: 0.9rem 0;
+            border-radius: 10px;
+            margin: 0.85rem 0;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
             border: 1px solid #1e293b;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
         }
 
         .code-header {
             background: #1e293b;
-            padding: 0.45rem 1rem;
+            padding: 6px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #94a3b8;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .copy-code-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border: none;
-            color: #cbd5e1;
+            color: #e2e8f0;
             padding: 3px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            border-radius: 5px;
+            font-size: 0.72rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
 
         .copy-code-btn:hover {
-            background: #ff6b35;
+            background: var(--ai-primary);
             color: white;
         }
 
         .code-block-wrapper pre {
-            padding: 1rem 1.25rem;
+            padding: 14px 16px;
             margin: 0;
             overflow-x: auto;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.55;
             color: #f1f5f9;
         }
 
@@ -115,426 +777,82 @@
             font-family: inherit;
         }
 
-        .speaking-wave {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            height: 14px;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-
-        .speaking-wave span {
-            width: 3px;
-            height: 100%;
-            background-color: #ff6b35;
-            border-radius: 2px;
-            animation: waveAnim 0.8s infinite ease-in-out;
-        }
-
-        .speaking-wave span:nth-child(2) {
-            animation-delay: 0.15s;
-        }
-
-        .speaking-wave span:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .speaking-wave span:nth-child(4) {
-            animation-delay: 0.45s;
-        }
-
-        @keyframes waveAnim {
-
-            0%,
-            100% {
-                height: 4px;
-            }
-
-            50% {
-                height: 14px;
-            }
-        }
-
-        @keyframes pulseMic {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        header#header {
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        header nav .nav-links a {
-            color: #475569 !important;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        header nav .nav-links a:hover {
-            color: var(--primary) !important;
-        }
-
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 950px;
-            margin: 85px auto 0;
-            width: 100%;
-            height: calc(100vh - 85px);
-            padding: 1rem 1.5rem;
-        }
-
-        .chat-history {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e1 transparent;
-        }
-
-        .chat-bubble {
-            max-width: 80%;
-            padding: 1.25rem 1.5rem;
-            border-radius: 20px;
-            line-height: 1.6;
-            font-size: 1.02rem;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chat-user {
-            align-self: flex-end;
-            background: #ff6b35;
-            color: white;
-            border: none;
-            border-bottom-right-radius: 4px;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.25);
-            font-weight: 500;
-        }
-
-        .chat-ai {
-            align-self: flex-start;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
-            position: relative;
-        }
-
-        .chat-ai strong {
-            color: #ff6b35;
-            font-weight: 700;
-        }
-
-        .ai-avatar-inline {
-            position: absolute;
-            bottom: -12px;
-            left: -12px;
-            width: 32px;
-            height: 32px;
-            background: #ff6b35;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
-        }
-
-        .chat-input-box {
-            padding: 1rem 0;
-            background: transparent;
-            position: relative;
-        }
-
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: #ffffff;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 35px;
-            padding: 0.4rem 0.8rem;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .input-wrapper:focus-within {
-            border-color: #ff6b35;
-            box-shadow: 0 6px 25px rgba(255, 107, 53, 0.15);
-        }
-
-        .input-wrapper input {
-            flex: 1;
-            background: transparent;
-            border: none;
+        .inline-code, code:not(pre code) {
+            background: #f1f5f9;
             color: #0f172a;
-            padding: 0.75rem 1rem;
-            font-size: 1.05rem;
-            outline: none;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            border: 1px solid var(--ai-border);
         }
 
-        .input-wrapper input::placeholder {
-            color: #94a3b8;
-        }
-
-        .send-btn {
-            background: #ff6b35;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-            flex-shrink: 0;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.08);
-            background: #e05a2b;
-        }
-
-        .agent-selector-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Interactive Rich Components (Kroki Architecture Diagrams, Charts, Sticky Notes, Flashcards) */
+        .ai-kroki-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            padding: 0.65rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            gap: 0.75rem;
+            border: 1px solid var(--ai-border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0.95rem 0;
+            box-shadow: var(--ai-shadow-sm);
         }
 
-        .agent-options {
+        .ai-kroki-header {
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #334155;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--ai-border);
             display: flex;
-            gap: 0.5rem;
-            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-kroki-body {
+            padding: 16px 14px;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
             align-items: center;
             overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            min-height: 100px;
         }
 
-        .agent-options::-webkit-scrollbar {
-            display: none;
+        .ai-kroki-body svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        .agent-btn {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            color: #475569;
-            padding: 0.42rem 0.85rem;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            font-size: 0.88rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            white-space: nowrap;
-            flex-shrink: 0;
+        .spin {
+            animation: spinRotate 1s linear infinite;
         }
 
-        .agent-btn svg {
-            width: 16px;
-            height: 16px;
+        @keyframes spinRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .agent-btn:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
-
-        .agent-btn.active {
-            background: #ff6b35;
-            border-color: #ff6b35;
-            color: white;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-        }
-
-        .agent-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .agent-selector-bar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.65rem;
-            }
-            .agent-options {
-                width: 100%;
-                overflow-x: auto;
-                padding-bottom: 2px;
-            }
-            .agent-controls {
-                justify-content: flex-end;
-            }
-        }
-
-        .icon-btn {
-            background: transparent;
-            border: none;
-            color: #64748b;
-            cursor: pointer;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s ease, transform 0.2s ease;
-        }
-
-        .icon-btn:hover {
-            color: #ff6b35;
-            transform: scale(1.1);
-        }
-
-        /* =================================================== */
-        /* RICH AI VISUAL COMPONENTS (Images, Charts, Notes, Flashcards) */
-        /* =================================================== */
         .ai-media-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
+            border: 1px solid var(--ai-border);
+            border-radius: 12px;
             overflow: hidden;
             margin: 0.85rem 0;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            max-width: 100%;
+            box-shadow: var(--ai-shadow-sm);
         }
 
-        .media-header {
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0.5rem 0.95rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #475569;
-        }
-
-        .media-action-btn {
-            background: #ff6b35;
-            color: white !important;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.76rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            transition: background 0.2s;
-            display: inline-block;
-        }
-
-        .media-action-btn:hover {
-            background: #e05a2b;
-        }
-
-        .ai-image-card img {
-            width: 100%;
-            max-height: 380px;
-            object-fit: cover;
-            display: block;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .ai-image-card img:hover {
-            transform: scale(1.01);
-        }
-
-        .media-caption {
-            padding: 0.6rem 0.95rem;
-            font-size: 0.84rem;
-            color: #64748b;
-            background: #ffffff;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        /* 2. Sticky Notes */
         .ai-stickynote {
             background: #fef9c3;
             color: #713f12;
             border-radius: 8px;
-            padding: 1.25rem 1.25rem 1rem;
+            padding: 14px 16px 12px;
             margin: 0.85rem 0;
-            box-shadow: 0 8px 20px rgba(234, 179, 8, 0.16), 0 2px 6px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 16px rgba(234, 179, 8, 0.14);
+            border-top: 5px solid #eab308;
             position: relative;
-            transform: rotate(-0.7deg);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            border-top: 6px solid #eab308;
-            max-width: 95%;
-        }
-
-        .ai-stickynote:hover {
-            transform: rotate(0deg) scale(1.01);
-            box-shadow: 0 12px 28px rgba(234, 179, 8, 0.25);
-        }
-
-        .stickynote-pin {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 14px;
-            height: 14px;
-            background: #ef4444;
-            border-radius: 50%;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-            border: 2px solid white;
-        }
-
-        .stickynote-content {
-            font-size: 0.94rem;
-            line-height: 1.55;
-            font-weight: 500;
         }
 
         .stickynote-copy-btn {
@@ -542,27 +860,24 @@
             border: none;
             color: #713f12;
             padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.76rem;
-            font-weight: 600;
-            margin-top: 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 8px;
             cursor: pointer;
             float: right;
-            transition: background 0.2s;
+            transition: background 0.15s;
         }
 
-        .stickynote-copy-btn:hover {
-            background: rgba(0, 0, 0, 0.12);
-        }
+        .stickynote-copy-btn:hover { background: rgba(0, 0, 0, 0.12); }
 
-        /* 3. 3D Flip Flashcards */
         .flashcard-box {
             perspective: 1000px;
             margin: 0.85rem 0;
             cursor: pointer;
             width: 100%;
             max-width: 480px;
-            height: 190px;
+            height: 180px;
             user-select: none;
         }
 
@@ -570,907 +885,1120 @@
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: left;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
 
-        .flashcard-box.flipped .flashcard-inner {
-            transform: rotateY(180deg);
-        }
+        .flashcard-box.flipped .flashcard-inner { transform: rotateY(180deg); }
 
-        .flashcard-front,
-        .flashcard-back {
+        .flashcard-front, .flashcard-back {
             position: absolute;
             width: 100%;
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 14px;
-            padding: 1.2rem 1.25rem;
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-            border: 1.5px solid #e2e8f0;
-            box-sizing: border-box;
+            box-shadow: var(--ai-shadow-sm);
+            border: 1.5px solid var(--ai-border);
         }
 
-        .flashcard-front {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            color: #0f172a;
-        }
+        .flashcard-front { background: #ffffff; color: var(--ai-text-main); }
+        .flashcard-back { background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; transform: rotateY(180deg); border-color: #0284c7; }
 
-        .flashcard-back {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            transform: rotateY(180deg);
-            border-color: #0284c7;
-        }
-
-        .flashcard-badge {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 700;
-            color: #ff6b35;
-        }
-
-        .flashcard-back .flashcard-badge {
-            color: #bae6fd;
-        }
-
-        .flashcard-text {
-            font-size: 0.96rem;
-            font-weight: 600;
-            line-height: 1.5;
-        }
-
-        .flashcard-hint {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            align-self: flex-end;
-        }
-
-        .flashcard-back .flashcard-hint {
-            color: #e0f2fe;
-        }
-
-        /* 4. Infographic Roadmap */
         .ai-infographic-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 1.15rem;
+            border: 1px solid var(--ai-border);
+            border-radius: 12px;
+            padding: 16px;
             margin: 0.85rem 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        }
-
-        .infographic-title {
-            font-weight: 700;
-            font-size: 0.98rem;
-            color: #0f172a;
-            margin-bottom: 0.85rem;
-            border-bottom: 2px solid #ff6b35;
-            padding-bottom: 0.35rem;
-            display: inline-block;
-        }
-
-        .infographic-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            position: relative;
+            box-shadow: var(--ai-shadow-sm);
         }
 
         .infographic-step {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
-            position: relative;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
         .step-number {
-            width: 26px;
-            height: 26px;
-            background: #ff6b35;
+            width: 24px;
+            height: 24px;
+            background: var(--ai-primary);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-weight: 800;
+            font-size: 0.75rem;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
         }
 
-        .step-content {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 0.5rem 0.8rem;
-            flex: 1;
-        }
-
-        .step-content strong {
-            display: block;
-            font-size: 0.88rem;
-            color: #0f172a;
-        }
-
-        .step-content p {
-            margin: 0.2rem 0 0;
-            font-size: 0.82rem;
-            color: #475569;
-        }
-
-        /* 5. Direct Video Link Recommendation Card */
         .ai-video-link-card {
-            background: linear-gradient(135deg, #ffffff 0%, #fff7f7 100%);
+            background: #ffffff;
             border: 1.5px solid #fed7d7;
-            border-radius: 14px;
-            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            padding: 12px 16px;
             margin: 0.85rem 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1.1rem;
-            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .ai-video-link-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
-        }
-
-        .video-link-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: #ef4444;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .video-link-details {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .video-link-badge {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #ef4444;
-            margin-bottom: 2px;
-        }
-
-        .video-link-title {
-            font-size: 0.96rem;
-            font-weight: 700;
-            color: #0f172a;
-            line-height: 1.35;
-        }
-
-        .video-link-channel {
-            font-size: 0.82rem;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        .video-link-actions {
-            flex-shrink: 0;
+            gap: 12px;
+            box-shadow: var(--ai-shadow-sm);
         }
 
         .video-link-btn {
             background: #ef4444;
             color: #ffffff !important;
-            padding: 0.6rem 1.15rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.25);
-            transition: background 0.2s, transform 0.15s;
-            white-space: nowrap;
+            gap: 6px;
         }
 
-        .video-link-btn:hover {
-            background: #dc2626;
-            transform: scale(1.03);
-            color: #ffffff !important;
+        /* 3. FLOATING PROMPT INPUT BAR (SAAS STYLE) */
+        .stage-prompt-dock {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 20px 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.92) 20%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 30;
         }
 
-        @media (max-width: 600px) {
-            .ai-video-link-card {
-                flex-direction: column;
-                align-items: flex-start;
+        .prompt-bar-wrap {
+            max-width: 820px;
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid var(--ai-border);
+            border-radius: 28px;
+            padding: 6px 8px 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--ai-shadow-float);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-bar-wrap:focus-within {
+            border-color: var(--ai-primary);
+            box-shadow: 0 8px 26px rgba(255, 107, 53, 0.16);
+        }
+
+        .btn-prompt-icon {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.15s ease;
+        }
+
+        .btn-prompt-icon:hover {
+            color: var(--ai-primary);
+            background: var(--ai-primary-tint);
+        }
+
+        .btn-prompt-icon.recording {
+            color: #ffffff;
+            background: #ef4444;
+            animation: pulseRecord 1s infinite;
+        }
+
+        @keyframes pulseRecord {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .prompt-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--ai-text-main);
+            font-family: inherit;
+            font-size: 0.98rem;
+            outline: none;
+            padding: 8px 4px;
+        }
+
+        .prompt-input-field::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-prompt-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--ai-primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+            flex-shrink: 0;
+        }
+
+        .btn-prompt-send:hover {
+            background: var(--ai-primary-hover);
+            transform: scale(1.05);
+        }
+
+
+        /* Responsive Mobile Breakpoint */
+        @media (max-width: 820px) {
+            .ai-sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 200;
+                box-shadow: 10px 0 30px rgba(0,0,0,0.15);
+                transform: translateX(-100%);
+                margin-left: 0;
             }
-            .video-link-actions {
-                width: 100%;
+
+            .ai-sidebar.mobile-open {
+                transform: translateX(0);
             }
-            .video-link-btn {
-                width: 100%;
-                justify-content: center;
+
+            .sidebar-backdrop.active {
+                display: block;
             }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 
 <body>
-    <header id="header">
-        <div class="container nav-container">
-            <nav>
-                <a href="index.html" class="logo"
-                    style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 55px;">
-                    <img src="assets/logo.svg" alt="Tech Indro Logo"
-                        style="height: 100%; width: auto; object-fit: contain; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); background: white;">
-                    <span
-                        style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black;">TECH
-                        INDRO</span>
+
+    <div class="saas-app">
+
+        <!-- Mobile Overlay Backdrop -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebarMobile()"></div>
+
+        <!-- =================================================== -->
+        <!-- 1. LEFT COLLAPSIBLE SIDEBAR -->
+        <!-- =================================================== -->
+        <aside class="ai-sidebar" id="aiSidebar">
+            <!-- Header Brand -->
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-brand">
+                    <img src="assets/logo.svg" alt="Tech Indro Logo">
+                    <span class="sidebar-brand-title">
+                        TECH INDRO <span class="ai-tag">AI</span>
+                    </span>
                 </a>
-                <ul class="nav-links">
-                    <li><a href="programs.html">Programs</a></li>
-                    <li><a href="dashboard.html">My Dashboard</a></li>
-                    <li><a href="ai-mentor.html" style="color: var(--primary) !important; font-weight: 700;">AI
-                            Mentor</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <div class="chat-container">
-        <div class="agent-selector-bar">
-            <div class="agent-options">
-                <button class="agent-btn active" onclick="switchAgent('coding')" id="btn-coding">
-                    <i data-lucide="code"></i> Coding Mentor
-                </button>
-                <button class="agent-btn" onclick="switchAgent('debug')" id="btn-debug">
-                    <i data-lucide="bug"></i> Bug Fixer
-                </button>
-                <button class="agent-btn" onclick="switchAgent('career')" id="btn-career">
-                    <i data-lucide="briefcase"></i> Career Coach
+                <button type="button" class="btn-icon-soft" onclick="toggleSidebar()" title="Collapse Sidebar" aria-label="Toggle Sidebar">
+                    <i data-lucide="panel-left-close" style="width: 18px; height: 18px;"></i>
                 </button>
             </div>
-            <div class="agent-controls">
-                <button type="button" id="voiceToggleBtn" class="agent-btn" onclick="toggleVoice()"
-                    style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd; font-size: 0.85rem; padding: 0.45rem 0.85rem;"
-                    title="AI Voice Talking Mode">
-                    <i data-lucide="volume-2" id="voiceIcon"></i> <span id="voiceText">Voice: ON</span>
-                </button>
-                <select id="chatLang"
-                    style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 0.45rem 0.8rem; border-radius: 20px; outline: none; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.85rem;">
-                    <option value="auto">Auto Detect</option>
-                    <option value="hi">Hindi / Hinglish</option>
-                    <option value="en">English</option>
-                    <option value="bho">Bhojpuri</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="chat-history" id="chatHistory">
-            <div class="chat-bubble chat-ai" id="welcomeMsg" style="position: relative;">
-                <div class="ai-avatar-inline"><i data-lucide="bot" style="width: 20px; height: 20px;"></i></div>
-                <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 6px;">
-                    <span id="agentName" style="display: none;">Coding Mentor</span>
-                    <div class="speaking-wave current-speaking-wave" style="display: none; margin-right: 8px;">
-                        <span></span><span></span><span></span><span></span>
+            <!-- New Chat CTA -->
+            <div class="sidebar-action-box">
+                <button type="button" class="btn-new-chat" onclick="startNewChat()">
+                    <span class="icon-wrap">
+                        <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+                        New Conversation
+                    </span>
+                    <span class="kbd-shortcut">Ctrl+K</span>
+                </button>
+            </div>
+
+            <!-- Scrollable Body -->
+            <div class="sidebar-body">
+                <!-- Section 1: Engineering Personas -->
+                <div class="sidebar-section-label">SPECIALIZED AI ROLES</div>
+                <div class="role-nav-list">
+                    <button type="button" class="role-nav-item active" id="roleBtn-coding" onclick="switchPersona('coding')">
+                        <div class="role-icon-box"><i data-lucide="code-2" style="width: 16px; height: 16px;"></i></div>
+                        <span>Full-Stack Architect</span>
+                    </button>
+                    <button type="button" class="role-nav-item" id="roleBtn-debug" onclick="switchPersona('debug')">
+                        <div class="role-icon-box"><i data-lucide="bug" style="width: 16px; height: 16px;"></i></div>
+                        <span>Code Debugger &amp; Review</span>
+                    </button>
+                    <button type="button" class="role-nav-item" id="roleBtn-dsa" onclick="switchPersona('dsa')">
+                        <div class="role-icon-box"><i data-lucide="binary" style="width: 16px; height: 16px;"></i></div>
+                        <span>DSA &amp; LeetCode Coach</span>
+                    </button>
+                    <button type="button" class="role-nav-item" id="roleBtn-system" onclick="switchPersona('system')">
+                        <div class="role-icon-box"><i data-lucide="layers" style="width: 16px; height: 16px;"></i></div>
+                        <span>System Design Lead</span>
+                    </button>
+                    <button type="button" class="role-nav-item" id="roleBtn-career" onclick="switchPersona('career')">
+                        <div class="role-icon-box"><i data-lucide="briefcase" style="width: 16px; height: 16px;"></i></div>
+                        <span>FAANG Placement Coach</span>
+                    </button>
+                </div>
+
+                <!-- Section 2: Recent Threads History -->
+                <div class="sidebar-section-label">RECENT CONVERSATIONS</div>
+                <div class="history-list" id="chatHistoryList">
+                    <!-- Populated dynamically via localStorage -->
+                </div>
+            </div>
+
+            <!-- Footer: User status & links -->
+            <div class="sidebar-footer">
+                <div class="user-profile-badge">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="user-check" style="width: 15px; height: 15px; color: var(--ai-primary);"></i>
+                        <span>Tech Scholar</span>
                     </div>
-                    <button class="icon-btn" onclick="speakText(document.getElementById('agentGreeting').innerText)"
-                        style="padding: 2px; color: #94a3b8;" title="Listen to AI Agent">
-                        <i data-lucide="volume-2" style="width: 17px; height: 17px;"></i>
-                    </button>
+                    <span class="scholar-chip">
+                        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> Verified
+                    </span>
                 </div>
-                <div id="agentGreeting" style="font-size: 1.02rem; line-height: 1.6; margin-bottom: 12px; color: #1e293b;">Namaste! Main aapka 24/7 AI Coding Mentor hoon. Main aapke sawalon ka jawab dene ke sath aapse interact bhi karunga. Batayein, aaj hum kya build karein?</div>
-                <div class="chips-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('AI robot coding on multi-screen setup in dark futuristic cyber room image')"
-                        style="background: #fff7ed; border: 1.5px solid #ffedd5; color: #c2410c; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Generate AI Image</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Programming languages popularity comparison bar chart')"
-                        style="background: #f0f9ff; border: 1.5px solid #e0f2fe; color: #0369a1; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Live Data Chart</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Python backend best practices sticky note')"
-                        style="background: #fefce8; border: 1.5px solid #fef08a; color: #854d0e; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Sticky Note</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Binary search algorithm flashcard')"
-                        style="background: #fdf2f8; border: 1.5px solid #fce7f3; color: #9d174d; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">3D Flashcard</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('Full stack developer career infographic roadmap')"
-                        style="background: #f0fdf4; border: 1.5px solid #dcfce7; color: #15803d; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Infographic Roadmap</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('FastAPI backend REST API tutorial video')"
-                        style="background: #faf5ff; border: 1.5px solid #f3e8ff; color: #7e22ce; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Video Tutorial</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('FastAPI backend REST API implementation example')"
-                        style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">FastAPI REST API</button>
-                    <button type="button" class="prompt-chip"
-                        onclick="askPreset('FastAPI kaise kaam karela Bhojpuri me samjhaien')"
-                        style="background: #f8fafc; border: 1.5px solid #e2e8f0; color: #334155; padding: 5px 12px; border-radius: 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Bhojpuri me API</button>
+                <div class="sidebar-ext-links">
+                    <a href="index.html">← Back to Home</a>
+                    <a href="interview-prep.html">Interview Studio →</a>
                 </div>
             </div>
-        </div>
+        </aside>
 
-            <div class="chat-input-box">
-                <form id="chatForm" class="input-wrapper">
-                    <button type="button" class="icon-btn" title="Upload File"
-                        onclick="document.getElementById('fileUpload').click()">
-                        <i data-lucide="paperclip"></i>
+        <!-- =================================================== -->
+        <!-- 2. MAIN CHAT STAGE -->
+        <!-- =================================================== -->
+        <main class="ai-main-stage">
+            <!-- Top App Bar -->
+            <div class="stage-top-bar">
+                <div class="bar-left">
+                    <button type="button" class="btn-icon-soft" id="menuToggleBtn" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+                        <i data-lucide="menu" style="width: 18px; height: 18px;"></i>
                     </button>
-                    <input type="file" id="fileUpload" style="display: none;"
-                        onchange="alert('File ' + this.files[0].name + ' selected for upload!')">
+                    <div class="active-persona-pill">
+                        <span class="live-pulse"></span>
+                        <span id="headerRoleName">Full-Stack Architect</span>
+                        <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">• 24/7 Active</span>
+                    </div>
+                </div>
 
-                    <input type="text" id="chatInput" placeholder="Type your message or click mic to talk..."
-                        autocomplete="off">
-
-                    <button type="button" class="icon-btn" id="micBtn" title="Speak via Microphone (Voice Input)"
-                        onclick="toggleMic()">
-                        <i data-lucide="mic"></i>
+                <div class="bar-right">
+                    <button type="button" class="btn-voice-toggle" id="voiceToggleBtn" onclick="toggleVoiceOutput()">
+                        <i data-lucide="volume-2" id="voiceToggleIcon" style="width: 14px; height: 14px;"></i>
+                        <span id="voiceToggleText">Voice: ON</span>
                     </button>
 
-                    <button type="submit" class="send-btn" title="Send Message">
-                        <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                    <select id="chatLang" class="lang-select-box" title="AI Response Language">
+                        <option value="auto">Language: Auto Detect</option>
+                        <option value="hi">Hindi / Hinglish</option>
+                        <option value="en">English (Global)</option>
+                        <option value="bho">Bhojpuri</option>
+                    </select>
+
+                    <button type="button" class="btn-icon-soft" onclick="startNewChat()" title="Clear Current Thread">
+                        <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable Chat Stream Viewport -->
+            <div class="chat-viewport" id="chatViewport">
+                <div class="chat-centered-container" id="chatContainer">
+
+                    <!-- Empty State Hero ("Where should we begin?") -->
+                    <div class="empty-state-hero" id="emptyStateHero">
+                        <div class="hero-sparkle-icon">
+                            <i data-lucide="bot" style="width: 28px; height: 28px;"></i>
+                        </div>
+                        <h1 id="heroTitle">Where should we begin?</h1>
+                        <p id="heroSubtitle">Calibrated technical mentoring for distributed architecture, LeetCode patterns, real-world code debugging, and FAANG placement rounds.</p>
+
+                        <div class="prompt-cards-grid">
+                            <div class="prompt-card-chip" onclick="askPreset('Visualize microservices architecture with API Gateway, Auth Service, Redis cache, and Kafka in Kroki diagram')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="network" style="width: 16px; height: 16px; color: #ff6b35;"></i>
+                                    <span>System Architecture Diagram (Kroki)</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                            <div class="prompt-card-chip" onclick="askPreset('Programming languages popularity comparison bar chart')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="bar-chart-2" style="width: 16px; height: 16px; color: #0284c7;"></i>
+                                    <span>Live Benchmark Data Chart</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                            <div class="prompt-card-chip" onclick="askPreset('Explain Two Pointer vs Sliding Window technique with Python example')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="zap" style="width: 16px; height: 16px; color: #eab308;"></i>
+                                    <span>DSA Sliding Window vs Two Pointers</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                            <div class="prompt-card-chip" onclick="askPreset('Distributed caching architecture with Redis and Kafka best practices sticky note')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="file-text" style="width: 16px; height: 16px; color: #10b981;"></i>
+                                    <span>Redis &amp; Kafka Architecture Note</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                            <div class="prompt-card-chip" onclick="askPreset('Binary search algorithm complexity and edge cases flashcard')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="layers" style="width: 16px; height: 16px; color: #8b5cf6;"></i>
+                                    <span>3D Revision Flashcard</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                            <div class="prompt-card-chip" onclick="askPreset('Full stack senior engineer career roadmap from scratch')">
+                                <span class="prompt-chip-text" style="display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="compass" style="width: 16px; height: 16px; color: #ec4899;"></i>
+                                    <span>Senior Full-Stack Career Roadmap</span>
+                                </span>
+                                <i data-lucide="arrow-right" class="prompt-chip-arrow" style="width: 15px; height: 15px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conversation Message Stream (Injected dynamically) -->
+                    <div id="messagesStream" style="display: flex; flex-direction: column; gap: 20px;"></div>
+
+                </div>
+            </div>
+
+            <!-- 3. Floating Bottom Prompt Bar (SaaS Style) -->
+            <div class="stage-prompt-dock">
+                <form id="promptForm" class="prompt-bar-wrap">
+                    <!-- File Attachment Button -->
+                    <button type="button" class="btn-prompt-icon" title="Attach code file or resume" onclick="document.getElementById('fileUploadInput').click()">
+                        <i data-lucide="paperclip" style="width: 18px; height: 18px;"></i>
+                    </button>
+                    <input type="file" id="fileUploadInput" style="display: none;" onchange="handleFileUpload(event)">
+
+                    <!-- Text Input -->
+                    <input type="text" id="chatInputField" class="prompt-input-field" placeholder="Ask a technical doubt, paste code, or ask for architecture..." autocomplete="off">
+
+                    <!-- Mic Voice Input Button -->
+                    <button type="button" class="btn-prompt-icon" id="micVoiceBtn" onclick="toggleSpeechMic()" title="Click to speak (Voice Recognition)">
+                        <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+                    </button>
+
+                    <!-- Send Button -->
+                    <button type="submit" class="btn-prompt-send" title="Send Query">
+                        <i data-lucide="arrow-up" style="width: 18px; height: 18px;"></i>
                     </button>
                 </form>
             </div>
-        </div>
+        </main>
 
+    </div>
 
-        <script>
-            lucide.createIcons();
+    <!-- Script Implementation -->
+    <script>
+        // State Management
+        let currentPersona = 'coding';
+        let isVoiceEnabled = true;
+        let isRecording = false;
+        let speechRecognizer = null;
+        let currentThread = [];
+        let storedSessions = [];
 
-            const form = document.getElementById('chatForm');
-            const input = document.getElementById('chatInput');
-            const history = document.getElementById('chatHistory');
-            const langSelect = document.getElementById('chatLang');
-            const micBtn = document.getElementById('micBtn');
+        // Personas Configuration
+        const personasData = {
+            'coding': {
+                name: 'Full-Stack Architect',
+                greeting: 'Namaste! Main aapka Senior Full-Stack Architecture Mentor hoon. Web applications, React 19, Node.js, distributed caching aur database design me kya discuss karna chahenge?',
+                instruction: 'You are Tech Indro Full-Stack Architect Mentor. Specialize in modern web development, React, Node.js, databases, caching, and clean code principles.'
+            },
+            'debug': {
+                name: 'Code Debugger & Review',
+                greeting: 'Hey! Kahan error aa raha hai? Apna code snippet, stack trace ya runtime bug yahan share kijiye. Hum milkar time-complexity aur memory leaks optimize karenge.',
+                instruction: 'You are Tech Indro Deep Code Debugger. Specialize in pinpointing bugs, edge cases, race conditions, memory leaks, and providing fixed, working code.'
+            },
+            'dsa': {
+                name: 'DSA & LeetCode Coach',
+                greeting: 'Hello coder! LeetCode problems, dynamic programming, graph algorithms ya asymptotic analysis me kaun sa pattern master karna hai aaj?',
+                instruction: 'You are Tech Indro DSA & LeetCode Coach. Focus on algorithmic problem-solving patterns (Sliding window, Two pointer, DP, Graph traversal), optimal time/space complexity, and clean C++/Java/Python implementations.'
+            },
+            'system': {
+                name: 'System Design Lead',
+                greeting: 'Welcome! System Design round me distributed architectures, 100k RPS scale, message queues (Kafka), sharding aur CAP trade-offs design karte hain. Kya architecture discuss karein?',
+                instruction: 'You are Tech Indro System Design Lead. Guide students through large-scale distributed architectures, load balancing, Kafka event streaming, database sharding, and resilience trade-offs.'
+            },
+            'career': {
+                name: 'FAANG Placement Coach',
+                greeting: 'Namaste! Placement interview prep, ATS resume checks, STAR method behavioral rounds aur FAANG evaluation rubrics me main aapki help karunga. Aapka kya target company hai?',
+                instruction: 'You are Tech Indro Placement & Career Coach. Specialize in technical resumes, mock interview feedback, behavioral STAR method answers, and hiring manager evaluation rubrics.'
+            }
+        };
 
-            let currentAgent = 'coding';
-            let voiceEnabled = true;
-            let isListening = false;
-            let recognition = null;
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStoredSessions();
+            initSpeechRecognition();
+            if (window.lucide) lucide.createIcons();
 
-            const agentData = {
-                'coding': { name: 'Coding Mentor', greeting: 'Namaste! Main aapka 24/7 AI Coding Mentor hoon. Main aapke sawalon ka jawab dene ke sath aapse interact bhi karunga. Batayein, aaj hum kya build karein?' },
-                'career': { name: 'Career Coach', greeting: 'Hello! Main aapka personal Career & Placement Coach hoon. Resume, mock interviews aur FAANG guidance me main aapka mentor banunga. Aapka kya goal hai?' },
-                'debug': { name: 'Bug Fixer', greeting: 'Hey! Kahan par error aa raha hai? Apna code snippet ya error message yahan share kijiye, hum milkar turant fix karenge!' }
+            // Keyboard shortcut Ctrl+K / Cmd+K for New Chat
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                    e.preventDefault();
+                    startNewChat();
+                }
+            });
+        });
+
+        // Sidebar Toggle Logic
+        function toggleSidebar() {
+            const sidebar = document.getElementById('aiSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (window.innerWidth <= 820) {
+                sidebar.classList.toggle('mobile-open');
+                backdrop.classList.toggle('active');
+            } else {
+                sidebar.classList.toggle('collapsed');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeSidebarMobile() {
+            document.getElementById('aiSidebar').classList.remove('mobile-open');
+            document.getElementById('sidebarBackdrop').classList.remove('active');
+        }
+
+        // Persona Switching
+        function switchPersona(personaKey) {
+            if (!personasData[personaKey]) return;
+            currentPersona = personaKey;
+
+            // Update sidebar nav items
+            document.querySelectorAll('.role-nav-item').forEach(el => el.classList.remove('active'));
+            const activeBtn = document.getElementById(`roleBtn-${personaKey}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Update top bar title
+            document.getElementById('headerRoleName').innerText = personasData[personaKey].name;
+
+            // Update hero greeting
+            document.getElementById('heroTitle').innerText = personasData[personaKey].name;
+            document.getElementById('heroSubtitle').innerText = personasData[personaKey].greeting;
+
+            speakVoiceText(personasData[personaKey].greeting);
+            closeSidebarMobile();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Start New Chat Thread
+        function startNewChat() {
+            if (currentThread.length > 0) {
+                saveCurrentThreadToHistory();
+            }
+            currentThread = [];
+            document.getElementById('messagesStream').innerHTML = '';
+            document.getElementById('emptyStateHero').style.display = 'flex';
+            document.getElementById('chatInputField').value = '';
+            document.getElementById('chatInputField').focus();
+            closeSidebarMobile();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // LocalStorage History Persistence
+        function loadStoredSessions() {
+            try {
+                const raw = localStorage.getItem('tech_indro_ai_sessions');
+                storedSessions = raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                storedSessions = [];
+            }
+            renderHistoryList();
+        }
+
+        function saveCurrentThreadToHistory() {
+            if (currentThread.length === 0) return;
+            const firstUserMsg = currentThread.find(m => m.sender === 'user');
+            const title = firstUserMsg ? firstUserMsg.text.slice(0, 36) : 'Technical Discussion';
+            const session = {
+                id: 'sess_' + Date.now(),
+                title: title,
+                timestamp: new Date().toLocaleDateString(),
+                persona: currentPersona,
+                messages: currentThread
             };
+            storedSessions.unshift(session);
+            if (storedSessions.length > 20) storedSessions.pop();
+            try {
+                localStorage.setItem('tech_indro_ai_sessions', JSON.stringify(storedSessions));
+            } catch (e) {}
+            renderHistoryList();
+        }
 
-            // Voice Engine: SpeechSynthesis
-            function toggleVoice() {
-                voiceEnabled = !voiceEnabled;
-                const btn = document.getElementById('voiceToggleBtn');
-                const txt = document.getElementById('voiceText');
-                const icon = document.getElementById('voiceIcon');
-                if (voiceEnabled) {
-                    btn.style.background = '#e0f2fe';
-                    btn.style.color = '#0284c7';
-                    btn.style.borderColor = '#bae6fd';
-                    txt.innerText = 'Voice: ON';
-                    icon.setAttribute('data-lucide', 'volume-2');
-                    speakText("Voice mode enabled. I will now talk with you!");
+        function renderHistoryList() {
+            const listEl = document.getElementById('chatHistoryList');
+            listEl.innerHTML = '';
+            if (storedSessions.length === 0) {
+                listEl.innerHTML = '<div style="font-size: 0.78rem; color: #94a3b8; padding: 6px 10px;">No saved sessions yet</div>';
+                return;
+            }
+            storedSessions.forEach((sess, idx) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <span class="title" onclick="restoreSession('${sess.id}')">
+                        <i data-lucide="message-square" style="width: 13px; height: 13px; color: #64748b; flex-shrink: 0;"></i>
+                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(sess.title)}</span>
+                    </span>
+                    <button type="button" class="del-btn" onclick="deleteSession(event, '${sess.id}')" title="Delete conversation">
+                        <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+                    </button>
+                `;
+                listEl.appendChild(item);
+            });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function restoreSession(sessionId) {
+            const sess = storedSessions.find(s => s.id === sessionId);
+            if (!sess) return;
+            currentThread = sess.messages || [];
+            document.getElementById('emptyStateHero').style.display = 'none';
+            const stream = document.getElementById('messagesStream');
+            stream.innerHTML = '';
+            currentThread.forEach(m => {
+                if (m.sender === 'user') {
+                    renderUserBubble(m.text);
                 } else {
-                    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-                    btn.style.background = '#f1f5f9';
-                    btn.style.color = '#64748b';
-                    btn.style.borderColor = '#cbd5e1';
-                    txt.innerText = 'Voice: OFF';
-                    icon.setAttribute('data-lucide', 'volume-x');
+                    renderAiBubble(m.text, sess.persona || 'coding', false);
                 }
-                lucide.createIcons();
+            });
+            switchPersona(sess.persona || 'coding');
+            closeSidebarMobile();
+            scrollToBottom();
+        }
+
+        function deleteSession(e, sessionId) {
+            e.stopPropagation();
+            storedSessions = storedSessions.filter(s => s.id !== sessionId);
+            try {
+                localStorage.setItem('tech_indro_ai_sessions', JSON.stringify(storedSessions));
+            } catch (err) {}
+            renderHistoryList();
+        }
+
+        // Voice Engine: SpeechSynthesis
+        function toggleVoiceOutput() {
+            isVoiceEnabled = !isVoiceEnabled;
+            const btn = document.getElementById('voiceToggleBtn');
+            const txt = document.getElementById('voiceToggleText');
+            const icon = document.getElementById('voiceToggleIcon');
+            if (isVoiceEnabled) {
+                btn.classList.remove('voice-off');
+                txt.innerText = 'Voice: ON';
+                icon.setAttribute('data-lucide', 'volume-2');
+                speakVoiceText("Voice narration enabled.");
+            } else {
+                btn.classList.add('voice-off');
+                txt.innerText = 'Voice: OFF';
+                icon.setAttribute('data-lucide', 'volume-x');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function speakVoiceText(rawText) {
+            if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            let clean = rawText
+                .replace(/```image[\s\S]*?```/gi, " AI architecture image created. ")
+                .replace(/```chart[\s\S]*?```/gi, " Interactive chart plotted. ")
+                .replace(/```stickynote[\s\S]*?```/gi, " Revision sticky note pinned. ")
+                .replace(/```flashcard[\s\S]*?```/gi, " Revision flashcard rendered. ")
+                .replace(/```infographic[\s\S]*?```/gi, " Visual roadmap generated. ")
+                .replace(/```video[\s\S]*?```/gi, " Tutorial video attached. ")
+                .replace(/```[\s\S]*?```/g, " Code example provided. ")
+                .replace(/[*#`_]/g, '')
+                .trim();
+
+            if (!clean) return;
+
+            const utterance = new SpeechSynthesisUtterance(clean);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+
+            const langVal = document.getElementById('chatLang').value;
+            const isIndian = langVal === 'hi' || langVal === 'bho' || langVal === 'auto' || /[अ-ह]/.test(rawText);
+            const voices = window.speechSynthesis.getVoices();
+            if (isIndian && langVal !== 'en') {
+                utterance.lang = 'hi-IN';
+                const hiVoice = voices.find(v => v.lang && (v.lang.includes('hi') || v.lang.includes('IN')));
+                if (hiVoice) utterance.voice = hiVoice;
+            } else {
+                utterance.lang = 'en-US';
             }
 
-            function speakText(rawText) {
-                if (!voiceEnabled || !('speechSynthesis' in window)) return;
-                window.speechSynthesis.cancel();
+            const waves = document.querySelectorAll('.speaking-wave');
+            utterance.onstart = () => waves.forEach(w => w.style.display = 'inline-flex');
+            utterance.onend = () => waves.forEach(w => w.style.display = 'none');
+            utterance.onerror = () => waves.forEach(w => w.style.display = 'none');
 
-                // Format clean speech text (don't read raw brackets or asterisks)
-                let clean = rawText
-                    .replace(/```image[\s\S]*?```/gi, " Maine AI generated image screen par create kar di hai. ")
-                    .replace(/```chart[\s\S]*?```/gi, " Maine interactive chart screen par plot kar diya hai. ")
-                    .replace(/```stickynote[\s\S]*?```/gi, " Maine revision sticky note pin kar diya hai. ")
-                    .replace(/```flashcard[\s\S]*?```/gi, " Maine revision flashcard screen par create kar diya hai. ")
-                    .replace(/```infographic[\s\S]*?```/gi, " Maine visual roadmap infographic screen par provide kar di hai. ")
-                    .replace(/```video[\s\S]*?```/gi, " Maine tutorial video player attach kar diya hai. ")
-                    .replace(/```[\s\S]*?```/g, " Maine code example screen par provide kar diya hai. ")
-                    .replace(/\*\*(.*?)\*\*/g, "$1")
-                    .replace(/\*(.*?)\*/g, "$1")
-                    .replace(/`([^`]+)`/g, "$1")
-                    .replace(/#+\s+/g, "")
-                    .replace(/[-*•]\s+/g, "")
-                    .trim();
+            window.speechSynthesis.speak(utterance);
+        }
 
-                if (!clean) return;
-
-                const utterance = new SpeechSynthesisUtterance(clean);
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-
-                const isIndianLang = langSelect.value === 'hi' || langSelect.value === 'bho' || langSelect.value === 'auto' || /[अ-ह]/.test(rawText) || /(namaste|karein|hai|hoon|samjhein|poocha|batayein|bhojpuri|bhaiya|haal|ba|baate|tohar|humar|kaise)/i.test(clean);
-
-                const voices = window.speechSynthesis.getVoices();
-                if (isIndianLang && langSelect.value !== 'en') {
-                    utterance.lang = 'hi-IN';
-                    const hiVoice = voices.find(v => v.lang && (v.lang.includes('hi') || v.lang.includes('IN')));
-                    if (hiVoice) utterance.voice = hiVoice;
-                } else {
-                    utterance.lang = 'en-US';
-                    const enVoice = voices.find(v => v.lang && v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('David')));
-                    if (enVoice) utterance.voice = enVoice;
-                }
-
-                const waves = document.querySelectorAll('.speaking-wave');
-                utterance.onstart = () => {
-                    waves.forEach(w => w.style.display = 'inline-flex');
-                };
-                utterance.onend = () => {
-                    waves.forEach(w => w.style.display = 'none');
-                };
-                utterance.onerror = () => {
-                    waves.forEach(w => w.style.display = 'none');
-                };
-
-                window.speechSynthesis.speak(utterance);
-            }
-
-            // Voice Recognition: Microphone Input
+        // Web Speech Recognition (Microphone)
+        function initSpeechRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRec();
-                recognition.continuous = false;
-                recognition.interimResults = false;
+                speechRecognizer = new SpeechRec();
+                speechRecognizer.continuous = false;
+                speechRecognizer.interimResults = false;
 
-                recognition.onstart = () => {
-                    isListening = true;
-                    micBtn.style.color = '#ef4444';
-                    micBtn.style.animation = 'pulseMic 1s infinite';
-                    input.placeholder = "Listening... Speak now into your mic...";
+                speechRecognizer.onstart = () => {
+                    isRecording = true;
+                    const btn = document.getElementById('micVoiceBtn');
+                    btn.classList.add('recording');
+                    document.getElementById('chatInputField').placeholder = "Listening... Speak your technical doubt now...";
                 };
 
-                recognition.onresult = (e) => {
-                    const transcript = e.results[0][0].transcript;
-                    input.value = transcript;
-                    form.dispatchEvent(new Event('submit'));
+                speechRecognizer.onresult = (e) => {
+                    const text = e.results[0][0].transcript;
+                    document.getElementById('chatInputField').value = text;
+                    document.getElementById('promptForm').dispatchEvent(new Event('submit'));
                 };
 
-                recognition.onend = () => {
-                    isListening = false;
-                    micBtn.style.color = '#64748b';
-                    micBtn.style.animation = 'none';
-                    input.placeholder = "Type your message or click mic to talk...";
+                speechRecognizer.onend = () => {
+                    stopSpeechRecUI();
                 };
 
-                recognition.onerror = (err) => {
-                    isListening = false;
-                    micBtn.style.color = '#64748b';
-                    micBtn.style.animation = 'none';
-                    input.placeholder = "Type your message or click mic to talk...";
+                speechRecognizer.onerror = () => {
+                    stopSpeechRecUI();
                 };
             }
+        }
 
-            window.toggleMic = function () {
-                if (!recognition) {
-                    alert("Voice recognition is not supported in this browser. Please use Chrome or Edge!");
-                    return;
-                }
-                if (isListening) {
-                    recognition.stop();
-                } else {
-                    recognition.lang = (langSelect.value === 'hi' || langSelect.value === 'bho' || langSelect.value === 'auto') ? 'hi-IN' : 'en-US';
-                    recognition.start();
-                }
-            };
-
-            window.switchAgent = function (agent) {
-                currentAgent = agent;
-                document.querySelectorAll('.agent-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById('btn-' + agent).classList.add('active');
-
-                document.getElementById('agentName').innerText = agentData[agent].name;
-                document.getElementById('agentGreeting').innerText = agentData[agent].greeting;
-
-                // Clear chat history when switching agents
-                const welcomeBubble = document.getElementById('welcomeMsg').outerHTML;
-                history.innerHTML = welcomeBubble;
-                lucide.createIcons();
-
-                // Agent greets with voice!
-                speakText(agentData[agent].greeting);
-            };
-
-            // Clean Gemini-Style Markdown Formatter
-            // Clean Gemini-Style Markdown Formatter with Rich Visual Media
-            function renderCleanMarkdown(rawText) {
-                if (!rawText) return '';
-
-                let text = rawText;
-
-                // 1. Fenced Image Generation Block (Free Pollinations AI Engine)
-                text = text.replace(/```image\s*([\s\S]*?)```/gi, function (match, prompt) {
-                    const cleanPrompt = prompt.trim();
-                    const encodedPrompt = encodeURIComponent(cleanPrompt);
-                    const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=480&nologo=true`;
-                    return `<div class="ai-media-card ai-image-card">
-                        <div class="media-header">
-                            <span>Free AI Generated Image</span>
-                            <a href="${imgUrl}" target="_blank" download="tech-indro-ai.jpg" class="media-action-btn">Download Image</a>
-                        </div>
-                        <div class="media-body">
-                            <img src="${imgUrl}" alt="${cleanPrompt}" loading="lazy" onclick="window.open('${imgUrl}', '_blank')" title="Click to open full view" />
-                        </div>
-                        <div class="media-caption">${cleanPrompt}</div>
-                    </div>`;
-                });
-
-                // 2. Fenced Chart.js Block (Interactive HTML5 Canvas)
-                text = text.replace(/```chart\s*([\s\S]*?)```/gi, function (match, chartContent) {
-                    const chartId = 'chart_' + Math.random().toString(36).substr(2, 9);
-                    const encodedData = encodeURIComponent(chartContent.trim());
-                    return `<div class="ai-media-card">
-                        <div class="media-header">
-                            <span>Live Interactive Chart</span>
-                        </div>
-                        <div style="position: relative; height: 260px; width: 100%; padding: 12px; box-sizing: border-box;">
-                            <canvas id="${chartId}" data-chart="${encodedData}"></canvas>
-                        </div>
-                    </div>`;
-                });
-
-                // 3. Fenced Sticky Note Block
-                text = text.replace(/```stickynote\s*([\s\S]*?)```/gi, function (match, noteContent) {
-                    const safe = noteContent.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    return `<div class="ai-stickynote">
-                        <div class="stickynote-pin"></div>
-                        <div class="stickynote-content">${safe.replace(/\n/g, '<br>')}</div>
-                        <button type="button" class="stickynote-copy-btn" onclick="copyStickyNote(this)">Copy Note</button>
-                    </div>`;
-                });
-
-                // 4. Fenced 3D Flashcard Block
-                text = text.replace(/```flashcard\s*([\s\S]*?)```/gi, function (match, cardContent) {
-                    let q = "Concept";
-                    let a = "Explanation";
-                    const qMatch = cardContent.match(/Q:\s*([\s\S]*?)(?=\nA:|$)/i);
-                    const aMatch = cardContent.match(/A:\s*([\s\S]*)/i);
-                    if (qMatch) q = qMatch[1].trim();
-                    if (aMatch) a = aMatch[1].trim();
-                    return `<div class="flashcard-box" onclick="this.classList.toggle('flipped')" title="Click to flip card">
-                        <div class="flashcard-inner">
-                            <div class="flashcard-front">
-                                <div class="flashcard-badge">Concept Flashcard</div>
-                                <div class="flashcard-text">${q}</div>
-                                <div class="flashcard-hint">Click to reveal answer</div>
-                            </div>
-                            <div class="flashcard-back">
-                                <div class="flashcard-badge">Solution / Answer</div>
-                                <div class="flashcard-text">${a}</div>
-                                <div class="flashcard-hint">Click to flip back</div>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-
-                // 5. Fenced Infographic Roadmap Block
-                text = text.replace(/```infographic\s*([\s\S]*?)```/gi, function (match, infoContent) {
-                    const lines = infoContent.trim().split('\n').filter(l => l.trim());
-                    let title = "Infographic Roadmap";
-                    let stepsHtml = '';
-                    let stepCount = 1;
-                    lines.forEach((line) => {
-                        if (line.toLowerCase().startsWith('title:')) {
-                            title = line.replace(/title:/i, '').trim();
-                        } else {
-                            const parts = line.split('|');
-                            const stepName = parts[0] ? parts[0].trim() : `Step ${stepCount}`;
-                            const stepDesc = parts[1] ? parts[1].trim() : '';
-                            stepsHtml += `<div class="infographic-step">
-                                <div class="step-number">${stepCount}</div>
-                                <div class="step-content">
-                                    <strong>${stepName}</strong>
-                                    ${stepDesc ? `<p>${stepDesc}</p>` : ''}
-                                </div>
-                            </div>`;
-                            stepCount++;
-                        }
-                    });
-                    return `<div class="ai-infographic-card">
-                        <div class="infographic-title">${title}</div>
-                        <div class="infographic-timeline">${stepsHtml}</div>
-                    </div>`;
-                });
-
-                // 6. Fenced Video Block (Direct YouTube Tutorial Recommendation Link Card)
-                text = text.replace(/```video\s*([\s\S]*?)```/gi, function (match, videoContent) {
-                    let title = "";
-                    let channel = "";
-                    let url = "";
-                    let videoId = "";
-                    let topic = "";
-
-                    const titleMatch = videoContent.match(/Title:\s*(.*)/i);
-                    const channelMatch = videoContent.match(/Channel:\s*(.*)/i);
-                    const urlMatch = videoContent.match(/Url:\s*(.*)/i);
-                    const topicMatch = videoContent.match(/Topic:\s*(.*)/i);
-                    const vMatch = videoContent.match(/VideoId:\s*(.*)/i);
-
-                    if (titleMatch) title = titleMatch[1].trim();
-                    if (channelMatch) channel = channelMatch[1].trim();
-                    if (urlMatch) url = urlMatch[1].trim();
-                    if (topicMatch) topic = topicMatch[1].trim();
-                    if (vMatch) videoId = vMatch[1].trim();
-
-                    if (!title) {
-                        title = topic ? topic + " Tutorial" : "Recommended Video Tutorial";
-                    }
-
-                    if (!channel) {
-                        channel = "freeCodeCamp.org / YouTube";
-                    }
-
-                    if (!url) {
-                        if (videoId) {
-                            url = `https://www.youtube.com/watch?v=${videoId}`;
-                        } else {
-                            const low = (title + " " + topic + " " + videoContent).toLowerCase();
-                            if (low.includes('fastapi') || low.includes('api')) {
-                                videoId = '0rsH7475pYg';
-                                title = title || 'FastAPI Full Course for Beginners';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('python') || low.includes('loop')) {
-                                videoId = 'rfscVS0vtbw';
-                                title = title || 'Python for Beginners Full Course';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('javascript') || low.includes('js')) {
-                                videoId = 'W6NZfCO5SIk';
-                                title = title || 'JavaScript Tutorial for Beginners';
-                                channel = 'Programming with Mosh';
-                            } else if (low.includes('react')) {
-                                videoId = 'bMknfKXIFA8';
-                                title = title || 'React Course for Beginners';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('binary') || low.includes('dsa') || low.includes('algorithm')) {
-                                videoId = '6ysjqCUv3K4';
-                                title = title || 'Binary Search Algorithm & Practice';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('web') || low.includes('html') || low.includes('full stack')) {
-                                videoId = 'nu_pCVPKzTk';
-                                title = title || 'Full Stack Web Development Course';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('sql') || low.includes('database')) {
-                                videoId = 'HXV3zeRR3h4';
-                                title = title || 'SQL Database Tutorial for Beginners';
-                                channel = 'freeCodeCamp.org';
-                            } else if (low.includes('machine learning') || low.includes('ai')) {
-                                videoId = 'i_LwzRVP7bg';
-                                title = title || 'Machine Learning for Everybody';
-                                channel = 'freeCodeCamp.org';
-                            } else {
-                                videoId = '0rsH7475pYg';
-                                title = title || 'Complete Programming & Software Tutorial';
-                                channel = 'freeCodeCamp.org';
-                            }
-                            url = `https://www.youtube.com/watch?v=${videoId}`;
-                        }
-                    }
-
-                    return `<div class="ai-video-link-card">
-                        <div class="video-link-icon">
-                            <i data-lucide="play" style="width: 20px; height: 20px; fill: currentColor;"></i>
-                        </div>
-                        <div class="video-link-details">
-                            <span class="video-link-badge">Curated Video Tutorial</span>
-                            <div class="video-link-title">${title}</div>
-                            <div class="video-link-channel">Platform: ${channel}</div>
-                        </div>
-                        <div class="video-link-actions">
-                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="video-link-btn">
-                                <i data-lucide="external-link" style="width: 15px; height: 15px;"></i> Watch on YouTube
-                            </a>
-                        </div>
-                    </div>`;
-                });
-
-                let html = '';
-                // Standard code blocks
-                text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function (match, lang, code) {
-                    const l = (lang || 'code').toUpperCase();
-                    const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    return `<div class="code-block-wrapper">
-                        <div class="code-header">
-                            <span>${l}</span>
-                            <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy</button>
-                        </div>
-                        <pre><code>${safe}</code></pre>
-                    </div>`;
-                });
-
-                // Bold and italics
-                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
-                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-
-                // Bullets
-                text = text.replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>');
-                text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
-                text = text.replace(/<\/ul>\s*<ul>/g, '');
-
-                // Paragraphs
-                html = text.split(/\n{2,}/).map(seg => {
-                    seg = seg.trim();
-                    if (!seg) return '';
-                    if (seg.startsWith('<div class="code-block-wrapper"') || 
-                        seg.startsWith('<div class="ai-media-card"') || 
-                        seg.startsWith('<div class="ai-stickynote"') || 
-                        seg.startsWith('<div class="flashcard-box"') || 
-                        seg.startsWith('<div class="ai-infographic-card"') || 
-                        seg.startsWith('<ul')) return seg;
-                    return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
-                }).join('');
-
-                // Completely eliminate any leftover raw markdown symbols and emojis
-                html = html.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '');
-                html = html.replace(/\*\*/g, '');
-                html = html.replace(/###+/g, '');
-                html = html.replace(/```/g, '');
-
-                return html;
+        function toggleSpeechMic() {
+            if (!speechRecognizer) {
+                alert('Microphone speech recognition is not supported in this browser. Please use Chrome or Edge!');
+                return;
             }
-
-            window.copyStickyNote = function(btn) {
-                const note = btn.parentElement.querySelector('.stickynote-content').innerText;
-                navigator.clipboard.writeText(note).then(() => {
-                    btn.innerText = 'Saved!';
-                    setTimeout(() => btn.innerText = 'Copy Note', 2000);
-                });
-            };
-
-            function initCharts(container) {
-                if (typeof Chart === 'undefined') return;
-                const canvases = container.querySelectorAll('canvas[data-chart]');
-                canvases.forEach(canvas => {
-                    if (canvas.getAttribute('data-rendered')) return;
-                    canvas.setAttribute('data-rendered', 'true');
-                    try {
-                        const rawJson = decodeURIComponent(canvas.getAttribute('data-chart'));
-                        const cfg = JSON.parse(rawJson);
-                        const ctx = canvas.getContext('2d');
-                        const palette = ['#ff6b35', '#0284c7', '#10b981', '#8b5cf6', '#f59e0b', '#ec4899', '#3b82f6'];
-                        new Chart(ctx, {
-                            type: cfg.type || 'bar',
-                            data: {
-                                labels: cfg.labels || ['A', 'B', 'C'],
-                                datasets: [{
-                                    label: cfg.title || 'Metrics',
-                                    data: cfg.data || [10, 20, 30],
-                                    backgroundColor: (cfg.type === 'pie' || cfg.type === 'doughnut') ? palette : '#ff6b35',
-                                    borderColor: '#ffffff',
-                                    borderWidth: 1.5,
-                                    borderRadius: (cfg.type === 'bar') ? 6 : 0
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: { display: (cfg.type === 'pie' || cfg.type === 'doughnut') },
-                                    title: { display: true, text: cfg.title || 'Data Comparison', font: { size: 14, weight: 'bold' } }
-                                }
-                            }
-                        });
-                    } catch (e) {
-                        console.warn('Failed to parse and render Chart.js data:', e);
-                    }
-                });
-            }
-
-            window.askPreset = function (presetText) {
-                input.value = presetText;
-                form.dispatchEvent(new Event('submit'));
-            };
-
-            window.copyCode = function (btn) {
-                const codeEl = btn.closest('.code-block-wrapper').querySelector('code');
-                if (codeEl) {
-                    navigator.clipboard.writeText(codeEl.innerText).then(() => {
-                        btn.innerText = 'Copied!';
-                        setTimeout(() => btn.innerText = 'Copy', 2000);
-                    });
-                }
-            };
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const msg = input.value.trim();
-                if (!msg) return;
-
-                const userBubble = document.createElement('div');
-                userBubble.className = 'chat-bubble chat-user';
-                userBubble.innerText = msg;
-                history.appendChild(userBubble);
-
-                input.value = '';
-                history.scrollTop = history.scrollHeight;
-
-                const lang = langSelect.value;
-
-                const typingBubble = document.createElement('div');
-                typingBubble.className = 'chat-bubble chat-ai';
-                typingBubble.innerHTML = `
-                <div class="ai-avatar-inline"><i data-lucide="bot" style="width: 20px; height: 20px;"></i></div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <div>
-                        <strong>${agentData[currentAgent].name}</strong>
-                        <div class="speaking-wave" style="display: inline-flex;">
-                            <span></span><span></span><span></span><span></span>
-                        </div>
-                    </div>
-                </div>
-                <em>Thinking & formulating advice...</em>
-            `;
-                history.appendChild(typingBubble);
-                lucide.createIcons();
-                history.scrollTop = history.scrollHeight;
-
+            if (isRecording) {
+                speechRecognizer.stop();
+                stopSpeechRecUI();
+            } else {
+                const langVal = document.getElementById('chatLang').value;
+                speechRecognizer.lang = (langVal === 'hi' || langVal === 'bho' || langVal === 'auto') ? 'hi-IN' : 'en-US';
                 try {
-                    const response = await fetch('/api/chat', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: msg, lang: lang, agent: currentAgent })
-                    });
+                    speechRecognizer.start();
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+        }
 
-                    const data = await response.json();
-                    const replyText = data.response || 'Sorry, could not generate response.';
-                    const cleanFormattedHtml = renderCleanMarkdown(replyText);
+        function stopSpeechRecUI() {
+            isRecording = false;
+            const btn = document.getElementById('micVoiceBtn');
+            if (btn) btn.classList.remove('recording');
+            document.getElementById('chatInputField').placeholder = "Ask a technical doubt, paste code, or ask for architecture...";
+        }
 
-                    typingBubble.innerHTML = `
-                    <div class="ai-avatar-inline"><i data-lucide="bot" style="width: 20px; height: 20px;"></i></div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <div>
-                            <strong>${agentData[currentAgent].name}</strong>
-                            <div class="speaking-wave" style="display: none;">
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const input = document.getElementById('chatInputField');
+            input.value = `[File attached: ${file.name}] Please review this code and check for bugs/improvements.`;
+            input.focus();
+        }
+
+        function askPreset(promptText) {
+            document.getElementById('chatInputField').value = promptText;
+            document.getElementById('promptForm').dispatchEvent(new Event('submit'));
+        }
+
+        function scrollToBottom() {
+            const viewport = document.getElementById('chatViewport');
+            setTimeout(() => {
+                viewport.scrollTop = viewport.scrollHeight;
+            }, 50);
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            }[m]));
+        }
+
+        // Form Submit & API Communication
+        document.getElementById('promptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputEl = document.getElementById('chatInputField');
+            const messageText = inputEl.value.trim();
+            if (!messageText) return;
+
+            // Hide empty hero once conversation begins
+            document.getElementById('emptyStateHero').style.display = 'none';
+
+            // 1. Render User Message
+            renderUserBubble(messageText);
+            currentThread.push({ sender: 'user', text: messageText });
+            inputEl.value = '';
+            scrollToBottom();
+
+            // 2. Render Thinking Placeholder
+            const personaObj = personasData[currentPersona];
+            const stream = document.getElementById('messagesStream');
+            const aiRow = document.createElement('div');
+            aiRow.className = 'message-row ai';
+            aiRow.innerHTML = `
+                <div class="ai-avatar"><i data-lucide="bot" style="width: 18px; height: 18px;"></i></div>
+                <div class="bubble-ai-wrap">
+                    <div class="message-header-bar">
+                        <span class="message-author">${personaObj.name}</span>
+                        <div class="message-actions">
+                            <div class="speaking-wave" style="display: inline-flex;">
                                 <span></span><span></span><span></span><span></span>
                             </div>
                         </div>
-                        <button class="icon-btn" onclick="speakText(this.getAttribute('data-reply'))" data-reply="${replyText.replace(/"/g, '&quot;')}" style="padding: 2px; color: #94a3b8;" title="Listen to AI Agent">
-                            <i data-lucide="volume-2" style="width: 17px; height: 17px;"></i>
-                        </button>
                     </div>
-                    <div class="ai-message-body">
-                        ${cleanFormattedHtml}
+                    <div class="bubble-content-ai">
+                        <em>Formulating architectural solution...</em>
                     </div>
+                </div>
+            `;
+            stream.appendChild(aiRow);
+            if (window.lucide) lucide.createIcons();
+            scrollToBottom();
+
+            // 3. Call Server Endpoint
+            const lang = document.getElementById('chatLang').value;
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: messageText,
+                        lang: lang,
+                        agent: currentPersona,
+                        systemInstruction: personaObj.instruction
+                    })
+                });
+
+                const data = await response.json();
+                const replyText = data.response || 'Apologies, could not generate a technical response. Please retry.';
+                currentThread.push({ sender: 'ai', text: replyText });
+
+                // Render Response
+                const formattedHtml = renderCleanMarkdown(replyText);
+                aiRow.querySelector('.bubble-content-ai').innerHTML = formattedHtml;
+                const wave = aiRow.querySelector('.speaking-wave');
+                if (wave) wave.style.display = 'none';
+
+                // Add Speaker Button to Header
+                const actionsBox = aiRow.querySelector('.message-actions');
+                actionsBox.innerHTML = `
+                    <button type="button" class="btn-icon-soft" onclick="speakVoiceText(this.getAttribute('data-reply'))" data-reply="${escapeHtml(replyText)}" title="Listen to AI Response">
+                        <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                    </button>
                 `;
 
-                    // Initialize any interactive Chart.js canvas elements
-                    initCharts(typingBubble);
+                // Render Chart.js and Kroki diagrams if present
+                initCharts(aiRow);
+                initKrokiDiagrams(aiRow);
 
-                    // The AI Agent talks with the user!
-                    speakText(replyText);
+                // Voice narration
+                speakVoiceText(replyText);
 
-                } catch (error) {
-                    typingBubble.innerHTML = `
-                    <div class="ai-avatar-inline"><i data-lucide="bot" style="width: 20px; height: 20px;"></i></div>
-                    <strong>${agentData[currentAgent].name}</strong><br>
-                    <em>Server connection issue. Please check your network.</em>
-                `;
-                }
+            } catch (err) {
+                console.error(err);
+                aiRow.querySelector('.bubble-content-ai').innerHTML = '<span style="color: #ef4444; display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i> Could not reach server. Please check your internet connection.</span>';
+            }
 
-                lucide.createIcons();
-                history.scrollTop = history.scrollHeight;
+            if (window.lucide) lucide.createIcons();
+            scrollToBottom();
+        });
+
+        function renderUserBubble(text) {
+            const stream = document.getElementById('messagesStream');
+            const row = document.createElement('div');
+            row.className = 'message-row user';
+            row.innerHTML = `<div class="bubble-user-text">${escapeHtml(text)}</div>`;
+            stream.appendChild(row);
+        }
+
+        function renderAiBubble(text, personaKey, speakImmediately) {
+            const personaObj = personasData[personaKey] || personasData.coding;
+            const stream = document.getElementById('messagesStream');
+            const row = document.createElement('div');
+            row.className = 'message-row ai';
+            const formattedHtml = renderCleanMarkdown(text);
+            row.innerHTML = `
+                <div class="ai-avatar"><i data-lucide="bot" style="width: 18px; height: 18px;"></i></div>
+                <div class="bubble-ai-wrap">
+                    <div class="message-header-bar">
+                        <span class="message-author">${personaObj.name}</span>
+                        <div class="message-actions">
+                            <button type="button" class="btn-icon-soft" onclick="speakVoiceText(this.getAttribute('data-reply'))" data-reply="${escapeHtml(text)}" title="Listen to response">
+                                <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bubble-content-ai">${formattedHtml}</div>
+                </div>
+            `;
+            stream.appendChild(row);
+            initCharts(row);
+            initKrokiDiagrams(row);
+            if (window.lucide) lucide.createIcons();
+            if (speakImmediately) speakVoiceText(text);
+        }
+
+        // Markdown & Rich Component Parser
+        function renderCleanMarkdown(rawText) {
+            if (!rawText) return '';
+            let text = rawText;
+
+            // 1. Kroki Architecture & Process Diagrams (Graphviz, PlantUML, C4, D2, BlockDiag)
+            text = text.replace(/```(?:kroki:?([a-zA-Z0-9_-]*)|(graphviz|plantuml|d2|c4plantuml|blockdiag))\s*([\s\S]*?)```/gi, function(match, t1, t2, code) {
+                const diagramType = (t1 || t2 || 'graphviz').toLowerCase();
+                const cleanCode = code.trim();
+                const encodedCode = encodeURIComponent(cleanCode);
+                const cardId = 'kroki-card-' + Math.random().toString(36).substring(2, 9);
+                return `<div class="ai-kroki-card" id="${cardId}">
+                    <div class="ai-kroki-header">
+                        <span style="display: inline-flex; align-items: center; gap: 6px;">
+                            <i data-lucide="network" style="width: 14px; height: 14px; color: var(--ai-primary);"></i>
+                            KROKI ARCHITECTURE DIAGRAM • ${diagramType.toUpperCase()}
+                        </span>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="copy-code-btn" onclick="copyKrokiCode(this, '${encodedCode}')">Copy Syntax</button>
+                            <button type="button" class="copy-code-btn" onclick="downloadKrokiSvg('${cardId}')" style="background: var(--ai-primary); color: white;">Download SVG</button>
+                        </div>
+                    </div>
+                    <div class="ai-kroki-body" data-kroki-type="${diagramType}" data-kroki-code="${encodedCode}">
+                        <div class="kroki-render-target" style="display: flex; align-items: center; gap: 8px; color: #64748b; font-size: 0.85rem;">
+                            <i data-lucide="loader-2" class="spin" style="width: 16px; height: 16px;"></i> Rendering Kroki vector diagram...
+                        </div>
+                    </div>
+                </div>`;
             });
-        </script>
-        <script src="main.js"></script>
-</body>
 
+            // 2. Interactive Charts
+            text = text.replace(/```chart\s*([\s\S]*?)```/gi, function(match, jsonStr) {
+                const encoded = encodeURIComponent(jsonStr.trim());
+                return `<div class="ai-media-card" style="padding: 14px;">
+                    <div style="height: 240px; position: relative;">
+                        <canvas data-chart="${encoded}"></canvas>
+                    </div>
+                </div>`;
+            });
+
+            // 3. Sticky Note
+            text = text.replace(/```stickynote\s*([\s\S]*?)```/gi, function(match, content) {
+                return `<div class="ai-stickynote">
+                    <div class="stickynote-content">${escapeHtml(content.trim()).replace(/\n/g, '<br>')}</div>
+                    <button type="button" class="stickynote-copy-btn" onclick="copyStickyNote(this)">Copy Note</button>
+                    <div style="clear: both;"></div>
+                </div>`;
+            });
+
+            // 4. 3D Flashcard
+            text = text.replace(/```flashcard\s*([\s\S]*?)```/gi, function(match, content) {
+                let q = "Question Concept";
+                let a = "Answer Explanation";
+                const qMatch = content.match(/Q:\s*(.*?)(?=\nA:|$)/is);
+                const aMatch = content.match(/A:\s*([\s\S]*)/is);
+                if (qMatch) q = qMatch[1].trim();
+                if (aMatch) a = aMatch[1].trim();
+                return `<div class="flashcard-box" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span style="font-size: 0.72rem; font-weight: 800; color: var(--ai-primary); display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="layers" style="width: 12px; height: 12px;"></i> REVISION FLASHCARD • CLICK TO FLIP</span>
+                            <div style="font-size: 1rem; font-weight: 700;">${escapeHtml(q)}</div>
+                            <span style="font-size: 0.75rem; color: #94a3b8; align-self: flex-end; display: inline-flex; align-items: center; gap: 4px;">Click to reveal answer <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i></span>
+                        </div>
+                        <div class="flashcard-back">
+                            <span style="font-size: 0.72rem; font-weight: 800; color: #bae6fd; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="check-circle-2" style="width: 12px; height: 12px;"></i> SOLUTION BENCHMARK</span>
+                            <div style="font-size: 0.92rem; line-height: 1.5;">${escapeHtml(a)}</div>
+                            <span style="font-size: 0.75rem; color: #e0f2fe; align-self: flex-end; display: inline-flex; align-items: center; gap: 4px;">Click to flip back <i data-lucide="rotate-cw" style="width: 12px; height: 12px;"></i></span>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            // 5. Code Blocks
+            text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function(match, lang, code) {
+                const l = (lang || 'code').toUpperCase();
+                const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<div class="code-block-wrapper">
+                    <div class="code-header">
+                        <span>${l}</span>
+                        <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <pre><code>${safe}</code></pre>
+                </div>`;
+            });
+
+            // Markdown essentials
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+            text = text.replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>');
+            text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
+            text = text.replace(/<\/ul>\s*<ul>/g, '');
+
+            let html = text.split(/\n{2,}/).map(seg => {
+                seg = seg.trim();
+                if (!seg) return '';
+                if (seg.startsWith('<div class="code-block-wrapper"') || 
+                    seg.startsWith('<div class="ai-kroki-card"') || 
+                    seg.startsWith('<div class="ai-media-card"') || 
+                    seg.startsWith('<div class="ai-stickynote"') || 
+                    seg.startsWith('<div class="flashcard-box"') || 
+                    seg.startsWith('<ul')) return seg;
+                return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
+            }).join('');
+
+            return html;
+        }
+
+        window.copyCode = function(btn) {
+            const codeEl = btn.closest('.code-block-wrapper').querySelector('code');
+            if (codeEl) {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    btn.innerText = 'Copied!';
+                    setTimeout(() => btn.innerText = 'Copy Code', 2000);
+                });
+            }
+        };
+
+        window.copyStickyNote = function(btn) {
+            const note = btn.parentElement.querySelector('.stickynote-content').innerText;
+            navigator.clipboard.writeText(note).then(() => {
+                btn.innerText = 'Saved!';
+                setTimeout(() => btn.innerText = 'Copy Note', 2000);
+            });
+        };
+
+        window.copyKrokiCode = function(btn, encoded) {
+            const code = decodeURIComponent(encoded);
+            navigator.clipboard.writeText(code).then(() => {
+                btn.innerText = 'Copied!';
+                setTimeout(() => btn.innerText = 'Copy Syntax', 2000);
+            });
+        };
+
+        window.downloadKrokiSvg = function(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            const svg = card.querySelector('svg');
+            if (!svg) return;
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'kroki-architecture-diagram.svg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
+        async function initKrokiDiagrams(container) {
+            const targets = container.querySelectorAll('.ai-kroki-body[data-kroki-code]');
+            for (const box of targets) {
+                if (box.getAttribute('data-rendered')) continue;
+                box.setAttribute('data-rendered', 'true');
+                const type = box.getAttribute('data-kroki-type') || 'graphviz';
+                const code = decodeURIComponent(box.getAttribute('data-kroki-code'));
+                const renderTarget = box.querySelector('.kroki-render-target');
+                
+                try {
+                    // Try backend proxy first for high reliability & no CORS issues
+                    const res = await fetch('/api/kroki', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ type, code })
+                    });
+                    
+                    let svg = '';
+                    if (res.ok) {
+                        const data = await res.json();
+                        svg = data.svg;
+                    } else {
+                        // Fallback directly to public Kroki API
+                        const directRes = await fetch(`https://kroki.io/${encodeURIComponent(type)}/svg`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+                            body: code
+                        });
+                        if (directRes.ok) {
+                            svg = await directRes.text();
+                        } else {
+                            throw new Error(await directRes.text());
+                        }
+                    }
+                    
+                    if (svg && renderTarget) {
+                        renderTarget.outerHTML = svg;
+                    }
+                } catch (err) {
+                    console.warn('Kroki rendering error:', err);
+                    if (renderTarget) {
+                        renderTarget.innerHTML = `<div style="color: #ef4444; font-size: 0.8rem; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px;">Kroki Render Error: ${escapeHtml(err.message || 'Failed to render diagram')}</div>`;
+                    }
+                }
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function initCharts(container) {
+            if (typeof Chart === 'undefined') return;
+            const canvases = container.querySelectorAll('canvas[data-chart]');
+            canvases.forEach(canvas => {
+                if (canvas.getAttribute('data-rendered')) return;
+                canvas.setAttribute('data-rendered', 'true');
+                try {
+                    const rawJson = decodeURIComponent(canvas.getAttribute('data-chart'));
+                    const cfg = JSON.parse(rawJson);
+                    const ctx = canvas.getContext('2d');
+                    const palette = ['#ff6b35', '#0284c7', '#10b981', '#8b5cf6', '#f59e0b', '#ec4899', '#3b82f6'];
+                    new Chart(ctx, {
+                        type: cfg.type || 'bar',
+                        data: {
+                            labels: cfg.labels || ['A', 'B', 'C'],
+                            datasets: [{
+                                label: cfg.title || 'Metrics',
+                                data: cfg.data || [10, 20, 30],
+                                backgroundColor: (cfg.type === 'pie' || cfg.type === 'doughnut') ? palette : '#ff6b35',
+                                borderRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: (cfg.type === 'pie' || cfg.type === 'doughnut') },
+                                title: { display: true, text: cfg.title || 'Performance Metrics', font: { size: 13, weight: 'bold' } }
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.warn('Failed to parse Chart.js payload:', e);
+                }
+            });
+        }
+    </script>
+</body>
 </html>

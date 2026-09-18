@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Clash: 1v1 Live Coding Arena & IndroCoins | Tech Indro</title>
+    <meta name="description" content="Compete in real-time 1v1 coding duels on Tech Indro Code Clash. Solve algorithmic challenges, beat the clock or AI bots, earn IndroCoins, and climb the leaderboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --clash-bg: #ffffff;
+            --clash-card: #ffffff;
+            --clash-border: #e2e8f0;
+            --clash-cyan: #ff6b35;
+            --clash-purple: #6747a8;
+            --clash-orange: #ff6b35;
+            --clash-green: #10b981;
+            --clash-red: #ef4444;
+            --clash-gold: #d97706;
+            --clash-text-main: #0f172a;
+            --clash-text-sub: #374151;
+        }
+
+        [data-theme="dark"] {
+            --clash-bg: #0f172a;
+            --clash-card: #1e293b;
+            --clash-border: #334155;
+            --clash-text-main: #f8fafc;
+            --clash-text-sub: #94a3b8;
+        }
+
+        body {
+            background-color: var(--clash-bg);
+            color: var(--clash-text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding-top: 76px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        [data-theme="dark"] header#header {
+            background: rgba(15, 23, 42, 0.96);
+            border-bottom-color: #334155;
+        }
+
+        [data-theme="dark"] .lobby-hero h1,
+        [data-theme="dark"] .mode-card h3,
+        [data-theme="dark"] .leaderboard-card h3 {
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .mode-card,
+        [data-theme="dark"] .leaderboard-card,
+        [data-theme="dark"] .stats-card,
+        [data-theme="dark"] .rule-pill {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .clash-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        /* Top Header Nav */
+        header#header {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--clash-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .nav-wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .coins-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: var(--clash-gold);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .coins-badge.animate-gain {
+            animation: coinPulse 0.6s ease;
+        }
+
+        @keyframes coinPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Lobby Hero */
+        .lobby-hero {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .lobby-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff7ed;
+            color: #ff6b35;
+            border: 1px solid #fed7aa;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .lobby-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin: 0 0 12px;
+            color: #111827;
+        }
+
+        .lobby-hero p {
+            color: #374151;
+            font-size: 1.15rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Game Mode Selection Grid */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .mode-card {
+            background: var(--clash-card);
+            border: 1.5px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        }
+
+        .mode-card:hover {
+            transform: translateY(-4px);
+            border-color: #ff6b35;
+            box-shadow: 0 12px 28px rgba(255, 107, 53, 0.12);
+        }
+
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ff6b35;
+        }
+
+        .mode-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: #fff7ed;
+            color: #ff6b35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .mode-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .mode-card p {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0 0 20px;
+            flex: 1;
+        }
+
+        .btn-clash-play {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn-clash-play:hover {
+            background: #e55a2b;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
+            transform: translateY(-1px);
+        }
+
+        /* Matchmaking Loading Overlay */
+        .match-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .radar-spinner {
+            width: 100px;
+            height: 100px;
+            border: 3px solid rgba(2, 132, 199, 0.25);
+            border-top-color: var(--clash-cyan);
+            border-radius: 50%;
+            animation: spinRadar 1s linear infinite;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        @keyframes spinRadar {
+            to { transform: rotate(360deg); }
+        }
+
+        /* LIVE DUEL ARENA */
+        .clash-arena {
+            display: none;
+        }
+
+        /* Arena Battle HUD */
+        .battle-hud {
+            background: #ffffff;
+            border: 1px solid var(--clash-border);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        @media (max-width: 850px) {
+            .battle-hud { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        .fighter-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .fighter-box.opponent {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        @media (max-width: 850px) {
+            .fighter-box.opponent { flex-direction: row; text-align: left; }
+        }
+
+        .fighter-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #f1f5f9;
+            border: 2px solid var(--clash-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            position: relative;
+            color: #0f172a;
+        }
+
+        .fighter-box.player .fighter-avatar {
+            border-color: var(--clash-cyan);
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.25);
+        }
+
+        .fighter-box.opponent .fighter-avatar {
+            border-color: var(--clash-orange);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.25);
+        }
+
+        .fighter-info h4 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .fighter-elo {
+            font-size: 0.8rem;
+            color: #374151;
+            font-weight: 600;
+            margin: 2px 0 6px;
+        }
+
+        .progress-track {
+            width: 140px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-fill.player { background: var(--clash-cyan); }
+        .progress-fill.opponent { background: var(--clash-orange); }
+
+        .battle-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vs-badge {
+            font-weight: 900;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ef4444, #f59e0b);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 999px;
+        }
+
+        .battle-timer {
+            font-size: 1.8rem;
+            font-weight: 900;
+            font-family: 'Consolas', monospace;
+            color: #0f172a;
+        }
+
+        .battle-timer.danger {
+            color: #ef4444;
+            animation: pulseTimer 1s infinite;
+        }
+
+        @keyframes pulseTimer {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* Dual Split Battle Layout */
+        .battle-workspace {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 20px;
+            height: calc(100vh - 250px);
+            min-height: 580px;
+        }
+
+        @media (max-width: 1000px) {
+            .battle-workspace {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+
+        /* Problem Panel */
+        .problem-panel {
+            background: #ffffff;
+            border: 1px solid var(--clash-border);
+            border-radius: 20px;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .prob-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .diff-pill {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .diff-pill.easy { background: rgba(16, 185, 129, 0.15); color: #059669; }
+        .diff-pill.medium { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+        .diff-pill.hard { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+
+        .prob-cat {
+            font-size: 0.75rem;
+            color: #374151;
+        }
+
+        .problem-panel h2 {
+            margin: 0 0 16px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .problem-desc {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .example-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: #0f172a;
+        }
+
+        /* Code Editor Panel */
+        .editor-panel {
+            background: #ffffff;
+            border: 1px solid var(--clash-border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .editor-toolbar {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--clash-border);
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lang-select {
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid var(--clash-border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            outline: none;
+            font-weight: 600;
+        }
+
+        .code-textarea {
+            flex: 1;
+            width: 100%;
+            background: #0f172a;
+            color: #f8fafc;
+            border: none;
+            padding: 16px;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            resize: none;
+            outline: none;
+            box-sizing: border-box;
+            tab-size: 4;
+        }
+
+        /* Console & Actions Toolbar */
+        .editor-footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--clash-border);
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .console-output {
+            background: #0f172a;
+            color: #38bdf8;
+            border-top: 1px solid var(--clash-border);
+            padding: 12px 18px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .test-result-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn-run-tests {
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid var(--clash-border);
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-run-tests:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-submit-code {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 24px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-submit-code:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+        }
+
+        /* VICTORY / DEFEAT MODAL */
+        .clash-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .clash-modal-card {
+            background: #ffffff;
+            border: 2px solid var(--clash-cyan);
+            border-radius: 28px;
+            max-width: 580px;
+            width: 100%;
+            padding: 36px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            color: #0f172a;
+            animation: zoomIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .clash-modal-card h2 {
+            color: #0f172a;
+        }
+
+        .clash-modal-card p {
+            color: #374151;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .reward-burst {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(245, 158, 11, 0.15);
+            border: 2px solid var(--clash-gold);
+            color: var(--clash-gold);
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin: 16px 0 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Nav -->
+    <header id="header">
+        <div class="nav-wrapper" style="display: flex; align-items: center; justify-content: space-between; max-width: 1300px; margin: 0 auto; padding: 12px 24px;">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 50px; white-space: nowrap; flex-shrink: 0;">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 12px; background: white;">
+                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="coins-badge" id="coinCounter" style="background: rgba(234, 88, 12, 0.08); border-color: rgba(234, 88, 12, 0.3); color: #c2410c;">
+                    <i data-lucide="award" style="width: 17px; height: 17px; color: #ea580c;"></i>
+                    <span id="coinBalanceVal">1,620</span>
+                    <span style="font-size: 0.78rem; font-weight: 700;">Global Elo Rating</span>
+                </div>
+                <a href="index.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="arrow-left" style="width: 15px; height: 15px;"></i>
+                    Exit Arena
+                </a>
+                <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Open navigation menu" style="background: none; border: 1.5px solid #e2e8f0; border-radius: 10px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #111827;">
+                    <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="clash-container">
+
+        <!-- ============================================================= -->
+        <!-- LOBBY VIEW -->
+        <!-- ============================================================= -->
+        <div id="clashLobby">
+            <div class="lobby-hero">
+                <div class="lobby-tag" style="background: rgba(234, 88, 12, 0.08); color: #c2410c; border-color: rgba(234, 88, 12, 0.25);">
+                    <i data-lucide="swords" style="width: 14px; height: 14px;"></i> REAL-TIME ALGORITHMIC DUEL ARENA &bull; COMPETITIVE CODING
+                </div>
+                <h1>Code Clash: 1v1 Ranked Arena</h1>
+                <p>Compete in real-time algorithmic duels against engineers worldwide. Execute unit test cases, optimize runtime complexity, and climb the verified global engineering ladder.</p>
+            </div>
+
+            <div class="mode-grid">
+                <!-- Mode 1: Quick Match -->
+                <div class="mode-card">
+                    <div>
+                        <div class="mode-icon" style="background: rgba(234, 88, 12, 0.1); color: #ea580c;"><i data-lucide="zap" style="width: 26px; height: 26px;"></i></div>
+                        <h3>Ranked 1v1 Matchmaking</h3>
+                        <p>Instant peer matching against engineers within &plusmn;150 Elo. Pass all hidden test cases under time pressure to gain rating.</p>
+                    </div>
+                    <button class="btn-clash-play" onclick="startMatchmaking('quick')">
+                        <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                        <span>Queue for Ranked Duel</span>
+                    </button>
+                </div>
+
+                <!-- Mode 2: Play with Friend -->
+                <div class="mode-card">
+                    <div>
+                        <div class="mode-icon" style="background: rgba(99, 102, 241, 0.1); color: #4f46e5;"><i data-lucide="users" style="width: 26px; height: 26px;"></i></div>
+                        <h3>Peer Duel Room (Private)</h3>
+                        <p>Generate a dedicated 6-digit session key to challenge a colleague or peer to a focused 1-on-1 technical duel.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="friendRoomInput" placeholder="Room Code (e.g. 748291)" style="flex: 1; background: #ffffff; border: 1.5px solid #e5e7eb; border-radius: 12px; color: #111827; padding: 10px 14px; font-family: monospace; outline: none; font-size: 0.95rem;">
+                        <button class="btn-clash-play" onclick="joinFriendRoom()">
+                            <span>Join</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mode 3: Practice vs Benchmark -->
+                <div class="mode-card">
+                    <div>
+                        <div class="mode-icon" style="background: rgba(16, 185, 129, 0.1); color: #059669;"><i data-lucide="target" style="width: 26px; height: 26px;"></i></div>
+                        <h3>Time-Attack Benchmark (Sprint)</h3>
+                        <p>Timed algorithmic sprint against FAANG company question banks with live memory and runtime profiling.</p>
+                    </div>
+                    <button class="btn-clash-play" style="background: #059669; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);" onclick="startMatchmaking('bot')">
+                        <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+                        <span>Start Time-Attack Sprint</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Competitive Leaderboard Table -->
+            <div style="background: var(--clash-card); border: 1px solid var(--clash-border); border-radius: 24px; padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                    <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="trophy" style="color: #ea580c; width: 22px; height: 22px;"></i>
+                        Global Engineering Elo Leaderboard
+                    </h3>
+                    <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Updated after every ranked match</span>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+                        <thead>
+                            <tr style="border-bottom: 1.5px solid var(--clash-border); color: #64748b; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;">
+                                <th style="padding: 12px 16px;">RANK</th>
+                                <th style="padding: 12px 16px;">DEVELOPER</th>
+                                <th style="padding: 12px 16px;">ELO RATING</th>
+                                <th style="padding: 12px 16px;">WIN STREAK</th>
+                                <th style="padding: 12px 16px;">SPEED PERCENTILE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- MATCHMAKING SEARCH OVERLAY -->
+        <!-- ============================================================= -->
+        <div class="match-overlay" id="matchOverlay">
+            <div class="radar-spinner"></div>
+            <h2 style="font-size: 1.8rem; margin: 0 0 8px; color: white;">Searching for Opponent...</h2>
+            <p style="color: #cbd5e1; font-size: 1rem; margin: 0 0 20px;">Scanning the Tech Indro competitive pool for players near your ELO (1500)</p>
+            <div style="font-family: monospace; color: #38bdf8; font-size: 1.3rem; font-weight: 800;" id="searchTimer">00:03</div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- LIVE DUEL BATTLE ARENA -->
+        <!-- ============================================================= -->
+        <div class="clash-arena" id="clashArena">
+            <!-- HUD -->
+            <div class="battle-hud">
+                <div class="fighter-box player">
+                    <div class="fighter-avatar" id="playerAvatar"><i data-lucide="user" style="width: 26px; height: 26px; color: var(--clash-cyan);"></i></div>
+                    <div class="fighter-info">
+                        <h4 id="playerNameDisplay">Scholar (You)</h4>
+                        <div class="fighter-elo" id="playerEloDisplay">Rating: 1524 • 0/5 Tests</div>
+                        <div class="progress-track">
+                            <div class="progress-fill player" id="playerProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="battle-center">
+                    <span class="vs-badge">VS</span>
+                    <div class="battle-timer" id="matchClock">05:00</div>
+                    <span style="font-size: 0.75rem; color: #374151; font-weight: 600;" id="opponentActivity">Opponent: Typing...</span>
+                </div>
+
+                <div class="fighter-box opponent">
+                    <div class="fighter-avatar" id="opponentAvatar"><i data-lucide="bot" style="width: 26px; height: 26px; color: var(--clash-orange);"></i></div>
+                    <div class="fighter-info">
+                        <h4 id="opponentNameDisplay">IndroBot Alpha</h4>
+                        <div class="fighter-elo" id="opponentEloDisplay">Rating: 1840 • 0/5 Tests</div>
+                        <div class="progress-track" style="margin-left: auto;">
+                            <div class="progress-fill opponent" id="opponentProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workspace -->
+            <div class="battle-workspace">
+                <!-- Left: Problem Description -->
+                <div class="problem-panel">
+                    <div class="prob-meta">
+                        <span class="diff-pill easy" id="probDiff">Easy</span>
+                        <span class="prob-cat" id="probCategory">Arrays & Hash Map</span>
+                    </div>
+                    <h2 id="probTitle">Two Sum</h2>
+                    <div class="problem-desc" id="probDescription">Loading problem details...</div>
+
+                    <h4 style="margin: 16px 0 8px; font-size: 0.9rem; color: #94a3b8;">SAMPLE CASES:</h4>
+                    <div id="probExamplesContainer"></div>
+
+                    <h4 style="margin: 16px 0 8px; font-size: 0.9rem; color: #94a3b8;">CONSTRAINTS:</h4>
+                    <ul id="probConstraintsList" style="margin: 0; padding-left: 18px; font-size: 0.85rem; color: #94a3b8; line-height: 1.6;"></ul>
+                </div>
+
+                <!-- Right: Code Editor & Runner -->
+                <div class="editor-panel">
+                    <div class="editor-toolbar">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="code-2" style="width: 18px; height: 18px; color: var(--clash-cyan);"></i>
+                            <select class="lang-select" id="langSelector" onchange="changeLanguage()">
+                                <option value="javascript">JavaScript (ES6+)</option>
+                                <option value="python">Python 3</option>
+                                <option value="cpp">C++ 17</option>
+                                <option value="java">Java 17</option>
+                            </select>
+                        </div>
+                        <span style="font-size: 0.8rem; color: #374151; font-weight: 600;">Auto-eval active</span>
+                    </div>
+
+                    <textarea class="code-textarea" id="codeEditor" spellcheck="false"></textarea>
+
+                    <div class="console-output" id="consoleOutput"></div>
+
+                    <div class="editor-footer">
+                        <button class="btn-run-tests" onclick="runPublicTests()">
+                            <i data-lucide="play" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle;"></i>
+                            <span>Run Tests</span>
+                        </button>
+                        <button class="btn-submit-code" onclick="submitFinalSolution()">
+                            <i data-lucide="send" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle;"></i>
+                            <span>Submit Solution</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- POST-MATCH VICTORY/DEFEAT MODAL -->
+    <!-- ============================================================= -->
+    <div class="clash-modal-overlay" id="postMatchModal">
+        <div class="clash-modal-card">
+            <div style="margin-bottom: 12px; display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); color: #d97706;" id="resultEmblem">
+                <i data-lucide="trophy" style="width: 38px; height: 38px;"></i>
+            </div>
+            <h2 style="font-size: 2.2rem; margin: 0 0 8px;" id="resultVerdict">VICTORY!</h2>
+            <p style="color: #374151; margin: 0 0 16px;" id="resultSubtitle">You solved all test cases faster than your opponent.</p>
+
+            <div class="reward-burst">
+                <span>+</span>
+                <span id="earnedCoinsVal">50</span>
+                <span>IndroCoins</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; text-align: left;">
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 14px; border-radius: 14px;">
+                    <div style="color: #374151; font-size: 0.8rem; font-weight: 700;">NEW ELO RATING</div>
+                    <div style="font-size: 1.3rem; font-weight: 800; color: #0284c7;" id="newEloVal">1548 (+24)</div>
+                </div>
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 14px; border-radius: 14px;">
+                    <div style="color: #374151; font-size: 0.8rem; font-weight: 700;">TIME ELAPSED</div>
+                    <div style="font-size: 1.3rem; font-weight: 800; color: #059669;" id="elapsedTimeVal">01:42</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 12px;">
+                <button class="btn-clash-play" onclick="startMatchmaking('quick')">
+                    <i data-lucide="rotate-ccw" style="width: 18px; height: 18px;"></i>
+                    <span>Play Again</span>
+                </button>
+                <button class="btn-run-tests" onclick="returnToLobby()">
+                    <span>Back to Lobby</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentMatch = null;
+        let userCoins = parseInt(localStorage.getItem('indro_coins')) || 350;
+        let matchTimer = null;
+        let secondsLeft = 300;
+        let botSimTimer = null;
+        let searchInterval = null;
+        let searchSecs = 0;
+
+        // Audio Effects (Web Audio API Synthesizer)
+        const audioCtx = (window.AudioContext || window.webkitAudioContext) ? new (window.AudioContext || window.webkitAudioContext)() : null;
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+                if (type === 'pass') {
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } else if (type === 'win') {
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                }
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        // Init UI
+        function updateCoinDisplay() {
+            const el = document.getElementById('coinBalanceVal');
+            if (el) el.innerText = userCoins;
+            localStorage.setItem('indro_coins', userCoins);
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const res = await fetch('/api/clash/leaderboard');
+                const data = await res.json();
+                const tbody = document.getElementById('leaderboardBody');
+                tbody.innerHTML = '';
+                (data.leaderboard || []).forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid #f1f5f9';
+                    tr.innerHTML = `
+                        <td style="padding: 14px 16px; font-weight: 800; color: ${row.rank === 1 ? '#d97706' : '#374151'};">#${row.rank}</td>
+                        <td style="padding: 14px 16px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 0.95rem;">${row.username}</span>
+                        </td>
+                        <td style="padding: 14px 16px; font-weight: 800; color: var(--clash-cyan);">${row.elo}</td>
+                        <td style="padding: 14px 16px; color: #059669; font-weight: 700;">${row.winStreak} Streak</td>
+                        <td style="padding: 14px 16px; color: var(--clash-gold); font-weight: 800;">${row.coins} Coins</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                if (window.lucide) lucide.createIcons();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Matchmaking
+        function startMatchmaking(mode) {
+            document.getElementById('postMatchModal').style.display = 'none';
+            const overlay = document.getElementById('matchOverlay');
+            overlay.style.display = 'flex';
+            searchSecs = 0;
+
+            searchInterval = setInterval(() => {
+                searchSecs++;
+                const s = searchSecs.toString().padStart(2, '0');
+                document.getElementById('searchTimer').innerText = `00:${s}`;
+                if (searchSecs >= 3) {
+                    clearInterval(searchInterval);
+                    triggerMatch(mode);
+                }
+            }, 1000);
+        }
+
+        function joinFriendRoom() {
+            const code = document.getElementById('friendRoomInput').value.trim();
+            if (!code) {
+                alert('Please enter a room code');
+                return;
+            }
+            startMatchmaking('friend');
+        }
+
+        async function triggerMatch(mode) {
+            try {
+                const res = await fetch('/api/clash/match', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode, playerName: 'Scholar' })
+                });
+                const data = await res.json();
+                currentMatch = data;
+
+                document.getElementById('matchOverlay').style.display = 'none';
+                document.getElementById('clashLobby').style.display = 'none';
+                document.getElementById('clashArena').style.display = 'block';
+
+                setupArena(data);
+                playSound('pass');
+            } catch (err) {
+                console.error(err);
+                alert('Could not start match.');
+                document.getElementById('matchOverlay').style.display = 'none';
+            }
+        }
+
+        function setupArena(matchData) {
+            const prob = matchData.problem;
+            document.getElementById('probTitle').innerText = prob.title;
+            document.getElementById('probDiff').innerText = prob.difficulty;
+            document.getElementById('probDiff').className = `diff-pill ${prob.difficulty.toLowerCase()}`;
+            document.getElementById('probCategory').innerText = prob.category;
+            document.getElementById('probDescription').innerText = prob.description;
+
+            // Opponent setup
+            document.getElementById('opponentNameDisplay').innerText = matchData.opponent.name;
+            document.getElementById('opponentAvatar').innerText = matchData.opponent.avatar;
+            document.getElementById('opponentEloDisplay').innerText = `Rating: ${matchData.opponent.elo} • 0/5 Tests`;
+
+            // Examples
+            const exBox = document.getElementById('probExamplesContainer');
+            exBox.innerHTML = '';
+            (prob.publicTestCases || []).slice(0, 2).forEach((tc, idx) => {
+                const div = document.createElement('div');
+                div.className = 'example-box';
+                div.innerHTML = `<strong>Example ${idx + 1}:</strong><br>Input: ${JSON.stringify(tc.input)}<br>Expected: ${JSON.stringify(tc.expected)}`;
+                exBox.appendChild(div);
+            });
+
+            // Constraints
+            const clist = document.getElementById('probConstraintsList');
+            clist.innerHTML = '';
+            (prob.constraints || []).forEach(c => {
+                const li = document.createElement('li');
+                li.innerText = c;
+                clist.appendChild(li);
+            });
+
+            // Starter Code
+            document.getElementById('codeEditor').value = prob.starterCode.javascript;
+
+            // Start countdown timer
+            clearInterval(matchTimer);
+            secondsLeft = matchData.durationSeconds || 300;
+            updateClock();
+            matchTimer = setInterval(() => {
+                secondsLeft--;
+                updateClock();
+                if (secondsLeft <= 0) {
+                    clearInterval(matchTimer);
+                    submitFinalSolution();
+                }
+            }, 1000);
+
+            // Simulate opponent progress
+            simulateOpponent();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function updateClock() {
+            const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+            const s = (secondsLeft % 60).toString().padStart(2, '0');
+            const clock = document.getElementById('matchClock');
+            clock.innerText = `${m}:${s}`;
+            if (secondsLeft <= 60) clock.classList.add('danger');
+            else clock.classList.remove('danger');
+        }
+
+        function changeLanguage() {
+            if (!currentMatch) return;
+            const lang = document.getElementById('langSelector').value;
+            const starter = currentMatch.problem.starterCode[lang];
+            if (starter) {
+                document.getElementById('codeEditor').value = starter;
+            }
+        }
+
+        // Run Public Test Cases
+        async function runPublicTests() {
+            if (!currentMatch) return;
+            const code = document.getElementById('codeEditor').value;
+            const lang = document.getElementById('langSelector').value;
+
+            const consoleBox = document.getElementById('consoleOutput');
+            consoleBox.style.display = 'block';
+            consoleBox.innerHTML = '<span style="color: #94a3b8;">Running public test cases...</span>';
+
+            try {
+                const res = await fetch('/api/clash/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchId: currentMatch.matchId,
+                        problemId: currentMatch.problem.id,
+                        code,
+                        language: lang
+                    })
+                });
+                const data = await res.json();
+
+                consoleBox.innerHTML = '';
+                (data.results || []).forEach(r => {
+                    const row = document.createElement('div');
+                    row.className = 'test-result-row';
+                    row.innerHTML = `
+                        <span>Test #${r.testIndex}: Input: ${JSON.stringify(r.input)}</span>
+                        <span style="font-weight: 800; color: ${r.passed ? '#10b981' : '#ef4444'};">
+                            ${r.passed ? 'PASSED' : 'FAILED'}
+                        </span>
+                    `;
+                    consoleBox.appendChild(row);
+                });
+
+                // Update player progress bar
+                const pct = Math.round((data.passedCount / data.totalCount) * 100);
+                document.getElementById('playerProgressBar').style.width = `${pct}%`;
+                document.getElementById('playerEloDisplay').innerText = `Rating: 1524 • ${data.passedCount}/${data.totalCount} Tests`;
+
+                if (data.passedCount === data.totalCount) playSound('pass');
+            } catch (err) {
+                console.error(err);
+                consoleBox.innerHTML = '<span style="color: #f87171;">Execution error. Please check syntax.</span>';
+            }
+        }
+
+        // Opponent Live Simulation
+        function simulateOpponent() {
+            clearInterval(botSimTimer);
+            let oppPassed = 0;
+            const total = 5;
+            const activityEl = document.getElementById('opponentActivity');
+
+            botSimTimer = setInterval(() => {
+                if (!currentMatch) return;
+                oppPassed++;
+                const pct = Math.round((oppPassed / total) * 100);
+                document.getElementById('opponentProgressBar').style.width = `${pct}%`;
+                document.getElementById('opponentEloDisplay').innerText = `Rating: ${currentMatch.opponent.elo} • ${oppPassed}/${total} Tests`;
+                activityEl.innerText = `Opponent passed ${oppPassed}/${total} test cases!`;
+
+                if (oppPassed >= total) {
+                    clearInterval(botSimTimer);
+                    activityEl.innerText = 'Opponent submitted solution!';
+                }
+            }, 18000); // Progresses realistically every 18 seconds
+        }
+
+        // Final Submit
+        async function submitFinalSolution() {
+            if (!currentMatch) return;
+            clearInterval(matchTimer);
+            clearInterval(botSimTimer);
+
+            const code = document.getElementById('codeEditor').value;
+            const lang = document.getElementById('langSelector').value;
+            const elapsed = 300 - secondsLeft;
+
+            try {
+                const res = await fetch('/api/clash/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchId: currentMatch.matchId,
+                        problemId: currentMatch.problem.id,
+                        code,
+                        language: lang,
+                        elapsedSeconds: elapsed
+                    })
+                });
+                const data = await res.json();
+
+                // Show modal
+                const modal = document.getElementById('postMatchModal');
+                modal.style.display = 'flex';
+
+                if (data.isWinner) {
+                    document.getElementById('resultEmblem').innerHTML = '<i data-lucide="trophy" style="width: 56px; height: 56px; color: #ff6b35;"></i>';
+                    document.getElementById('resultVerdict').innerText = 'VICTORY!';
+                    document.getElementById('resultVerdict').style.color = '#10b981';
+                    document.getElementById('resultSubtitle').innerText = 'All test cases passed with maximum efficiency!';
+                    playSound('win');
+                } else {
+                    document.getElementById('resultEmblem').innerHTML = '<i data-lucide="award" style="width: 56px; height: 56px; color: #475569;"></i>';
+                    document.getElementById('resultVerdict').innerText = 'DEFEAT!';
+                    document.getElementById('resultVerdict').style.color = '#ef4444';
+                    document.getElementById('resultSubtitle').innerText = 'Some edge cases or runtime limits were missed. Keep honing your skills!';
+                }
+                if (window.lucide) lucide.createIcons();
+
+                document.getElementById('earnedCoinsVal').innerText = data.indroCoinsEarned;
+                userCoins += data.indroCoinsEarned;
+                updateCoinDisplay();
+
+                // Animate coin widget
+                const coinBadge = document.getElementById('coinCounter');
+                coinBadge.classList.add('animate-gain');
+                setTimeout(() => coinBadge.classList.remove('animate-gain'), 1000);
+
+                const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const secs = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('elapsedTimeVal').innerText = `${mins}:${secs}`;
+                document.getElementById('newEloVal').innerText = `1548 (+${data.eloChange})`;
+
+            } catch (err) {
+                console.error(err);
+                alert('Could not submit.');
+            }
+        }
+
+        function returnToLobby() {
+            document.getElementById('postMatchModal').style.display = 'none';
+            document.getElementById('clashArena').style.display = 'none';
+            document.getElementById('clashLobby').style.display = 'block';
+            clearInterval(matchTimer);
+            clearInterval(botSimTimer);
+            currentMatch = null;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCoinDisplay();
+            loadLeaderboard();
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

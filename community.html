@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indro Community & Doubt Hub with 24/7 AI Mentor | Tech Indro</title>
+    <meta name="description" content="Collaborative engineering community and peer doubt hub. Ask technical questions, format code snippets, and receive instant solutions with 24/7 AI Mentor Auto-Assist.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --comm-bg: #ffffff;
+            --comm-card: #ffffff;
+            --comm-border: #e2e8f0;
+            --comm-primary: #ff6b35;
+            --comm-cyan: #6747a8;
+            --comm-green: #10b981;
+            --comm-orange: #ff6b35;
+            --comm-gold: #d97706;
+            --comm-text-main: #0f172a;
+            --comm-text-sub: #374151;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--comm-text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding-top: 76px;
+            min-height: 100vh;
+        }
+
+        .comm-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px 80px;
+        }
+
+        /* Top Header */
+        header#header {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--comm-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .header-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Hero */
+        .comm-hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .comm-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff7ed;
+            color: #ff6b35;
+            border: 1px solid #fed7aa;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .comm-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 0 0 8px;
+            color: #111827;
+        }
+
+        .comm-hero p {
+            color: #374151;
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Search & Action Bar */
+        .comm-action-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            min-width: 280px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid var(--comm-border);
+            border-radius: 14px;
+            padding: 12px 18px 12px 42px;
+            color: #111827;
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .btn-ask-q {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+            transition: all 0.2s;
+        }
+
+        .btn-ask-q:hover {
+            background: #e55a2b;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
+        }
+
+        /* Filter Chips */
+        .filter-tags-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .filter-chip {
+            background: #ffffff;
+            border: 1.5px solid var(--comm-border);
+            color: #111827;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .filter-chip:hover {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+
+        .filter-chip.active {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: white;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+        }
+
+        /* Post Cards */
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .post-card {
+            background: var(--comm-card);
+            border: 1px solid var(--comm-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transition: all 0.2s;
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .post-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.08);
+        }
+
+        .vote-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 8px 4px;
+        }
+
+        .vote-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .vote-btn:hover {
+            color: var(--comm-primary);
+        }
+
+        .vote-count {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #0f172a;
+        }
+
+        .post-main h3 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.4;
+        }
+
+        .post-content {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            margin: 0 0 16px;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag-pill {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #4f46e5;
+        }
+
+        .author-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .author-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #0f172a;
+        }
+
+        /* Answers Accordion */
+        .answers-section {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            display: none;
+        }
+
+        .answer-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .answer-card.ai-verified {
+            border-color: rgba(2, 132, 199, 0.4);
+            background: rgba(2, 132, 199, 0.05);
+        }
+
+        .btn-ai-assist {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--comm-primary);
+            color: #6366f1;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-ai-assist:hover {
+            background: var(--comm-primary);
+            color: white;
+        }
+
+        /* Ask Question Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border: 1px solid var(--comm-border);
+            border-radius: 24px;
+            max-width: 650px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            color: #0f172a;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .comm-input, .comm-textarea {
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #0f172a;
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .comm-input:focus, .comm-textarea:focus {
+            border-color: var(--comm-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .comm-textarea {
+            height: 140px;
+            resize: vertical;
+        }
+
+        /* 24x7 AI Doubt Banner */
+        .adv-doubt-banner {
+            background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+            border-radius: 28px;
+            padding: 3.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+        }
+        .adv-doubt-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .adv-doubt-content {
+            position: relative;
+            z-index: 2;
+            max-width: 560px;
+        }
+        .adv-doubt-badge {
+            display: inline-block;
+            padding: 7px 18px;
+            background: #ffffff;
+            color: #4338ca;
+            font-weight: 800;
+            border-radius: 30px;
+            margin-bottom: 1.2rem;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12);
+        }
+        .adv-doubt-content h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.15;
+            margin: 0 0 1.2rem;
+            letter-spacing: -0.5px;
+        }
+        .adv-doubt-content p {
+            font-size: 1.05rem;
+            color: #475569;
+            line-height: 1.6;
+            margin: 0 0 2rem;
+        }
+        .adv-doubt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #4338ca;
+            color: white;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(67, 56, 202, 0.35);
+            border: none;
+            cursor: pointer;
+        }
+        .adv-doubt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(67, 56, 202, 0.45);
+            background: #3730a3;
+        }
+        .adv-doubt-visual {
+            position: relative;
+            z-index: 2;
+            width: 320px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .adv-doubt-visual .floating-bubble {
+            position: absolute;
+            background: white;
+            border-radius: 18px;
+            padding: 0.75rem 1.25rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            font-weight: 700;
+            font-size: 0.92rem;
+            animation: float-bubble 6s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+        }
+        .adv-doubt-visual .bubble-1 { top: 15px; right: 15px; animation-delay: 0s; }
+        .adv-doubt-visual .bubble-2 { bottom: 25px; left: 10px; animation-delay: -2s; }
+        .adv-doubt-visual .bubble-3 { top: 105px; left: -15px; animation-delay: -4s; }
+        
+        @keyframes float-bubble {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        
+        .adv-doubt-center-icon {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 45px rgba(79, 70, 229, 0.18);
+            position: relative;
+            z-index: 1;
+        }
+        .adv-doubt-center-icon::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%;
+            border: 2px dashed rgba(79, 70, 229, 0.35);
+            animation: spin-slow 20s linear infinite;
+        }
+        @keyframes spin-slow {
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .adv-doubt-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 2.5rem 1.5rem;
+            }
+            .adv-doubt-content {
+                max-width: 100%;
+            }
+            .adv-doubt-visual {
+                margin-top: 2rem;
+                width: 280px;
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <div class="header-wrap">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 12px;">
+                <img src="assets/logo.svg" alt="Tech Indro" style="height: 42px; width: auto; border-radius: 10px;">
+                <span style="font-family: 'Calibri', sans-serif; font-weight: 700; font-size: 1.4rem; color: #0f172a; letter-spacing: 0.5px;">TECH INDRO</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="ai-mentor.html" style="text-decoration: none; color: #ff6b35; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="bot" style="width: 16px; height: 16px;"></i> 24/7 AI Mentor
+                </a>
+                <a href="index.html" style="text-decoration: none; color: #475569; font-weight: 600; font-size: 0.95rem;">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="comm-container">
+
+        <!-- 24x7 AI Doubt Resolution Banner -->
+        <div class="adv-doubt-banner">
+            <div class="adv-doubt-content">
+                <div class="adv-doubt-badge">24X7 AVAILABLE</div>
+                <h2>Stuck with a Doubt?<br>Don't wait.</h2>
+                <p>Click a photo, type it, or just ask by voice. Our AI Mentor will instantly explain the core concepts step-by-step in Hindi, English, or 50+ other languages.</p>
+                <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                    <a href="ai-mentor.html" class="adv-doubt-btn">
+                        <i data-lucide="message-square" style="width: 20px; height: 20px;"></i>
+                        <span>Ask Your Doubt Now</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="adv-doubt-visual">
+                <div class="floating-bubble bubble-1">
+                    <i data-lucide="help-circle" style="color: #ef4444; width: 18px; height: 18px;"></i>
+                    <span style="color: #ef4444; font-weight: 700;">Python?</span>
+                </div>
+                <div class="floating-bubble bubble-3">
+                    <i data-lucide="lightbulb" style="color: #f59e0b; width: 18px; height: 18px;"></i>
+                    <span style="color: #d97706; font-weight: 700;">Startup Idea?</span>
+                </div>
+                <div class="floating-bubble bubble-2">
+                    <i data-lucide="code-2" style="color: #10b981; width: 18px; height: 18px;"></i>
+                    <span style="color: #059669; font-weight: 700;">Python Bug?</span>
+                </div>
+                
+                <div class="adv-doubt-center-icon"></div>
+            </div>
+        </div>
+
+        <!-- Action Bar (Search & Ask Question) -->
+        <div class="comm-action-bar">
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+                <input type="text" id="searchInput" placeholder="Search technical questions, tags, or topics..." oninput="handleSearch()">
+            </div>
+            <button class="btn-ask-q" onclick="openAskModal()">
+                <i data-lucide="plus-circle" style="width: 18px; height: 18px;"></i>
+                <span>Ask a Question</span>
+            </button>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="filter-tags-row">
+            <div class="filter-chip active" onclick="filterByTag('all')">All Questions</div>
+            <div class="filter-chip" onclick="filterByTag('react')">#react</div>
+            <div class="filter-chip" onclick="filterByTag('webdev')">#webdev</div>
+            <div class="filter-chip" onclick="filterByTag('systemdesign')">#systemdesign</div>
+            <div class="filter-chip" onclick="filterByTag('kafka')">#kafka</div>
+            <div class="filter-chip" onclick="filterByTag('aiml')">#aiml</div>
+            <div class="filter-chip" onclick="filterByTag('cybersecurity')">#cybersecurity</div>
+        </div>
+
+        <!-- Posts List -->
+        <div class="posts-list" id="postsContainer">
+            <!-- Populated dynamically -->
+        </div>
+
+    </div>
+
+    <!-- Ask Question Modal -->
+    <div class="modal-overlay" id="askModal">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; font-size: 1.4rem;">Ask the Tech Indro Community</h3>
+                <button onclick="closeAskModal()" style="background: transparent; border: none; color: #94a3b8; cursor: pointer;">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label for="qTitle">Question Title</label>
+                <input type="text" id="qTitle" class="comm-input" placeholder="e.g. How to prevent memory leaks in large React useEffect hook subscriptions?">
+            </div>
+
+            <div class="form-group">
+                <label for="qTags">Tags (Comma-separated)</label>
+                <input type="text" id="qTags" class="comm-input" placeholder="e.g. react, webdev, javascript">
+            </div>
+
+            <div class="form-group">
+                <label for="qContent">Question Details & Code Snippet</label>
+                <textarea id="qContent" class="comm-textarea" placeholder="Explain what you are trying to achieve and paste any relevant code..."></textarea>
+            </div>
+
+            <div style="text-align: right;">
+                <button class="btn-ask-q" onclick="submitNewQuestion()">
+                    <span>Post Question</span>
+                    <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTag = 'all';
+        let searchQuery = '';
+
+        async function fetchPosts() {
+            try {
+                let url = `/api/community/posts?tag=${currentTag}`;
+                if (searchQuery) url += `&search=${encodeURIComponent(searchQuery)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                renderPosts(data.posts || []);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderPosts(posts) {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+
+            if (posts.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px;">No questions found matching criteria. Be the first to ask!</div>';
+                return;
+            }
+
+            posts.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.innerHTML = `
+                    <div class="vote-column">
+                        <button class="vote-btn" onclick="votePost('${p.id}')">
+                            <i data-lucide="chevron-up" style="width: 20px; height: 20px;"></i>
+                        </button>
+                        <span class="vote-count" id="vote-${p.id}">${p.upvotes}</span>
+                    </div>
+
+                    <div class="post-main">
+                        <h3>${p.title}</h3>
+                        <div class="post-content">${p.content}</div>
+
+                        <div class="post-meta">
+                            <div class="post-tags">
+                                ${(p.tags || []).map(t => `<span class="tag-pill">#${t}</span>`).join('')}
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <div class="author-badge">
+                                    <div class="author-avatar"><i data-lucide="user" style="width: 14px; height: 14px;"></i></div>
+                                    <span>${p.author.name} • ${p.createdAt}</span>
+                                </div>
+                                <button class="btn-ai-assist" onclick="toggleAnswers('${p.id}')">
+                                    <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                                    <span>${p.answers.length} Answers</span>
+                                </button>
+                                <button class="btn-ai-assist" style="background: rgba(6, 182, 212, 0.15); border-color: var(--comm-cyan); color: var(--comm-cyan);" onclick="requestAiAssist('${p.id}')">
+                                    <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                                    <span>Ask AI Shikshak</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Answers Accordion -->
+                        <div class="answers-section" id="answers-${p.id}">
+                            <div style="font-weight: 700; margin-bottom: 12px; color: #0f172a; font-size: 0.95rem;">
+                                Solutions & Answers (${p.answers.length}):
+                            </div>
+                            <div id="answer-list-${p.id}">
+                                ${(p.answers || []).map(a => `
+                                    <div class="answer-card ${a.author.name.includes('AI') ? 'ai-verified' : ''}">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                            <div style="font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; color: ${a.author.name.includes('AI') ? 'var(--comm-cyan)' : '#475569'};">
+                                                <i data-lucide="${a.author.name.includes('AI') ? 'bot' : 'user'}" style="width: 14px; height: 14px;"></i>
+                                                <span>${a.author.name}</span>
+                                            </div>
+                                            ${a.isAccepted ? '<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #059669; font-weight: 800;"><i data-lucide="check" style="width: 12px; height: 12px; stroke-width: 3;"></i> VERIFIED SOLUTION</span>' : ''}
+                                        </div>
+                                        <div style="font-size: 0.9rem; line-height: 1.5; color: #334155; white-space: pre-line;">${a.content}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        async function votePost(postId) {
+            try {
+                const res = await fetch(`/api/community/posts/${postId}/vote`, { method: 'POST' });
+                const data = await res.json();
+                document.getElementById(`vote-${postId}`).innerText = data.upvotes;
+            } catch (e) {}
+        }
+
+        function toggleAnswers(postId) {
+            const el = document.getElementById(`answers-${postId}`);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        async function requestAiAssist(postId) {
+            const ansSection = document.getElementById(`answers-${postId}`);
+            ansSection.style.display = 'block';
+
+            const list = document.getElementById(`answer-list-${postId}`);
+            const loading = document.createElement('div');
+            loading.className = 'answer-card ai-verified';
+            loading.innerText = 'AI Shikshak is formulating an expert step-by-step solution...';
+            list.appendChild(loading);
+
+            try {
+                const res = await fetch(`/api/community/posts/${postId}/ai-assist`, { method: 'POST' });
+                const data = await res.json();
+                loading.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <div style="font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; color: var(--comm-cyan);">
+                            <i data-lucide="bot" style="width: 15px; height: 15px;"></i>
+                            <span>AI Shikshak (Auto-Assist)</span>
+                        </div>
+                        <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #059669; font-weight: 800;"><i data-lucide="check" style="width: 12px; height: 12px; stroke-width: 3;"></i> VERIFIED SOLUTION</span>
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.5; color: #334155; white-space: pre-line;">${data.answer.content}</div>
+                `;
+                if (window.lucide) lucide.createIcons();
+            } catch (e) {
+                loading.innerText = 'Could not generate AI solution.';
+            }
+        }
+
+        function filterByTag(tag) {
+            currentTag = tag;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            fetchPosts();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.trim();
+            fetchPosts();
+        }
+
+        function openAskModal() {
+            document.getElementById('askModal').style.display = 'flex';
+        }
+
+        function closeAskModal() {
+            document.getElementById('askModal').style.display = 'none';
+        }
+
+        async function submitNewQuestion() {
+            const title = document.getElementById('qTitle').value.trim();
+            const tags = document.getElementById('qTags').value.split(',').map(s => s.trim().toLowerCase());
+            const content = document.getElementById('qContent').value.trim();
+
+            if (!title || !content) {
+                alert('Please fill in title and content.');
+                return;
+            }
+
+            try {
+                await fetch('/api/community/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, tags, content, authorName: 'Scholar' })
+                });
+                closeAskModal();
+                document.getElementById('qTitle').value = '';
+                document.getElementById('qContent').value = '';
+                fetchPosts();
+            } catch (e) {
+                alert('Error posting question.');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchPosts();
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
