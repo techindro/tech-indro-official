@@ -1500,7 +1500,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                         <span id="exploreLatestJobsText">Explore Latest Jobs &amp; Opportunities</span>
                         <span style="background: #ff6b35; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">LIVE</span>
-                        <span id="exploreLatestJobsArrow" style="transition: transform 0.3s ease;">➔</span>
+                        <span id="exploreLatestJobsArrow" style="transition: transform 0.3s ease; display: inline-flex; align-items: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
                     </button>
                 </div>
 
@@ -1597,7 +1597,7 @@
                     </select>
 
                     <!-- Source Pills -->
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button class="jobs-source-pill active" data-source="" onclick="filterJobsBySource('')">All</button>
                         <button class="jobs-source-pill" data-source="adzuna" onclick="filterJobsBySource('adzuna')">Adzuna</button>
                         <button class="jobs-source-pill" data-source="remotive" onclick="filterJobsBySource('remotive')">Remotive</button>
@@ -2597,6 +2597,11 @@
                     fetchJobs(currentPage + 1, true);
                 };
 
+                // Expose for lazy load from toggleLatestJobsView
+                window.fetchJobsLazy = function() {
+                    fetchJobs(1, false);
+                };
+
                 window.filterJobsBySource = function(source) {
                     currentSource = source;
                     currentPage = 1;
@@ -2687,7 +2692,8 @@
                     });
                 }
 
-                fetchJobs(1, false);
+                // Jobs are lazy-loaded when the section is first opened (saves bandwidth on page load)
+                // fetchJobs is called by toggleLatestJobsView on first open
 
                 // Smart Floating Widget Auto-Positioning & Collision Dodge on Scroll
                 (function initFloatingWidgetAutoPosition() {
@@ -4619,7 +4625,13 @@ vector<int> twoSum(vector<int>& nums, int target) {
                 btn.style.boxShadow = '0 12px 28px rgba(255, 107, 53, 0.35)';
             }
             if (text) text.textContent = 'Hide Latest Jobs View';
-            if (arrow) arrow.textContent = '▲';
+            if (arrow) arrow.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+
+            // Lazy-load jobs on first open
+            if (!window.jobsHaveLoaded) {
+                window.jobsHaveLoaded = true;
+                if (typeof window.fetchJobsLazy === 'function') window.fetchJobsLazy();
+            }
 
             setTimeout(() => {
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -4634,7 +4646,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
                 btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             if (text) text.textContent = 'Explore Latest Jobs & Opportunities';
-            if (arrow) arrow.textContent = '➔';
+            if (arrow) arrow.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
         }
     };
     </script>
