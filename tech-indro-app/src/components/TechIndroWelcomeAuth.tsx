@@ -293,7 +293,7 @@ export default function TechIndroWelcomeAuth({
         {/* Welcome to TechIndro Headline */}
         <Text style={styles.welcomeMainTitle}>Welcome to TechIndro</Text>
         <Text style={styles.welcomeHeadline}>
-          India's First <Text style={styles.highlightYellow}>AI-</Text><Text style={styles.highlightOrange}>Powered</Text> Learning Platform
+          India's First <Text style={styles.highlightYellow}>AI</Text><Text style={styles.highlightYellow}>{'\u2011'}</Text><Text style={styles.highlightOrange}>Powered</Text> Learning Platform
         </Text>
         <Text style={styles.welcomeSubtitle}>
           Master in-demand tech skills from scratch. Guided by 24/7 personal AI assistants.
@@ -720,12 +720,20 @@ const styles = StyleSheet.create({
     lineHeight: 23,
   },
   highlightYellow: {
-    color: '#ffd700', // Gold/Yellow from Screenshot 1 & 2
+    color: '#FECF00',
     fontWeight: '900',
   },
   highlightOrange: {
-    color: '#ff8c00', // Orange from Screenshot 1 & 2
+    color: '#FDA801',
     fontWeight: '900',
+    ...(Platform.OS === 'web'
+      ? ({
+          backgroundImage: 'linear-gradient(90deg, #FFC400 0%, #FF8D00 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          display: 'inline-block',
+        } as any)
+      : {}),
   },
   welcomeSubtitle: {
     fontSize: 13,

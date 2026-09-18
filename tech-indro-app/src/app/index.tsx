@@ -277,10 +277,9 @@ export default function HomeScreen() {
             {/* Left Column: Hero Text & CTAs */}
             <View style={styles.heroLeftCol}>
               <Text style={styles.heroTitle}>
-                India's First{' '}
-                <Text style={styles.heroHighlightYellow}>AI-</Text>
-                <Text style={styles.heroHighlightOrange}>Powered</Text>
-                {' '}Learning Platform
+                India's First <Text style={styles.heroHighlightYellow}>AI-</Text>{'\n'}
+                <Text style={styles.heroHighlightOrange}>Powered</Text> Learning{'\n'}
+                Platform
               </Text>
 
               <Text style={styles.heroSubtitle}>
@@ -298,7 +297,7 @@ export default function HomeScreen() {
                 </View>
                 <View style={styles.stat}>
                   <Text style={[styles.statNumber, { color: '#ffd700' }]}>24/7</Text>
-                  <Text style={styles.statLabel}>AI Mentors</Text>
+                  <Text style={[styles.statLabel, { color: '#ffd700', fontWeight: '700' }]}>AI Mentors ➔</Text>
                 </View>
                 <View style={styles.stat}>
                   <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.8★</Text>
@@ -1121,12 +1120,12 @@ const styles = StyleSheet.create({
     gap: 36,
   },
   heroLeftCol: {
-    flex: 1.1,
+    flex: 1.35,
     minWidth: 320,
   },
   heroRightCol: {
-    flex: 0.9,
-    minWidth: 300,
+    flex: 0.85,
+    minWidth: 280,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1143,12 +1142,20 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   heroHighlightYellow: {
-    color: '#FFD700',
+    color: '#FECF00',
     fontWeight: '900',
   },
   heroHighlightOrange: {
-    color: '#FF8C00',
+    color: '#FDA801',
     fontWeight: '900',
+    ...(Platform.OS === 'web'
+      ? ({
+          backgroundImage: 'linear-gradient(90deg, #FFC400 0%, #FF8D00 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          display: 'inline-block',
+        } as any)
+      : {}),
   },
   heroSubtitle: {
     fontSize: 15.5,
