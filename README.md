@@ -1,148 +1,206 @@
-# <div align="center">🌐 TECH INDRO WEB PLATFORM</div>
-
-### <div align="center">India's Premier AI-Powered Learning & EdTech Web Ecosystem</div>
-
 <div align="center">
 
-[![Live Website](https://img.shields.io/badge/Live%20Website-tech--indro.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)
-[![REST API](https://img.shields.io/badge/REST%20API-Online%20v1.0-10b981?style=for-the-badge&logo=fastapi)](https://tech-indro-official.vercel.app/api/courses)
-[![Learners](https://img.shields.io/badge/Learners-1.2L%2B%20Enrolled-10b981?style=for-the-badge&logo=googleclassroom)](#)
+# Tech Indro
+
+### Learn AI, Cybersecurity & Robotics — right from your browser.
+**No high-end laptop. No prior experience. Built for India.**
+
+[![Live](https://img.shields.io/badge/Live-tech--indro--official.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)
+[![API](https://img.shields.io/badge/API-v1.0%20Online-10b981?style=for-the-badge&logo=fastapi)](https://tech-indro-official.vercel.app/api/courses)
+[![Learners](https://img.shields.io/badge/Learners-1.2L%2B-10b981?style=for-the-badge&logo=googleclassroom)](#)
 [![Rating](https://img.shields.io/badge/Rating-4.8%20★-f59e0b?style=for-the-badge&logo=star)](#)
-[![Security](https://img.shields.io/badge/Security-WAF%20Hardened-ef4444?style=for-the-badge&logo=shield)](#)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+[Website](https://tech-indro-official.vercel.app) · [API](https://tech-indro-official.vercel.app/api/courses) · [LinkedIn](https://www.linkedin.com/company/tech-indro/) · [YouTube](https://www.youtube.com/@TechIndro) · [GitHub](https://github.com/techindro)
 
 </div>
 
 ---
 
-## 📌 Overview
+## Why Tech Indro
 
-**Tech Indro Web Platform** is an enterprise-grade EdTech web portal designed to democratize technological education across India. It empowers students, career-switchers, and tech enthusiasts to master **Artificial Intelligence, Ethical Hacking, Robotics, and Full-Stack Engineering** directly from the browser — without requiring high-end laptops or prior technical experience.
+Quality tech education in India is still gated by expensive hardware, scattered tools, and doubts that go unanswered for days. Tech Indro removes those barriers with one browser-based platform:
 
----
-
-## ✨ Platform Features & Capabilities
-
-- 🤖 **24/7 AI Shikshak (Voice Doubts)**: Conversational audio/speech recognition and speech synthesis doubt solver with formatted code explanations.
-- 📚 **Comprehensive Course Batches**: Interactive syllabus, instructor profiles, and structured curriculum modules.
-- 🏆 **TSOC (Tech Season of Code)**: Open-source project fellowship featuring production repositories:
-  - *[MOM-OS](https://github.com/techindro/MOM-OS)* — Mind-Oriented Machine Operating System (Intent-driven agent layer for Linux).
-  - *[GhostPose](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)* — Through-Wall Wi-Fi 3D Sensing.
-  - *[ZiaLabs-AI](https://github.com/techindro/ZiaLabs-AI)* — Multilingual AI academic paper search & research assistant.
-  - *[Chitra-AI](https://github.com/techindro/Khicho-Chatbots)* — Multi-style text-to-image generator & vision studio.
-- 💻 **IndroLabs Cloud IDE**: Real-time browser compiler for Python, JavaScript, and HTML/CSS.
-- 📝 **Adaptive Test Series & Mock Exams**: Full quiz portal with instant answer keys, percentile ranking, and deep analytics.
-- 🛡️ **Cybersecurity Defense Sandbox**: Ethical hacking playground with real-time defense simulations and vulnerability analysis.
-- 🌓 **Universal Dark/Light Theme**: Persistent theme switching with smooth transitions.
-- 🔔 **Notification Center**: Live announcements, batch alerts, and mock test reminders.
+- **Learn** through structured, mentor-designed course batches.
+- **Practice** in a cloud IDE and a cybersecurity sandbox, with nothing to install.
+- **Get unstuck** instantly with a 24/7 voice-enabled AI tutor.
+- **Build** real open-source projects through our TSOC fellowship.
 
 ---
 
-## 💻 Tech Stack & Architecture
+## Product Suite
 
-- **Frontend**: Lightweight Zero-Build Vanilla HTML5, CSS3 Custom Properties, Modern ES6+ JavaScript, Lucide Icons.
-- **Backend API**: Node.js & Express.js (`server.js`) with fail-safe anti-crash handlers.
-- **Voice Engine**: Web Speech API (`SpeechRecognition` & `SpeechSynthesis`).
-- **Security**: Helmet, sliding-window rate limiters, sandbox execution validator, payload bounds.
-- **Deployment**: Vercel Serverless & CDN Edge.
-
----
-
-## 🛡️ Cybersecurity & Anti-Crash Hardening
-
-Tech Indro is built with a security-first and high-availability architecture:
-
-1. **Sliding-Window Rate Limiting**: Dedicated limiters for Authentication (`5 req / 15 min`), AI Chat (`20 req / min`), and Code Execution (`15 req / min`).
-2. **Crash-Proof Error Handling**: Unhandled promise rejections and uncaught exceptions are caught gracefully, keeping the server at 100% uptime.
-3. **Execution Sandbox**: Blocks dangerous shell escapes and malicious subprocess spawning in student compiler runs.
-4. **Content Security Policy & Headers**: Full XSS, clickjacking, and MIME-sniffing protection via HTTP response headers.
+| Product | What it does |
+| :--- | :--- |
+| **AI Shikshak** | 24/7 voice-based doubt solver: speak your question, get a spoken answer with formatted code explanations. |
+| **Course Batches** | Interactive syllabus, instructor profiles, and structured curriculum modules across 18+ flagship programs. |
+| **IndroLabs Cloud IDE** | Real-time in-browser compiler for Python, JavaScript, and HTML/CSS. |
+| **Test Series & Mock Exams** | Instant answer keys, percentile ranking, and deep performance analytics. |
+| **Cyber Playground** | Ethical hacking sandbox with live defense simulations and vulnerability analysis. |
+| **TSOC** | *Tech Season of Code*: open-source fellowship working on production repositories. |
+| **Notification Center** | Live announcements, batch alerts, and mock test reminders. |
 
 ---
 
-## 🚀 Getting Started
+## TSOC: Tech Season of Code
 
-### Local Setup
+Students contribute to real, production-grade open-source projects:
+
+| Project | Description |
+| :--- | :--- |
+| [MOM-OS](https://github.com/techindro/MOM-OS) | Mind-Oriented Machine OS: an intent-driven agent layer for Linux. |
+| [GhostPose](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing) | Through-wall Wi-Fi 3D sensing. |
+| [ZiaLabs-AI](https://github.com/techindro/ZiaLabs-AI) | Multilingual AI research assistant and academic paper search. |
+| [Chitra-AI](https://github.com/techindro/Khicho-Chatbots) | Multi-style text-to-image generator and vision studio. |
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U[Learner Browser] --> FE[Vanilla JS Frontend<br/>HTML5 · CSS3 · ES6+]
+    FE -->|Web Speech API| V[Voice Engine<br/>STT + TTS]
+    FE -->|REST| API[Express API<br/>server.js]
+    API --> AI[AI Shikshak<br/>Gemini 2.5 Flash]
+    API --> SBX[Code Sandbox]
+    API --> PAY[Payments<br/>Hyperswitch]
+    API --> AUTH[Auth<br/>JWT · OTP]
+    FE -.->|Deployed on| VC[Vercel Serverless + Edge CDN]
+    API -.-> VC
+```
+
+| Layer | Technology |
+| :--- | :--- |
+| Frontend | Zero-build Vanilla HTML5, CSS3 custom properties, ES6+ JavaScript, Lucide Icons |
+| Backend | Node.js, Express.js |
+| Voice | Web Speech API (`SpeechRecognition`, `SpeechSynthesis`) |
+| AI | Gemini 2.5 Flash with fallback |
+| Payments | Hyperswitch (UPI, cards, net banking) |
+| Hosting | Vercel Serverless and Edge CDN |
+
+---
+
+## Security & Reliability
+
+| Control | Implementation |
+| :--- | :--- |
+| **Rate limiting** | Sliding-window limits: Auth `5 req / 15 min`, AI Chat `20 req / min`, Code Execution `15 req / min` |
+| **Fail-safe runtime** | Global handlers for unhandled rejections and uncaught exceptions keep the server responsive |
+| **Execution sandbox** | Blocks shell escapes and malicious subprocess spawning in student code runs |
+| **HTTP hardening** | Helmet, Content Security Policy, and headers against XSS, clickjacking, and MIME-sniffing |
+| **Input validation** | Payload size bounds and request validation on all write endpoints |
+
+Found a vulnerability? Please report it privately through the repository's **Security → Report a vulnerability** tab instead of opening a public issue.
+
+---
+
+## Quick Start
+
 ```bash
-# 1. Clone the repository
+# Clone
 git clone https://github.com/techindro/tech-indro-official.git
 cd tech-indro-official
 
-# 2. Install dependencies
+# Install
 npm install
 
-# 3. Start the Express server
+# Run
 npm start
 ```
 
-Visit `http://localhost:5000` to access the full web application.
+Open **http://localhost:5000** and you're live.
 
 ---
 
-## 🔌 REST API Reference & Endpoints
+## API Reference
 
-Tech Indro features a high-performance, hardened REST API powering both the Web Platform and the React Native Mobile App:
+**Base URL:** `https://tech-indro-official.vercel.app/api`  (local: `http://localhost:5000/api`)
 
-- **Production API Base**: `https://tech-indro-official.vercel.app/api`
-- **Local Development Base**: `http://localhost:5000/api`
+The same API powers the web platform and the React Native mobile app.
 
-### 📡 Available Endpoints
+### Public endpoints
 
-| Method | Endpoint | Description | Live Endpoint Link |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/courses` | Returns all 18+ flagship programs, syllabus, fees & ratings | [🔗 View JSON](https://tech-indro-official.vercel.app/api/courses) |
-| `GET` | `/api/courses/:id` | Detailed curriculum & modules for a specific course | [🔗 View Sample](https://tech-indro-official.vercel.app/api/courses/ai-mastery) |
-| `GET` | `/api/shikshak-courses` | Kids & beginner coding foundation courses | [🔗 View JSON](https://tech-indro-official.vercel.app/api/shikshak-courses) |
-| `GET` | `/api/ai-tools` | Directory of 50+ curated AI developer tools & resources | [🔗 View JSON](https://tech-indro-official.vercel.app/api/ai-tools) |
-| `GET` | `/api/analytics` | Real-time platform traffic & visitor analytics | [🔗 View JSON](https://tech-indro-official.vercel.app/api/analytics) |
-| `POST` | `/api/auth/register` | Student account registration with validation & encryption | `POST` |
-| `POST` | `/api/auth/login` | Secure JWT/Session authentication | `POST` |
-| `POST` | `/api/auth/send-otp` | Mobile phone verification via OTP | `POST` |
-| `POST` | `/api/auth/verify-otp` | Instant phone OTP verification & login | `POST` |
-| `POST` | `/api/chat` | 24/7 AI Shikshak doubt engine (Gemini 2.5 Flash / fallback) | `POST` |
-| `POST` | `/api/compiler/run` | Multi-language sandboxed code runner (Python, JS, C++, Java) | `POST` |
-| `POST` | `/api/payments/create-intent` | Smart payment session (UPI, Cards, NetBanking via Hyperswitch) | `POST` |
-| `POST` | `/api/payments/confirm` | Payment confirmation & auto-course enrollment | `POST` |
-| `POST` | `/api/contact` | Rate-limited student query & mentorship form submission | `POST` |
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | [`/courses`](https://tech-indro-official.vercel.app/api/courses) | All 18+ flagship programs with syllabus, fees, and ratings |
+| `GET` | [`/courses/:id`](https://tech-indro-official.vercel.app/api/courses/ai-mastery) | Detailed curriculum and modules for one course |
+| `GET` | [`/shikshak-courses`](https://tech-indro-official.vercel.app/api/shikshak-courses) | Kids and beginner coding foundation courses |
+| `GET` | [`/ai-tools`](https://tech-indro-official.vercel.app/api/ai-tools) | Directory of 50+ curated AI developer tools |
+| `GET` | [`/analytics`](https://tech-indro-official.vercel.app/api/analytics) | Platform traffic and visitor analytics |
 
-#### ⚡ Quick API Example (Fetch Courses):
+### Authenticated & action endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/auth/register` | Student registration with validation and encryption |
+| `POST` | `/auth/login` | JWT/session authentication |
+| `POST` | `/auth/send-otp` | Send phone verification OTP |
+| `POST` | `/auth/verify-otp` | Verify OTP and sign in |
+| `POST` | `/chat` | AI Shikshak doubt engine |
+| `POST` | `/compiler/run` | Sandboxed multi-language code runner |
+| `POST` | `/payments/create-intent` | Create payment session (UPI, cards, net banking) |
+| `POST` | `/payments/confirm` | Confirm payment and auto-enroll in course |
+| `POST` | `/contact` | Rate-limited mentorship and query form |
+
+### Try it
+
 ```bash
-# cURL
 curl https://tech-indro-official.vercel.app/api/courses
+```
 
-# JavaScript Fetch
-fetch("https://tech-indro-official.vercel.app/api/courses")
-  .then(res => res.json())
-  .then(courses => console.log(courses));
+```javascript
+const courses = await fetch("https://tech-indro-official.vercel.app/api/courses")
+  .then((res) => res.json());
+console.log(courses);
 ```
 
 ---
 
-## 🗺️ Project Structure
+## Project Structure
 
 ```
 tech-indro-official/
-├── index.html               # Main landing page (Hero, features & batch catalog)
-├── programs.html            # Course programs & curriculum
-├── tsoc.html                # Tech Season of Code project hub
-├── indrolabs.html           # In-browser compiler & cloud IDE
-├── quiz.html                # Live mock test series & quiz engine
-├── cyber-playground.html    # Cybersecurity & ethical hacking labs
-├── bookmarks.html           # Study notes, flashcards & revision bookmarks
-├── portfolio.html           # Student showcases & projects
-├── server.js                # Hardened Express backend & API
-├── theme-notifications.js   # Universal theme engine & notification center
-├── styles.css               # Core styling tokens & animations
-└── vercel.json              # Production routing & edge caching headers
+├── index.html               # Landing page: hero, features, batch catalog
+├── programs.html            # Course programs and curriculum
+├── tsoc.html                # TSOC project hub
+├── indrolabs.html           # Cloud IDE and in-browser compiler
+├── quiz.html                # Mock test series and quiz engine
+├── cyber-playground.html    # Cybersecurity and ethical hacking labs
+├── bookmarks.html           # Notes, flashcards, and revision bookmarks
+├── portfolio.html           # Student showcases and projects
+├── server.js                # Express backend and API
+├── theme-notifications.js   # Theme engine and notification center
+├── styles.css               # Design tokens and animations
+└── vercel.json              # Routing and edge caching headers
 ```
 
 ---
 
-## 📄 Leadership & License
+## Contributing
 
-- **Founder & Architect**: **Shubham Patel** (Tech Indro)
-- **Live Deployment**: [tech-indro-official.vercel.app](https://tech-indro-official.vercel.app)
-- **Official API**: [tech-indro-official.vercel.app/api/courses](https://tech-indro-official.vercel.app/api/courses)
-- **LinkedIn**: [linkedin.com/company/tech-indro](https://www.linkedin.com/company/tech-indro/)
-- **YouTube**: [youtube.com/@TechIndro](https://www.youtube.com/@TechIndro)
-- **GitHub**: [@techindro](https://github.com/techindro)
-- **License**: [MIT License](LICENSE) © 2026 Tech Indro. All rights reserved.
+Contributions are welcome.
+
+1. Fork the repo and create a branch: `git checkout -b feature/your-feature`
+2. Commit your changes with a clear message
+3. Push and open a Pull Request describing what changed and why
+
+Looking for a place to start? Join a project through [TSOC](https://tech-indro-official.vercel.app/tsoc.html).
+
+---
+
+## Team
+
+**Shubham Patel**, Founder & Architect, Tech Indro
+
+[LinkedIn](https://www.linkedin.com/company/tech-indro/) · [YouTube](https://www.youtube.com/@TechIndro) · [GitHub](https://github.com/techindro)
+
+---
+
+<div align="center">
+
+Released under the [MIT License](LICENSE) · © 2026 Tech Indro
+
+**Built in India 🇮🇳 for every learner.**
+
+</div>
