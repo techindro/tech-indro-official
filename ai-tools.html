@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Hub (58+ Curated AI Tools) | TECH INDRO</title>
-    <meta name="description" content="Discover, search, and access 58+ top-tier AI tools across coding, UI design, LLM agents, generative media, and engineering productivity. Curated by Tech Indro Labs.">
+    <title>AI Tools Hub (110+ Curated AI Tools) | TECH INDRO</title>
+    <meta name="description" content="Discover, search, and access 110+ top-tier AI tools across coding, UI design, LLM agents, generative media, and engineering productivity. Curated by Tech Indro Labs.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -441,7 +441,7 @@
             <span>Curated AI Ecosystem</span>
         </div>
         <h1 class="hero-title">
-            Explore 58+ Curated <span class="highlight">AI Tools</span> for Modern Builders
+            Explore 110+ Curated <span class="highlight">AI Tools</span> for Modern Builders
         </h1>
         <p class="hero-subtitle">
             Handpicked tools and autonomous agents for coding, full-stack prototyping, UI design, and generative media.
@@ -457,7 +457,7 @@
         <div class="category-scroll" id="categoryTabs">
             <button class="cat-btn active" data-category="All" onclick="selectCategory('All')">
                 <i data-lucide="layout-grid" style="width: 15px; height: 15px;"></i>
-                <span id="allBtnText">All (58)</span>
+                <span id="allBtnText">All (110)</span>
             </button>
             <button class="cat-btn" data-category="Coding" onclick="selectCategory('Coding')">
                 <i data-lucide="code-2" style="width: 15px; height: 15px;"></i>
@@ -499,12 +499,24 @@
                 <i data-lucide="trending-up" style="width: 15px; height: 15px;"></i>
                 <span>Marketing</span>
             </button>
+            <button class="cat-btn" data-category="Data" onclick="selectCategory('Data')">
+                <i data-lucide="bar-chart-3" style="width: 15px; height: 15px;"></i>
+                <span>Data</span>
+            </button>
+            <button class="cat-btn" data-category="3D" onclick="selectCategory('3D')">
+                <i data-lucide="box" style="width: 15px; height: 15px;"></i>
+                <span>3D</span>
+            </button>
+            <button class="cat-btn" data-category="Research" onclick="selectCategory('Research')">
+                <i data-lucide="microscope" style="width: 15px; height: 15px;"></i>
+                <span>Research</span>
+            </button>
         </div>
     </div>
 
     <!-- Stats Bar -->
     <div class="stats-bar">
-        <span id="toolsCount">Showing 58 tools</span>
+        <span id="toolsCount">Showing 110 tools</span>
         <span style="display: inline-flex; align-items: center; gap: 6px;">
             <i data-lucide="check-circle" style="width: 15px; height: 15px; color: #10b981;"></i>
             Curated by Tech Indro Labs
@@ -559,6 +571,15 @@
             }
             if (cat.includes('productiv') || name.includes('bolt')) {
                 return 'zap';
+            }
+            if (cat.includes('data') || name.includes('julius') || name.includes('monkeylearn')) {
+                return 'bar-chart-3';
+            }
+            if (cat === '3d' || name.includes('meshy') || name.includes('spline') || name.includes('kaedim')) {
+                return 'box';
+            }
+            if (cat.includes('research') || name.includes('consensus') || name.includes('elicit') || name.includes('scholar')) {
+                return 'microscope';
             }
             return 'sparkles';
         }

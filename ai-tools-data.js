@@ -463,5 +463,421 @@ window.TECH_INDRO_AI_TOOLS = [
     "description": "AI for game research and design.",
     "link": "https://ludo.ai",
     "icon": "🎲"
+  },
+  {
+    "id": "t55",
+    "name": "Windsurf",
+    "category": "Coding",
+    "description": "AI-powered IDE by Codeium for agentic coding workflows.",
+    "link": "https://codeium.com/windsurf",
+    "icon": "🏄"
+  },
+  {
+    "id": "t56",
+    "name": "Lovable",
+    "category": "Coding",
+    "description": "Build full-stack apps with AI from a single prompt.",
+    "link": "https://lovable.dev",
+    "icon": "💜"
+  },
+  {
+    "id": "t57",
+    "name": "Pieces for Developers",
+    "category": "Coding",
+    "description": "AI-powered code snippet manager and workflow copilot.",
+    "link": "https://pieces.app",
+    "icon": "🧩"
+  },
+  {
+    "id": "t58",
+    "name": "Amazon CodeWhisperer",
+    "category": "Coding",
+    "description": "AI coding companion from AWS for real-time suggestions.",
+    "link": "https://aws.amazon.com/codewhisperer",
+    "icon": "☁️"
+  },
+  {
+    "id": "t59",
+    "name": "Sourcegraph Cody",
+    "category": "Coding",
+    "description": "AI coding assistant that understands your entire codebase.",
+    "link": "https://sourcegraph.com/cody",
+    "icon": "🔎"
+  },
+  {
+    "id": "t60",
+    "name": "Aider",
+    "category": "Coding",
+    "description": "AI pair programming in your terminal with git integration.",
+    "link": "https://aider.chat",
+    "icon": "🖥️"
+  },
+  {
+    "id": "t61",
+    "name": "Vercel AI SDK",
+    "category": "Coding",
+    "description": "Open-source library for building AI-powered applications.",
+    "link": "https://sdk.vercel.ai",
+    "icon": "▲"
+  },
+  {
+    "id": "t62",
+    "name": "Stability AI",
+    "category": "Design",
+    "description": "Open-source generative AI for image, video, and 3D.",
+    "link": "https://stability.ai",
+    "icon": "🎨"
+  },
+  {
+    "id": "t63",
+    "name": "Clipdrop",
+    "category": "Design",
+    "description": "AI-powered image editing tools by Stability AI.",
+    "link": "https://clipdrop.co",
+    "icon": "✂️"
+  },
+  {
+    "id": "t64",
+    "name": "Photoroom",
+    "category": "Design",
+    "description": "AI background remover and product photo editor.",
+    "link": "https://photoroom.com",
+    "icon": "📸"
+  },
+  {
+    "id": "t65",
+    "name": "Looka",
+    "category": "Design",
+    "description": "AI-powered logo and brand kit generator.",
+    "link": "https://looka.com",
+    "icon": "🏷️"
+  },
+  {
+    "id": "t66",
+    "name": "Framer AI",
+    "category": "Design",
+    "description": "Generate and publish websites using AI prompts.",
+    "link": "https://framer.com",
+    "icon": "🖼️"
+  },
+  {
+    "id": "t67",
+    "name": "Kling AI",
+    "category": "Video",
+    "description": "Advanced text-to-video and image-to-video generation.",
+    "link": "https://klingai.com",
+    "icon": "🎞️"
+  },
+  {
+    "id": "t68",
+    "name": "Captions",
+    "category": "Video",
+    "description": "AI-powered video editing with auto captions and effects.",
+    "link": "https://captions.ai",
+    "icon": "💬"
+  },
+  {
+    "id": "t69",
+    "name": "Domo AI",
+    "category": "Video",
+    "description": "Transform videos into anime and cartoon styles with AI.",
+    "link": "https://domoai.app",
+    "icon": "🎭"
+  },
+  {
+    "id": "t70",
+    "name": "Fliki",
+    "category": "Video",
+    "description": "Turn text into videos with AI voices in minutes.",
+    "link": "https://fliki.ai",
+    "icon": "🎤"
+  },
+  {
+    "id": "t71",
+    "name": "Murf AI",
+    "category": "Audio",
+    "description": "AI voice generator with 120+ realistic text-to-speech voices.",
+    "link": "https://murf.ai",
+    "icon": "🔊"
+  },
+  {
+    "id": "t72",
+    "name": "Speechify",
+    "category": "Audio",
+    "description": "Turn any text into natural-sounding AI audio instantly.",
+    "link": "https://speechify.com",
+    "icon": "📢"
+  },
+  {
+    "id": "t73",
+    "name": "AIVA",
+    "category": "Audio",
+    "description": "AI composer for creating emotional soundtrack music.",
+    "link": "https://aiva.ai",
+    "icon": "🎹"
+  },
+  {
+    "id": "t74",
+    "name": "Gemini",
+    "category": "Productivity",
+    "description": "Google's most capable multimodal AI model.",
+    "link": "https://gemini.google.com",
+    "icon": "✨"
+  },
+  {
+    "id": "t75",
+    "name": "Microsoft Copilot",
+    "category": "Productivity",
+    "description": "AI companion integrated across Microsoft 365 apps.",
+    "link": "https://copilot.microsoft.com",
+    "icon": "🪟"
+  },
+  {
+    "id": "t76",
+    "name": "Otter.ai",
+    "category": "Productivity",
+    "description": "AI meeting assistant for transcription and summaries.",
+    "link": "https://otter.ai",
+    "icon": "🦦"
+  },
+  {
+    "id": "t77",
+    "name": "Mem",
+    "category": "Productivity",
+    "description": "AI-powered self-organizing workspace for notes.",
+    "link": "https://mem.ai",
+    "icon": "🧠"
+  },
+  {
+    "id": "t78",
+    "name": "Taskade",
+    "category": "Productivity",
+    "description": "Build and run AI agents for project management.",
+    "link": "https://taskade.com",
+    "icon": "✅"
+  },
+  {
+    "id": "t79",
+    "name": "Fireflies.ai",
+    "category": "Productivity",
+    "description": "AI notetaker that transcribes and summarizes meetings.",
+    "link": "https://fireflies.ai",
+    "icon": "🔥"
+  },
+  {
+    "id": "t80",
+    "name": "Reclaim AI",
+    "category": "Productivity",
+    "description": "AI-powered smart scheduling and time management.",
+    "link": "https://reclaim.ai",
+    "icon": "📅"
+  },
+  {
+    "id": "t81",
+    "name": "AutoGen",
+    "category": "AI Agents",
+    "description": "Microsoft's framework for building multi-agent conversations.",
+    "link": "https://microsoft.github.io/autogen",
+    "icon": "🔄"
+  },
+  {
+    "id": "t82",
+    "name": "Phidata",
+    "category": "AI Agents",
+    "description": "Build multimodal AI agents with memory and knowledge.",
+    "link": "https://phidata.com",
+    "icon": "📦"
+  },
+  {
+    "id": "t83",
+    "name": "MetaGPT",
+    "category": "AI Agents",
+    "description": "Multi-agent framework that mimics a software company.",
+    "link": "https://github.com/geekan/MetaGPT",
+    "icon": "🏢"
+  },
+  {
+    "id": "t84",
+    "name": "SuperAGI",
+    "category": "AI Agents",
+    "description": "Open-source infrastructure for building autonomous agents.",
+    "link": "https://superagi.com",
+    "icon": "🦸"
+  },
+  {
+    "id": "t85",
+    "name": "Intercom Fin",
+    "category": "Chatbots",
+    "description": "AI customer service agent powered by GPT-4.",
+    "link": "https://intercom.com/fin",
+    "icon": "💁"
+  },
+  {
+    "id": "t86",
+    "name": "Chatbase",
+    "category": "Chatbots",
+    "description": "Build a custom GPT chatbot trained on your data.",
+    "link": "https://chatbase.co",
+    "icon": "💬"
+  },
+  {
+    "id": "t87",
+    "name": "Tidio",
+    "category": "Chatbots",
+    "description": "AI-powered customer service chatbot with live chat.",
+    "link": "https://tidio.com",
+    "icon": "🤝"
+  },
+  {
+    "id": "t88",
+    "name": "Sudowrite",
+    "category": "Writing",
+    "description": "AI writing partner for fiction and creative stories.",
+    "link": "https://sudowrite.com",
+    "icon": "📚"
+  },
+  {
+    "id": "t89",
+    "name": "Wordtune",
+    "category": "Writing",
+    "description": "AI writing companion that rephrases and refines text.",
+    "link": "https://wordtune.com",
+    "icon": "🔧"
+  },
+  {
+    "id": "t90",
+    "name": "QuillBot",
+    "category": "Writing",
+    "description": "AI paraphrasing tool and grammar checker.",
+    "link": "https://quillbot.com",
+    "icon": "🪶"
+  },
+  {
+    "id": "t91",
+    "name": "Surfer SEO",
+    "category": "Marketing",
+    "description": "AI-powered SEO content optimization platform.",
+    "link": "https://surferseo.com",
+    "icon": "🏄"
+  },
+  {
+    "id": "t92",
+    "name": "Predis.ai",
+    "category": "Marketing",
+    "description": "AI-powered social media content generator.",
+    "link": "https://predis.ai",
+    "icon": "📱"
+  },
+  {
+    "id": "t93",
+    "name": "AdCreative.ai",
+    "category": "Marketing",
+    "description": "Generate conversion-focused ad creatives using AI.",
+    "link": "https://adcreative.ai",
+    "icon": "📣"
+  },
+  {
+    "id": "t94",
+    "name": "Instantly.ai",
+    "category": "Marketing",
+    "description": "AI-powered cold email outreach and lead generation.",
+    "link": "https://instantly.ai",
+    "icon": "📧"
+  },
+  {
+    "id": "t95",
+    "name": "Scenario",
+    "category": "Gaming",
+    "description": "AI-generated game assets and concept art creator.",
+    "link": "https://scenario.com",
+    "icon": "🎯"
+  },
+  {
+    "id": "t96",
+    "name": "Inworld AI",
+    "category": "Gaming",
+    "description": "Create AI-powered NPCs with personality and memory.",
+    "link": "https://inworld.ai",
+    "icon": "🧙"
+  },
+  {
+    "id": "t97",
+    "name": "Julius AI",
+    "category": "Data",
+    "description": "AI data analyst — analyze data and create visualizations.",
+    "link": "https://julius.ai",
+    "icon": "📊"
+  },
+  {
+    "id": "t98",
+    "name": "Obviously AI",
+    "category": "Data",
+    "description": "Build ML models without code — predict outcomes in minutes.",
+    "link": "https://obviously.ai",
+    "icon": "📈"
+  },
+  {
+    "id": "t99",
+    "name": "MonkeyLearn",
+    "category": "Data",
+    "description": "No-code text analytics and sentiment analysis with AI.",
+    "link": "https://monkeylearn.com",
+    "icon": "🐒"
+  },
+  {
+    "id": "t100",
+    "name": "Meshy",
+    "category": "3D",
+    "description": "AI 3D model generator from text or images.",
+    "link": "https://meshy.ai",
+    "icon": "🧊"
+  },
+  {
+    "id": "t101",
+    "name": "Spline AI",
+    "category": "3D",
+    "description": "Generate and edit 3D objects with AI prompts.",
+    "link": "https://spline.design",
+    "icon": "💎"
+  },
+  {
+    "id": "t102",
+    "name": "Kaedim",
+    "category": "3D",
+    "description": "Turn 2D images into production-ready 3D models.",
+    "link": "https://kaedim3d.com",
+    "icon": "🗿"
+  },
+  {
+    "id": "t103",
+    "name": "Consensus",
+    "category": "Research",
+    "description": "AI-powered search engine for scientific research papers.",
+    "link": "https://consensus.app",
+    "icon": "🔬"
+  },
+  {
+    "id": "t104",
+    "name": "Elicit",
+    "category": "Research",
+    "description": "AI research assistant that finds and analyzes papers.",
+    "link": "https://elicit.com",
+    "icon": "📄"
+  },
+  {
+    "id": "t105",
+    "name": "Semantic Scholar",
+    "category": "Research",
+    "description": "AI-powered academic paper search by Allen AI.",
+    "link": "https://semanticscholar.org",
+    "icon": "🎓"
+  },
+  {
+    "id": "t106",
+    "name": "SciSpace",
+    "category": "Research",
+    "description": "AI copilot to understand and explain research papers.",
+    "link": "https://typeset.io",
+    "icon": "🧪"
   }
 ];

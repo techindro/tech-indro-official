@@ -527,6 +527,338 @@
             justify-content: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-audit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+        }
+
+        /* ═══════════════════════════════════════════════════════ */
+        /* REQUEST FLOW WALKTHROUGH STYLES                        */
+        /* ═══════════════════════════════════════════════════════ */
+        .flow-walkthrough-section {
+            margin-top: 48px;
+            padding: 40px 0;
+        }
+
+        .flow-section-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .flow-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(2, 132, 199, 0.08);
+            color: var(--sys-cyan);
+            border: 1.5px solid rgba(2, 132, 199, 0.25);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 14px;
+        }
+
+        .flow-title {
+            font-size: clamp(1.6rem, 3.5vw, 2rem);
+            font-weight: 800;
+            margin: 0 0 8px;
+            color: var(--sys-text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .flow-subtitle {
+            color: var(--sys-text-sub);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .flow-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .flow-ctrl-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1.5px solid var(--sys-border);
+            background: var(--sys-card);
+            color: var(--sys-text-main);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .flow-ctrl-btn:hover {
+            border-color: var(--sys-cyan);
+            color: var(--sys-cyan);
+            transform: translateY(-1px);
+        }
+
+        .flow-play-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--sys-cyan);
+            border-color: var(--sys-cyan);
+            color: white;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+        }
+
+        .flow-play-btn:hover {
+            background: #0369a1;
+            border-color: #0369a1;
+            color: white;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+        }
+
+        .flow-play-btn.playing {
+            background: var(--sys-red);
+            border-color: var(--sys-red);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+        }
+
+        .flow-step-counter {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--sys-text-sub);
+            margin-left: 8px;
+            min-width: 80px;
+        }
+
+        /* Flow Pipeline Visual */
+        .flow-pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 24px 16px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .flow-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 110px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.35;
+            transform: scale(0.9);
+        }
+
+        .flow-node.active {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        .flow-node.visited {
+            opacity: 0.7;
+            transform: scale(1);
+        }
+
+        .flow-node-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--sys-card);
+            border: 2px solid var(--sys-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sys-text-sub);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-node.active .flow-node-icon {
+            border-color: var(--sys-cyan);
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--sys-cyan);
+            box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.12), 0 8px 24px rgba(2, 132, 199, 0.2);
+            animation: flowNodePulse 1.5s ease-in-out infinite;
+        }
+
+        .flow-node.visited .flow-node-icon {
+            border-color: var(--sys-green);
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--sys-green);
+        }
+
+        @keyframes flowNodePulse {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.12), 0 8px 24px rgba(2, 132, 199, 0.2); }
+            50% { box-shadow: 0 0 0 10px rgba(2, 132, 199, 0.06), 0 8px 30px rgba(2, 132, 199, 0.3); }
+        }
+
+        .flow-node-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--sys-text-sub);
+            text-align: center;
+            max-width: 110px;
+            line-height: 1.3;
+            transition: color 0.3s;
+        }
+
+        .flow-node.active .flow-node-label {
+            color: var(--sys-cyan);
+            font-weight: 800;
+        }
+
+        .flow-node.visited .flow-node-label {
+            color: var(--sys-green);
+        }
+
+        /* Flow Arrow Connectors */
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            width: 48px;
+            height: 2px;
+            background: var(--sys-border);
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.4s;
+        }
+
+        .flow-connector.active {
+            background: var(--sys-cyan);
+        }
+
+        .flow-connector.visited {
+            background: var(--sys-green);
+        }
+
+        .flow-connector::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid var(--sys-border);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            transition: border-color 0.4s;
+        }
+
+        .flow-connector.active::after {
+            border-left-color: var(--sys-cyan);
+        }
+
+        .flow-connector.visited::after {
+            border-left-color: var(--sys-green);
+        }
+
+        /* Data packet animation */
+        .flow-connector.active::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sys-cyan);
+            box-shadow: 0 0 10px rgba(2, 132, 199, 0.6);
+            animation: flowPacket 0.8s ease-in-out infinite;
+        }
+
+        @keyframes flowPacket {
+            0% { left: 0; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { left: calc(100% - 8px); opacity: 0; }
+        }
+
+        /* Explanation Card */
+        .flow-explanation-card {
+            max-width: 680px;
+            margin: 0 auto;
+            background: var(--sys-card);
+            border: 1.5px solid var(--sys-border);
+            border-radius: 18px;
+            padding: 24px 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .flow-exp-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .flow-exp-step-badge {
+            background: var(--sys-cyan);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .flow-exp-label {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--sys-text-main);
+        }
+
+        .flow-exp-desc {
+            font-size: 0.95rem;
+            color: var(--sys-text-sub);
+            line-height: 1.65;
+            margin: 0 0 14px;
+        }
+
+        .flow-exp-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-exp-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        [data-theme="dark"] .flow-exp-meta span {
+            background: #0f172a;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .flow-pipeline {
+                gap: 0;
+                justify-content: flex-start;
+                padding: 16px 8px;
+            }
+            .flow-node { min-width: 80px; }
+            .flow-node-icon { width: 44px; height: 44px; border-radius: 12px; }
+            .flow-connector { width: 28px; }
+            .flow-explanation-card { padding: 18px 20px; }
         }
     </style>
 </head>
@@ -735,6 +1067,52 @@
                 <div id="aiAuditResultBox" style="margin-top: 16px; font-size: 0.85rem; line-height: 1.5; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: none;"></div>
             </div>
 
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- REQUEST FLOW WALKTHROUGH — Animated Step-by-Step User Flow -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="flow-walkthrough-section" id="flowWalkthroughSection">
+            <div class="flow-section-header">
+                <div class="flow-tag">
+                    <i data-lucide="route" style="width: 14px; height: 14px;"></i>
+                    HOW IT WORKS — REQUEST FLOW
+                </div>
+                <h2 class="flow-title">Step-by-Step <span style="color: var(--sys-cyan);">Data Flow</span> Walkthrough</h2>
+                <p class="flow-subtitle">Watch how a single request travels through the architecture — from client to database and back.</p>
+            </div>
+
+            <!-- Flow Controls -->
+            <div class="flow-controls">
+                <button class="flow-ctrl-btn" id="flowPrevBtn" onclick="flowPrevStep()">
+                    <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+                </button>
+                <button class="flow-ctrl-btn flow-play-btn" id="flowPlayBtn" onclick="flowToggleAutoPlay()">
+                    <i data-lucide="play" style="width: 18px; height: 18px;" id="flowPlayIcon"></i>
+                </button>
+                <button class="flow-ctrl-btn" id="flowNextBtn" onclick="flowNextStep()">
+                    <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                </button>
+                <span class="flow-step-counter" id="flowStepCounter">Step 1 / 6</span>
+            </div>
+
+            <!-- Flow Pipeline Visual -->
+            <div class="flow-pipeline" id="flowPipeline">
+                <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Flow Explanation Card -->
+            <div class="flow-explanation-card" id="flowExplanationCard">
+                <div class="flow-exp-header">
+                    <span class="flow-exp-step-badge" id="flowExpBadge">STEP 1</span>
+                    <span class="flow-exp-label" id="flowExpLabel">Client Request</span>
+                </div>
+                <p class="flow-exp-desc" id="flowExpDesc">The user's browser sends an HTTP GET request to resolve a short URL.</p>
+                <div class="flow-exp-meta" id="flowExpMeta">
+                    <span><i data-lucide="clock" style="width: 13px; height: 13px;"></i> ~2ms</span>
+                    <span><i data-lucide="activity" style="width: 13px; height: 13px;"></i> HTTPS/TLS 1.3</span>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -1019,9 +1397,168 @@
             }
         }
 
+        // ═══════════════════════════════════════════════════════════
+        // REQUEST FLOW WALKTHROUGH — Interactive Step-by-Step Engine
+        // ═══════════════════════════════════════════════════════════
+        const FLOW_DATA = {
+            'url-shortener': [
+                { node: 'User Browser', icon: 'smartphone', desc: 'The user clicks a short URL (e.g., ti.co/abc123). The browser sends an HTTP GET request to resolve the short URL to its original destination.', latency: '~2ms', protocol: 'HTTPS / TLS 1.3' },
+                { node: 'Cloudflare Edge CDN', icon: 'shield', desc: 'The request hits the nearest Cloudflare PoP via Anycast DNS. WAF rules filter bot traffic and DDoS attacks. If the URL is cached at the edge, it returns a 301 redirect immediately — zero origin hit.', latency: '~5ms', protocol: 'Anycast DNS + WAF' },
+                { node: 'Envoy API Gateway', icon: 'network', desc: 'Envoy performs L7 rate limiting (per-IP token bucket), SSL termination, and routes the request to the correct Kubernetes service via service mesh.', latency: '~3ms', protocol: 'L7 Rate Limiting + mTLS' },
+                { node: 'URL Service Pods (K8s)', icon: 'server', desc: 'The stateless microservice receives the short code, computes a Base62-decode to get the row ID, and first checks the Redis cache for the mapping.', latency: '~1ms', protocol: 'gRPC / REST' },
+                { node: 'Redis Cluster (L2 Cache)', icon: 'zap', desc: 'Redis checks for the short-URL → long-URL mapping. Cache hit ratio is ~94%. On a hit, the service immediately returns a 301/302 redirect. On a miss, it falls through to PostgreSQL.', latency: '~0.5ms', protocol: 'Redis Sentinel / Cluster' },
+                { node: 'PostgreSQL (Primary + Replicas)', icon: 'database', desc: 'On cache miss, the service reads the URL from a read replica using the indexed short_code column. The result is written back to Redis with a TTL, then a 301 redirect is returned to the user.', latency: '~8ms', protocol: 'ACID / Read-Write Split' }
+            ],
+            'chat-kafka': [
+                { node: 'Client App', icon: 'message-square', desc: 'A user types a message in the chat app (web or mobile). The client establishes a persistent WebSocket connection to the nearest gateway server for real-time bidirectional communication.', latency: '~3ms', protocol: 'WebSocket / WSS' },
+                { node: 'WebSocket Gateway Fleet', icon: 'network', desc: 'The gateway authenticates the connection via JWT, manages session state, and forwards the message payload to the Kafka producer. Each gateway handles 100k+ concurrent connections.', latency: '~2ms', protocol: 'TLS Ingress + JWT Auth' },
+                { node: 'Apache Kafka Cluster', icon: 'inbox', desc: 'The message is published to a partitioned topic (partitioned by channel_id for ordering). Kafka guarantees at-least-once delivery and durable storage of the event log for replay.', latency: '~4ms', protocol: 'Partitioned Event Log' },
+                { node: 'Fan-out Dispatchers', icon: 'cpu', desc: 'Consumer workers read from Kafka partitions, look up all active subscribers for the channel via Redis, and push the message to each subscriber\'s WebSocket gateway connection.', latency: '~3ms', protocol: 'Consumer Group + Fan-out' },
+                { node: 'Redis Pub/Sub', icon: 'zap', desc: 'Redis tracks online presence, typing indicators, and subscriber lists. It enables cross-gateway pub/sub so messages reach users connected to any gateway instance.', latency: '~1ms', protocol: 'Redis Pub/Sub + Presence' },
+                { node: 'ScyllaDB / Cassandra', icon: 'database', desc: 'Every message is persisted to ScyllaDB (wide-column store) partitioned by channel_id and sorted by timestamp. Enables infinite scroll history and multi-region replication.', latency: '~6ms', protocol: 'Multi-Region WCS' }
+            ],
+            'flash-sale': [
+                { node: 'Concurrent Users', icon: 'shopping-cart', desc: '250,000+ users simultaneously hit "Buy Now" when a flash sale goes live. The browser sends a POST request with the item ID and user token.', latency: '~2ms', protocol: 'HTTPS / HTTP/2' },
+                { node: 'CloudFront WAF', icon: 'shield', desc: 'AWS CloudFront enforces bot detection, CAPTCHA challenges, and token-gate validation. Suspicious traffic is throttled. Only verified human requests pass through.', latency: '~4ms', protocol: 'Bot Shield + Token Gate' },
+                { node: 'Order Ingestion Service', icon: 'package', desc: 'The service validates the order, assigns an idempotency key (to prevent duplicate orders), decrements inventory using a distributed lock (Redis SETNX), and fast-ACKs the user with "Order Queued".', latency: '~5ms', protocol: 'Idempotent Fast-ACK' },
+                { node: 'Kafka Order Log', icon: 'inbox', desc: 'The confirmed order event is published to a durable Kafka topic. This decouples the fast user response from the slow payment processing, ensuring no orders are lost.', latency: '~3ms', protocol: 'Durable Event Stream' },
+                { node: 'Saga Checkout Fleet', icon: 'credit-card', desc: 'A Saga orchestrator processes the order: reserves inventory → charges payment → sends confirmation email. If any step fails, compensating transactions roll back previous steps.', latency: '~200ms', protocol: 'Saga Pattern + Compensate' },
+                { node: 'Aurora PostgreSQL', icon: 'database', desc: 'The final order record is written to Aurora PostgreSQL (Multi-AZ) as the ACID-compliant financial ledger. Payment receipts and order history are persisted here.', latency: '~10ms', protocol: 'ACID Financial Ledger' }
+            ],
+            'video-stream': [
+                { node: 'Content Creator', icon: 'video', desc: 'A creator uploads a high-bitrate 4K video file (or starts a live stream). The upload is chunked and sent via resumable upload protocol to the ingestion endpoint.', latency: '~500ms', protocol: 'Resumable Upload / RTMP' },
+                { node: 'S3 Object Storage', icon: 'hard-drive', desc: 'Raw video chunks are stored in S3 with server-side encryption. An S3 event notification triggers the transcoding pipeline. The raw file serves as the immutable source of truth.', latency: '~50ms', protocol: 'S3 Event Notification' },
+                { node: 'Kafka / SQS Pipeline', icon: 'inbox', desc: 'A message is published to a task queue containing the S3 key, desired output formats (1080p, 720p, 480p), and codec settings. Tasks are distributed across GPU workers.', latency: '~5ms', protocol: 'Task Sharding Queue' },
+                { node: 'GPU Transcoder Fleet', icon: 'cpu', desc: 'Auto-scaled GPU instances (e.g., AWS g5) transcode the video into multiple bitrate variants using FFmpeg/NVENC. Output is HLS (.m3u8 + .ts segments) and DASH (.mpd).', latency: '~30s', protocol: 'HLS/DASH Multi-Bitrate' },
+                { node: 'Multi-CDN Edge', icon: 'globe', desc: 'Transcoded segments are distributed across multiple CDNs (CloudFront + Fastly + Akamai). The video player uses adaptive bitrate streaming (ABR) to switch quality based on the viewer\'s bandwidth in real-time.', latency: '~8ms', protocol: 'ABR Streaming + Edge Cache' }
+            ]
+        };
+
+        let flowCurrentStep = 0;
+        let flowAutoPlayInterval = null;
+        let flowIsPlaying = false;
+
+        function flowGetCurrentData() {
+            return FLOW_DATA[currentPresetKey] || FLOW_DATA['url-shortener'];
+        }
+
+        function flowRenderPipeline() {
+            const data = flowGetCurrentData();
+            const pipeline = document.getElementById('flowPipeline');
+            pipeline.innerHTML = '';
+
+            data.forEach((step, idx) => {
+                // Node element
+                const nodeDiv = document.createElement('div');
+                nodeDiv.className = 'flow-node';
+                if (idx === flowCurrentStep) nodeDiv.classList.add('active');
+                else if (idx < flowCurrentStep) nodeDiv.classList.add('visited');
+                nodeDiv.style.cursor = 'pointer';
+                nodeDiv.onclick = () => { flowGoToStep(idx); };
+
+                nodeDiv.innerHTML = `
+                    <div class="flow-node-icon">
+                        <i data-lucide="${step.icon}" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <span class="flow-node-label">${step.node}</span>
+                `;
+                pipeline.appendChild(nodeDiv);
+
+                // Connector arrow (between nodes)
+                if (idx < data.length - 1) {
+                    const connector = document.createElement('div');
+                    connector.className = 'flow-connector';
+                    if (idx === flowCurrentStep) connector.classList.add('active');
+                    else if (idx < flowCurrentStep) connector.classList.add('visited');
+                    pipeline.appendChild(connector);
+                }
+            });
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function flowUpdateExplanation() {
+            const data = flowGetCurrentData();
+            const step = data[flowCurrentStep];
+            document.getElementById('flowExpBadge').innerText = `STEP ${flowCurrentStep + 1}`;
+            document.getElementById('flowExpLabel').innerText = step.node;
+            document.getElementById('flowExpDesc').innerText = step.desc;
+            document.getElementById('flowExpMeta').innerHTML = `
+                <span><i data-lucide="clock" style="width: 13px; height: 13px;"></i> ${step.latency}</span>
+                <span><i data-lucide="activity" style="width: 13px; height: 13px;"></i> ${step.protocol}</span>
+            `;
+            document.getElementById('flowStepCounter').innerText = `Step ${flowCurrentStep + 1} / ${data.length}`;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function flowGoToStep(idx) {
+            const data = flowGetCurrentData();
+            flowCurrentStep = Math.max(0, Math.min(idx, data.length - 1));
+            flowRenderPipeline();
+            flowUpdateExplanation();
+        }
+
+        function flowNextStep() {
+            const data = flowGetCurrentData();
+            if (flowCurrentStep < data.length - 1) {
+                flowGoToStep(flowCurrentStep + 1);
+            } else {
+                flowGoToStep(0); // Loop back
+            }
+        }
+
+        function flowPrevStep() {
+            if (flowCurrentStep > 0) {
+                flowGoToStep(flowCurrentStep - 1);
+            }
+        }
+
+        function flowToggleAutoPlay() {
+            const btn = document.getElementById('flowPlayBtn');
+            if (flowIsPlaying) {
+                clearInterval(flowAutoPlayInterval);
+                flowAutoPlayInterval = null;
+                flowIsPlaying = false;
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i data-lucide="play" style="width: 18px; height: 18px;"></i>';
+            } else {
+                flowIsPlaying = true;
+                btn.classList.add('playing');
+                btn.innerHTML = '<i data-lucide="pause" style="width: 18px; height: 18px;"></i>';
+                flowAutoPlayInterval = setInterval(() => {
+                    flowNextStep();
+                }, 2500);
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function flowInitForPreset() {
+            flowCurrentStep = 0;
+            if (flowIsPlaying) {
+                clearInterval(flowAutoPlayInterval);
+                flowAutoPlayInterval = null;
+                flowIsPlaying = false;
+                const btn = document.getElementById('flowPlayBtn');
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.innerHTML = '<i data-lucide="play" style="width: 18px; height: 18px;"></i>';
+                }
+            }
+            flowRenderPipeline();
+            flowUpdateExplanation();
+        }
+
+        // Patch the existing loadPreset to also update the flow walkthrough
+        const _originalLoadPreset = loadPreset;
+        loadPreset = function(key) {
+            _originalLoadPreset(key);
+            flowInitForPreset();
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             currentTopologyNodes = JSON.parse(JSON.stringify(PRESETS['url-shortener'].nodes));
             renderTopology(currentTopologyNodes);
+            flowInitForPreset();
             if (window.lucide) lucide.createIcons();
         });
     </script>
