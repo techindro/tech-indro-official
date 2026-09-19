@@ -42,17 +42,32 @@ function getToolIcon(tool: AiTool): { name: any; color: string; bg: string } {
   if (name.includes('design') || name.includes('v0') || name.includes('midjourney') || cat === 'design') {
     return { name: 'color-palette', color: '#EC4899', bg: '#EC489922' };
   }
+  if (cat.includes('agent') || name.includes('crew') || name.includes('autogen') || name.includes('langchain')) {
+    return { name: 'hardware-chip-outline', color: '#8B5CF6', bg: '#8B5CF622' };
+  }
+  if (cat.includes('data') || name.includes('julius') || name.includes('monkeylearn')) {
+    return { name: 'bar-chart-outline', color: '#0EA5E9', bg: '#0EA5E922' };
+  }
+  if (cat === '3d' || name.includes('meshy') || name.includes('spline') || name.includes('kaedim')) {
+    return { name: 'cube-outline', color: '#F97316', bg: '#F9731622' };
+  }
+  if (cat === 'writing' || name.includes('copy') || name.includes('jasper') || name.includes('quill')) {
+    return { name: 'document-text-outline', color: '#14B8A6', bg: '#14B8A622' };
+  }
+  if (cat === 'marketing' || name.includes('adcreative') || name.includes('predis')) {
+    return { name: 'trending-up-outline', color: '#EC4899', bg: '#EC489922' };
+  }
   if (cat === 'video' || name.includes('sora') || name.includes('runway') || name.includes('pika')) {
     return { name: 'videocam', color: '#EF4444', bg: '#EF444422' };
   }
   if (cat === 'audio' || name.includes('eleven') || name.includes('suno') || name.includes('voice')) {
     return { name: 'musical-notes', color: '#F59E0B', bg: '#F59E0B22' };
   }
-  if (cat === 'research' || name.includes('perplexity') || name.includes('scholar') || name.includes('consensus')) {
+  if (cat === 'research' || name.includes('perplexity') || name.includes('scholar') || name.includes('consensus') || name.includes('elicit')) {
     return { name: 'flask', color: '#10B981', bg: '#10B98122' };
   }
   if (name.includes('notion') || cat === 'productivity') {
-    return { name: 'briefcase', color: '#38BDF8', bg: '#38BDF822' };
+    return { name: 'flash-outline', color: '#38BDF8', bg: '#38BDF822' };
   }
   return { name: 'sparkles', color: '#8B5CF6', bg: '#8B5CF622' };
 }
@@ -61,10 +76,15 @@ const CATEGORIES = [
   { label: 'All', icon: 'apps-outline' },
   { label: 'Coding', icon: 'code-slash-outline' },
   { label: 'Design', icon: 'color-palette-outline' },
+  { label: 'AI Agents', icon: 'hardware-chip-outline' },
+  { label: 'Productivity', icon: 'flash-outline' },
+  { label: 'Data', icon: 'bar-chart-outline' },
+  { label: '3D', icon: 'cube-outline' },
+  { label: 'Research', icon: 'flask-outline' },
+  { label: 'Writing', icon: 'document-text-outline' },
+  { label: 'Marketing', icon: 'trending-up-outline' },
   { label: 'Video', icon: 'videocam-outline' },
   { label: 'Audio', icon: 'musical-notes-outline' },
-  { label: 'Productivity', icon: 'flash-outline' },
-  { label: 'Research', icon: 'flask-outline' },
 ];
 
 export default function AiToolsScreen() {
@@ -146,7 +166,7 @@ export default function AiToolsScreen() {
         <View style={{ flex: 1 }}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>AI Developer Tools</Text>
           <Text style={[styles.headerSubtitle, { color: colors.textMuted }]}>
-            Curated directory of 40+ cutting-edge AI stack platforms
+            Curated directory of 110+ cutting-edge AI stack platforms
           </Text>
         </View>
         <TouchableOpacity

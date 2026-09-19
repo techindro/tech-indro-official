@@ -329,6 +329,102 @@ export default function HamburgerDrawer({ visible, onClose }: HamburgerDrawerPro
               <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
             </TouchableOpacity>
 
+            {/* System Design Labs */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/system-design')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(2, 132, 199, 0.15)' }]}>
+                <Ionicons name="git-network-outline" size={19} color="#0284c7" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>System Design Labs</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#0284c7' }]}>E2E Flow</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Architecture simulator & load test
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* AI Tools Hub */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/ai-tools')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(236, 72, 153, 0.15)' }]}>
+                <Ionicons name="apps-outline" size={19} color="#ec4899" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>AI Tools Hub</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#ec4899' }]}>110+ Tools</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Curated stack for modern builders
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Interview Prep Hub */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/interview-prep')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}>
+                <Ionicons name="mic-outline" size={19} color="#10b981" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Interview Prep Hub</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#10b981' }]}>AI Mock</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  ATS auditor & STAR interview solver
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Code Clash 1v1 Arena */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/code-clash')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(234, 88, 12, 0.15)' }]}>
+                <Ionicons name="flame-outline" size={19} color="#ea580c" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Code Clash Arena</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#ea580c' }]}>1v1 Battle</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Live coding duels & IndroCoins
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
             {/* WhatsApp 1:1 Counseling Banner */}
             <TouchableOpacity
               style={styles.counselingCard}

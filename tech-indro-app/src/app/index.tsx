@@ -421,6 +421,84 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
+        {/* ===== SPOTLIGHT: SYSTEM DESIGN LABS & AI TOOLS ===== */}
+        <View style={{ paddingHorizontal: 16, marginTop: 14, marginBottom: 8 }}>
+          <TouchableOpacity
+            style={{
+              borderRadius: BorderRadius.lg,
+              borderWidth: 1.5,
+              borderColor: isDark ? '#334155' : '#fed7aa',
+              overflow: 'hidden',
+            }}
+            onPress={() => router.push('/system-design')}
+            activeOpacity={0.88}
+          >
+            <LinearGradient
+              colors={isDark ? ['#1e293b', '#0f172a'] : ['#fff7ed', '#ffffff']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ padding: 16 }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <View style={{ backgroundColor: '#ff6b35', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 }}>
+                    <Text style={{ color: '#fff', fontSize: 10, fontWeight: '800', letterSpacing: 0.5 }}>NEW FEATURE</Text>
+                  </View>
+                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#ea580c' }}>DISTRIBUTED LABS</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#ff6b35' }}>Launch Lab</Text>
+                  <Ionicons name="arrow-forward" size={14} color="#ff6b35" />
+                </View>
+              </View>
+
+              <Text style={{ fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 4 }}>
+                System Design Labs & Flow Simulator
+              </Text>
+              <Text style={{ fontSize: 12, color: colors.textMuted, lineHeight: 18, marginBottom: 12 }}>
+                Step-by-step end-to-end architecture flow, URL Shortener, Uber Matching, Kafka flash sale & live load simulator.
+              </Text>
+
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}>
+                  <Ionicons name="swap-horizontal" size={12} color="#0284c7" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>E2E Data Flow</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    router.push('/interview-prep');
+                  }}
+                  style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
+                >
+                  <Ionicons name="mic-outline" size={12} color="#10b981" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>AI Interview Prep ➔</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    router.push('/code-clash');
+                  }}
+                  style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
+                >
+                  <Ionicons name="flame-outline" size={12} color="#ea580c" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>Code Clash 1v1 ➔</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    router.push('/ai-tools');
+                  }}
+                  style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
+                >
+                  <Ionicons name="apps-outline" size={12} color="#ec4899" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>110+ AI Tools ➔</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+
         {/* ===== LEARNING PATHS (Features Target) ===== */}
         <View style={styles.section} onLayout={(e) => setFeaturesY(e.nativeEvent.layout.y)}>
           <View style={styles.sectionPill}>

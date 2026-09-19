@@ -216,6 +216,24 @@ function AppTabs() {
             href: null,
           }}
         />
+        <Tabs.Screen
+          name="system-design"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="interview-prep"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="code-clash"
+          options={{
+            href: null,
+          }}
+        />
       </Tabs>
     </>
   );
