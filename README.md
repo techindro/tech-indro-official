@@ -1,9 +1,9 @@
 <div align="center">
 
-# Tech Indro
+# TECHINDRO
 
-### Learn AI, Cybersecurity & Robotics — right from your browser.
-**No high-end laptop. No prior experience. Built for India.**
+### LET'S CODE CREATE AND INNOVATE  
+**EK SAPNA EK SOCH EK FUTURE VISION .**
 
 [![Live](https://img.shields.io/badge/Live-tech--indro--official.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)
 [![API](https://img.shields.io/badge/API-v1.0%20Online-10b981?style=for-the-badge&logo=fastapi)](https://tech-indro-official.vercel.app/api/courses)
