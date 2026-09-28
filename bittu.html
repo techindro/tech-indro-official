@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bittu — Bite-Sized Gamified Coding | Tech Indro</title>
+    <meta name="description" content="Master Python, JavaScript, HTML, C++, Java, and SQL through bite-sized, gamified daily lessons with Bittu. Learn free in Unit 1, unlock Pro for advanced units & certificate!">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="theme-notifications.js"></script>
+    <script src="female-voice.js"></script>
+    <style>
+        :root {
+            --bg-page: #f7f9fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+            --primary-green: #58cc02;
+            --primary-green-shadow: #46a302;
+            --primary-blue: #1cb0f6;
+            --primary-blue-shadow: #1899d6;
+            --primary-orange: #ff6b35;
+            --primary-orange-shadow: #d9531e;
+            --primary-gold: #ff9600;
+            --primary-gold-shadow: #cc7800;
+            --primary-red: #ff4b4b;
+            --primary-red-shadow: #ea2b2b;
+            --primary-purple: #9333ea;
+            --primary-purple-shadow: #6b21a8;
+            --node-size: 74px;
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #293548;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #334155;
+            --primary-green: #22c55e;
+            --primary-green-shadow: #15803d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* Top Gamified Navbar */
+        .lingo-nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--border-color);
+            z-index: 900;
+            padding: 10px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .brand-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, #ff6b35, #f59e0b);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Language Switcher Dropdown */
+        .lang-selector-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-bottom: 4px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: all 0.15s ease;
+        }
+
+        .lang-selector-btn:hover { background: var(--bg-card-hover); }
+        .lang-selector-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+        /* Stats Strip */
+        .gamify-stats {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+            user-select: none;
+        }
+
+        .stat-chip:hover { transform: scale(1.05); }
+
+        .stat-streak {
+            color: var(--primary-gold);
+            background: rgba(255, 150, 0, 0.1);
+            border-color: rgba(255, 150, 0, 0.25);
+        }
+
+        .stat-gems {
+            color: var(--primary-blue);
+            background: rgba(28, 176, 246, 0.1);
+            border-color: rgba(28, 176, 246, 0.25);
+        }
+
+        .stat-hearts {
+            color: var(--primary-red);
+            background: rgba(255, 75, 75, 0.1);
+            border-color: rgba(255, 75, 75, 0.25);
+        }
+
+        .stat-pro-badge {
+            color: white;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            border: 2px solid #c084fc;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Layout Container */
+        .lingo-layout {
+            max-width: 1240px;
+            margin: 24px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 32px;
+            flex: 1;
+            width: 100%;
+        }
+
+        @media (max-width: 960px) {
+            .lingo-layout { grid-template-columns: 1fr; }
+            .sidebar-col { order: -1; }
+        }
+
+        /* Unit Banner Cards */
+        .unit-card {
+            border-radius: 20px;
+            color: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.18);
+        }
+
+        .unit-card.unit-free {
+            background: linear-gradient(135deg, #58cc02, #16a34a);
+            box-shadow: 0 8px 0 #15803d;
+        }
+
+        .unit-card.unit-paid {
+            background: linear-gradient(135deg, #7e22ce, #4f46e5);
+            box-shadow: 0 8px 0 #581c87;
+            border: 2px solid #a855f7;
+        }
+
+        .unit-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 99px;
+            margin-bottom: 8px;
+        }
+
+        .tag-free { background: rgba(255, 255, 255, 0.25); color: white; }
+        .tag-pro { background: #ffd700; color: #581c87; }
+
+        .unit-info h2 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .unit-info p {
+            font-size: 0.92rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .unit-action-btn {
+            background: rgba(255, 255, 255, 0.22);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: inherit;
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .unit-action-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-unlock-pro-banner {
+            background: #ffd700 !important;
+            color: #581c87 !important;
+            border-color: #facc15 !important;
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.4);
+            font-weight: 800 !important;
+        }
+
+        /* Duolingo Winding Path Area */
+        .path-section {
+            margin-bottom: 40px;
+        }
+
+        .path-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 10px 0 30px;
+        }
+
+        /* Stepping Stone Nodes */
+        .path-step {
+            position: relative;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .path-step.step-left { transform: translateX(-65px); }
+        .path-step.step-right { transform: translateX(65px); }
+        .path-step.step-center { transform: translateX(0); }
+
+        .path-step.step-left:hover { transform: translateX(-65px) scale(1.08); }
+        .path-step.step-right:hover { transform: translateX(65px) scale(1.08); }
+        .path-step.step-center:hover { transform: translateX(0) scale(1.08); }
+
+        .node-btn {
+            width: var(--node-size);
+            height: var(--node-size);
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            outline: none;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+            transition: all 0.12s ease;
+        }
+
+        .node-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2) !important;
+        }
+
+        /* Node States */
+        .node-completed {
+            background: #ffc800;
+            box-shadow: 0 8px 0 #cc9a00 !important;
+            color: #794c00;
+        }
+
+        .node-active {
+            background: var(--primary-green);
+            box-shadow: 0 9px 0 var(--primary-green-shadow) !important;
+            color: white;
+            animation: pulseActive 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseActive {
+            0%, 100% { box-shadow: 0 9px 0 var(--primary-green-shadow), 0 0 0 0 rgba(88, 204, 2, 0.5); }
+            50% { box-shadow: 0 9px 0 var(--primary-green-shadow), 0 0 0 16px rgba(88, 204, 2, 0); }
+        }
+
+        .node-locked {
+            background: #e2e8f0;
+            box-shadow: 0 7px 0 #cbd5e1 !important;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        [data-theme="dark"] .node-locked {
+            background: #334155;
+            box-shadow: 0 7px 0 #1e293b !important;
+            color: #64748b;
+        }
+
+        /* Paid / Pro Locked Nodes */
+        .node-paid-locked {
+            background: linear-gradient(135deg, #7e22ce, #4f46e5);
+            box-shadow: 0 8px 0 #581c87 !important;
+            color: #ffd700;
+            border: 2px solid #a855f7;
+            cursor: pointer;
+        }
+
+        .node-paid-locked:hover {
+            box-shadow: 0 8px 0 #581c87, 0 0 15px rgba(168, 85, 247, 0.5) !important;
+        }
+
+        .node-chest {
+            width: 78px;
+            height: 70px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 8px 0 #92400e !important;
+            color: white;
+        }
+
+        /* Node Tooltip */
+        .node-tooltip {
+            position: absolute;
+            top: -38px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .node-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: var(--bg-card) transparent transparent;
+        }
+
+        .node-active-tag {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green-shadow);
+        }
+        .node-active-tag::after {
+            border-color: var(--primary-green) transparent transparent;
+        }
+
+        .node-pro-tag {
+            background: #9333ea;
+            color: #ffd700;
+            border-color: #7e22ce;
+        }
+        .node-pro-tag::after {
+            border-color: #9333ea transparent transparent;
+        }
+
+        /* Sidebar: Mascot Companion & Quests */
+        .sidebar-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .companion-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        }
+
+        .mascot-avatar-wrap {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, rgba(255, 107, 53, 0.03) 65%, transparent 72%);
+            border-radius: 50%;
+        }
+
+        .mascot-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 18px rgba(255, 107, 53, 0.3));
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: mascotFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes mascotFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .mascot-avatar-wrap:hover .mascot-img {
+            transform: scale(1.08) rotate(4deg);
+        }
+
+        .mascot-badge {
+            position: absolute;
+            bottom: 0;
+            right: 4px;
+            background: #ff6b35;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--bg-card);
+        }
+
+        .mascot-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .mascot-role {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* Speech Bubble */
+        .mascot-speech {
+            position: relative;
+            background: rgba(255, 107, 53, 0.08);
+            border: 2px solid rgba(255, 107, 53, 0.25);
+            color: var(--text-main);
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .mascot-speech::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 8px 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(255, 107, 53, 0.25);
+        }
+
+        .btn-companion-switch {
+            width: 100%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-bottom: 4px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-companion-switch:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        /* Quests Card */
+        .quests-card, .leaderboard-widget, .pro-upsell-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .pro-upsell-card {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(99, 102, 241, 0.08));
+            border-color: #c084fc;
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-header-flex h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quest-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quest-item:last-child { border-bottom: none; }
+
+        .quest-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(245, 158, 11, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quest-details { flex: 1; }
+        .quest-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+        .quest-progress-bg { height: 8px; background: var(--border-color); border-radius: 10px; overflow: hidden; }
+        .quest-progress-fill { height: 100%; background: var(--primary-gold); border-radius: 10px; }
+
+        .quest-reward {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Leaderboard */
+        .lb-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .lb-row.lb-user {
+            background: rgba(88, 204, 2, 0.12);
+            border: 2px solid var(--primary-green);
+        }
+
+        .lb-rank { width: 20px; color: var(--text-sub); font-weight: 800; }
+        .lb-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .lb-xp { color: var(--primary-orange); font-weight: 800; }
+
+        /* ==================================================== */
+        /* FULLSCREEN LESSON ENGINE                            */
+        /* ==================================================== */
+        .lesson-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-card);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .lesson-modal.active { display: flex; }
+
+        .lesson-topbar {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-lesson-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: 50%;
+            transition: background 0.15s ease;
+        }
+
+        .btn-lesson-close:hover { background: var(--bg-card-hover); color: var(--text-main); }
+
+        .lesson-progress-wrap {
+            flex: 1;
+            height: 16px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .lesson-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #58cc02, #22c55e);
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lesson-hearts {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-red);
+        }
+
+        .lesson-body {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 24px 140px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .lesson-title-prompt {
+            font-size: 1.65rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .lesson-companion-dialog {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .dialog-avatar {
+            width: 76px;
+            height: 76px;
+            flex-shrink: 0;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 14px rgba(255, 107, 53, 0.3));
+        }
+
+        .dialog-bubble {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 18px;
+            border-top-left-radius: 4px;
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: var(--text-main);
+            position: relative;
+            flex: 1;
+        }
+
+        .dialog-speak-btn {
+            background: rgba(255, 107, 53, 0.15);
+            border: none;
+            color: var(--primary-orange);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .code-snippet-box {
+            background: #1e1e2e;
+            color: #f8fafc;
+            font-family: 'Fira Code', monospace;
+            padding: 16px 20px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--primary-orange);
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .arrange-zone {
+            min-height: 70px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 0 16px;
+            margin-bottom: 28px;
+            align-items: center;
+        }
+
+        .arrange-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            padding: 16px 0;
+        }
+
+        .code-block-pill {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-bottom: 4px solid var(--border-color);
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s ease;
+        }
+
+        .code-block-pill:hover { background: var(--bg-card-hover); }
+        .code-block-pill:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .code-block-pill.placed { opacity: 0.35; pointer-events: none; }
+        .code-block-pill.in-zone {
+            background: rgba(88, 204, 2, 0.12);
+            border-color: var(--primary-green);
+            border-bottom: 4px solid var(--primary-green-shadow);
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+
+        .option-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-bottom: 4px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            transition: all 0.12s ease;
+        }
+
+        .option-card:hover { background: var(--bg-card-hover); }
+        .option-card.selected {
+            border-color: var(--primary-blue);
+            background: rgba(28, 176, 246, 0.08);
+            border-bottom-color: var(--primary-blue-shadow);
+            color: var(--primary-blue);
+        }
+
+        .opt-key {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-sub);
+        }
+
+        .option-card.selected .opt-key {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .lesson-footer-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-card);
+            border-top: 2px solid var(--border-color);
+            padding: 18px 24px;
+            z-index: 2100;
+        }
+
+        .footer-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .feedback-info { display: flex; align-items: center; gap: 16px; }
+
+        .feedback-icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feedback-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 2px; }
+        .feedback-sub { font-size: 0.92rem; font-weight: 600; opacity: 0.9; }
+
+        .lesson-footer-banner.correct {
+            background: #d7ffb8;
+            border-color: #58cc02;
+            color: #2b6100;
+        }
+        [data-theme="dark"] .lesson-footer-banner.correct {
+            background: #132a0c;
+            border-color: #22c55e;
+            color: #bbf7d0;
+        }
+        .lesson-footer-banner.correct .feedback-icon-circle { background: #58cc02; }
+
+        .lesson-footer-banner.wrong {
+            background: #ffdfe0;
+            border-color: #ff4b4b;
+            color: #a30000;
+        }
+        [data-theme="dark"] .lesson-footer-banner.wrong {
+            background: #2e0d0e;
+            border-color: #ef4444;
+            color: #fecaca;
+        }
+        .lesson-footer-banner.wrong .feedback-icon-circle { background: #ff4b4b; }
+
+        .btn-3d {
+            border: none;
+            padding: 14px 34px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.1s ease;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+            user-select: none;
+        }
+
+        .btn-3d:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.15) !important; }
+
+        .btn-check-ans {
+            background: var(--primary-green);
+            box-shadow: 0 5px 0 var(--primary-green-shadow);
+            color: white;
+        }
+
+        .btn-check-ans:disabled {
+            background: var(--border-color);
+            box-shadow: 0 4px 0 #cbd5e1;
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-continue-success {
+            background: var(--primary-green);
+            box-shadow: 0 5px 0 var(--primary-green-shadow);
+            color: white;
+        }
+
+        .btn-continue-wrong {
+            background: var(--primary-red);
+            box-shadow: 0 5px 0 var(--primary-red-shadow);
+            color: white;
+        }
+
+        /* Modal Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 2500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            padding: 26px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Pro Paywall Modal Styling */
+        .pro-modal-box {
+            max-width: 540px;
+            border: 2px solid #a855f7;
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(147, 51, 234, 0.25);
+        }
+
+        .pro-crown-badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+        }
+
+        .pro-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            padding: 10px 14px;
+            background: var(--bg-card-hover);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .pro-feature-item i { color: #22c55e; flex-shrink: 0; }
+
+        .pricing-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(99, 102, 241, 0.1));
+            border: 2px dashed #a855f7;
+            border-radius: 18px;
+            padding: 16px;
+            margin: 18px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .companion-picker-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .mascot-choice-card {
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mascot-choice-card:hover { border-color: #ff6b35; background: rgba(255, 107, 53, 0.05); }
+        .mascot-choice-card.selected { border-color: #ff6b35; background: rgba(255, 107, 53, 0.1); }
+
+        .choice-avatar {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 8px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+        }
+
+        .celebration-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-card);
+            z-index: 2600;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .celebration-screen.active { display: flex; }
+
+        .celeb-mascot {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            filter: drop-shadow(0 12px 28px rgba(255, 107, 53, 0.45));
+            margin-bottom: 20px;
+            animation: mascotFloat 3s ease-in-out infinite;
+        }
+
+        .celeb-title { font-size: 2.2rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 6px; }
+        .celeb-subtitle { font-size: 1.15rem; color: var(--text-sub); margin-bottom: 28px; font-weight: 600; }
+
+        .celeb-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 34px;
+        }
+
+        .celeb-stat-card {
+            background: var(--bg-card-hover);
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 16px 12px;
+            text-align: center;
+        }
+
+        .celeb-stat-val {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .celeb-stat-label { font-size: 0.8rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; }
+
+        .audio-pill {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 6px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+        .audio-pill:hover { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- TOP GAMIFIED APP BAR -->
+    <header class="lingo-nav">
+        <div class="nav-inner">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="index.html" class="brand-zone" title="Back to Tech Indro Home">
+                    <img src="assets/logo.svg" alt="Tech Indro" style="height: 38px; width: auto; border-radius: 8px;">
+                    <div>
+                        <div style="font-weight: 900; font-size: 1.3rem; letter-spacing: -0.5px; line-height: 1; color: #ff6b35;">BITTU</div>
+                        <span class="brand-badge">Bite-Sized Coding</span>
+                    </div>
+                </a>
+
+                <!-- Language Switcher Pill -->
+                <div style="position: relative;">
+                    <button class="lang-selector-btn" id="langSelectBtn" onclick="toggleLangDropdown()">
+                        <span id="currentLangIcon" style="display: flex; align-items: center;"><i data-lucide="terminal" style="width: 18px; height: 18px; color: #0284c7;"></i></span>
+                        <span id="currentLangName">Python</span>
+                        <i data-lucide="chevron-down" style="width: 16px; height: 16px;"></i>
+                    </button>
+                    <!-- Language Dropdown -->
+                    <div id="langDropdown" style="display: none; position: absolute; top: 115%; left: 0; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); width: 220px; z-index: 1000; overflow: hidden; padding: 6px;">
+                        <div onclick="selectLanguage('python')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="terminal" style="width: 18px; height: 18px; color: #0284c7;"></i> <span>Python</span>
+                        </div>
+                        <div onclick="selectLanguage('javascript')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="code-2" style="width: 18px; height: 18px; color: #eab308;"></i> <span>JavaScript</span>
+                        </div>
+                        <div onclick="selectLanguage('htmlcss')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="globe" style="width: 18px; height: 18px; color: #ea580c;"></i> <span>HTML &amp; CSS</span>
+                        </div>
+                        <div onclick="selectLanguage('cpp')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="cpu" style="width: 18px; height: 18px; color: #2563eb;"></i> <span>C++ (DSA)</span>
+                        </div>
+                        <div onclick="selectLanguage('java')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="coffee" style="width: 18px; height: 18px; color: #dc2626;"></i> <span>Java</span>
+                        </div>
+                        <div onclick="selectLanguage('sql')" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='none'">
+                            <i data-lucide="database" style="width: 18px; height: 18px; color: #0891b2;"></i> <span>SQL Queries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gamification Badges Strip -->
+            <div class="gamify-stats">
+                <!-- PRO Badge Indicator -->
+                <button class="stat-pro-badge" id="proNavBtn" onclick="openProModal()" title="Bittu Pro Status">
+                    <i data-lucide="crown" style="width: 16px; height: 16px; fill: #ffd700; color: #ffd700;"></i>
+                    <span id="proNavText">Unlock Pro</span>
+                </button>
+
+                <div class="stat-chip stat-streak" title="Daily Streak: Complete 1 lesson every day to protect your streak!">
+                    <i data-lucide="flame" style="width: 18px; height: 18px; color: var(--primary-gold); fill: var(--primary-gold);"></i>
+                    <span id="streakCount">7</span>
+                </div>
+                <div class="stat-chip stat-gems" title="IndroGems: Earn by finishing lessons!">
+                    <i data-lucide="gem" style="width: 18px; height: 18px; color: var(--primary-blue); fill: var(--primary-blue);"></i>
+                    <span id="gemsCount">450</span>
+                </div>
+                <div class="stat-chip stat-hearts" id="heartsChip" onclick="openPracticeModal()" title="Hearts: 1 lost per mistake. Click to practice and refill!">
+                    <i data-lucide="heart" style="width: 18px; height: 18px; color: var(--primary-red); fill: var(--primary-red);"></i>
+                    <span id="heartsCount">5</span>
+                </div>
+                <button class="audio-pill" id="soundToggleBtn" onclick="toggleSound()" title="Sound Effects">
+                    <i data-lucide="volume-2" id="soundIcon" style="width: 16px; height: 16px;"></i>
+                </button>
+                <button class="btn-theme-toggle" onclick="toggleTheme()" style="background: none; border: 2px solid var(--border-color); border-radius: 10px; padding: 7px; cursor: pointer; display: flex; align-items: center;" title="Toggle Theme">
+                    <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY: MULTI-UNIT PATH & SIDEBAR -->
+    <div class="lingo-layout">
+        
+        <!-- LEFT: THE MULTI-UNIT LEARNING PATH -->
+        <main class="path-col" id="unitsMainContainer">
+            <!-- Dynamically populated with Unit 1 (FREE) and Units 2-5 (PAID PRO) -->
+        </main>
+
+        <!-- RIGHT: MASCOT COMPANION & PRO UPSELL SIDEBAR -->
+        <aside class="sidebar-col">
+            
+            <!-- Companion Character Station (Bittu the Bear!) -->
+            <div class="companion-card">
+                <div class="mascot-avatar-wrap" onclick="triggerMascotCheer()">
+                    <img src="assets/bholua-bear.png" alt="Bittu (Bholua) The Coding Bear" class="mascot-img" id="sidebarMascotImg">
+                    <div class="mascot-badge" id="mascotBadge">
+                        <i data-lucide="code" style="width: 16px; height: 16px; color: white;"></i>
+                    </div>
+                </div>
+                <div class="mascot-name" id="sidebarMascotName">Bittu</div>
+                <div class="mascot-role">Your Coding Guru &amp; Cheerleader</div>
+
+                <!-- Speech Bubble -->
+                <div class="mascot-speech" id="mascotQuote">
+                    "Unit 1 sabhi ke liye bilkul FREE hai! Aage ke units me master bano aur certificate paao!"
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-companion-switch" onclick="openCompanionModal()">
+                        <i data-lucide="users" style="width: 16px; height: 16px; color: var(--primary-orange);"></i>
+                        Change Companion
+                    </button>
+                    <button class="btn-companion-switch" style="width: 50px;" onclick="speakMascotQuote()" title="Voice: Listen to Bittu speak!">
+                        <i data-lucide="volume-2" style="width: 16px; height: 16px; color: var(--primary-orange);"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pro Banner Sidebar Widget -->
+            <div class="pro-upsell-card" id="proSidebarCard">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="background: linear-gradient(135deg, #9333ea, #6366f1); color: #ffd700; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="crown" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 800; font-size: 1rem; color: #9333ea;">Bittu Pro Pass</div>
+                        <div style="font-size: 0.78rem; color: var(--text-sub);">Unlock Remaining Units</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 14px; line-height: 1.4;">
+                    Units 2, 3, 4 &amp; 5 have advanced interview &amp; DSA challenges. Unlock all units with unlimited hearts!
+                </p>
+                <button class="btn-3d" style="width: 100%; padding: 10px; font-size: 0.88rem; background: linear-gradient(135deg, #9333ea, #6366f1); box-shadow: 0 4px 0 #581c87; color: white;" onclick="openProModal()">
+                    <i data-lucide="sparkles" style="width: 16px; height: 16px; vertical-align: middle;"></i> Get Bittu Pro
+                </button>
+            </div>
+
+            <!-- Daily Quests -->
+            <div class="quests-card">
+                <div class="card-header-flex">
+                    <h3><i data-lucide="target" style="width: 20px; height: 20px; color: #ff6b35;"></i> Daily Quests</h3>
+                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-sub);">Resets in 6h</span>
+                </div>
+
+                <div class="quest-item">
+                    <div class="quest-icon">
+                        <i data-lucide="zap" style="width: 20px; height: 20px; color: var(--primary-gold);"></i>
+                    </div>
+                    <div class="quest-details">
+                        <div class="quest-title">Earn 30 XP</div>
+                        <div class="quest-progress-bg">
+                            <div class="quest-progress-fill" id="questXpBar" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                    <div class="quest-reward">
+                        <i data-lucide="gem" style="width: 14px; height: 14px; color: var(--primary-blue); fill: var(--primary-blue);"></i> +10
+                    </div>
+                </div>
+
+                <div class="quest-item">
+                    <div class="quest-icon">
+                        <i data-lucide="flame" style="width: 20px; height: 20px; color: #f97316;"></i>
+                    </div>
+                    <div class="quest-details">
+                        <div class="quest-title">Finish 2 Lessons</div>
+                        <div class="quest-progress-bg">
+                            <div class="quest-progress-fill" id="questLessonBar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="quest-reward">
+                        <i data-lucide="gem" style="width: 14px; height: 14px; color: var(--primary-blue); fill: var(--primary-blue);"></i> +15
+                    </div>
+                </div>
+            </div>
+
+            <!-- League Leaderboard Preview -->
+            <div class="leaderboard-widget">
+                <div class="card-header-flex">
+                    <h3><i data-lucide="trophy" style="width: 20px; height: 20px; color: var(--primary-gold);"></i> Diamond League</h3>
+                    <span class="league-badge" style="background: #9333ea; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 800;">PRO TIER</span>
+                </div>
+
+                <div class="lb-row">
+                    <span class="lb-rank">1</span>
+                    <i data-lucide="medal" style="width: 18px; height: 18px; color: #eab308;"></i>
+                    <span class="lb-name">Aarav Patel</span>
+                    <span class="lb-xp">1,420 XP</span>
+                </div>
+                <div class="lb-row">
+                    <span class="lb-rank">2</span>
+                    <i data-lucide="medal" style="width: 18px; height: 18px; color: #94a3b8;"></i>
+                    <span class="lb-name">Sneha Sharma</span>
+                    <span class="lb-xp">1,280 XP</span>
+                </div>
+                <div class="lb-row lb-user">
+                    <span class="lb-rank">3</span>
+                    <i data-lucide="medal" style="width: 18px; height: 18px; color: #d97706;"></i>
+                    <span class="lb-name">You (Coder)</span>
+                    <span class="lb-xp" id="userTotalXp">1,150 XP</span>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- BITTU PRO PAYWALL MODAL                              -->
+    <!-- ==================================================== -->
+    <div class="modal-overlay" id="proModal">
+        <div class="pro-modal-box">
+            <button onclick="closeProModal()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; cursor: pointer; color: var(--text-sub);">
+                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+            </button>
+
+            <div class="pro-crown-badge">
+                <i data-lucide="crown" style="width: 36px; height: 36px;"></i>
+            </div>
+
+            <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; color: #0f172a;">Unlock Bittu Pro</h2>
+            <p style="font-size: 0.95rem; color: var(--text-sub); margin-bottom: 20px;">
+                Unit 1 is free for everyone. Unlock all remaining advanced units and supercharge your coding journey!
+            </p>
+
+            <!-- Features list -->
+            <div style="margin-bottom: 20px;">
+                <div class="pro-feature-item">
+                    <i data-lucide="check-circle-2"></i>
+                    <span><b>Unlock Units 2, 3, 4 &amp; 5</b> in Python, JS, C++, Java, HTML/CSS, SQL</span>
+                </div>
+                <div class="pro-feature-item">
+                    <i data-lucide="check-circle-2"></i>
+                    <span><b>Unlimited Hearts (Infinite Lives)</b> — Never get paused on mistakes</span>
+                </div>
+                <div class="pro-feature-item">
+                    <i data-lucide="check-circle-2"></i>
+                    <span><b>Verified Tech Indro Certificate of Completion</b></span>
+                </div>
+                <div class="pro-feature-item">
+                    <i data-lucide="check-circle-2"></i>
+                    <span><b>Bittu AI 24/7 Code Doubt Engine</b></span>
+                </div>
+            </div>
+
+            <!-- Price Card -->
+            <div class="pricing-box">
+                <div style="text-align: left;">
+                    <div style="font-size: 0.8rem; font-weight: 800; color: #9333ea; text-transform: uppercase;">Launch Offer • 80% OFF</div>
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <span style="font-size: 1.8rem; font-weight: 900; color: #1e293b;">₹199</span>
+                        <span style="font-size: 1rem; color: #94a3b8; text-decoration: line-through;">₹999</span>
+                    </div>
+                </div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: #64748b;">
+                    Lifetime Access
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-3d" style="background: linear-gradient(135deg, #9333ea, #6366f1); box-shadow: 0 5px 0 #581c87; color: white; width: 100%; font-size: 1.05rem;" onclick="activateProInstant('paid')">
+                    <i data-lucide="sparkles" style="width: 18px; height: 18px; vertical-align: middle;"></i> UNLOCK ALL UNITS FOR ₹199
+                </button>
+                <button class="btn-3d" style="background: var(--bg-card-hover); border: 2px solid var(--border-color); color: var(--text-main); box-shadow: 0 4px 0 var(--border-color); width: 100%; font-size: 0.95rem;" onclick="activateProWithGems()">
+                    <i data-lucide="gem" style="width: 16px; height: 16px; color: var(--primary-blue); vertical-align: middle;"></i> Unlock with 1,000 Gems
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- FULLSCREEN INTERACTIVE LESSON ARENA                  -->
+    <!-- ==================================================== -->
+    <div class="lesson-modal" id="lessonModal">
+        <div class="lesson-topbar">
+            <button class="btn-lesson-close" onclick="exitLessonConfirm()" title="Exit Lesson">
+                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+            </button>
+            <div class="lesson-progress-wrap">
+                <div class="lesson-progress-bar" id="lessonProgressBar"></div>
+            </div>
+            <div class="lesson-hearts">
+                <i data-lucide="heart" style="width: 22px; height: 22px; fill: var(--primary-red); color: var(--primary-red);"></i>
+                <span id="lessonHeartsVal">5</span>
+            </div>
+        </div>
+
+        <div class="lesson-body" id="lessonExerciseBody">
+            <!-- Dynamically populated per question -->
+        </div>
+
+        <div class="lesson-footer-banner" id="lessonFooterBanner">
+            <div class="footer-inner">
+                <div class="feedback-info" id="feedbackInfo"></div>
+                <button class="btn-3d btn-check-ans" id="lessonActionBtn" onclick="handleLessonAction()">
+                    Check
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- COMPANION PICKER MODAL                               -->
+    <!-- ==================================================== -->
+    <div class="modal-overlay" id="companionModal">
+        <div class="modal-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.3rem; font-weight: 800;">Choose Your Coding Companion</h3>
+                <button onclick="closeCompanionModal()" style="background: none; border: none; cursor: pointer; color: var(--text-sub);">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-sub);">Select who cheers you on during coding exercises and gives you helpful syntax tips!</p>
+
+            <div class="companion-picker-grid">
+                <div class="mascot-choice-card selected" onclick="pickMascot('bittu')">
+                    <img src="assets/bholua-bear.png" class="choice-avatar" alt="Bittu (Bholua) Bear">
+                    <div style="font-weight: 800; font-size: 1rem;">Bittu (Bholua)</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Friendly Coding Bear. Speaks Hindi &amp; Hinglish!</div>
+                </div>
+                <div class="mascot-choice-card" onclick="pickMascot('indro')">
+                    <img src="assets/golua-owl.png" class="choice-avatar" alt="Golua (Owl)">
+                    <div style="font-weight: 800; font-size: 1rem;">Golua (Owl)</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Wise Tech Owl. Sharp algorithmic hints.</div>
+                </div>
+                <div class="mascot-choice-card" onclick="pickMascot('bitbot')">
+                    <div class="choice-avatar" style="background: linear-gradient(135deg, #06b6d4, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; border-radius: 50%;">
+                        <i data-lucide="bot" style="width: 36px; height: 36px;"></i>
+                    </div>
+                    <div style="font-weight: 800; font-size: 1rem;">Bit-Bot</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">AI Robot. Microsecond syntax audits!</div>
+                </div>
+                <div class="mascot-choice-card" onclick="pickMascot('rani')">
+                    <div class="choice-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: white; border-radius: 50%;">
+                        <i data-lucide="zap" style="width: 36px; height: 36px;"></i>
+                    </div>
+                    <div style="font-weight: 800; font-size: 1rem;">Rani</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Clever Coder. Pro tips &amp; speed tricks.</div>
+                </div>
+            </div>
+
+            <button class="btn-3d btn-continue-success" style="width: 100%;" onclick="closeCompanionModal()">Save Companion</button>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- LESSON COMPLETED CELEBRATION MODAL                   -->
+    <!-- ==================================================== -->
+    <div class="celebration-screen" id="celebrationScreen">
+        <img src="assets/bholua-bear.png" id="celebMascotImg" class="celeb-mascot" alt="Celebrating Mascot">
+        <div class="celeb-title" id="celebTitle">LESSON COMPLETED!</div>
+        <div class="celeb-subtitle" id="celebSubtitle">You completed the lesson with flying colors! Bittu is proud of you!</div>
+
+        <div class="celeb-stats-grid">
+            <div class="celeb-stat-card">
+                <div class="celeb-stat-val" style="color: var(--primary-gold);" id="celebXpVal">
+                    <i data-lucide="zap" style="width: 22px; height: 22px; fill: var(--primary-gold);"></i> +30
+                </div>
+                <div class="celeb-stat-label">Total XP</div>
+            </div>
+            <div class="celeb-stat-card">
+                <div class="celeb-stat-val" style="color: var(--primary-green);" id="celebAccVal">
+                    <i data-lucide="target" style="width: 22px; height: 22px;"></i> 100%
+                </div>
+                <div class="celeb-stat-label">Accuracy</div>
+            </div>
+            <div class="celeb-stat-card">
+                <div class="celeb-stat-val" style="color: var(--primary-blue);" id="celebGemsVal">
+                    <i data-lucide="gem" style="width: 22px; height: 22px; fill: var(--primary-blue);"></i> +15
+                </div>
+                <div class="celeb-stat-label">Gems Earned</div>
+            </div>
+        </div>
+
+        <button class="btn-3d btn-continue-success" style="font-size: 1.15rem; padding: 16px 48px; display: inline-flex; align-items: center; gap: 8px;" onclick="closeCelebration()">
+            CLAIM REWARD &amp; CONTINUE <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+        </button>
+    </div>
+
+    <!-- GUIDEBOOK MODAL -->
+    <div class="modal-overlay" id="guideModal">
+        <div class="modal-box" style="max-width: 600px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.3rem; font-weight: 800;" id="guideModalTitle">Guidebook</h3>
+                <button onclick="closeGuidebook()" style="background: none; border: none; cursor: pointer; color: var(--text-sub);">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+            <div id="guideModalContent" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main); max-height: 380px; overflow-y: auto; padding-right: 6px;"></div>
+            <button class="btn-3d btn-continue-success" style="width: 100%; margin-top: 18px;" onclick="closeGuidebook()">Got It!</button>
+        </div>
+    </div>
+
+    <!-- PRACTICE / REFILL HEARTS MODAL -->
+    <div class="modal-overlay" id="practiceModal">
+        <div class="modal-box" style="text-align: center;">
+            <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                <i data-lucide="heart" style="width: 48px; height: 48px; color: #ef4444; fill: #ef4444;"></i>
+            </div>
+            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Need More Hearts?</h3>
+            <p style="font-size: 0.95rem; color: var(--text-sub); margin-bottom: 20px;">
+                Hearts protect you when making syntax mistakes. Solve a quick practice round to heal hearts, or get Bittu Pro for infinite hearts!
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn-3d btn-continue-success" onclick="refillHeartsFree()">
+                    Practice to Restore Hearts (+5 Hearts)
+                </button>
+                <button class="btn-3d" style="background: linear-gradient(135deg, #9333ea, #6366f1); box-shadow: 0 4px 0 #581c87; color: white;" onclick="closePracticeModal(); openProModal();">
+                    <i data-lucide="crown" style="width: 16px; height: 16px; vertical-align: middle;"></i> Get Unlimited Hearts with Pro
+                </button>
+                <button onclick="closePracticeModal()" style="background: none; border: none; color: var(--text-sub); font-weight: 700; cursor: pointer; padding: 10px;">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- LOGIC & MULTI-UNIT CURRICULUM SCRIPT                 -->
+    <!-- ==================================================== -->
+    <script>
+        // --- 1. Sound Synthesizer (Web Audio API) ---
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) audioCtx = new AudioCtx();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playTone(freq, type, duration, delay = 0) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+                gain.gain.setValueAtTime(0.18, ctx.currentTime + delay);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + delay);
+                osc.stop(ctx.currentTime + delay + duration);
+            } catch (e) {}
+        }
+
+        function playSuccessSound() {
+            playTone(523.25, 'triangle', 0.15, 0);
+            playTone(659.25, 'triangle', 0.15, 0.1);
+            playTone(783.99, 'triangle', 0.18, 0.2);
+            playTone(1046.50, 'sine', 0.35, 0.3);
+        }
+
+        function playWrongSound() {
+            playTone(240, 'sawtooth', 0.18, 0);
+            playTone(180, 'sawtooth', 0.28, 0.12);
+        }
+
+        function playFanfareSound() {
+            playTone(523.25, 'triangle', 0.15, 0);
+            playTone(659.25, 'triangle', 0.15, 0.12);
+            playTone(783.99, 'triangle', 0.15, 0.24);
+            playTone(1046.50, 'sine', 0.45, 0.36);
+            playTone(1318.51, 'sine', 0.6, 0.55);
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (icon) {
+                icon.setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        // --- 2. Mascot System & Voice ---
+        const MASCOTS = {
+            bittu: {
+                id: 'bittu',
+                name: 'Bittu (Bholua)',
+                role: 'Your Coding Guru & Cheerleader',
+                avatar: 'assets/bholua-bear.png',
+                quotes: [
+                    "Unit 1 sabhi ke liye bilkul FREE hai! Aage ke units me master bano aur certificate paao!",
+                    "Coding seekhna ab aasan hai! Har roz ek naya puzzle solve karo aur tech master bano!",
+                    "Shabaash mere dost! Clean syntax dekh kar dil khush ho gaya!",
+                    "Daily streak banaye rakho aur nayi languages seekho!"
+                ]
+            },
+            indro: {
+                id: 'indro',
+                name: 'Golua (Owl)',
+                role: 'Wise Tech Owl',
+                avatar: 'assets/golua-owl.png',
+                quotes: [
+                    "Keep your algorithmic vision razor sharp today!",
+                    "Every master was once a beginner who refused to quit.",
+                    "Clean code is poetry. Let us write another masterpiece!"
+                ]
+            },
+            bitbot: {
+                id: 'bitbot',
+                name: 'Bit-Bot',
+                role: 'AI Autonomous Robot',
+                avatar: 'assets/bholua-bear.png',
+                quotes: [
+                    "Neural pathways optimized. Ready to compile code!",
+                    "Analyzing syntax... Efficiency rating: 100% optimal!"
+                ]
+            },
+            rani: {
+                id: 'rani',
+                name: 'Rani',
+                role: 'Clever Coder',
+                avatar: 'assets/golua-owl.png',
+                quotes: [
+                    "Work smart! I know the cleanest coding patterns.",
+                    "That was a clever solution! You think like an engineer!"
+                ]
+            }
+        };
+
+        let currentMascotKey = localStorage.getItem('bittu_mascot') || 'bittu';
+        let isUserPro = localStorage.getItem('bittu_is_pro') === 'true';
+
+        function updateMascotUI() {
+            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const img = document.getElementById('sidebarMascotImg');
+            if (img) img.src = m.avatar;
+            const name = document.getElementById('sidebarMascotName');
+            if (name) name.innerText = m.name;
+            const quoteEl = document.getElementById('mascotQuote');
+            if (quoteEl) {
+                const randomQ = m.quotes[Math.floor(Math.random() * m.quotes.length)];
+                quoteEl.innerText = `"${randomQ}"`;
+            }
+        }
+
+        function triggerMascotCheer() {
+            playSuccessSound();
+            const quoteEl = document.getElementById('mascotQuote');
+            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const randomQ = m.quotes[Math.floor(Math.random() * m.quotes.length)];
+            if (quoteEl) quoteEl.innerText = `"${randomQ}"`;
+            if (window.confetti) {
+                confetti({ particleCount: 30, spread: 60, origin: { x: 0.85, y: 0.4 } });
+            }
+        }
+
+        function speakMascotQuote() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const quoteText = document.getElementById('mascotQuote').innerText;
+                const cleanText = quoteText.replace(/["\uD800-\uDFFF].*/g, '').trim();
+                const utter = new SpeechSynthesisUtterance(cleanText);
+                utter.rate = 0.95;
+                utter.pitch = 1.2; // Cheerful female companion pitch
+                const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
+                    window.getTechIndroFemaleVoice('hi-IN') : null;
+                if (femaleVoice) utter.voice = femaleVoice;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function openCompanionModal() { document.getElementById('companionModal').classList.add('active'); }
+        function closeCompanionModal() { document.getElementById('companionModal').classList.remove('active'); }
+
+        function pickMascot(key) {
+            currentMascotKey = key;
+            localStorage.setItem('bittu_mascot', key);
+            document.querySelectorAll('.mascot-choice-card').forEach(c => c.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            updateMascotUI();
+        }
+
+        // --- 3. MULTI-UNIT CURRICULUM DATA (UNIT 1 FREE, REST PAID) ---
+        const COURSES = {
+            python: {
+                id: 'python',
+                name: 'Python',
+                icon: '<i data-lucide="terminal" style="width: 18px; height: 18px; color: #0284c7;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Foundations & First Code',
+                        desc: 'Master print(), strings, and variables with Bittu!',
+                        guide: `<h4>Python Basics Guidebook</h4>
+                            <p><b>1. Printing Text:</b> Use <code>print("Your text")</code> to output text to screen.</p>
+                            <p><b>2. Variables:</b> Store information like <code>name = "Bittu"</code> or <code>score = 100</code>.</p>`,
+                        lessons: [
+                            {
+                                id: 'py-u1-1',
+                                title: 'Say Hello to Python',
+                                type: 'arrange',
+                                prompt: 'Arrange the code blocks to print "Hello World" in Python:',
+                                dialogText: "Bittu says: Let us start with every programmer's first step!",
+                                codeSnippet: null,
+                                blocks: ['print(', '"Hello World"', ')', 'echo', 'console.log'],
+                                correctOrder: ['print(', '"Hello World"', ')'],
+                                explanation: 'In Python, print() is the built-in function to display text on screen.'
+                            },
+                            {
+                                id: 'py-u1-2',
+                                title: 'Storing in Variables',
+                                type: 'fill_blank',
+                                prompt: 'Complete the line to store the companion\'s name in a variable:',
+                                dialogText: 'Bittu needs a variable to hold his name!',
+                                codeSnippet: '_____ = "Bittu"',
+                                options: ['name', 'print()', '123', 'def'],
+                                correctAnswer: 'name',
+                                explanation: 'Variables in Python start with letters or underscores, like "name".'
+                            },
+                            {
+                                id: 'py-u1-3',
+                                title: 'What does this print?',
+                                type: 'choice',
+                                prompt: 'What will be the output of this Python code?',
+                                dialogText: 'Bittu is testing your math calculation logic!',
+                                codeSnippet: 'apples = 5\nbananas = 3\nprint(apples + bananas)',
+                                options: ['8', '"apples + bananas"', '53', 'Error'],
+                                correctAnswer: '8',
+                                explanation: '5 + 3 equals 8. Python adds integers naturally!'
+                            },
+                            {
+                                id: 'py-u1-4',
+                                title: 'Spot the Syntax Error',
+                                type: 'choice',
+                                prompt: 'Which line contains a syntax error in Python?',
+                                dialogText: 'Help Bittu find the bug before executing!',
+                                codeSnippet: 'A: print("Hello")\nB: print("Welcome"\nC: score = 100',
+                                options: ['Line A', 'Line B (Missing closing parenthesis)', 'Line C'],
+                                correctAnswer: 'Line B (Missing closing parenthesis)',
+                                explanation: 'Every opened parenthesis "(" must have a matching closing ")"!'
+                            },
+                            {
+                                id: 'py-u1-5',
+                                title: 'Unit 1 Milestone: Final Challenge',
+                                type: 'arrange',
+                                prompt: 'Assemble the code to print Bittu\'s age (5):',
+                                dialogText: 'Final challenge of Unit 1! Let us finish strong!',
+                                codeSnippet: null,
+                                blocks: ['age = 5', 'print(', 'age', ')', 'var age'],
+                                correctOrder: ['age = 5', 'print(', 'age', ')'],
+                                explanation: 'We create variable age = 5 and pass it into print(age)!'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: Memory & Data Types (PRO)',
+                        desc: 'Master strings, floats, type casting & user inputs with Bittu Pro!',
+                        guide: `<h4>Unit 2: Data Types (PRO)</h4><p>Learn integers, floats, booleans, and type conversions.</p>`,
+                        lessons: [
+                            {
+                                id: 'py-u2-1',
+                                title: 'Float vs Integer Types',
+                                type: 'choice',
+                                prompt: 'What is the data type of 3.14 in Python?',
+                                dialogText: 'Bittu asks a core computer science data type question!',
+                                codeSnippet: 'pi = 3.14\nprint(type(pi))',
+                                options: ['float', 'int', 'str', 'double'],
+                                correctAnswer: 'float',
+                                explanation: 'Numbers with fractional decimal points are stored as float in Python.'
+                            },
+                            {
+                                id: 'py-u2-2',
+                                title: 'String Slicing Magic',
+                                type: 'choice',
+                                prompt: 'What will print("Python"[0]) output?',
+                                dialogText: 'Python indices start from zero!',
+                                codeSnippet: 'word = "Python"\nprint(word[0])',
+                                options: ['P', 'y', 'Python', 'IndexError'],
+                                correctAnswer: 'P',
+                                explanation: 'In Python, zero-indexing means index 0 is the first letter "P"!'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 3,
+                        isPaid: true,
+                        title: 'Unit 3: Logic Crossroads & If-Else (PRO)',
+                        desc: 'Conditional branching, comparison operators & boolean logic gates.',
+                        guide: `<h4>Unit 3: Conditionals</h4><p>Master if, elif, and else statements.</p>`,
+                        lessons: [
+                            {
+                                id: 'py-u3-1',
+                                title: 'The If-Condition Check',
+                                type: 'fill_blank',
+                                prompt: 'Complete the condition to check if score is greater than 50:',
+                                dialogText: 'Bittu evaluates whether the player passed the level!',
+                                codeSnippet: '_____ (score > 50):\n    print("Passed!")',
+                                options: ['if', 'while', 'def', 'case'],
+                                correctAnswer: 'if',
+                                explanation: 'The "if" keyword starts a conditional check statement in Python.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 4,
+                        isPaid: true,
+                        title: 'Unit 4: Super Loops & Iteration (PRO)',
+                        desc: 'For loops, while loops, range() counters and break/continue control.',
+                        guide: `<h4>Unit 4: Loops</h4><p>Iterate through data with for and while.</p>`,
+                        lessons: [
+                            {
+                                id: 'py-u4-1',
+                                title: 'For Loop Range',
+                                type: 'choice',
+                                prompt: 'How many times will this loop run?',
+                                dialogText: 'Count the iterations with Bittu!',
+                                codeSnippet: 'for i in range(5):\n    print(i)',
+                                options: ['5 times (0 to 4)', '4 times (1 to 4)', '6 times (0 to 5)'],
+                                correctAnswer: '5 times (0 to 4)',
+                                explanation: 'range(5) produces numbers 0, 1, 2, 3, 4, running exactly 5 times.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 5,
+                        isPaid: true,
+                        title: 'Unit 5: Modular Functions & Mastery (PRO)',
+                        desc: 'Write reusable def functions, parameters, return values & certification.',
+                        guide: `<h4>Unit 5: Functions</h4><p>Define modular code blocks with def and return.</p>`,
+                        lessons: [
+                            {
+                                id: 'py-u5-1',
+                                title: 'Defining a Function',
+                                type: 'fill_blank',
+                                prompt: 'Keyword used to define a custom function in Python:',
+                                dialogText: 'Create your first reusable function block!',
+                                codeSnippet: '_____ calculate_total(a, b):\n    return a + b',
+                                options: ['def', 'function', 'fn', 'func'],
+                                correctAnswer: 'def',
+                                explanation: 'Python uses "def" (define) to create custom functions.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            javascript: {
+                id: 'javascript',
+                name: 'JavaScript',
+                icon: '<i data-lucide="code-2" style="width: 18px; height: 18px; color: #eab308;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Web Magic with JS',
+                        desc: 'Learn console.log, let/const, and browser logic!',
+                        guide: `<h4>JavaScript Essentials Guide</h4><p>Use console.log() and declare variables with let and const.</p>`,
+                        lessons: [
+                            {
+                                id: 'js-u1-1',
+                                title: 'First JavaScript Statement',
+                                type: 'arrange',
+                                prompt: 'Arrange the tokens to print "Hello JS" to the console:',
+                                dialogText: 'Bittu wants to log something in the browser console!',
+                                codeSnippet: null,
+                                blocks: ['console.log(', '"Hello JS"', ');', 'print()', 'echo'],
+                                correctOrder: ['console.log(', '"Hello JS"', ');'],
+                                explanation: 'console.log() is JavaScript\'s primary console output method.'
+                            },
+                            {
+                                id: 'js-u1-2',
+                                title: 'Declaring Variables',
+                                type: 'choice',
+                                prompt: 'Which keyword is best for a variable whose value will change?',
+                                dialogText: 'Bittu wants to update his score dynamically!',
+                                codeSnippet: '_____ score = 0;\nscore = score + 10;',
+                                options: ['let', 'const', 'fixed', 'function'],
+                                correctAnswer: 'let',
+                                explanation: 'let allows re-assignment. const creates a permanent reference.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: DOM & Event Listeners (PRO)',
+                        desc: 'Select HTML elements, handle button clicks and animate the page!',
+                        guide: `<h4>Unit 2: DOM & Events (PRO)</h4><p>Master document.querySelector and addEventListener.</p>`,
+                        lessons: [
+                            {
+                                id: 'js-u2-1',
+                                title: 'Query Selector Element',
+                                type: 'fill_blank',
+                                prompt: 'Select an element by ID using the DOM query selector:',
+                                dialogText: 'Grab the button on the page with JavaScript!',
+                                codeSnippet: 'const btn = document.____("#submitBtn");',
+                                options: ['querySelector', 'find', 'getElement', 'search'],
+                                correctAnswer: 'querySelector',
+                                explanation: 'document.querySelector accepts CSS selector syntax like #id and .class.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            htmlcss: {
+                id: 'htmlcss',
+                name: 'HTML & CSS',
+                icon: '<i data-lucide="globe" style="width: 18px; height: 18px; color: #ea580c;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Building the Web',
+                        desc: 'Create structure with tags and paint with CSS styling!',
+                        guide: `<h4>HTML Guidebook</h4><p>Use headings and paragraphs to structure your page.</p>`,
+                        lessons: [
+                            {
+                                id: 'html-u1-1',
+                                title: 'The Master Heading',
+                                type: 'arrange',
+                                prompt: 'Assemble the HTML tag for a top-level heading:',
+                                dialogText: 'Bittu wants to put his name in bold heading format!',
+                                codeSnippet: null,
+                                blocks: ['<h1>', 'Bittu Coder', '</h1>', '<p>', '</head>'],
+                                correctOrder: ['<h1>', 'Bittu Coder', '</h1>'],
+                                explanation: '<h1> is the highest level HTML heading element.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: CSS Flexbox & Grid (PRO)',
+                        desc: 'Modern responsive layouts, flex-direction, align-items & grids.',
+                        guide: `<h4>Unit 2: Layouts (PRO)</h4><p>Master modern responsive CSS layouts.</p>`,
+                        lessons: [
+                            {
+                                id: 'html-u2-1',
+                                title: 'Enabling Flexbox',
+                                type: 'fill_blank',
+                                prompt: 'Turn a container into a flexible box layout in CSS:',
+                                dialogText: 'Create a dynamic horizontal layout!',
+                                codeSnippet: '.container {\n  display: _____;\n}',
+                                options: ['flex', 'grid', 'block', 'table'],
+                                correctAnswer: 'flex',
+                                explanation: 'display: flex activates the Flexbox formatting context.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            cpp: {
+                id: 'cpp',
+                name: 'C++ (DSA)',
+                icon: '<i data-lucide="cpu" style="width: 18px; height: 18px; color: #2563eb;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Lightning Fast C++',
+                        desc: 'High-speed programming with cout, cin, and types!',
+                        guide: `<h4>C++ Quick Guide</h4><p>Learn main() and cout output.</p>`,
+                        lessons: [
+                            {
+                                id: 'cpp-u1-1',
+                                title: 'Hello from C++',
+                                type: 'arrange',
+                                prompt: 'Arrange the code to print "Hello" in C++:',
+                                dialogText: 'Bittu enters the competitive programming arena!',
+                                codeSnippet: null,
+                                blocks: ['cout <<', '"Hello"', '<< endl;', 'cin >>', 'printf'],
+                                correctOrder: ['cout <<', '"Hello"', '<< endl;'],
+                                explanation: 'cout with stream insertion operator "<<" sends data to output.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: Pointers & Memory Addresses (PRO)',
+                        desc: 'Direct memory manipulation, dereferencing and dynamic heap allocation.',
+                        guide: `<h4>Unit 2: Pointers (PRO)</h4><p>Direct memory management in C++.</p>`,
+                        lessons: [
+                            {
+                                id: 'cpp-u2-1',
+                                title: 'Address-of Operator',
+                                type: 'choice',
+                                prompt: 'Which operator gets the memory address of a variable in C++?',
+                                dialogText: 'Inspect the hardware memory pointer!',
+                                codeSnippet: 'int x = 10;\nint* ptr = _____x;',
+                                options: ['&', '*', '->', '%'],
+                                correctAnswer: '&',
+                                explanation: 'The "&" (address-of) operator retrieves the memory address of variable x.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            java: {
+                id: 'java',
+                name: 'Java',
+                icon: '<i data-lucide="coffee" style="width: 18px; height: 18px; color: #dc2626;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Enterprise OOP Java',
+                        desc: 'Master classes, System.out.println, and robust types!',
+                        guide: `<h4>Java Starter Guide</h4><p>System.out.println prints to console.</p>`,
+                        lessons: [
+                            {
+                                id: 'java-u1-1',
+                                title: 'Java System Output',
+                                type: 'arrange',
+                                prompt: 'Arrange the tokens to print "Hello Java":',
+                                dialogText: 'Bittu starts building backend enterprise applications!',
+                                codeSnippet: null,
+                                blocks: ['System.out.println(', '"Hello Java"', ');', 'Console.write', 'print'],
+                                correctOrder: ['System.out.println(', '"Hello Java"', ');'],
+                                explanation: 'System.out.println() prints to standard output followed by a newline.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: Object-Oriented Programming (PRO)',
+                        desc: 'Constructors, Inheritance, Encapsulation, Polymorphism & Interfaces.',
+                        guide: `<h4>Unit 2: OOP (PRO)</h4><p>Master Object-Oriented Design in Java.</p>`,
+                        lessons: [
+                            {
+                                id: 'java-u2-1',
+                                title: 'Class Instantiation',
+                                type: 'fill_blank',
+                                prompt: 'Keyword used to instantiate a new object instance in Java:',
+                                dialogText: 'Create a new User instance in heap memory!',
+                                codeSnippet: 'User student = _____ User("Bittu");',
+                                options: ['new', 'create', 'make', 'instance'],
+                                correctAnswer: 'new',
+                                explanation: '"new" allocates memory for a new object in Java.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            sql: {
+                id: 'sql',
+                name: 'SQL Queries',
+                icon: '<i data-lucide="database" style="width: 18px; height: 18px; color: #0891b2;"></i>',
+                units: [
+                    {
+                        unitNumber: 1,
+                        isPaid: false,
+                        title: 'Unit 1: Querying Databases',
+                        desc: 'Fetch records, filter with WHERE, and inspect tables!',
+                        guide: `<h4>SQL Quick Guide</h4><p>SELECT * FROM table retrieves rows.</p>`,
+                        lessons: [
+                            {
+                                id: 'sql-u1-1',
+                                title: 'Select All Users',
+                                type: 'arrange',
+                                prompt: 'Arrange the SQL query to fetch all rows from users:',
+                                dialogText: 'Bittu queries the database for enrolled learners!',
+                                codeSnippet: null,
+                                blocks: ['SELECT *', 'FROM', 'users;', 'GET', 'WHERE'],
+                                correctOrder: ['SELECT *', 'FROM', 'users;'],
+                                explanation: 'SELECT * fetches all columns from the specified table.'
+                            }
+                        ]
+                    },
+                    {
+                        unitNumber: 2,
+                        isPaid: true,
+                        title: 'Unit 2: Advanced JOINs & Aggregations (PRO)',
+                        desc: 'INNER JOIN, LEFT JOIN, GROUP BY, HAVING, and Subqueries.',
+                        guide: `<h4>Unit 2: Relational JOINs (PRO)</h4><p>Join relational database tables efficiently.</p>`,
+                        lessons: [
+                            {
+                                id: 'sql-u2-1',
+                                title: 'Combining Tables with JOIN',
+                                type: 'fill_blank',
+                                prompt: 'Keyword used to join records matching on both tables:',
+                                dialogText: 'Join users and course progress records!',
+                                codeSnippet: 'SELECT * FROM users\nINNER _____ courses ON users.id = courses.user_id;',
+                                options: ['JOIN', 'LINK', 'MERGE', 'WITH'],
+                                correctAnswer: 'JOIN',
+                                explanation: 'INNER JOIN returns records that have matching values in both tables.'
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentLangKey = localStorage.getItem('bittu_lang') || 'python';
+        let userStats = JSON.parse(localStorage.getItem('bittu_stats') || '{"xp": 1150, "streak": 7, "gems": 450, "hearts": 5, "completed": {}}');
+
+        function saveStats() {
+            localStorage.setItem('bittu_stats', JSON.stringify(userStats));
+            updateGamifyBadges();
+        }
+
+        function updateGamifyBadges() {
+            document.getElementById('streakCount').innerText = userStats.streak;
+            document.getElementById('gemsCount').innerText = userStats.gems;
+            
+            const heartsEl = document.getElementById('heartsCount');
+            if (isUserPro) {
+                heartsEl.innerHTML = '<span style="font-size:1.2rem; line-height:1;">∞</span>';
+                document.getElementById('proNavText').innerText = 'PRO Active';
+                document.getElementById('proNavBtn').style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                document.getElementById('proNavBtn').style.borderColor = '#4ade80';
+            } else {
+                heartsEl.innerText = userStats.hearts;
+                document.getElementById('proNavText').innerText = 'Unlock Pro';
+            }
+
+            const userXp = document.getElementById('userTotalXp');
+            if (userXp) userXp.innerText = `${userStats.xp} XP`;
+        }
+
+        function toggleLangDropdown() {
+            const dd = document.getElementById('langDropdown');
+            dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', function(e) {
+            const btn = document.getElementById('langSelectBtn');
+            const dd = document.getElementById('langDropdown');
+            if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+                dd.style.display = 'none';
+            }
+        });
+
+        function selectLanguage(langKey) {
+            currentLangKey = langKey;
+            localStorage.setItem('bittu_lang', langKey);
+            document.getElementById('langDropdown').style.display = 'none';
+            renderCurrentCourse();
+        }
+
+        // Render Multi-Unit Path
+        function renderCurrentCourse() {
+            const course = COURSES[currentLangKey] || COURSES.python;
+            document.getElementById('currentLangIcon').innerHTML = course.icon;
+            document.getElementById('currentLangName').innerText = course.name;
+
+            const mainContainer = document.getElementById('unitsMainContainer');
+            mainContainer.innerHTML = '';
+
+            const completedForLang = userStats.completed[currentLangKey] || [];
+            const positions = ['step-center', 'step-left', 'step-center', 'step-right', 'step-center'];
+
+            course.units.forEach((unit) => {
+                const unitSection = document.createElement('section');
+                unitSection.className = 'path-section';
+
+                const isUnitLockedPaid = unit.isPaid && !isUserPro;
+                const bannerClass = isUnitLockedPaid ? 'unit-paid' : 'unit-free';
+                const badgeTagHtml = isUnitLockedPaid 
+                    ? `<span class="unit-badge-tag tag-pro"><i data-lucide="crown" style="width:13px;height:13px;"></i> BITTU PRO</span>` 
+                    : `<span class="unit-badge-tag tag-free"><i data-lucide="sparkles" style="width:13px;height:13px;"></i> FREE UNIT</span>`;
+
+                const actionBtnHtml = isUnitLockedPaid
+                    ? `<button class="unit-action-btn btn-unlock-pro-banner" onclick="openProModal()"><i data-lucide="lock" style="width:15px;height:15px;"></i> Unlock Pro</button>`
+                    : `<button class="unit-action-btn" onclick="openGuidebook('${unit.title}', '${escapeHtml(unit.guide)}')"><i data-lucide="book-open" style="width:15px;height:15px;"></i> Guidebook</button>`;
+
+                let pathNodesHtml = '';
+                unit.lessons.forEach((lesson, lIdx) => {
+                    const posClass = positions[lIdx % positions.length];
+                    const isCompleted = completedForLang.includes(lesson.id);
+                    const isCurrent = !isUnitLockedPaid && !isCompleted && (lIdx === 0 || completedForLang.includes(unit.lessons[lIdx - 1]?.id));
+
+                    let nodeClass = 'node-locked';
+                    let iconContent = '<i data-lucide="lock" style="width:26px;height:26px;"></i>';
+                    let tooltipText = `Locked • Lesson ${lIdx + 1}`;
+                    let tooltipClass = '';
+                    let clickAction = `openLesson('${lesson.id}', true, ${isUnitLockedPaid})`;
+
+                    if (isUnitLockedPaid) {
+                        nodeClass = 'node-paid-locked';
+                        iconContent = '<i data-lucide="lock" style="width:26px;height:26px;"></i>';
+                        tooltipText = `Pro Unit • Unlock with Pro`;
+                        tooltipClass = 'node-pro-tag';
+                        clickAction = `openProModal()`;
+                    } else if (isCompleted) {
+                        nodeClass = 'node-completed';
+                        iconContent = '<i data-lucide="check" style="width:32px;height:32px;stroke-width:3;"></i>';
+                        tooltipText = `Practice • ${lesson.title}`;
+                        clickAction = `openLesson('${lesson.id}', false, false)`;
+                    } else if (isCurrent) {
+                        nodeClass = 'node-active';
+                        iconContent = '<i data-lucide="star" style="width:32px;height:32px;fill:white;"></i>';
+                        tooltipText = `START • ${lesson.title}`;
+                        tooltipClass = 'node-active-tag';
+                        clickAction = `openLesson('${lesson.id}', false, false)`;
+                    }
+
+                    if (lIdx === unit.lessons.length - 1 && isCompleted) {
+                        nodeClass += ' node-chest';
+                        iconContent = '<i data-lucide="crown" style="width:32px;height:32px;fill:#ffd700;"></i>';
+                    }
+
+                    pathNodesHtml += `
+                        <div class="path-step ${posClass}">
+                            <div class="node-tooltip ${tooltipClass}">${tooltipText}</div>
+                            <button class="node-btn ${nodeClass}" onclick="${clickAction}" aria-label="${lesson.title}">
+                                ${iconContent}
+                            </button>
+                        </div>
+                    `;
+                });
+
+                unitSection.innerHTML = `
+                    <div class="unit-card ${bannerClass}">
+                        <div class="unit-info">
+                            ${badgeTagHtml}
+                            <h2>${unit.title}</h2>
+                            <p>${unit.desc}</p>
+                        </div>
+                        ${actionBtnHtml}
+                    </div>
+                    <div class="path-container">
+                        ${pathNodesHtml}
+                    </div>
+                `;
+
+                mainContainer.appendChild(unitSection);
+            });
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function openGuidebook(title, guideHtml) {
+            document.getElementById('guideModalTitle').innerText = title || 'Guidebook';
+            document.getElementById('guideModalContent').innerHTML = guideHtml ? decodeHtml(guideHtml) : 'Guidebook details.';
+            document.getElementById('guideModal').classList.add('active');
+        }
+
+        function closeGuidebook() { document.getElementById('guideModal').classList.remove('active'); }
+
+        function decodeHtml(html) {
+            const txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+
+        // --- 4. BITTU PRO MODAL & UNLOCK LOGIC ---
+        function openProModal() {
+            document.getElementById('proModal').classList.add('active');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeProModal() {
+            document.getElementById('proModal').classList.remove('active');
+        }
+
+        function activateProInstant(source) {
+            isUserPro = true;
+            localStorage.setItem('bittu_is_pro', 'true');
+            playFanfareSound();
+            closeProModal();
+
+            if (window.confetti) {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+            }
+
+            alert("🎉 BITTU PRO ACTIVATED!\n\nAll units (Unit 2, 3, 4, 5) across Python, JS, C++, Java, HTML/CSS and SQL are now completely unlocked! You now also have Unlimited Hearts.");
+            updateGamifyBadges();
+            renderCurrentCourse();
+        }
+
+        function activateProWithGems() {
+            if (userStats.gems >= 1000) {
+                userStats.gems -= 1000;
+                saveStats();
+                activateProInstant('gems');
+            } else {
+                alert(`You need 1,000 Gems to unlock Pro (Current: ${userStats.gems} Gems). You can solve more Unit 1 lessons or unlock directly for ₹199!`);
+            }
+        }
+
+        // --- 5. LESSON EXECUTION ENGINE ---
+        let currentLesson = null;
+        let currentQuestionIndex = 0;
+        let lessonQuestions = [];
+        let lessonPlacedBlocks = [];
+        let selectedOption = null;
+        let currentQuestionState = 'unanswered';
+
+        function openLesson(lessonId, isLocked, isPaidLocked) {
+            if (isPaidLocked) {
+                openProModal();
+                return;
+            }
+
+            if (isLocked) {
+                playWrongSound();
+                alert("This lesson is locked. Complete the previous lesson in Unit 1 to unlock it.");
+                return;
+            }
+
+            if (!isUserPro && userStats.hearts <= 0) {
+                openPracticeModal();
+                return;
+            }
+
+            const course = COURSES[currentLangKey] || COURSES.python;
+            for (const unit of course.units) {
+                const found = unit.lessons.find(l => l.id === lessonId);
+                if (found) {
+                    currentLesson = found;
+                    break;
+                }
+            }
+
+            if (!currentLesson) return;
+
+            lessonQuestions = [currentLesson];
+            if (currentLesson.type === 'arrange') {
+                lessonQuestions.push({
+                    id: currentLesson.id + '-q2',
+                    title: 'Quick Check',
+                    type: 'choice',
+                    prompt: 'What happens if you forget quotes around string text?',
+                    dialogText: 'Bittu asks a foundational check question!',
+                    codeSnippet: 'print(Hello World)',
+                    options: ['SyntaxError: invalid syntax', 'It prints Hello World anyway', 'Nothing happens'],
+                    correctAnswer: 'SyntaxError: invalid syntax',
+                    explanation: 'Strings in code must always be enclosed in quotes like "Hello World"!'
+                });
+            }
+
+            currentQuestionIndex = 0;
+            document.getElementById('lessonModal').classList.add('active');
+            document.getElementById('lessonHeartsVal').innerText = isUserPro ? '∞' : userStats.hearts;
+            renderQuestion(lessonQuestions[0]);
+        }
+
+        function renderQuestion(q) {
+            currentQuestionState = 'unanswered';
+            selectedOption = null;
+            lessonPlacedBlocks = [];
+
+            const banner = document.getElementById('lessonFooterBanner');
+            banner.className = 'lesson-footer-banner';
+            document.getElementById('feedbackInfo').innerHTML = '';
+            
+            const actionBtn = document.getElementById('lessonActionBtn');
+            actionBtn.className = 'btn-3d btn-check-ans';
+            actionBtn.innerText = 'Check';
+            actionBtn.disabled = true;
+
+            const prog = ((currentQuestionIndex) / lessonQuestions.length) * 100;
+            document.getElementById('lessonProgressBar').style.width = `${prog}%`;
+
+            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const container = document.getElementById('lessonExerciseBody');
+
+            let html = `
+                <div class="lesson-companion-dialog">
+                    <img src="${m.avatar}" class="dialog-avatar" alt="${m.name}">
+                    <div class="dialog-bubble">
+                        <span>${q.dialogText || "Let us solve this challenge together!"}</span>
+                        <button class="dialog-speak-btn" onclick="speakQuestionText('${encodeURIComponent(q.prompt)}')" title="Listen">
+                            <i data-lucide="volume-2" style="width:16px;height:16px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="lesson-title-prompt">${q.prompt}</h2>
+            `;
+
+            if (q.codeSnippet) {
+                html += `<pre class="code-snippet-box"><code>${escapeHtml(q.codeSnippet)}</code></pre>`;
+            }
+
+            if (q.type === 'arrange') {
+                html += `
+                    <div class="arrange-zone" id="arrangeZone">
+                        <span style="color: var(--text-sub); font-size: 0.95rem; font-style: italic;" id="zonePlaceholder">Tap blocks below in order...</span>
+                    </div>
+                    <div class="arrange-bank" id="arrangeBank">
+                        ${q.blocks.map((block, idx) => `
+                            <button class="code-block-pill" id="bankBlock_${idx}" onclick="tapBankBlock(${idx}, '${escapeHtml(block)}')">
+                                ${escapeHtml(block)}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (q.type === 'choice' || q.type === 'fill_blank') {
+                const keys = ['A', 'B', 'C', 'D'];
+                html += `
+                    <div class="options-grid">
+                        ${q.options.map((opt, idx) => `
+                            <div class="option-card" onclick="selectChoiceOption('${escapeHtml(opt)}', this)">
+                                <div class="opt-key">${keys[idx] || idx + 1}</div>
+                                <div style="flex:1; font-family: 'Fira Code', monospace;">${escapeHtml(opt)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function speakQuestionText(encoded) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const text = decodeURIComponent(encoded);
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.rate = 0.95;
+                utter.pitch = 1.15;
+                const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
+                    window.getTechIndroFemaleVoice('hi-IN') : null;
+                if (femaleVoice) utter.voice = femaleVoice;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function tapBankBlock(idx, text) {
+            const btn = document.getElementById(`bankBlock_${idx}`);
+            if (btn.classList.contains('placed')) return;
+
+            btn.classList.add('placed');
+            lessonPlacedBlocks.push({ idx, text });
+
+            updateArrangeZone();
+            document.getElementById('lessonActionBtn').disabled = lessonPlacedBlocks.length === 0;
+            playTone(400 + lessonPlacedBlocks.length * 60, 'sine', 0.08);
+        }
+
+        function updateArrangeZone() {
+            const zone = document.getElementById('arrangeZone');
+            if (lessonPlacedBlocks.length === 0) {
+                zone.innerHTML = `<span style="color: var(--text-sub); font-size: 0.95rem; font-style: italic;" id="zonePlaceholder">Tap blocks below in order...</span>`;
+                return;
+            }
+
+            zone.innerHTML = lessonPlacedBlocks.map((item, pIdx) => `
+                <button class="code-block-pill in-zone" onclick="removeZoneBlock(${pIdx})">
+                    ${escapeHtml(item.text)}
+                </button>
+            `).join('');
+        }
+
+        function removeZoneBlock(pIdx) {
+            const removed = lessonPlacedBlocks.splice(pIdx, 1)[0];
+            const originalBtn = document.getElementById(`bankBlock_${removed.idx}`);
+            if (originalBtn) originalBtn.classList.remove('placed');
+
+            updateArrangeZone();
+            document.getElementById('lessonActionBtn').disabled = lessonPlacedBlocks.length === 0;
+            playTone(300, 'sine', 0.08);
+        }
+
+        function selectChoiceOption(val, element) {
+            selectedOption = val;
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('lessonActionBtn').disabled = false;
+            playTone(500, 'sine', 0.08);
+        }
+
+        function handleLessonAction() {
+            if (currentQuestionState === 'unanswered') {
+                checkAnswer();
+            } else {
+                advanceQuestion();
+            }
+        }
+
+        function checkAnswer() {
+            const q = lessonQuestions[currentQuestionIndex];
+            let isCorrect = false;
+
+            if (q.type === 'arrange') {
+                const userOrder = lessonPlacedBlocks.map(b => b.text).join(' ');
+                const correctOrder = q.correctOrder.join(' ');
+                isCorrect = (userOrder.trim() === correctOrder.trim());
+            } else if (q.type === 'choice' || q.type === 'fill_blank') {
+                isCorrect = (selectedOption === q.correctAnswer);
+            }
+
+            const banner = document.getElementById('lessonFooterBanner');
+            const feedbackInfo = document.getElementById('feedbackInfo');
+            const actionBtn = document.getElementById('lessonActionBtn');
+
+            if (isCorrect) {
+                currentQuestionState = 'answered_correct';
+                banner.className = 'lesson-footer-banner correct';
+                playSuccessSound();
+
+                feedbackInfo.innerHTML = `
+                    <div class="feedback-icon-circle"><i data-lucide="check" style="width:28px;height:28px;"></i></div>
+                    <div>
+                        <div class="feedback-title">Perfect Answer!</div>
+                        <div class="feedback-sub">${q.explanation || 'Great intuition! Bittu gives a thumbs up!'}</div>
+                    </div>
+                `;
+
+                actionBtn.className = 'btn-3d btn-continue-success';
+                actionBtn.innerHTML = 'Continue <i data-lucide="arrow-right" style="width:18px;height:18px;vertical-align:middle;"></i>';
+
+                if (window.confetti) {
+                    confetti({ particleCount: 25, spread: 50, origin: { y: 0.85 } });
+                }
+            } else {
+                currentQuestionState = 'answered_wrong';
+                banner.className = 'lesson-footer-banner wrong';
+                playWrongSound();
+
+                if (!isUserPro) {
+                    userStats.hearts = Math.max(0, userStats.hearts - 1);
+                    document.getElementById('lessonHeartsVal').innerText = userStats.hearts;
+                    saveStats();
+                }
+
+                let correctHint = q.type === 'arrange' ? q.correctOrder.join(' ') : q.correctAnswer;
+
+                feedbackInfo.innerHTML = `
+                    <div class="feedback-icon-circle"><i data-lucide="x" style="width:28px;height:28px;"></i></div>
+                    <div>
+                        <div class="feedback-title">Incorrect! Remember:</div>
+                        <div class="feedback-sub">Correct: <b>${escapeHtml(correctHint)}</b> — ${q.explanation || ''}</div>
+                    </div>
+                `;
+
+                actionBtn.className = 'btn-3d btn-continue-wrong';
+                actionBtn.innerText = 'Got It';
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function advanceQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < lessonQuestions.length && (isUserPro || userStats.hearts > 0)) {
+                renderQuestion(lessonQuestions[currentQuestionIndex]);
+            } else {
+                finishLesson();
+            }
+        }
+
+        function finishLesson() {
+            document.getElementById('lessonModal').classList.remove('active');
+            playFanfareSound();
+
+            if (!userStats.completed[currentLangKey]) {
+                userStats.completed[currentLangKey] = [];
+            }
+            if (!userStats.completed[currentLangKey].includes(currentLesson.id)) {
+                userStats.completed[currentLangKey].push(currentLesson.id);
+            }
+
+            userStats.xp += 30;
+            userStats.gems += 15;
+            saveStats();
+
+            if (window.confetti) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+
+            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            document.getElementById('celebMascotImg').src = m.avatar;
+            document.getElementById('celebSubtitle').innerText = `You completed ${currentLesson.title}! ${m.name} is proud of your progress!`;
+            document.getElementById('celebrationScreen').classList.add('active');
+
+            renderCurrentCourse();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeCelebration() { document.getElementById('celebrationScreen').classList.remove('active'); }
+
+        function exitLessonConfirm() {
+            if (confirm("Are you sure you want to quit? Your current lesson progress will be lost.")) {
+                document.getElementById('lessonModal').classList.remove('active');
+            }
+        }
+
+        // Practice & Hearts Refill
+        function openPracticeModal() {
+            document.getElementById('practiceModal').classList.add('active');
+            if (window.lucide) lucide.createIcons();
+        }
+        function closePracticeModal() { document.getElementById('practiceModal').classList.remove('active'); }
+
+        function refillHeartsFree() {
+            userStats.hearts = 5;
+            saveStats();
+            playSuccessSound();
+            closePracticeModal();
+            alert("Hearts restored to 5/5!");
+        }
+
+        // Init on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateGamifyBadges();
+            updateMascotUI();
+            renderCurrentCourse();
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node server.js",
+    "rag": "python rag_service.py",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

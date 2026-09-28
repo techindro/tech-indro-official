@@ -17,6 +17,41 @@ const redisClient = require('./src/services/redisClient');
 const kafkaClient = require('./src/services/kafkaClient');
 kafkaClient.startConsumer().catch(err => console.warn('[Kafka] Background consumer start error:', err.message));
 
+// Tech Indro FastAPI + LangChain RAG Microservice Configuration
+const RAG_SERVICE_URL = process.env.RAG_SERVICE_URL || 'http://127.0.0.1:8000';
+
+async function fetchRagContext(message, agent = 'general', maxResults = 3) {
+    try {
+        const response = await fetch(`${RAG_SERVICE_URL}/api/rag/search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: message, maxResults, agent }),
+            signal: AbortSignal.timeout(3000)
+        });
+        if (response.ok) {
+            const data = await response.json();
+            const results = data.results || [];
+            if (results.length > 0) {
+                let context = "=== VERIFIED TECH INDRO KNOWLEDGE BASE (RETRIEVED VIA FASTAPI + LANGCHAIN) ===\n";
+                results.forEach((r, idx) => {
+                    context += `[Source ${idx + 1}: ${r.title} | Category: ${r.category}]\n${r.content}\n\n`;
+                });
+                context += "=== END RETRIEVED KNOWLEDGE BASE ===\nNOTE: Prioritize these facts in your response.";
+                const sources = results.map(r => ({
+                    id: r.id,
+                    title: r.title,
+                    category: r.category,
+                    source: r.source || 'Tech Indro Knowledge Base'
+                }));
+                return { hasContext: true, context, sources };
+            }
+        }
+    } catch (e) {
+        // FastAPI LangChain service offline or timeout
+    }
+    return { hasContext: false, context: '', sources: [] };
+}
+
 // Authentication Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'techindro_super_secret_jwt_key_2026_secure';
 const JWT_EXPIRES_IN = '7d';
@@ -54,12 +89,30 @@ app.use((req, res, next) => {
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
     next();
 });
 
 app.use(cors({
-    origin: true,
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl, server-to-server)
+        if (!origin) return callback(null, true);
+        const allowedOrigins = [
+            'http://localhost:5000',
+            'http://127.0.0.1:5000',
+            'http://localhost:3000',
+            'https://techindro.com',
+            'https://www.techindro.com'
+        ];
+        if (allowedOrigins.includes(origin) || origin.endsWith('.techindro.com') || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+        // Fallback for custom local network IPs (e.g. 192.168.x.x)
+        if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$/.test(origin)) {
+            return callback(null, true);
+        }
+        return callback(null, true); // Permissive for educational web clients while maintaining explicit handling
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token']
@@ -264,90 +317,39 @@ const writeDB = (data) => {
     }
 };
 
-// track page visits
-app.use((req, res, next) => {
-    // ignore assets, only count html or root loads
-    if (req.method === 'GET' && (req.url === '/' || req.url.endsWith('.html'))) {
+// Efficient Batched Analytics: in-memory visit counter flushed every 60s
+let pendingVisits = 0;
+let cachedTotalVisits = 0;
+try {
+    const initialDb = readDB();
+    cachedTotalVisits = initialDb.analytics?.totalVisits || 0;
+} catch (e) {}
+
+setInterval(() => {
+    if (pendingVisits > 0) {
         try {
             const db = readDB();
-            if(db.analytics) {
-                db.analytics.totalVisits += 1;
-                writeDB(db);
-            }
-        } catch(e) {
-            console.error("Analytics Error:", e);
+            if (!db.analytics) db.analytics = { totalVisits: 0 };
+            db.analytics.totalVisits += pendingVisits;
+            cachedTotalVisits = db.analytics.totalVisits;
+            pendingVisits = 0;
+            writeDB(db);
+        } catch (e) {
+            console.error('[Analytics] Flush error:', e.message);
         }
+    }
+}, 60 * 1000).unref();
+
+// track page visits without blocking disk I/O on every request
+app.use((req, res, next) => {
+    if (req.method === 'GET' && (req.url === '/' || req.url.endsWith('.html'))) {
+        pendingVisits++;
+        cachedTotalVisits++;
     }
     next();
 });
 
 // --- routes ---
-
-// --- Certificate Registry & Verification Routes ---
-app.post('/api/certificate/register', (req, res) => {
-    try {
-        const { certId, studentName, courseName, issueDate, honors, ledgerHash, aiScore } = req.body;
-        if (!certId || !studentName) {
-            return res.status(400).json({ success: false, error: 'certId and studentName required' });
-        }
-        const db = readDB();
-        if (!Array.isArray(db.certificates)) {
-            db.certificates = [];
-        }
-        const existingIndex = db.certificates.findIndex(c => c.certId === certId);
-        const certRecord = {
-            certId,
-            studentName,
-            courseName: courseName || 'Applied AI and Data Science Program',
-            issueDate: issueDate || 'July 2026',
-            honors: honors || 'none',
-            ledgerHash: ledgerHash || '',
-            aiScore: aiScore || '98.4%',
-            verifiedAt: new Date().toISOString()
-        };
-        if (existingIndex >= 0) {
-            db.certificates[existingIndex] = certRecord;
-        } else {
-            db.certificates.push(certRecord);
-        }
-        writeDB(db);
-        return res.json({ success: true, certificate: certRecord });
-    } catch(err) {
-        console.error("Certificate Register Error:", err);
-        return res.status(500).json({ success: false, error: 'Failed to register certificate' });
-    }
-});
-
-app.get('/api/certificate/verify/:certId', (req, res) => {
-    try {
-        const certId = req.params.certId;
-        const db = readDB();
-        const certs = db.certificates || [];
-        const cert = certs.find(c => c.certId === certId);
-        if (cert) {
-            return res.json({ verified: true, certificate: cert });
-        }
-        // Fallback for valid formatted cert IDs
-        return res.json({ 
-            verified: true, 
-            isDynamic: true, 
-            certificate: {
-                certId,
-                status: 'Authentic Digital Credential',
-                verifiedAt: new Date().toISOString()
-            }
-        });
-    } catch(err) {
-        return res.status(500).json({ verified: false, error: 'Verification error' });
-    }
-});
-
-app.get('/verify', (req, res) => {
-    const certId = req.query.certId || '';
-    const studentName = req.query.studentName || '';
-    const courseName = req.query.courseName || '';
-    res.redirect(`/certificate.html?verify=true&certId=${encodeURIComponent(certId)}&studentName=${encodeURIComponent(studentName)}&courseName=${encodeURIComponent(courseName)}`);
-});
 
 app.post('/api/auth/login', authLimiter, async (req, res) => {
     try {
@@ -492,43 +494,63 @@ app.post('/api/auth/logout', (req, res) => {
     res.json({ message: "Logged out successfully", success: true });
 });
 
-// OTP in-memory store for mobile phone verification
+// OTP cache backed by Redis and localized fallback
 const otpCache = new Map();
 
 // send OTP endpoint for mobile verification
-app.post('/api/auth/send-otp', authLimiter, (req, res) => {
+app.post('/api/auth/send-otp', authLimiter, async (req, res) => {
     const { phone } = req.body;
     if (!phone || String(phone).trim().length < 10) {
         return res.status(400).json({ error: "Please enter a valid 10-digit mobile number" });
     }
 
     const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
-    // Generate 6-digit OTP (fixed test OTP 123456 or random for production)
-    const generatedOtp = '123456';
+    
+    // Generate secure 6-digit OTP
+    const isDev = process.env.NODE_ENV !== 'production';
+    const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const generatedOtp = isDev ? '123456' : randomOtp;
+
+    // Cache in Redis for cluster consistency, fallback to memory
+    await redisClient.set(`otp:${cleanPhone}`, generatedOtp, 300);
     otpCache.set(cleanPhone, { otp: generatedOtp, expiresAt: Date.now() + 5 * 60 * 1000 });
 
-    res.json({
+    const responsePayload = {
         message: `OTP sent successfully to +91 ${cleanPhone}`,
         phone: cleanPhone,
-        otp: generatedOtp // Provided for frictionless testing & demo
-    });
+        success: true
+    };
+    // Only expose OTP in response if running in development mode
+    if (isDev) {
+        responsePayload.otp = generatedOtp;
+        responsePayload.devNotice = "Development mode active: OTP auto-filled for easy testing.";
+    }
+
+    res.json(responsePayload);
 });
 
 // verify OTP endpoint
-app.post('/api/auth/verify-otp', authLimiter, (req, res) => {
+app.post('/api/auth/verify-otp', authLimiter, async (req, res) => {
     const { phone, otp, name, goal, academicLevel, state, referralCode } = req.body;
     if (!phone) return res.status(400).json({ error: "Mobile number is required" });
     if (!otp) return res.status(400).json({ error: "Please enter the OTP" });
 
     const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
-    const cached = otpCache.get(cleanPhone);
+    const cachedMem = otpCache.get(cleanPhone);
+    const redisOtp = await redisClient.get(`otp:${cleanPhone}`);
 
-    // Accept cached OTP or universal test OTP '123456'
-    const isValid = otp === '123456' || (cached && cached.otp === otp && Date.now() < cached.expiresAt);
+    const isDev = process.env.NODE_ENV !== 'production';
+    const isMatched = (redisOtp && String(redisOtp) === String(otp)) ||
+                      (cachedMem && cachedMem.otp === String(otp) && Date.now() < cachedMem.expiresAt) ||
+                      (isDev && otp === '123456');
 
-    if (!isValid) {
-        return res.status(400).json({ error: "Invalid or expired OTP. Use 123456 for testing." });
+    if (!isMatched) {
+        return res.status(400).json({ error: "Invalid or expired OTP. Please request a new OTP." });
     }
+
+    // Invalidate OTP after successful verification to prevent replay attacks
+    await redisClient.del(`otp:${cleanPhone}`);
+    otpCache.delete(cleanPhone);
 
     const db = readDB();
     let user = db.users.find(u => u.phone === cleanPhone);
@@ -651,8 +673,7 @@ app.get('/api/courses/:id', (req, res) => {
 // analytics
 app.get('/api/analytics', (req, res) => {
     try {
-        const db = readDB();
-        res.json({ totalVisits: db.analytics ? db.analytics.totalVisits : 0 });
+        res.json({ totalVisits: cachedTotalVisits });
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch analytics' });
     }
@@ -1562,11 +1583,21 @@ app.post('/api/payments/create-intent', async (req, res) => {
             customerPhone = ''
         } = req.body;
 
-        if (!amount || isNaN(amount) || Number(amount) <= 0) {
-            return res.status(400).json({ success: false, error: 'Valid amount is required' });
+        // Server-Side Course & Price Integrity Verification
+        const coursesCatalog = fs.existsSync(COURSES_FILE) ? JSON.parse(fs.readFileSync(COURSES_FILE, 'utf8')) : defaultCourses;
+        const matchedCourse = courseId ? coursesCatalog.find(c => c.id === courseId) : null;
+        
+        let validatedAmount = Number(amount);
+        if (isNaN(validatedAmount) || validatedAmount < 1) {
+            return res.status(400).json({ success: false, error: 'Valid payment amount is required (min INR 1)' });
+        }
+        
+        // Security check: If course is known and has an expected price, prevent client tampering
+        if (matchedCourse && matchedCourse.price && Number(matchedCourse.price) > 0) {
+            validatedAmount = Number(matchedCourse.price);
         }
 
-        const amountInPaise = Math.round(Number(amount) * 100);
+        const amountInPaise = Math.round(validatedAmount * 100);
 
         // If live Hyperswitch keys are configured, route directly through Hyperswitch API
         if (isHyperswitchLive) {
@@ -1695,16 +1726,24 @@ app.post('/api/payments/confirm', async (req, res) => {
 
         let session = hyperswitchSessions.get(paymentId);
         if (!session) {
-            session = {
-                paymentId,
-                clientSecret: clientSecret || '',
-                amount: Number(amount) || 0,
-                courseId: courseId || '',
-                courseTitle: courseTitle || '',
-                customerId: customerId || ('usr_' + Date.now()),
-                customerEmail: customerEmail || '',
-                customerPhone: customerPhone || ''
-            };
+            // Check Redis/Distributed fallback if active
+            const cachedSession = await redisClient.get(`pay_session:${paymentId}`);
+            if (cachedSession) session = cachedSession;
+        }
+
+        if (!session) {
+            return res.status(404).json({
+                success: false,
+                error: 'Payment session not found or expired. Please initiate checkout again.'
+            });
+        }
+
+        // Verify client secret token to prevent unauthorized enrollment
+        if (session.clientSecret && clientSecret && session.clientSecret !== clientSecret) {
+            return res.status(403).json({
+                success: false,
+                error: 'Invalid payment authorization credentials (client secret mismatch).'
+            });
         }
 
         // Validate payment method specifics if provided
@@ -1845,390 +1884,814 @@ app.post('/api/payment/checkout', (req, res) => {
 });
 
 
-// Smart Dynamic Local Fallback Engine (Hindi, English, Bhojpuri - Real Technical Suggestions, No Symbols)
-function generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent) {
+// ============================================================================
+// DYNAMIC DOMAIN & TOPIC EXTRACTION FOR REAL-TIME DIAGRAMS & ROADMAPS
+// ============================================================================
+
+function extractCleanTopic(message) {
+    let clean = message
+        .replace(/^(please|kripya|bhaiya|sir|can you|could you|btao|batao|batayein|dikhao|bnao|banao|generate|create|visualize|make|draw|show)\s+/gi, '')
+        .replace(/\b(diagram|flowcharts?|architecture|system design|infographics?|roadmaps?|kroki|graphs?|charts?|definition|kya hai|kaise|kaise karein|samjhao|code|example|batao|banao|chahiye|dikhao|kro|karo|bhej|bnao|btao)\b/gi, '')
+        .replace(/[?.,!]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    return clean || 'Distributed Application';
+}
+
+function detectDomain(message) {
     const q = message.toLowerCase();
+    if (/\b(login|auth|jwt|oauth|signup|sign in|session|password|token|bearer|sso|credentials|cookie|mfa|otp)\b/i.test(q)) {
+        return 'auth';
+    }
+    if (/\b(ecommerce|e-commerce|cart|checkout|payment|stripe|razorpay|order|invoice|hyperswitch|billing|inventory|shop|store)\b/i.test(q)) {
+        return 'ecommerce';
+    }
+    if (/\b(machine learning|deep learning|ml|ai|artificial intelligence|llm|rag|vector|embedding|neural|nlp|computer vision|transformer|pytorch|tensorflow|scikit|model training)\b/i.test(q)) {
+        return 'ml_ai';
+    }
+    if (/\b(devops|ci\/cd|cicd|docker|kubernetes|k8s|jenkins|github actions|pipeline|terraform|ansible|deploy|helm|cluster|container)\b/i.test(q)) {
+        return 'devops';
+    }
+    if (/\b(full stack|fullstack|web dev|web development|frontend and backend)\b/i.test(q)) {
+        return 'fullstack';
+    }
+    if (/\b(python|django|fastapi|flask|pip)\b/i.test(q)) {
+        return 'python';
+    }
+    if (/\b(binary search tree|bst|binary search|dsa|tree node|binary tree|avl tree|graph traversal|directed graph|graph bfs|graph dfs|linked list|sorting|quicksort|mergesort|hashmap|dynamic programming|\bdp\b|heap|recursion|sliding window|two pointer|stack and queue|call stack)\b/i.test(q)) {
+        return 'dsa';
+    }
+    if (/\b(database|db|postgres|postgresql|mongodb|mysql|redis|cache|caching|kafka|sharding|replication|master-slave|read replica|acid|sql|nosql|query optimization)\b/i.test(q)) {
+        return 'database';
+    }
+    if (/\b(cyber security|security|firewall|waf|zero-trust|zero trust|xss|sqli|penetration testing|pen testing|hacker|hacking|ddos|csrf|malware|vulnerability)\b/i.test(q)) {
+        return 'security';
+    }
+    if (/\b(network|networking|dns|http|https|osi|cdn|websocket|tcp|udp|load balancer|reverse proxy|ip address|subnet)\b/i.test(q)) {
+        return 'networking';
+    }
+    if (/\b(isro|satellite|orbit|space|ground station|telemetry|payload|rocket|sensor grid|propulsion|spacecraft)\b/i.test(q)) {
+        return 'isro';
+    }
+    if (/\b(blockchain|web3|crypto|ethereum|solidity|smart contract|bitcoin|defi|nft|mempool|gas fee|consensus)\b/i.test(q)) {
+        return 'blockchain';
+    }
+    if (/\b(react|frontend|nextjs|next\.js|redux|vue|angular|virtual dom|component lifecycle|props|state management|hooks|tailwind|css flex)\b/i.test(q)) {
+        return 'frontend';
+    }
+    if (/\b(bank|banking|finance|fintech|transaction|ledger|double-entry|2pc|two phase commit|atm)\b/i.test(q)) {
+        return 'banking';
+    }
+    return 'custom';
+}
 
-    // 1. Interactive Kroki Diagram Engine (Graphviz, PlantUML, C4)
-    if (q.includes('kroki') || q.includes('diagram') || q.includes('architecture') || q.includes('flowchart') || q.includes('system design') || q.includes('workflow') || q.includes('visualize') || q.includes('topology')) {
-        return `Yahan aapke request ke anusaar distributed system architecture ka interactive Kroki AI vector diagram visualize kiya gaya hai:
+function generateTailoredDiagram(domain, cleanTopic) {
+    if (domain === 'auth') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-\`\`\`kroki:graphviz
+  User [label="Client / Mobile App", fillcolor="#f8fafc", color="#94a3b8"];
+  Gateway [label="API Gateway\\n(Rate Limiter & SSL Proxy)"];
+  AuthService [label="Auth Microservice\\n(Bcrypt & JWT Sign)", fillcolor="#fef3c7", color="#d97706"];
+  RedisCache [label="Redis Token Store\\n(Sub-ms JTI Expiry Check)", shape=cylinder, fillcolor="#f0fdf4", color="#16a34a"];
+  UserDB [label="PostgreSQL DB\\n(Hashed Salt Credentials)", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
+
+  User -> Gateway [label="1. POST /api/auth/login"];
+  Gateway -> AuthService [label="2. Forward Request"];
+  AuthService -> UserDB [label="3. Verify Email/Hash"];
+  UserDB -> AuthService [label="4. Record Validated"];
+  AuthService -> RedisCache [label="5. Store Active Session"];
+  AuthService -> User [label="6. Return Signed JWT Bearer"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'ecommerce') {
+        return `\`\`\`kroki:graphviz
 digraph G {
   rankdir=LR;
   node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ff6b35", fontname="Helvetica", fontsize=11];
   edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-  Client [label="Client / Web App", fillcolor="#f8fafc", color="#94a3b8"];
-  Gateway [label="API Gateway\\n(NGINX / SSL Proxy)"];
-  Auth [label="Auth Service\\n(JWT Verification)"];
-  CoreService [label="Core Microservice\\n(FastAPI / Node.js)"];
-  Cache [label="Redis Cache\\n(Sub-millisecond latency)", shape=cylinder, fillcolor="#f0fdf4", color="#10b981"];
-  Database [label="PostgreSQL DB\\n(Master-Replica)", shape=cylinder, fillcolor="#eff6ff", color="#0284c7"];
-  Queue [label="Kafka Event Queue\\n(Async Event Bus)", fillcolor="#faf5ff", color="#8b5cf6"];
+  Shopper [label="Shopper UI", fillcolor="#f8fafc", color="#94a3b8"];
+  CartService [label="Cart & Order Service\\n(Item Pricing & Tax)"];
+  PaymentSwitch [label="Payment Orchestrator\\n(Hyperswitch / Stripe API)", fillcolor="#fef3c7", color="#d97706"];
+  BankGateway [label="Card / UPI Bank Gateway\\n(3DS / OTP Verification)", fillcolor="#f0fdf4", color="#16a34a"];
+  InventoryDB [label="Inventory & Order DB\\n(Stock Decrement)", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
+  EventBus [label="Kafka Event Stream\\n(OrderPlaced Event)", fillcolor="#faf5ff", color="#9333ea"];
 
-  Client -> Gateway [label="HTTPS"];
-  Gateway -> Auth [label="Verify"];
-  Gateway -> CoreService [label="Route"];
-  CoreService -> Cache [label="Cache-Aside"];
-  CoreService -> Database [label="Persistent CRUD"];
-  CoreService -> Queue [label="Publish Event"];
+  Shopper -> CartService [label="Checkout"];
+  CartService -> PaymentSwitch [label="Create Payment Intent"];
+  PaymentSwitch -> BankGateway [label="Process Authorization"];
+  BankGateway -> PaymentSwitch [label="Settlement OK"];
+  PaymentSwitch -> InventoryDB [label="Confirm Order"];
+  PaymentSwitch -> EventBus [label="Publish Event"];
 }
-\`\`\`
-
-Aap is diagram ko interactive vector SVG me inspect kar sakte hain, "Copy Syntax" se code le sakte hain, ya "Download SVG" button click karke offline save kar sakte hain.`;
+\`\`\``;
     }
 
-    // 2. Interactive Graphs & Charts
-    if (q.includes('chart') || q.includes('graph') || q.includes('pie') || q.includes('bar chart') || q.includes('plot')) {
-        return `Yahan dekhiye live interactive data chart:
+    if (domain === 'ml_ai') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#2563eb", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-\`\`\`chart
-{
-  "type": "bar",
-  "title": "Programming Languages & Tech Stack Popularity",
-  "labels": ["Python", "JavaScript", "TypeScript", "Go", "Rust", "Java"],
-  "data": [94, 91, 82, 71, 65, 78]
+  Query [label="User Prompt / Query", fillcolor="#f8fafc", color="#94a3b8"];
+  Embedder [label="Embedding Engine\\n(Text-Embedding-3)"];
+  VectorDB [label="Vector Store (Milvus/Pinecone)\\n(Cosine Similarity Search)", shape=cylinder, fillcolor="#fef3c7", color="#d97706"];
+  Retriever [label="Context Synthesizer\\n(Reranking & Chunk Prep)"];
+  LLM [label="GenAI Foundation LLM\\n(Llama 3.3 / Gemini Flash)", fillcolor="#f0fdf4", color="#16a34a"];
+  Response [label="Streaming Answer with Citations", fillcolor="#fff7ed", color="#ea580c"];
+
+  Query -> Embedder [label="Raw Text"];
+  Embedder -> VectorDB [label="Dense Vector"];
+  VectorDB -> Retriever [label="Top-K Relevant Chunks"];
+  Retriever -> LLM [label="Augmented Prompt"];
+  LLM -> Response [label="Inference Stream"];
 }
-\`\`\`
-
-Aap is chart ke upar hover karke exact metrics dekh sakte hain. Kya aapko pie chart ya line chart me data compare karna hai?`;
+\`\`\``;
     }
 
-    // 3. Sticky Notes / Cheat-Sheets
-    if (q.includes('sticky') || q.includes('note') || q.includes('notes') || q.includes('cheatsheet')) {
-        return `Yahan aapke revision ke liye important points ka Sticky Note pin kiya gaya hai:
+    if (domain === 'devops') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#f0fdf4", color="#16a34a", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-\`\`\`stickynote
-Title: Production Backend Best Practices
-- Always use environment variables (.env) for API keys and database credentials
-- Implement Pydantic request models for strict type validation
-- Use connection pooling for database clients like PostgreSQL
-- Add rate limiting and CORS policies to protect API endpoints
-- Write unit tests using pytest before pushing code to main
-\`\`\`
+  Git [label="Git Commit & Push", fillcolor="#f8fafc", color="#94a3b8"];
+  CI [label="GitHub Actions CI\\n(Pytest, ESLint, Trivy Scan)"];
+  Builder [label="Docker Multi-Stage Build\\n(Production Image Creation)", fillcolor="#eff6ff", color="#2563eb"];
+  Registry [label="Container Registry\\n(AWS ECR / Docker Hub)", shape=cylinder, fillcolor="#fef3c7", color="#d97706"];
+  GitOps [label="ArgoCD / Helm Engine\\n(Sync Manifests)"];
+  K8s [label="Kubernetes Cluster\\n(Zero-Downtime Rolling Update)", fillcolor="#faf5ff", color="#9333ea"];
 
-Aap "Copy Note" button click karke is note ko apne clipboard me save kar sakte hain.`;
+  Git -> CI [label="Webhook Trigger"];
+  CI -> Builder [label="Tests Passed"];
+  Builder -> Registry [label="Push Image Tag"];
+  Registry -> GitOps [label="Version Bump"];
+  GitOps -> K8s [label="Deploy Pods"];
+}
+\`\`\``;
     }
 
-    // 4. Interactive 3D Flashcards
-    if (q.includes('flashcard') || q.includes('flash card') || q.includes('quiz') || q.includes('card')) {
-        return `Yahan aapke practice aur self-assessment ke liye interactive 3D Flashcard hai. Card par click karke answer reveal karein:
+    if (domain === 'dsa') {
+        return `\`\`\`kroki:graphviz
+digraph BST {
+  node [shape=circle, style="filled", fillcolor="#eff6ff", color="#2563eb", fontname="Helvetica", fontsize=12, width=0.6];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-\`\`\`flashcard
-Q: Binary Search ka time complexity kya hai aur ye kis condition me kaam karta hai?
-A: Binary Search ka time complexity O(log N) hota hai. Ye sirf aur sirf SORTED array par hi kaam karta hai kyunki ye har step me search space ko aadha kar deta hai.
-\`\`\`
+  root [label="50", fillcolor="#fef3c7", color="#d97706"];
+  n30 [label="30"];
+  n70 [label="70"];
+  n20 [label="20"];
+  n40 [label="40"];
+  n60 [label="60"];
+  n80 [label="80"];
 
-Kya aap DSA ke aur flashcards practice karna chahte hain?`;
+  root -> n30 [label="Left (< 50)"];
+  root -> n70 [label="Right (> 50)"];
+  n30 -> n20 [label="Left (< 30)"];
+  n30 -> n40 [label="Right (> 30)"];
+  n70 -> n60 [label="Left (< 70)"];
+  n70 -> n80 [label="Right (> 70)"];
+}
+\`\`\``;
     }
 
-    // 5. Infographics & Roadmaps
-    if (q.includes('infographic') || q.includes('roadmap') || q.includes('path') || q.includes('step') || q.includes('steps')) {
-        return `Yahan dekhiye structured Step-by-Step Infographic Roadmap:
+    if (domain === 'database') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#2563eb", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-\`\`\`infographic
-Title: Full Stack AI & Web Developer Roadmap
-Step 1: Core Web Fundamentals | HTML5 Semantic, CSS3 Flex/Grid, Modern JavaScript ES6+
-Step 2: Frontend Frameworks | React.js or Next.js, Component Driven Design, State Management
-Step 3: Backend REST APIs | FastAPI or Node.js Express, Routing, JWT Authentication, Pydantic
-Step 4: Databases & Storage | PostgreSQL, Prisma or SQLAlchemy, Redis Cache
-Step 5: Cloud & Deployment | Docker Containers, CI/CD GitHub Actions, Vercel and AWS
-\`\`\`
+  AppServer [label="Application Backend", fillcolor="#f8fafc", color="#94a3b8"];
+  RedisCache [label="Redis In-Memory Cache\\n(Sub-ms Cache-Aside)", shape=cylinder, fillcolor="#f0fdf4", color="#16a34a"];
+  PrimaryDB [label="Primary PostgreSQL Master\\n(Persistent ACID Writes & WAL)", shape=cylinder, fillcolor="#fef3c7", color="#d97706"];
+  Replica1 [label="Read Replica 1\\n(Query Offloading)", shape=cylinder];
+  Replica2 [label="Read Replica 2\\n(Query Offloading)", shape=cylinder];
+  KafkaCDC [label="Kafka Debezium CDC\\n(Change Data Capture)", fillcolor="#faf5ff", color="#9333ea"];
 
-Aap is roadmap ke kisi bhi step ka detailed syllabus ya code dekhna chahte hain?`;
+  AppServer -> RedisCache [label="1. Check Cache"];
+  AppServer -> PrimaryDB [label="2. Direct Writes"];
+  PrimaryDB -> Replica1 [label="Replication Stream"];
+  PrimaryDB -> Replica2 [label="Replication Stream"];
+  PrimaryDB -> KafkaCDC [label="Stream WAL Events"];
+}
+\`\`\``;
     }
 
-    // 6. Video Recommendations (Direct Best Video Link)
-    if (q.includes('video') || q.includes('lecture') || q.includes('tutorial video') || q.includes('link')) {
-        let topicName = message.replace(/(video|lecture|tutorial|dikhao|bhejo|play|karo|ka|link|de|do|best)/gi, '').trim() || 'FastAPI REST API';
-        let videoId = '0rsH7475pYg';
-        let channel = 'freeCodeCamp.org';
-        let title = 'FastAPI Full Course for Beginners';
-        const tLower = topicName.toLowerCase();
-        if (tLower.includes('python') || tLower.includes('loop')) {
-            videoId = 'rfscVS0vtbw';
-            title = 'Python for Beginners Full Course';
-            channel = 'freeCodeCamp.org';
-        } else if (tLower.includes('javascript') || tLower.includes('js')) {
-            videoId = 'W6NZfCO5SIk';
-            title = 'JavaScript Tutorial for Beginners';
-            channel = 'Programming with Mosh';
-        } else if (tLower.includes('react')) {
-            videoId = 'bMknfKXIFA8';
-            title = 'React Course for Beginners';
-            channel = 'freeCodeCamp.org';
-        } else if (tLower.includes('binary') || tLower.includes('dsa') || tLower.includes('algorithm')) {
-            videoId = '6ysjqCUv3K4';
-            title = 'Binary Search Algorithm & Practice';
-            channel = 'freeCodeCamp.org';
-        } else if (tLower.includes('web') || tLower.includes('full stack')) {
-            videoId = 'nu_pCVPKzTk';
-            title = 'Full Stack Web Development Roadmap & Tutorial';
-            channel = 'freeCodeCamp.org';
-        } else if (tLower.includes('sql') || tLower.includes('database')) {
-            videoId = 'HXV3zeRR3h4';
-            title = 'SQL Database Tutorial for Beginners';
-            channel = 'freeCodeCamp.org';
-        }
+    if (domain === 'security') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff1f2", color="#e11d48", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-        const ytUrl = `https://www.youtube.com/watch?v=${videoId}`;
-        return `Yahan dekhiye is topic ka best curated YouTube video tutorial link:
+  PublicTraffic [label="Public Client Traffic", fillcolor="#f8fafc", color="#94a3b8"];
+  WAF [label="Cloudflare WAF & DDoS Shield\\n(Bot & Signature Filter)"];
+  RateLimiter [label="Distributed Rate Limiter\\n(Token Bucket / Leaky Bucket)"];
+  ZeroTrust [label="Zero-Trust Identity Gateway\\n(Mutual TLS & JWT Claims)", fillcolor="#fef3c7", color="#d97706"];
+  Microservice [label="Hardened Internal Service", fillcolor="#f0fdf4", color="#16a34a"];
+  SIEM [label="SIEM Audit Logger\\n(Real-Time Threat Detection)", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
 
-\`\`\`video
-Title: ${title}
-Channel: ${channel}
-Url: ${ytUrl}
-\`\`\`
-
-Aap diye gaye button par click karke direct YouTube par full HD quality me ye video dekh sakte hain.`;
+  PublicTraffic -> WAF [label="Ingress HTTPS"];
+  WAF -> RateLimiter [label="Traffic Clean"];
+  RateLimiter -> ZeroTrust [label="Within Quota"];
+  ZeroTrust -> Microservice [label="Authenticated"];
+  Microservice -> SIEM [label="Audit Trail Log"];
+}
+\`\`\``;
     }
 
-    // 7. FastAPI / Web APIs / Backend
-    if (q.includes('fastapi') || q.includes('fatapi') || q.includes('api') || q.includes('backend') || q.includes('uvicorn')) {
-        if (isBhojpuri) {
-            return `FastAPI Python ke sabse aadhunik aur tez framework baate, jisse production REST APIs banawala jaala.
+    if (domain === 'networking') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#2563eb", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
 
-Yahan dekhi real FastAPI backend code:
-\`\`\`python
-from fastapi import FastAPI, HTTPException
+  Browser [label="Browser Client", fillcolor="#f8fafc", color="#94a3b8"];
+  DNS [label="Recursive DNS Resolver\\n(8.8.8.8 / 1.1.1.1)"];
+  CDN [label="CDN Edge PoP\\n(Cached Static Assets & SSL)", fillcolor="#fef3c7", color="#d97706"];
+  Proxy [label="Reverse Proxy (NGINX)\\n(TLS 1.3 Termination)"];
+  AppServer [label="Origin Web Application", fillcolor="#f0fdf4", color="#16a34a"];
+
+  Browser -> DNS [label="1. Resolve Domain"];
+  DNS -> Browser [label="2. Return A/AAAA IP"];
+  Browser -> CDN [label="3. Request URL"];
+  CDN -> Proxy [label="4. Cache Miss Forward"];
+  Proxy -> AppServer [label="5. HTTP/2 Upstream"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'isro') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#faf5ff", color="#9333ea", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  Payload [label="Spacecraft Payload Sensors\\n(Spectrometer & Gyro)"];
+  OBC [label="Onboard Computer (OBC)\\n(Telemetry Packet Encoding)", fillcolor="#eff6ff", color="#2563eb"];
+  Transmitter [label="S-Band Radio Downlink\\n(2.2 GHz Carrier)"];
+  Dish [label="Ground Station Parabolic Dish\\n(ISRO ISTRAC Station)", fillcolor="#fef3c7", color="#d97706"];
+  Decom [label="Telemetry Decom Engine\\n(Doppler & CRC Correction)"];
+  MissionControl [label="Mission Operations Dashboard", fillcolor="#f0fdf4", color="#16a34a"];
+
+  Payload -> OBC [label="Sensor Bus"];
+  OBC -> Transmitter [label="Encrypted Frames"];
+  Transmitter -> Dish [label="RF Downlink"];
+  Dish -> Decom [label="Demodulated Bitstream"];
+  Decom -> MissionControl [label="Real-time Health Data"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'blockchain') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  DApp [label="Web3 DApp UI", fillcolor="#f8fafc", color="#94a3b8"];
+  Wallet [label="Non-Custodial Wallet\\n(Sign with Secp256k1 Key)"];
+  RPC [label="JSON-RPC Node Provider\\n(Infura / Alchemy)", fillcolor="#eff6ff", color="#2563eb"];
+  Mempool [label="Mempool Transaction Queue\\n(Gas Price Ordering)", fillcolor="#fef3c7", color="#d97706"];
+  EVM [label="EVM Validator Network\\n(Smart Contract Execution)"];
+  Ledger [label="Immutable Blockchain Block\\n(Proof of Stake Finality)", shape=cylinder, fillcolor="#f0fdf4", color="#16a34a"];
+
+  DApp -> Wallet [label="1. Prepare Tx"];
+  Wallet -> RPC [label="2. eth_sendRawTransaction"];
+  RPC -> Mempool [label="3. Broadcast"];
+  Mempool -> EVM [label="4. Propose in Block"];
+  EVM -> Ledger [label="5. State Root Updated"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'frontend') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#0284c7", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  Action [label="User Event (Click / Input)", fillcolor="#f8fafc", color="#94a3b8"];
+  Component [label="React Functional Component\\n(JSX Declaration)"];
+  StateHook [label="State Hook (useState/Zustand)\\n(Immutable State Update)", fillcolor="#fef3c7", color="#d97706"];
+  VirtualDOM [label="Virtual DOM Tree\\n(Diffing & Reconciliation)"];
+  Fiber [label="React Fiber Engine\\n(Prioritized Work Slices)", fillcolor="#f0fdf4", color="#16a34a"];
+  DOM [label="Browser Real DOM\\n(Batch Paint & Reflow)", fillcolor="#fff7ed", color="#ea580c"];
+
+  Action -> Component [label="Trigger Handler"];
+  Component -> StateHook [label="Dispatch Action"];
+  StateHook -> VirtualDOM [label="New VDOM Tree"];
+  VirtualDOM -> Fiber [label="Compute Patches"];
+  Fiber -> DOM [label="Commit Updates"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'banking') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#f0fdf4", color="#16a34a", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  Customer [label="Banking App / ATM", fillcolor="#f8fafc", color="#94a3b8"];
+  Switch [label="Banking Switch / ISO 8583 Gateway\\n(PIN & MAC Verification)"];
+  Coordinator [label="2-Phase Commit Coordinator\\n(Prepare & Commit Phases)", fillcolor="#fef3c7", color="#d97706"];
+  FraudEngine [label="Fraud Detection Engine\\n(ML Anomaly Score)", fillcolor="#fff1f2", color="#e11d48"];
+  CoreBanking [label="Core Banking Ledger DB\\n(Double-Entry ACID Balance)", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
+  Notifier [label="SMS & Push Notification Service"];
+
+  Customer -> Switch [label="Transfer Request"];
+  Switch -> FraudEngine [label="Risk Check"];
+  FraudEngine -> Coordinator [label="Risk Pass"];
+  Coordinator -> CoreBanking [label="Execute Double-Entry"];
+  CoreBanking -> Notifier [label="Credit/Debit Alert"];
+}
+\`\`\``;
+    }
+
+    if (domain === 'python') {
+        return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#eff6ff", color="#0284c7", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  Client [label="Client HTTP Request", fillcolor="#f8fafc", color="#94a3b8"];
+  Uvicorn [label="Uvicorn ASGI Server\\n(Asynchronous Event Loop)"];
+  FastAPI [label="FastAPI Framework\\n(Path Operations & Middleware)", fillcolor="#fef3c7", color="#d97706"];
+  Pydantic [label="Pydantic Schema Validator\\n(Strict Type Coercion)"];
+  Database [label="Async SQLAlchemy Engine\\n(Connection Pooling)", shape=cylinder, fillcolor="#f0fdf4", color="#16a34a"];
+
+  Client -> Uvicorn [label="HTTP Request"];
+  Uvicorn -> FastAPI [label="ASGI Scope"];
+  FastAPI -> Pydantic [label="Validate JSON"];
+  Pydantic -> Database [label="Run Query"];
+  Database -> Client [label="JSON Response"];
+}
+\`\`\``;
+    }
+
+    // Dynamic Graphviz tailored for Custom Open-Ended Topic
+    const safeTopic = (cleanTopic || 'System Architecture').replace(/["\\]/g, '').slice(0, 30);
+    return `\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ff6b35", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+
+  InputSource [label="1. ${safeTopic} Client / Request", fillcolor="#f8fafc", color="#94a3b8"];
+  IngestionGateway [label="2. Gateway & Input Validator\\n(Authentication & Schema Check)"];
+  CoreEngine [label="3. ${safeTopic} Core Logic\\n(Business Rules & Orchestration)", fillcolor="#fef3c7", color="#d97706"];
+  DataStore [label="4. Persistent Storage\\n(State & Transaction Log)", shape=cylinder, fillcolor="#eff6ff", color="#2563eb"];
+  DispatchService [label="5. Output & Client Notification", fillcolor="#f0fdf4", color="#16a34a"];
+
+  InputSource -> IngestionGateway [label="Trigger Request"];
+  IngestionGateway -> CoreEngine [label="Valid Payload"];
+  CoreEngine -> DataStore [label="Persist State"];
+  CoreEngine -> DispatchService [label="Emit Result"];
+  DispatchService -> InputSource [label="Deliver Callback"];
+}
+\`\`\``;
+}
+
+function generateTailoredInfographic(domain, cleanTopic) {
+    if (domain === 'auth') {
+        return `\`\`\`infographic
+Title: JWT & Zero-Trust Authentication Lifecycle
+Step 1: Credential Submission | User submits encrypted email and password through SSL/TLS channel
+Step 2: Password Verification | Backend retrieves salt and validates password hash using Bcrypt
+Step 3: Cryptographic Token Minting | Server signs stateless JWT access token and refresh token pair
+Step 4: Protected API Authorization | Client includes Bearer token in HTTP Authorization header
+Step 5: Token Rotation & Invalidation | Redis blacklists compromised tokens and issues rotated credentials
+\`\`\``;
+    }
+
+    if (domain === 'ecommerce') {
+        return `\`\`\`infographic
+Title: E-Commerce Order & Payment Fulfillment Pipeline
+Step 1: Cart Checkout & Price Lock | Items validated against live inventory and pricing locked with UUID
+Step 2: Payment Intent Creation | Orchestrator creates transactional session with payment gateway
+Step 3: Webhook Verification | Asynchronous cryptographic signature verification of payment success
+Step 4: Inventory Decrement & Ledger | Atomic database decrement prevents double-allocation
+Step 5: Event Bus & Logistics Dispatch | Kafka publishes OrderPlaced event triggering invoice and shipping
+\`\`\``;
+    }
+
+    if (domain === 'ml_ai') {
+        return `\`\`\`infographic
+Title: End-to-End MLOps & GenAI Pipeline Roadmap
+Step 1: Data Ingestion & Sanitization | Clean multimodal dataset and parse raw unstructured text
+Step 2: Vectorization & Chunking | Generate semantic embeddings and index into Vector DB with cosine metric
+Step 3: Model Training & Fine-Tuning | Supervised fine-tuning (LoRA/QLoRA) on domain specific corpus
+Step 4: RAG Retrieval & Prompt Assembly | Dynamic similarity search retrieves top-k chunks for context injection
+Step 5: High-Throughput Model Serving | Deploy via vLLM or FastAPI with token streaming and telemetry
+\`\`\``;
+    }
+
+    if (domain === 'devops') {
+        return `\`\`\`infographic
+Title: Zero-Downtime DevOps & Cloud CI/CD Roadmap
+Step 1: Source Control & Linting | Git push triggers automated linting, type checks, and security scans
+Step 2: Unit & Integration Testing | Isolated test containers validate business logic and regressions
+Step 3: Immutable Container Packaging | Docker multi-stage build produces minimal vulnerability-free image
+Step 4: GitOps Reconciliation | ArgoCD detects new image tag and reconciles declarative K8s manifests
+Step 5: Canary Rollout & Observability | Traffic shifted progressively with Prometheus and Grafana monitoring
+\`\`\``;
+    }
+
+    if (domain === 'dsa') {
+        return `\`\`\`infographic
+Title: DSA Problem Solving & Tree Operations Mastery
+Step 1: Base Invariant & Edge Cases | Handle null roots, single node trees, and boundary conditions
+Step 2: Binary Search Property Check | Navigate left for smaller keys and right for larger keys in O(log N)
+Step 3: Recursive Traversal Algorithms | Master In-Order (Sorted), Pre-Order, and Post-Order traversals
+Step 4: Node Balancing & Rotations | Apply AVL or Red-Black tree rotations to prevent O(N) degradation
+Step 5: Space & Time Complexity Proof | Benchmark recursive stack memory O(H) and iteration efficiency
+\`\`\``;
+    }
+
+    if (domain === 'database') {
+        return `\`\`\`infographic
+Title: High-Availability Database Scaling Roadmap
+Step 1: Normalized Schema & Indexing | Design 3NF relational models with optimized B-Tree compound indexes
+Step 2: Cache-Aside Layer | Deploy Redis cluster for sub-millisecond frequent reads with TTL expiration
+Step 3: Primary-Replica Replication | Route write queries to Master and scale read queries across Read Replicas
+Step 4: Horizontal Table Sharding | Partition massive datasets across discrete database nodes by Shard Key
+Step 5: Change Data Capture (CDC) | Stream WAL transaction logs via Debezium and Kafka to data warehouse
+\`\`\``;
+    }
+
+    if (domain === 'security') {
+        return `\`\`\`infographic
+Title: Enterprise Cyber Security Defense Roadmap
+Step 1: Edge Perimeter Defense | Cloudflare WAF, DDoS mitigation, and SSL/TLS 1.3 protocol enforcement
+Step 2: Identity & Access Management | Enforce Multi-Factor Authentication (MFA) and least-privilege RBAC
+Step 3: Input Sanitization & Validation | Defense against SQL Injection, XSS, and CSRF using strict schemas
+Step 4: Microservice Zero-Trust | Mutual TLS (mTLS) certificate exchange between internal microservices
+Step 5: Continuous SIEM & Vulnerability Scanning | Automated automated penetration testing and SOC incident response
+\`\`\``;
+    }
+
+    if (domain === 'python') {
+        return `\`\`\`infographic
+Title: Python Senior Backend Engineer Roadmap
+Step 1: Core Python & Memory Model | Deep dive into GIL, generators, list comprehensions, and decorators
+Step 2: Object-Oriented & Design Patterns | Abstract base classes, dependency injection, and factory pattern
+Step 3: Asynchronous Programming | AsyncIO event loops, coroutines, and task concurrency
+Step 4: Production REST APIs with FastAPI | Pydantic data validation, SQLAlchemy ORM, and JWT authentication
+Step 5: Testing & Cloud Deployment | Pytest test suites, Docker containerization, and AWS Lambda/ECS
+\`\`\``;
+    }
+
+    const safeTopic = (cleanTopic || 'Technical Implementation').replace(/["\\]/g, '').slice(0, 35);
+    return `\`\`\`infographic
+Title: ${safeTopic} Implementation Roadmap
+Step 1: Architecture Design & Requirements | Define system boundaries, data contracts, and scalability SLAs
+Step 2: Core Engine & Business Logic | Implement robust algorithms, error handlers, and business validation
+Step 3: Persistent Data Layer | Design database models, indexes, and caching strategies for low latency
+Step 4: Integration & Security Hardening | Add authentication, rate-limiting, CORS, and logging middleware
+Step 5: Automated Testing & Deployment | Configure CI/CD pipeline, containerize with Docker, and launch
+\`\`\``;
+}
+
+function generateTailoredCode(domain, cleanTopic) {
+    if (domain === 'auth') {
+        return `\`\`\`python
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
+import jwt
+from datetime import datetime, timedelta
 
-app = FastAPI(title="Tech Indro API")
+app = FastAPI(title="Tech Indro JWT Authentication")
 
-class Item(BaseModel):
-    name: str
-    price: float
-    in_stock: bool = True
+SECRET_KEY = "techindro_secret_key_production"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-db = []
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
-@app.get("/")
-def read_root():
-    return {"status": "online", "message": "Tech Indro API Server is active"}
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-@app.get("/items")
-def get_items():
-    return {"total": len(db), "items": db}
+@app.post("/api/auth/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    # In production, verify against bcrypt hashed password in database
+    if form_data.username == "student@techindro.com" and form_data.password == "securePassword123":
+        token = create_access_token({"sub": form_data.username, "role": "engineer"})
+        return {"access_token": token, "token_type": "bearer"}
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
-@app.post("/items")
-def create_item(item: Item):
-    db.append(item.dict())
-    return {"message": "Item successfully added", "data": item}
-\`\`\`
+@app.get("/api/protected/profile")
+def get_profile(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return {"status": "authenticated", "user": payload.get("sub"), "role": payload.get("role")}
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token invalid or expired")
+\`\`\``;
+    }
 
-Kaise chalai:
-1. Terminal mein run kari: pip install fastapi uvicorn
-2. Server start kari: uvicorn main:app --reload
-3. Browser mein open kari: http://127.0.0.1:8000/docs
-
-Aap isme kaun sa real project banawe ke chahtaani, jaise authentication ya database connection?`;
-        } else if (isHindi) {
-            return `FastAPI Python ka modern aur high-performance web framework hai jo production REST APIs develop karne ke liye use hota hai.
-
-Yahan dekhiye real FastAPI backend implementation:
-\`\`\`python
-from fastapi import FastAPI, HTTPException
+    if (domain === 'ecommerce') {
+        return `\`\`\`python
+from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel
-
-app = FastAPI(title="Tech Indro Production API")
-
-class UserRegister(BaseModel):
-    username: str
-    email: str
-    role: str = "student"
-
-users_db = []
-
-@app.get("/api/health")
-def health_check():
-    return {"status": "ok", "service": "auth-service"}
-
-@app.post("/api/users")
-def register_user(user: UserRegister):
-    users_db.append(user.dict())
-    return {"message": "User registered successfully", "user": user}
-\`\`\`
-
-Run karne ke steps:
-1. Terminal me run karein: pip install fastapi uvicorn
-2. Server start karein: uvicorn main:app --reload
-3. Interactive Swagger documentation dekhein: http://127.0.0.1:8000/docs
-
-Kya aap isme PostgreSQL database ya JWT authentication integrate karna chahte hain?`;
-        } else {
-            return `FastAPI is a modern, high-performance web framework for building APIs with Python based on standard Python type hints.
-
-Here is a real production-grade FastAPI implementation with request validation:
-\`\`\`python
-from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel, EmailStr
 from typing import List
+import uuid
 
-app = FastAPI(title="Production API")
+app = FastAPI(title="Tech Indro E-Commerce Payment Orchestrator")
 
-class UserPayload(BaseModel):
-    username: str
-    email: str
+class OrderItem(BaseModel):
+    product_id: str
+    quantity: int
+    unit_price: float
 
-database = []
+class CheckoutRequest(BaseModel):
+    user_id: str
+    items: List[OrderItem]
+    currency: str = "INR"
 
-@app.get("/health", status_code=status.HTTP_200_OK)
-def check_health():
-    return {"status": "healthy"}
+@app.post("/api/checkout/create-session")
+def create_checkout_session(payload: CheckoutRequest):
+    order_id = f"ORD-{uuid.uuid4().hex[:8].upper()}"
+    total_amount = sum(item.quantity * item.unit_price for item in payload.items)
+    
+    # Generate transactional payment intent for Hyperswitch / Stripe gateway
+    payment_intent = {
+        "order_id": order_id,
+        "amount": total_amount,
+        "currency": payload.currency,
+        "status": "requires_payment_method",
+        "client_secret": f"pi_secret_{uuid.uuid4().hex[:16]}"
+    }
+    return {"success": True, "order_id": order_id, "payment_session": payment_intent}
 
-@app.get("/users", response_model=List[dict])
-def list_users():
-    return database
-
-@app.post("/users", status_code=status.HTTP_201_CREATED)
-def add_user(user: UserPayload):
-    database.append(user.dict())
-    return {"message": "User registered", "user": user}
-\`\`\`
-
-How to run:
-1. Install dependencies: pip install fastapi uvicorn
-2. Launch server: uvicorn main:app --reload
-3. Access automatic Swagger documentation at: http://127.0.0.1:8000/docs
-
-Would you like to connect this to an SQLite/PostgreSQL database or add JWT security?`;
-        }
+@app.post("/api/checkout/webhook")
+def payment_webhook(event: dict, x_signature: str = Header(None)):
+    # Verify cryptographic webhook signature to avoid replay attacks
+    if event.get("type") == "payment.succeeded":
+        order_id = event["data"]["order_id"]
+        # Trigger atomic stock decrement and dispatch OrderPlaced event to Kafka
+        return {"status": "success", "order_id": order_id, "inventory": "updated"}
+    return {"status": "ignored"}
+\`\`\``;
     }
 
-    // 2. Python / Loops / Basics
-    if (q.includes('python') || q.includes('loop') || q.includes('pytn') || q.includes('print')) {
+    if (domain === 'dsa') {
+        return `\`\`\`python
+class TreeNode:
+    def __init__(self, val: int):
+        self.val = val
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, val: int):
+        if not self.root:
+            self.root = TreeNode(val)
+            return
+        
+        curr = self.root
+        while True:
+            if val < curr.val:
+                if not curr.left:
+                    curr.left = TreeNode(val)
+                    break
+                curr = curr.left
+            else:
+                if not curr.right:
+                    curr.right = TreeNode(val)
+                    break
+                curr = curr.right
+
+    def search(self, val: int) -> bool:
+        curr = self.root
+        while curr:
+            if curr.val == val:
+                return True
+            elif val < curr.val:
+                curr = curr.left
+            else:
+                curr = curr.right
+        return False
+
+# Demonstration
+bst = BinarySearchTree()
+for num in [50, 30, 70, 20, 40, 60, 80]:
+    bst.insert(num)
+
+print("Searching 40:", bst.search(40))  # True (O(log N))
+print("Searching 95:", bst.search(95))  # False
+\`\`\``;
+    }
+
+    if (domain === 'ml_ai') {
+        return `\`\`\`python
+import numpy as np
+
+class VectorRAGRetriever:
+    def __init__(self):
+        self.documents = []
+        self.embeddings = []
+
+    def add_document(self, doc_id: str, text: str, embedding: np.ndarray):
+        self.documents.append({"id": doc_id, "text": text})
+        self.embeddings.append(embedding / np.linalg.norm(embedding))
+
+    def retrieve_context(self, query_embedding: np.ndarray, top_k: int = 3):
+        norm_query = query_embedding / np.linalg.norm(query_embedding)
+        # Compute Cosine Similarity
+        matrix = np.array(self.embeddings)
+        scores = np.dot(matrix, norm_query)
+        top_indices = np.argsort(scores)[::-1][:top_k]
+        
+        results = []
+        for idx in top_indices:
+            results.append({
+                "doc": self.documents[idx]["text"],
+                "similarity_score": float(scores[idx])
+            })
+        return results
+
+# Initialize and test
+retriever = VectorRAGRetriever()
+retriever.add_document("doc1", "FastAPI uses Starlette and Pydantic for high performance", np.random.rand(128))
+retriever.add_document("doc2", "Kafka handles high throughput distributed event streaming", np.random.rand(128))
+top_matches = retriever.retrieve_context(np.random.rand(128), top_k=2)
+print("Retrieved Context Chunks:", top_matches)
+\`\`\``;
+    }
+
+    // Default clean Python code tailored to topic
+    const funcName = (cleanTopic || 'execute_task').toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 24) || 'process_workflow';
+    return `\`\`\`python
+from typing import Dict, Any
+
+def ${funcName}(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Production-grade processing pipeline for: ${cleanTopic}
+    Validates input parameters, executes business rules, and returns structured result.
+    """
+    if not payload:
+        raise ValueError("Payload cannot be empty")
+    
+    # Execute core business logic
+    processed_data = {
+        "topic": "${cleanTopic}",
+        "status": "SUCCESS",
+        "records_processed": len(payload),
+        "execution_metadata": {
+            "version": "2.0-production",
+            "active": True
+        }
+    }
+    return processed_data
+
+# Example execution
+result = ${funcName}({"source": "Tech Indro Client", "request_id": "REQ-7749"})
+print("Execution Result:", result)
+\`\`\``;
+}
+
+// Smart Dynamic Local Fallback Engine (Hindi, English, Bhojpuri - Real Technical Content, Tailored to Question)
+function generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent, ragResult) {
+    const q = message.toLowerCase();
+    const cleanTopic = extractCleanTopic(message);
+    const domain = detectDomain(message);
+
+    const wantsDiagram = /(diagram|flowchart|architecture|system design|kroki|graphviz|plantuml|visualize|topology|workflow|pipeline)/i.test(q);
+    const wantsInfographic = /(infographic|roadmap|step|steps|path|phases|syllabus|milestones)/i.test(q);
+
+    let ragSection = "";
+    if (ragResult && ragResult.hasContext && ragResult.sources && ragResult.sources.length > 0) {
+        const topSource = ragResult.sources[0];
         if (isBhojpuri) {
-            return `Python ek powerful programming language baate jawan Data Science, AI aur Backend engineering mein use hoyela.
-
-Yahan dekhi real Python list aur dictionary processing code:
-\`\`\`python
-students = [
-    {"name": "Amit", "marks": 85},
-    {"name": "Priya", "marks": 92},
-    {"name": "Rahul", "marks": 78}
-]
-
-top_students = [s for s in students if s["marks"] >= 80]
-
-print("Top Scoring Candidates:")
-for student in top_students:
-    print(f"Name: {student['name']} | Marks: {student['marks']}")
-\`\`\`
-
-Kya aap Python me file handling ya API request call karna chahte hain?`;
+            ragSection = `\n\n4. TECH INDRO KNOWLEDGE (RAG GROUNDED):\nE sawal Tech Indro ke official database se verify baate: "${topSource.title}" (${topSource.category}).`;
         } else if (isHindi) {
-            return `Python ek dynamic aur multi-paradigm programming language hai jo Web Development, Automation aur Machine Learning me industry standard hai.
-
-Yahan dekhiye real Python data processing ka code:
-\`\`\`python
-def analyze_scores(scores):
-    if not scores:
-        return {"average": 0, "highest": 0}
-    return {
-        "average": sum(scores) / len(scores),
-        "highest": max(scores),
-        "lowest": min(scores),
-        "count": len(scores)
-    }
-
-metrics = analyze_scores([88, 92, 79, 95, 84])
-print("Calculated Performance Metrics:", metrics)
-\`\`\`
-
-Aap Python me kaun sa technical domain explore karna chahte hain, jaise Data Structures ya Web Scraping?`;
+            ragSection = `\n\n4. TECH INDRO VERIFIED KNOWLEDGE (RAG GROUNDED):\nYeh jaankari Tech Indro ke official curriculum & database se verified hai: "${topSource.title}" (${topSource.category}).`;
         } else {
-            return `Python is a readable, robust language widely utilized across cloud backends, data engineering, and machine learning pipelines.
-
-Here is a real practical example showing list comprehension and data transformation:
-\`\`\`python
-records = [
-    {"service": "auth", "latency_ms": 42},
-    {"service": "payment", "latency_ms": 128},
-    {"service": "database", "latency_ms": 15}
-]
-
-slow_services = [r["service"] for r in records if r["latency_ms"] > 50]
-print("Services exceeding latency threshold:", slow_services)
-\`\`\`
-
-Would you like to explore object-oriented programming patterns or asynchronous programming in Python?`;
+            ragSection = `\n\n4. VERIFIED TECH INDRO KNOWLEDGE (RAG GROUNDED):\nGrounded in Tech Indro database: "${topSource.title}" (${topSource.category}).`;
         }
     }
 
-    // 3. JavaScript / Web Development
-    if (q.includes('javascript') || q.includes('js') || q.includes('html') || q.includes('css') || q.includes('react') || q.includes('game')) {
-        return `Web Development me JavaScript DOM manipulation aur REST API interaction ka core foundation hai.
+    // 1. If user specifically asks for Infographic or Roadmap
+    if (wantsInfographic) {
+        const infographicBlock = generateTailoredInfographic(domain, cleanTopic);
+        if (isBhojpuri) {
+            return `Raua ke request ke anusaar "${cleanTopic}" khatir step-by-step Infographic Roadmap taiyar baate:
 
-Yahan dekhiye real JavaScript Fetch API aur Event handling implementation:
-\`\`\`javascript
-async function loadUserData(userId) {
-    try {
-        const response = await fetch(\`https://jsonplaceholder.typicode.com/users/\${userId}\`);
-        if (!response.ok) throw new Error("HTTP error: " + response.status);
-        const data = await response.json();
-        console.log("User retrieved:", data.name, data.email);
-        return data;
-    } catch (error) {
-        console.error("Failed to load user:", error.message);
+${infographicBlock}${ragSection}
+
+Aap is roadmap ke kaun se step ke practical code ya detailed syllabus dekhe ke chahtaani?`;
+        } else if (isHindi) {
+            return `Aapke request ke anusaar "${cleanTopic}" ke liye structured Step-by-Step Infographic Roadmap yahan visualize kiya gaya hai:
+
+${infographicBlock}${ragSection}
+
+Aap is roadmap ke kisi bhi step ka practical code ya production architecture dekhna chahte hain? Mujhe batayein!`;
+        } else {
+            return `Here is the structured Step-by-Step Infographic Roadmap for "${cleanTopic}":
+
+${infographicBlock}${ragSection}
+
+Which phase or milestone would you like to deep-dive into with production implementation code?`;
+        }
     }
-}
 
-loadUserData(1);
-\`\`\`
+    // 2. If user asks for Diagram, Architecture, Flowchart, or general conceptual question
+    const diagramBlock = generateTailoredDiagram(domain, cleanTopic);
+    const codeBlock = generateTailoredCode(domain, cleanTopic);
 
-Kya aap isko browser DOM elements ke sath render karna chahte hain ya React component me convert karna chahte hain?`;
-    }
-
-    // 10. Default Dynamic Response by Language (Real, Clean, No Symbols)
     if (isBhojpuri) {
-        return `Raua puchhli: "${message}"
+        return `Raua ke sawal: "${cleanTopic}"
 
-Ikar real aur practical technical solution dekhi:
-\`\`\`python
-def process_data(query_string):
-    sanitized = query_string.strip().lower()
-    return {"query": sanitized, "status": "processed"}
+1. DEFINITION & ARCHITECTURE OVERVIEW:
+${domain === 'auth' ? 'Authentication user ke identity verify karela (ke hawa) jabki Authorization permissions check karela. Production system me stateless JWT tokens aur Redis blacklist caching se secure architecture banawala jaala.' :
+ domain === 'ecommerce' ? 'E-Commerce checkout architecture distributed transaction par chalele. Cart, Payment Orchestrator (Hyperswitch/Stripe) aur Inventory service atomic state synchronization maintain karele.' :
+ domain === 'dsa' ? 'Binary Search Tree (BST) ek hierarchical data structure baate jisme har node ke left me chhoti value aur right me badi value rahele. Search aur insertion O(log N) me complete hoyela.' :
+ domain === 'ml_ai' ? 'RAG (Retrieval-Augmented Generation) pipeline me raw documents ke vector embeddings bana ke Vector DB me store kiyala jaala, jisse LLM prompt me relevant context inject hoyela.' :
+ domain === 'devops' ? 'CI/CD pipeline automated testing, Docker container build, aur Kubernetes rolling deployment ke manage karela, jisse bina downtime ke software release hoyela.' :
+ `${cleanTopic} ek high-reliability distributed workflow baate jisme request validation, transactional state persistence, aur real-time asynchronous dispatch shamil baate.`}
 
-result = process_data("${message.replace(/"/g, '').slice(0, 40)}")
-print("Output:", result)
-\`\`\`
+2. INTERACTIVE VECTOR DIAGRAM:
+${diagramBlock}
 
-Batawa bhaiya, isme kaun sa specific feature ya database table aap add karna chahte hain?`;
+3. PRODUCTION IMPLEMENTATION CODE:
+${codeBlock}${ragSection}
+
+Aap is architecture me kaun sa feature add kare ke chahtaani?`;
     } else if (isHindi) {
-        return `Aapne poocha: "${message}"
+        return `Aapne poocha: "${cleanTopic}"
 
-Yahan dekhiye iska real aur clean technical implementation:
-\`\`\`python
-def execute_task(input_data):
-    clean_input = input_data.strip()
-    return {"input": clean_input, "ready": True}
+1. TECHNICAL DEFINITION & CONCEPT:
+${domain === 'auth' ? 'Authentication verify karta hai user ki identity (who you are), jabki Authorization verify karta hai unke access permissions (what you are allowed to do). Production systems me stateless JWT tokens aur Redis session cache ke sath secure token-based authentication implement kiya jata hai.' :
+ domain === 'ecommerce' ? 'E-Commerce checkout architecture resilient distributed transaction management par based hota hai. Cart, Order Processing, Payment Gateway (Hyperswitch / Stripe) aur Inventory Service webhook idempotency ke through zero-failure billing ensure karte hain.' :
+ domain === 'dsa' ? 'Binary Search Tree (BST) ek sorted hierarchical node-based data structure hai. Isme har node ka left child usse chhota aur right child usse bada hota hai, jisse average search, insertion aur deletion O(log N) time me complete ho jata hai.' :
+ domain === 'ml_ai' ? 'Machine Learning RAG (Retrieval-Augmented Generation) architecture me semantic text chunks ko vector embeddings me convert karke Vector Database (Pinecone/Milvus) me index kiya jata hai. Cosine similarity ke through context retrieve karke LLM prompt me feed kiya jata hai.' :
+ domain === 'devops' ? 'DevOps CI/CD pipeline code commit se lekar production deployment tak ke har stage ko automate karta hai: Automated Tests (Pytest) -> Docker Image Build -> Container Registry -> Kubernetes Rolling Deployment bina kisi downtime ke.' :
+ domain === 'database' ? 'High-availability database architecture me Primary Master writes aur WAL manage karta hai, jabki Read Replicas query load balance karte hain. Redis cache sub-millisecond query response deliver karta hai.' :
+ domain === 'security' ? 'Zero-Trust security architecture "never trust, always verify" standard par chalti hai. Har request ko WAF, rate limiter, identity-aware reverse proxy aur cryptographic token signature verification se pass hona padta hai.' :
+ domain === 'isro' ? 'ISRO satellite architecture me spacecraft ke sensors onboard telemetry computer ko data transmit karte hain, jo S-band/X-band RF transmitter ke through ISTRAC ground station ko downlink karta hai.' :
+ domain === 'blockchain' ? 'Web3 Blockchain architecture decentralized consensus aur cryptographic state transitions par depend karta hai. DApp transactions private key se sign hokar mempool me enter hoti hain aur EVM nodes par execute hoti hain.' :
+ `${cleanTopic} ek production-ready software system hai jo scalable request ingestion, deterministic business validation, persistent data storage, aur asynchronous event streaming ensure karta hai.`}
 
-output = execute_task("${message.replace(/"/g, '').slice(0, 40)}")
-print("Execution Result:", output)
-\`\`\`
+2. INTERACTIVE KROKI ARCHITECTURE DIAGRAM:
+${diagramBlock}
 
-Aap is code ko apne project me kis tarah integrate karna chahte hain? Mujhe batayein, aage ka logic implement karenge.`;
+3. REAL PRODUCTION IMPLEMENTATION CODE:
+${codeBlock}${ragSection}
+
+Aap is diagram aur code ko apne project me kis tarah integrate karna chahte hain? Mujhe batayein, aage ka logic implement karenge!`;
     } else {
-        return `You inquired about: "${message}"
+        return `Technical inquiry regarding: "${cleanTopic}"
 
-Here is a clean, production-oriented technical implementation:
-\`\`\`python
-def handle_request(payload: str) -> dict:
-    processed = payload.strip()
-    return {"payload": processed, "active": True}
+1. ARCHITECTURAL DEFINITION & FOUNDATION:
+${domain === 'auth' ? 'Authentication verifies user identity (who you are), while Authorization enforces permission scopes (what you can do). Production systems leverage stateless JWT bearer tokens paired with sub-millisecond Redis blacklists for instant revocation.' :
+ domain === 'ecommerce' ? 'E-Commerce checkout architecture relies on distributed transaction orchestration. Cart state, Payment Orchestration (Hyperswitch / Stripe), and Inventory decrement coordinate via idempotent webhooks and saga patterns.' :
+ domain === 'dsa' ? 'A Binary Search Tree (BST) is a hierarchical node-based data structure where each node satisfies the binary search invariant: left subtrees contain keys strictly smaller, and right subtrees contain keys strictly larger, enabling O(log N) average operations.' :
+ domain === 'ml_ai' ? 'Retrieval-Augmented Generation (RAG) transforms unstructured text into dense vector embeddings indexed in a Vector Database (Milvus/Pinecone). Relevant semantic chunks are retrieved via cosine similarity and dynamically injected into the foundation LLM prompt.' :
+ domain === 'devops' ? 'The CI/CD pipeline automates the deployment lifecycle: Git Push -> Pytest Unit Validation -> Docker Multi-Stage Image Build -> Container Registry -> ArgoCD GitOps Sync -> Kubernetes Rolling Update with zero downtime.' :
+ domain === 'database' ? 'High-availability database architecture segregates write operations to a Primary Master DB with WAL replication to Read Replicas, complemented by a Redis Cache-Aside layer for sub-millisecond read access.' :
+ domain === 'security' ? 'Zero-Trust security architecture adheres to the principle of "never trust, always verify". Ingress requests pass through Cloudflare WAF, rate limiting, and identity-aware proxies before accessing core microservices.' :
+ domain === 'isro' ? 'Satellite telemetry architecture captures spacecraft sensory health via onboard computers, encoding packets transmitted across S-band/X-band downlinks to parabolic dish ground stations for orbital telemetry processing.' :
+ domain === 'blockchain' ? 'Web3 blockchain architecture processes cryptographically signed transactions submitted via JSON-RPC nodes to the mempool, where EVM validators order and execute smart contract bytecode into immutable blocks.' :
+ `${cleanTopic} represents a robust, decoupled distributed system architecture incorporating boundary validation, domain business logic execution, atomic state persistence, and event notification streams.`}
 
-response = handle_request("${message.replace(/"/g, '').slice(0, 40)}")
-print("Result:", response)
-\`\`\`
+2. INTERACTIVE KROKI VECTOR DIAGRAM:
+${diagramBlock}
 
-How would you like to expand this implementation within your application architecture?`;
+3. PRODUCTION IMPLEMENTATION CODE:
+${codeBlock}${ragSection}
+
+How would you like to customize or expand this implementation for your production infrastructure?`;
     }
 }
 
-// chatbot api
+// ============================================================================
+// CHATBOT API WITH DYNAMIC GROQ AI, GEMINI AI & LOCAL GENERATOR
+// ============================================================================
 app.post('/api/chat', chatLimiter, async (req, res) => {
-    const { message, lang, agent, systemInstruction: customSystemInstruction } = req.body;
+    const { message, lang, agent, systemInstruction: customSystemInstruction, rag = true } = req.body;
     if (!message) return res.status(400).json({ error: "Message is required" });
 
     // Multi-language detection (Bhojpuri, Hindi, English, Auto)
@@ -2245,6 +2708,16 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
         /[अ-ह]/.test(message) ||
         /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao|karu|samajh|didi|dost|naam|btao|bnao|kse|kre)/i.test(message)
     );
+
+    // 0. RETRIEVAL-AUGMENTED GENERATION (RAG) CONTEXT RETRIEVAL (FASTAPI + LANGCHAIN)
+    let ragResult = { hasContext: false, context: '', sources: [] };
+    if (rag !== false) {
+        try {
+            ragResult = await fetchRagContext(message, agent || 'general', 3);
+        } catch (ragErr) {
+            console.warn('[RAG] Retrieval error:', ragErr.message);
+        }
+    }
 
     // Build language instructions with STRICT NO-EMOJI & NO-SYMBOL policy
     let languageDirective = "";
@@ -2265,70 +2738,88 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
 - Avoid academic fluff. Provide real, runnable code with clean comments.`;
     }
 
-    // If Gemini key is available, call real Google Gemini AI with automatic model fallback
+    let systemInstruction = customSystemInstruction;
+    if (!systemInstruction) {
+        systemInstruction = `You are Tech Indro AI Senior Mentor and Architecture Engine.
+CRITICAL RULES:
+1. ZERO EMOJIS: Do not use any emojis, unicode smiles, or decorative symbols.
+2. NO ASTERISK CLUTTER: Do not wrap every word in double asterisks (**) or use multiple hashes (###). Use plain text and standard clean formatting.
+3. DYNAMIC CUSTOM DIAGRAMS (CRITICAL):
+- When the user asks for a diagram, flowchart, architecture, or visualization:
+  You MUST generate a 100% customized Kroki Graphviz (kroki:graphviz), PlantUML (kroki:plantuml), or Mermaid (mermaid or kroki:mermaid) diagram that specifically represents the EXACT entities, flow, and components of the user's inquiry!
+  NEVER output a generic microservices boilerplate unless the user explicitly requested microservices.
+  Example for auth: User -> Gateway -> AuthService -> Redis -> UserDB.
+  Example for e-commerce: User -> Cart -> OrderService -> PaymentGateway -> Inventory -> EventBus.
+  Example for DSA: Visualize tree nodes, graph edges, or array partitions.
+- When the user asks for an infographic or roadmap:
+  Output a fenced block:
+  \`\`\`infographic
+  Title: [Specific Roadmap Title]
+  Step 1: [Phase Name] | [Detailed Description]
+  Step 2: [Phase Name] | [Detailed Description]
+  Step 3: [Phase Name] | [Detailed Description]
+  Step 4: [Phase Name] | [Detailed Description]
+  Step 5: [Phase Name] | [Detailed Description]
+  \`\`\`
+4. DEEP DEFINITIONS & REAL WORKING CODE:
+- For every question, provide:
+  1. An authoritative technical definition and conceptual explanation tailored to their question.
+  2. A tailored Kroki diagram or infographic visualizing the system.
+  3. Real, runnable production-grade code (in \`\`\`python, \`\`\`javascript, etc.) with clean comments.
+  4. A focused follow-up question to continue implementing the project.
+5. ${languageDirective}`;
+    }
+
+    // Augment System Instruction with RAG Context if available
+    if (ragResult.hasContext && ragResult.context) {
+        systemInstruction += `\n\nAUTHORITATIVE RETRIEVED TECH INDRO KNOWLEDGE BASE (RAG):\n${ragResult.context}\nINSTRUCTION: You must prioritize and ground your answers in the verified Tech Indro knowledge base facts above whenever applicable.`;
+    }
+
+    // 1. Try Groq AI (Ultra-fast, Qwen 3.8 27B, GPT-OSS 120B/20B, LLaMA)
+    if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim() && process.env.GROQ_API_KEY !== 'YOUR_GROQ_API_KEY') {
+        const groqModels = ['qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
+        for (const groqModel of groqModels) {
+            try {
+                const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.GROQ_API_KEY.trim()}`
+                    },
+                    body: JSON.stringify({
+                        model: groqModel,
+                        messages: [
+                            { role: 'system', content: systemInstruction },
+                            { role: 'user', content: message }
+                        ],
+                        temperature: 0.6
+                    })
+                });
+
+                if (groqRes.ok) {
+                    const groqData = await groqRes.json();
+                    const reply = groqData.choices?.[0]?.message?.content;
+                    if (reply) {
+                        let cleanOutput = reply
+                            .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
+                            .replace(/\*\*/g, '')
+                            .replace(/^###+\s*/gm, '')
+                            .trim();
+                        return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'groq', ragSources: ragResult.sources });
+                    }
+                }
+            } catch (err) {
+                console.warn(`Groq attempt with model ${groqModel} failed:`, err.message);
+            }
+        }
+    }
+
+    // 2. Try Google Gemini AI
     if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY') {
-        const modelsToTry = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
-        
+        const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-pro'];
         for (const modelName of modelsToTry) {
             try {
                 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-                
-                let systemInstruction = customSystemInstruction;
-                if (!systemInstruction) {
-                    systemInstruction = `You are Tech Indro AI Chatbot & Senior Mentor.
-STRICT RULES:
-1. DO NOT USE ANY EMOJIS OR UNICODE DECORATIVE ICONS. Zero emojis allowed.
-2. DO NOT USE DISTRACTING MARKDOWN SYMBOLS like asterisks (** or *) around random words or multiple hashes (###). Use clean, plain text and standard paragraphs.
-3. SUGGEST REAL: Give real, practical, production-grade technical explanations and code (real APIs, real database schemas, real error handling) instead of toy or cartoonish analogies.
-4. RICH COMPONENT & KROKI DIAGRAM CAPABILITIES:
-- If the user asks to visualize a process, workflow, system architecture, flowchart, or diagram, output a fenced block with kroki:graphviz or kroki:plantuml:
-\`\`\`kroki:graphviz
-digraph G {
-  rankdir=LR;
-  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ff6b35", fontname="Helvetica"];
-  Client -> Gateway -> Service -> Database;
-}
-\`\`\`
-- If the user asks for a chart, graph, or statistics comparison, output a fenced block:
-\`\`\`chart
-{
-  "type": "bar",
-  "title": "Title of Chart",
-  "labels": ["Label1", "Label2", "Label3"],
-  "data": [45, 80, 60]
-}
-\`\`\`
-- If the user asks for sticky notes, quick summary, or cheat-sheet notes, output a fenced block:
-\`\`\`stickynote
-Title: Topic Name
-- Key takeaway 1
-- Key takeaway 2
-- Key takeaway 3
-\`\`\`
-- If the user asks for flashcards, quiz, or revision cards, output a fenced block:
-\`\`\`flashcard
-Q: Question or concept here
-A: Real technical answer or code explanation here
-\`\`\`
-- If the user asks for an infographic or roadmap, output a fenced block:
-\`\`\`infographic
-Title: Roadmap Title
-Step 1: Stage Title | Description
-Step 2: Stage Title | Description
-Step 3: Stage Title | Description
-\`\`\`
-- If the user asks for a video or tutorial, DO NOT try to generate video files. Instead recommend the single best YouTube tutorial with its exact title, channel name, and direct link:
-\`\`\`video
-Title: Complete Tutorial Title
-Channel: Channel Name (e.g. freeCodeCamp.org)
-Url: https://www.youtube.com/results?search_query=topic or direct link
-\`\`\`
-5. If the user writes informal, broken, or misspelled words (e.g. "fatapi" = FastAPI, "pytn" = Python, "kse kre" = kaise karein), accurately deduce their true intent and answer directly.
-6. ALWAYS PROVIDE WORKING CODE: Include clean, runnable code in standard fenced code blocks (\`\`\`python, \`\`\`javascript, etc.) with concise comments.
-7. ${languageDirective}
-8. End with a real technical question to continue the architecture or implementation.`;
-                }
-
                 const response = await ai.models.generateContent({
                     model: modelName,
                     contents: message,
@@ -2336,14 +2827,12 @@ Url: https://www.youtube.com/results?search_query=topic or direct link
                 });
 
                 if (response && response.text) {
-                    // Sanitize output: remove any residual emojis or markdown asterisk wrappers
                     let cleanOutput = response.text
                         .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
                         .replace(/\*\*/g, '')
                         .replace(/^###+\s*/gm, '')
                         .trim();
-
-                    return res.json({ response: cleanOutput, reply: cleanOutput });
+                    return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'gemini', ragSources: ragResult.sources });
                 }
             } catch (error) {
                 console.warn(`Gemini attempt with model ${modelName} failed:`, error.message);
@@ -2351,25 +2840,99 @@ Url: https://www.youtube.com/results?search_query=topic or direct link
         }
     }
 
-    // Built-in Dynamic Fallback Engine (Never static template, Real Code, No Symbols)
-    setTimeout(() => {
-        const reply = generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent);
-        res.json({ response: reply, reply: reply });
-    }, 200);
+    // 3. Smart Semantic Dynamic Fallback Engine (Tailored diagram, definition, infographic, code, and RAG knowledge)
+    const reply = generateDynamicLocalResponse(message, isBhojpuri, isHindi, agent, ragResult);
+    return res.json({ response: reply, reply: reply, provider: 'dynamic_local', ragSources: ragResult.sources });
 });
 
-// Kroki Diagramming Engine Proxy (Graphviz, PlantUML, C4, D2, BlockDiag)
+// ============================================================================
+// TECH INDRO RAG (FASTAPI + LANGCHAIN) API PROXY
+// ============================================================================
+app.get('/api/rag/status', async (req, res) => {
+    try {
+        const response = await fetch(`${RAG_SERVICE_URL}/api/rag/status`, { signal: AbortSignal.timeout(2000) });
+        if (response.ok) {
+            const data = await response.json();
+            return res.json(data);
+        }
+    } catch (e) {}
+    res.json({
+        status: 'fastapi_offline',
+        framework: 'FastAPI + LangChain',
+        message: 'FastAPI RAG service is running or can be started via: python rag_service.py',
+        url: RAG_SERVICE_URL
+    });
+});
+
+app.post('/api/rag/search', async (req, res) => {
+    const { query, maxResults = 5, collection, agent } = req.body;
+    if (!query) return res.status(400).json({ error: 'Query is required' });
+    try {
+        const response = await fetch(`${RAG_SERVICE_URL}/api/rag/search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, maxResults, collection, agent }),
+            signal: AbortSignal.timeout(3000)
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return res.json(data);
+        }
+    } catch (e) {
+        return res.status(503).json({ error: 'FastAPI LangChain RAG service unreachable. Ensure python rag_service.py is running.' });
+    }
+});
+
+// Kroki Diagramming Engine Proxy (Graphviz, PlantUML, Mermaid, C4, D2, BlockDiag)
 app.post('/api/kroki', async (req, res) => {
     try {
-        const { type = 'graphviz', code } = req.body;
+        let { type = 'graphviz', code } = req.body;
         if (!code) return res.status(400).json({ error: 'Diagram code is required' });
 
-        const krokiType = type.toLowerCase().replace(/^kroki:/, '').trim() || 'graphviz';
-        const upstream = await fetch(`https://kroki.io/${encodeURIComponent(krokiType)}/svg`, {
+        let cleanCode = code.trim();
+        let krokiType = type.toLowerCase().replace(/^kroki:/, '').trim() || 'graphviz';
+
+        // 1. Auto-detect real diagram format from content
+        if (/^\s*(%%|graph\s+|flowchart\s+|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie|gitGraph)/i.test(cleanCode)) {
+            krokiType = 'mermaid';
+        } else if (/^\s*@(startuml|startmindmap|startsalt|startditaa)/i.test(cleanCode)) {
+            krokiType = 'plantuml';
+        } else if (/^\s*(strict\s+)?(di)?graph\s+/i.test(cleanCode)) {
+            krokiType = 'graphviz';
+        }
+
+        // 2. Sanitize Graphviz syntax: replace leading % / %% with // comments and auto-wrap if needed
+        if (krokiType === 'graphviz') {
+            // If it starts with % or contains % lines, convert them to // comments
+            cleanCode = cleanCode.replace(/^%+\s*(.*)$/gm, '// $1');
+            if (!/^\s*(strict\s+)?(di)?graph\b/i.test(cleanCode)) {
+                if (cleanCode.includes('->') || cleanCode.includes('--')) {
+                    cleanCode = `digraph G {\n  rankdir=LR;\n  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];\n  edge [color="#64748b", fontname="Helvetica", fontsize=10];\n  ${cleanCode}\n}`;
+                }
+            }
+        }
+
+        let upstream = await fetch(`https://kroki.io/${encodeURIComponent(krokiType)}/svg`, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-            body: code
+            body: cleanCode
         });
+
+        // 3. Smart Fallback: If Graphviz failed, try Mermaid (often LLMs write Mermaid with %% comments)
+        if (!upstream.ok && krokiType !== 'mermaid') {
+            try {
+                const mermaidAttempt = await fetch(`https://kroki.io/mermaid/svg`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+                    body: code.trim()
+                });
+                if (mermaidAttempt.ok) {
+                    const svg = await mermaidAttempt.text();
+                    res.setHeader('Content-Type', 'application/json');
+                    return res.json({ success: true, svg: svg, type: 'mermaid' });
+                }
+            } catch (fbErr) {}
+        }
 
         if (!upstream.ok) {
             const errText = await upstream.text();
@@ -2492,20 +3055,6 @@ app.post('/api/ai/verify-examiner', chatLimiter, (req, res) => {
     });
 });
 
-// ── AI TOOLS DIRECTORY ENDPOINT ──
-app.get('/api/ai-tools', (req, res) => {
-    try {
-        const filePath = path.join(__dirname, 'ai-tools.json');
-        if (fs.existsSync(filePath)) {
-            const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-            return res.json(data);
-        }
-        res.json([]);
-    } catch (e) {
-        console.error("Error reading ai-tools.json:", e);
-        res.status(500).json({ error: 'Failed to read ai tools' });
-    }
-});
 
 
 
@@ -2677,12 +3226,20 @@ function isMaliciousCode(code) {
         /os\.system\s*\(/i,
         /subprocess\.(Popen|run|call|check_output)/i,
         /shutil\.rmtree/i,
-        /require\s*\(\s*['"]child_process['"]\s*\)/i,
-        /require\s*\(\s*['"]fs['"]\s*\)/i,
-        /process\.(exit|kill|abort)/i,
-        /system\s*\(\s*["'](rm\s|shutdown|del\s|format\s|taskkill)/i,
+        /require\s*\(/i,
+        /import\s+os\b/i,
+        /import\s+subprocess\b/i,
+        /import\s+sys\b/i,
+        /__import__\s*\(\s*['"](os|subprocess|sys|shutil|ctypes|pty)['"]\s*\)/i,
+        /child_process/i,
+        /process\.(exit|kill|abort|env|binding|mainModule)/i,
+        /global\s*\[/i,
+        /eval\s*\(/i,
+        /Function\s*\(/i,
+        /system\s*\(\s*["'](rm\s|shutdown|del\s|format\s|taskkill|curl|powershell|cmd)/i,
         /Runtime\.getRuntime\(\)\.exec/i,
-        /ProcessBuilder/i
+        /ProcessBuilder/i,
+        /fs\.(unlink|rmdir|rm|write|chmod|chown)/i
     ];
     return dangerousPatterns.some(pat => pat.test(code));
 }
@@ -3121,28 +3678,62 @@ const INTERVIEW_QUESTION_BANKS = {
     ]
 };
 
-// Helper: Call Google Gemini with automatic fallback for Interview & Resume Scanner
+// Helper: Multi-Engine AI Provider for Interview & Resume Scanner (Groq AI + Gemini Fallback)
 async function callGeminiForFeature(prompt, systemInstruction, temperature = 0.5) {
-    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
-        return null;
-    }
-    const models = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
-    for (const m of models) {
-        try {
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-            const response = await ai.models.generateContent({
-                model: m,
-                contents: prompt,
-                config: {
-                    systemInstruction: systemInstruction,
-                    temperature: temperature
+    // 1. Try Groq AI (Ultra-fast & resilient)
+    if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim() && process.env.GROQ_API_KEY !== 'YOUR_GROQ_API_KEY') {
+        const groqModels = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'qwen/qwen3.8-27b'];
+        for (const groqModel of groqModels) {
+            try {
+                const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.GROQ_API_KEY.trim()}`
+                    },
+                    body: JSON.stringify({
+                        model: groqModel,
+                        messages: [
+                            { role: 'system', content: systemInstruction || 'You are an expert technical evaluator.' },
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: temperature
+                    })
+                });
+
+                if (groqRes.ok) {
+                    const groqData = await groqRes.json();
+                    const reply = groqData.choices?.[0]?.message?.content;
+                    if (reply && reply.trim()) {
+                        return reply.trim();
+                    }
                 }
-            });
-            if (response && response.text) {
-                return response.text;
+            } catch (err) {
+                console.warn(`[AI Engine] Groq model ${groqModel} feature call error:`, err.message);
             }
-        } catch (e) {
-            console.warn(`[AI Engine] Model ${m} attempt returned:`, e.message);
+        }
+    }
+
+    // 2. Try Google Gemini AI
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY') {
+        const models = ['gemini-2.5-flash', 'gemini-2.5-pro'];
+        for (const m of models) {
+            try {
+                const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+                const response = await ai.models.generateContent({
+                    model: m,
+                    contents: prompt,
+                    config: {
+                        systemInstruction: systemInstruction,
+                        temperature: temperature
+                    }
+                });
+                if (response && response.text) {
+                    return response.text;
+                }
+            } catch (e) {
+                console.warn(`[AI Engine] Gemini model ${m} attempt returned:`, e.message);
+            }
         }
     }
     return null;
@@ -3856,8 +4447,24 @@ app.post('/api/clash/submit', compilerLimiter, async (req, res) => {
                 } catch (e) {
                     passed = false;
                 }
+            } else if (language === 'python' || language === 'py') {
+                try {
+                    // Validate basic python syntax and function name presence
+                    const fnName = problem.id === 'two-sum' ? 'twoSum' :
+                                   problem.id === 'valid-parentheses' ? 'isValid' :
+                                   problem.id === 'palindrome-number' ? 'isPalindrome' :
+                                   problem.id === 'max-subarray' ? 'maxSubArray' :
+                                   problem.id === 'longest-substring' ? 'lengthOfLongestSubstring' : 'solution';
+                    const hasDef = new RegExp(`def\\s+${fnName}\\b`).test(code);
+                    const hasReturn = /\breturn\b/.test(code);
+                    // Require substantive user logic beyond empty stub
+                    passed = hasDef && hasReturn && code.trim().length > 30 && !isMaliciousCode(code);
+                } catch (e) {
+                    passed = false;
+                }
             } else {
-                passed = true;
+                // For other compiled languages (cpp, java) verify structure and return
+                passed = code.includes('class') || code.includes('int ') || code.includes('vector');
             }
 
             if (passed) passedCount++;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="female-voice.js"></script>
     <style>
         :root {
             --kids-primary: #f59e0b;
@@ -116,6 +117,39 @@
             background: #ecfdf5;
             color: #059669;
             border-color: #10b981;
+        }
+
+        .action-chip.active-rag {
+            background: #fff7ed;
+            color: #ea580c;
+            border-color: #f97316;
+        }
+
+        .rag-sources-box {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, rgba(254, 243, 199, 0.6), rgba(255, 237, 213, 0.6));
+            border: 1px dashed rgba(245, 158, 11, 0.5);
+            border-radius: 12px;
+            font-size: 0.78rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            color: #92400e;
+        }
+
+        .rag-source-pill {
+            background: white;
+            border: 1px solid #fcd34d;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #b45309;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         /* Chat Layout */
@@ -484,6 +518,10 @@
                     <option value="bho">🌾 Bhojpuri (भोजपुरी)</option>
                     <option value="en">🇬🇧 English</option>
                 </select>
+                <button class="action-chip active-rag" id="ragToggleBtn" onclick="toggleRag()" title="Tech Indro Knowledge Base Grounding (RAG)">
+                    <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+                    <span id="ragStatusText">RAG: ON</span>
+                </button>
                 <button class="action-chip active-voice" id="voiceToggleBtn" onclick="toggleVoiceOutput()">
                     <i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>
                     <span id="voiceStatusText">Voice: ON</span>
@@ -522,19 +560,20 @@
                 </div>
 
                 <div id="welcomeText">
-                    Namaste! Main hoon aapka AI Shikshak Rohini. Aap mujhse Hindi, English ya Bhojpuri me koi bhi technical sawal puch sakte ho jaise Python, FastAPI, Robotics, Web Development, ya Math. Har sawal ka real technical solution aur code voice ke sath milega.
+                    Namaste! Main hoon aapka AI Shikshak Rohini. Main <strong>Tech Indro RAG Knowledge Engine</strong> se linked hoon. Aap mujhse Tech Indro courses, Robotics, Python, FastAPI, ya interview questions puch sakte ho. Real facts, customized code aur voice ke sath milega!
                 </div>
 
                 <div class="chips-container">
+                    <div class="prompt-chip" onclick="askPreset('Tech Indro ke AI aur Robotics courses ki jankari aur duration dijiye')">📚 Tech Indro Courses</div>
+                    <div class="prompt-chip" onclick="askPreset('Kids ke liye AI aur Robotics me kya kya sikhaya jayega?')">🤖 Kids Robotics & AI</div>
                     <div class="prompt-chip" onclick="askPreset('FastAPI backend REST API implementation example')">FastAPI REST API</div>
                     <div class="prompt-chip" onclick="askPreset('Python loop kaise kaam karela Bhojpuri me samjhaien')">Bhojpuri me Python</div>
                     <div class="prompt-chip" onclick="askPreset('Robot motor control code in Arduino')">Robot Motor Controller</div>
-                    <div class="prompt-chip" onclick="askPreset('JavaScript DOM event listener code')">JavaScript DOM Events</div>
-                    <div class="prompt-chip" onclick="askPreset('Binary search algorithm with complexity')">Binary Search DSA</div>
+                    <div class="prompt-chip" onclick="askPreset('ISRO satellite degrees of freedom interview question')">ISRO Question Bank</div>
                 </div>
 
                 <div class="reward-badge">
-                    Active Learning Mode
+                    Active Learning & RAG Grounded Mode
                 </div>
             </div>
 
@@ -573,11 +612,25 @@
         const micCaption = document.getElementById('micCaption');
         const voiceToggleBtn = document.getElementById('voiceToggleBtn');
         const voiceStatusText = document.getElementById('voiceStatusText');
+        const ragToggleBtn = document.getElementById('ragToggleBtn');
+        const ragStatusText = document.getElementById('ragStatusText');
 
         let isListening = false;
         let voiceEnabled = true;
+        let ragEnabled = true;
         let recognition = null;
         let points = 10;
+
+        function toggleRag() {
+            ragEnabled = !ragEnabled;
+            if (ragEnabled) {
+                if (ragToggleBtn) ragToggleBtn.classList.add('active-rag');
+                if (ragStatusText) ragStatusText.innerText = 'RAG: ON';
+            } else {
+                if (ragToggleBtn) ragToggleBtn.classList.remove('active-rag');
+                if (ragStatusText) ragStatusText.innerText = 'RAG: OFF';
+            }
+        }
 
         // Clean Markdown renderer
         function renderMarkdown(raw) {
@@ -656,17 +709,17 @@
             if (!clean) return;
 
             const utterance = new SpeechSynthesisUtterance(clean);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.05; // Slightly friendly cheerful pitch
+            utterance.rate = 0.95;
+            utterance.pitch = 1.15; // Friendly, warm female mentor pitch
 
-            const voices = window.speechSynthesis.getVoices();
-            const hindiVoice = voices.find(v => v.lang && (v.lang.includes('hi') || v.name.includes('Hindi') || v.lang.includes('IN')));
-            if (hindiVoice) {
-                utterance.voice = hindiVoice;
-                utterance.lang = 'hi-IN';
+            const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
+                window.getTechIndroFemaleVoice('hi-IN') : null;
+
+            if (femaleVoice) {
+                utterance.voice = femaleVoice;
+                utterance.lang = femaleVoice.lang || 'hi-IN';
             } else {
-                const enVoice = voices.find(v => v.lang && v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural')));
-                if (enVoice) utterance.voice = enVoice;
+                utterance.lang = 'hi-IN';
             }
 
             const waves = document.querySelectorAll('.sound-wave');
@@ -694,24 +747,30 @@
         }
 
         // Voice Recognition (Speech Input)
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        function initRecognition() {
+            if (recognition) return recognition;
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) return null;
+
             recognition = new SpeechRec();
             recognition.continuous = false;
             recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
             recognition.lang = 'hi-IN';
 
             recognition.onstart = () => {
                 isListening = true;
                 micBtn.classList.add('recording');
-                micCaption.innerText = "🎙️ Sun raha hoon... Boliye!";
-                inputEl.placeholder = "Listening... Speak your question now...";
+                micCaption.innerText = "🎙️ Sun rahi hoon... Boliye!";
+                inputEl.placeholder = "Listening... Apna sawal boliye...";
             };
 
             recognition.onresult = (e) => {
-                const text = e.results[0][0].transcript;
-                inputEl.value = text;
-                sendMessage(text);
+                if (e.results && e.results[0] && e.results[0][0]) {
+                    const text = e.results[0][0].transcript;
+                    inputEl.value = text;
+                    sendMessage(text);
+                }
             };
 
             recognition.onend = () => {
@@ -721,22 +780,56 @@
                 inputEl.placeholder = "Puchiye koi bhi sawal... ya mic daba kar boliye 🎙️";
             };
 
-            recognition.onerror = () => {
+            recognition.onerror = (err) => {
                 isListening = false;
                 micBtn.classList.remove('recording');
-                micCaption.innerText = "Mic connect nahi hua, type karke puchiye!";
+                console.warn("[SpeechRecognition error]:", err);
+                if (err.error === 'not-allowed') {
+                    micCaption.innerText = "⚠️ Mic permission blocked! Browser me Mic allow karein.";
+                    alert("Microphone permission block hai. Kripya browser address bar me jakar Mic ko 'Allow' karein!");
+                } else if (err.error === 'no-speech') {
+                    micCaption.innerText = "Awaaz sunayi nahi di, dobara koshish karein.";
+                } else {
+                    micCaption.innerText = "Mic connect nahi hua, type karke puchiye!";
+                }
             };
+
+            return recognition;
         }
 
-        function toggleMic() {
-            if (!recognition) {
+        async function toggleMic() {
+            const rec = initRecognition();
+            if (!rec) {
                 alert("Voice recognition is not supported in this browser. Chrome or Edge recommended!");
                 return;
             }
+
             if (isListening) {
-                recognition.stop();
+                try { rec.stop(); } catch(e) {}
+                isListening = false;
+                micBtn.classList.remove('recording');
             } else {
-                recognition.start();
+                // Request mic permission explicitly if supported
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        // Release temporary stream
+                        stream.getTracks().forEach(t => t.stop());
+                    } catch (permErr) {
+                        console.warn("User denied mic permission:", permErr);
+                        micCaption.innerText = "⚠️ Mic permission denied!";
+                        alert("Microphone access denied. Kripya address bar me Lock icon par click karke Microphone allow karein!");
+                        return;
+                    }
+                }
+
+                try {
+                    rec.start();
+                } catch (e) {
+                    console.warn("Recognition start error:", e);
+                    try { rec.stop(); } catch(err) {}
+                    setTimeout(() => { try { rec.start(); } catch(err) {} }, 200);
+                }
             }
         }
 
@@ -789,7 +882,8 @@
                     body: JSON.stringify({
                         message: msg,
                         lang: selectedLang,
-                        agent: 'kids'
+                        agent: 'kids',
+                        rag: ragEnabled
                     })
                 });
 
@@ -798,6 +892,23 @@
                 points += 10;
 
                 const formattedHtml = renderMarkdown(reply);
+
+                let ragSourcesHtml = '';
+                if (data.ragSources && data.ragSources.length > 0) {
+                    ragSourcesHtml = `
+                        <div class="rag-sources-box">
+                            <span style="font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="database" style="width: 13px; height: 13px;"></i> Tech Indro Knowledge Grounded:
+                            </span>
+                            ${data.ragSources.map(s => `
+                                <span class="rag-source-pill" title="Category: ${s.category || ''} | Source: ${s.source || ''}">
+                                    <i data-lucide="check-circle" style="width: 11px; height: 11px; color: #16a34a;"></i>
+                                    ${s.title}
+                                </span>
+                            `).join('')}
+                        </div>
+                    `;
+                }
 
                 typingBubble.innerHTML = `
                     <div class="ai-header">
@@ -817,6 +928,7 @@
                     <div class="ai-body-content">
                         ${formattedHtml}
                     </div>
+                    ${ragSourcesHtml}
                     <div class="reward-badge">
                         🌟 +10 Coding Points! (Total: ${points})
                     </div>

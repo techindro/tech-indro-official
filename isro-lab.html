@@ -6,6 +6,7 @@
     <title>ISRO Virtual Space Lab - Rohini AI</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="female-voice.js"></script>
     <style>
         body {
             background: #020617;
@@ -651,20 +652,20 @@
         }
 
         function speak(text) {
-            if (!voiceEnabled) return;
+            if (!voiceEnabled || !('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel(); 
             const cleanText = text.replace(/[\*\#\(\)]/g, ''); 
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            const voices = window.speechSynthesis.getVoices();
-            const hindiVoice = voices.find(v => {
-                const name = v.name.toLowerCase();
-                const lang = v.lang.toLowerCase();
-                return (lang.includes('hi-in') || lang.includes('en-in')) && 
-                       (name.includes('female') || name.includes('neerja') || name.includes('swara') || name.includes('lekha') || name.includes('veena') || name.includes('google हिन्दी'));
-            }) || voices.find(v => v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().includes('en-in'));
-            if(hindiVoice) utterance.voice = hindiVoice;
-            utterance.rate = 0.9;
-            utterance.pitch = 1.1;
+            const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
+                window.getTechIndroFemaleVoice('hi-IN') : null;
+            if (femaleVoice) {
+                utterance.voice = femaleVoice;
+                utterance.lang = femaleVoice.lang || 'hi-IN';
+            } else {
+                utterance.lang = 'hi-IN';
+            }
+            utterance.rate = 0.95;
+            utterance.pitch = 1.15;
             window.speechSynthesis.speak(utterance);
         }
 

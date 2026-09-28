@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="female-voice.js"></script>
     <style>
         :root {
             --prep-primary: #ff6b35; /* Tech Indro Platform Login Orange */
@@ -1556,12 +1557,17 @@
             if (!cleanText) return;
 
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
+            utterance.rate = 0.95;
+            utterance.pitch = 1.15; // Natural, polished female interviewer tone
 
-            const voices = window.speechSynthesis.getVoices();
-            const preferredVoice = voices.find(v => v.lang && (v.lang.includes('en') || v.lang.includes('IN')));
-            if (preferredVoice) utterance.voice = preferredVoice;
+            const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
+                window.getTechIndroFemaleVoice('en-US') : null;
+            if (femaleVoice) {
+                utterance.voice = femaleVoice;
+                utterance.lang = femaleVoice.lang || 'en-US';
+            } else {
+                utterance.lang = 'en-US';
+            }
 
             const waveEl = document.getElementById('speakingWave');
             utterance.onstart = () => { if (waveEl) waveEl.style.display = 'inline-flex'; };

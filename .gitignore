@@ -38,5 +38,12 @@ build/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-.vercel
+.vercel/
 .env*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env/
