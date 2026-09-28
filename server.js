@@ -2706,10 +2706,14 @@ function cleanAIResponse(rawText) {
         return segment
             // Remove emojis
             .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
-            // Remove excessive heading markers (####, #####) but keep ## and ###
-            .replace(/^#{4,}\s*/gm, '### ')
-            // Clean up excessive asterisk bold (lines that are ALL bold become plain)
-            .replace(/^\*\*([^*]+)\*\*$/gm, '$1');
+            // Convert any asterisk bullets (* ) to clean hyphen bullets (- ) so they render cleanly and TTS doesn't speak "tarankan"
+            .replace(/^\s*\*\s+/gm, '- ')
+            // Convert raw heading hashtags (#, ##, ###) into clean bold titles so raw # never shows
+            .replace(/^#{1,6}\s*(.*)$/gm, '**$1**')
+            // Clean up stray hashtags
+            .replace(/#{2,}/g, '')
+            // Clean up lines that are all bold
+            .replace(/^\*\*([^*]+)\*\*$/gm, '**$1**');
     });
 
     return cleaned.join('').trim();
@@ -2754,67 +2758,63 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
 - The user is communicating in Bhojpuri.
 - Reply completely in clean, natural, respectful Bhojpuri.
 - Explain concepts clearly in Bhojpuri without emojis or decorative characters.
+- Use numbered points (1. , 2. ) and bullet points (- ) for clear structure.
 - Provide real, runnable code with clean comments.`;
     } else if (isHindi && targetLang !== 'en') {
         languageDirective = `LANGUAGE REQUIREMENT: CASUAL HINGLISH / HINDI.
 - Respond in natural, clean, professional Hinglish (Hindi + English mix).
 - Explain simply and practically without emojis or decorative symbols.
+- Use numbered points (1. , 2. ) and clean bullet points (- ) for clear, smooth explanation.
 - Provide real, runnable code with clean comments.`;
     } else {
         languageDirective = `LANGUAGE REQUIREMENT: CLEAN CONVERSATIONAL ENGLISH.
 - Respond in clear, straightforward, professional English.
+- Use numbered points (1. , 2. ) and clean bullet points (- ) for clear structure.
 - Avoid academic fluff. Provide real, runnable code with clean comments.`;
     }
 
-    let systemInstruction = customSystemInstruction;
-    if (!systemInstruction) {
-        systemInstruction = `You are Tech Indro AI Senior Mentor — a world-class engineering tutor.
+    // Ensure systemInstruction ALWAYS incorporates strict formatting and diagram rules
+    const basePersonaInstruction = customSystemInstruction || "You are Tech Indro AI Senior Mentor — a world-class engineering tutor.";
 
-RESPONSE FORMAT RULES:
-- Do NOT use emojis or unicode symbols.
-- Use **bold** only for key terms (max 3-4 per paragraph). Do not bold every word.
-- Use headings sparingly. Use at most one or two ## headings per response.
-- Write clean, readable paragraphs. Avoid walls of bullet points.
-- Keep explanations concise, practical, and directly relevant to the question.
+    let systemInstruction = `${basePersonaInstruction}
 
-DIAGRAM RULES (VERY IMPORTANT):
-When a diagram, flowchart, architecture, or visualization is needed:
-- Output a valid Graphviz digraph inside a fenced code block tagged kroki:graphviz.
-- The diagram MUST be specific to the user's question (not generic boilerplate).
-- Use proper Graphviz DOT syntax: digraph G { rankdir=LR; node [...]; edge [...]; ... }
-- Do NOT put comments starting with % or %% inside Graphviz code. Use // for comments.
-- Do NOT mix Mermaid syntax inside a Graphviz block.
-- Example format:
+CRITICAL RESPONSE STYLE & FORMAT RULES:
+- Structure your answers smoothly and simply so anyone can understand easily.
+- Use numbered lists (1. , 2. ) for sequences, algorithms, workflows, or step-by-step procedures.
+- Use clean bullet points with a hyphen (- ) for features, properties, comparisons, and key takeaways.
+- NEVER use asterisks (*) for bullet points. Always use hyphens (- ).
+- NEVER output raw hashtags (#, ##, ###) in your text. Instead, use clean bold headings (e.g. **1. Concept Overview**).
+- Keep bolding clean and readable — bold only key terms (2-3 words per point), never bold entire paragraphs.
+- Keep explanations simple, smooth, and friendly without dry jargon.
+
+DIAGRAM RULES (GRAPHVIZ / KROKI):
+When a visual diagram or flowchart is helpful for the topic:
+- Output a valid Graphviz digraph inside a fenced code block tagged \`\`\`kroki:graphviz
+- Structure MUST be valid DOT syntax:
 \`\`\`kroki:graphviz
 digraph G {
   rankdir=LR;
-  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica"];
-  A [label="Step 1"];
-  B [label="Step 2"];
-  A -> B;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];
+  edge [color="#64748b", fontname="Helvetica", fontsize=10];
+  A [label="Input / Start"];
+  B [label="Processing Unit"];
+  C [label="Output Result"];
+  A -> B [label="Send"];
+  B -> C [label="Emit"];
 }
 \`\`\`
-
-INFOGRAPHIC / ROADMAP RULES:
-When user asks for a roadmap or step-by-step process:
-\`\`\`infographic
-Title: [Roadmap Title]
-Step 1: [Phase] | [Description]
-Step 2: [Phase] | [Description]
-\`\`\`
-
-CODE RULES:
-- Provide real, runnable code in proper fenced blocks (\`\`\`python, \`\`\`javascript, etc.).
-- Add brief, useful comments. Do not over-comment obvious lines.
+- Keep node labels short, clean, in double quotes: NodeName [label="Label Text"].
+- Do NOT use comments starting with % or %%. Only use // for comments if needed.
+- The diagram must be strictly relevant and accurate for the user's question.
 
 RESPONSE STRUCTURE:
-1. Clear explanation of the concept (2-3 paragraphs max).
-2. A Kroki diagram if relevant (architecture/flow/data structure visualization).
-3. Working code example if relevant.
-4. One follow-up question to guide the student further.
+1. Quick, crystal-clear 1-2 sentence definition or summary.
+2. Smooth, simple explanation using numbered points (1. , 2. ) or clean bullet points (- ).
+3. A Kroki diagram if relevant to visualize the concept.
+4. Clean code snippet or practical example if applicable.
+5. Key takeaways in 2-3 clean bullets (- ).
 
 ${languageDirective}`;
-    }
 
     // Augment System Instruction with RAG Context if available
     if (ragResult.hasContext && ragResult.context) {
@@ -2922,14 +2922,111 @@ app.post('/api/rag/search', async (req, res) => {
     }
 });
 
+// ============================================================================
+// RESILIENT KROKI / GRAPHVIZ SVG GENERATOR FALLBACK
+// ============================================================================
+function generateFallbackDiagramSvg(cleanCode) {
+    const lines = cleanCode.split('\n');
+    const nodes = new Map();
+    const edges = [];
+
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        // Match node definitions with labels: A [label="Node Name", ...]
+        const nodeMatch = trimmed.match(/^([a-zA-Z0-9_]+)\s*\[.*?label="([^"]+)".*?\]/i);
+        if (nodeMatch) {
+            nodes.set(nodeMatch[1], nodeMatch[2].replace(/\\n/g, ' '));
+        }
+
+        // Match edges: A -> B [label="..."]
+        const edgeMatch = trimmed.match(/^([a-zA-Z0-9_]+)\s*->\s*([a-zA-Z0-9_]+)(?:\s*\[.*?label="([^"]+)".*?\])?/i);
+        if (edgeMatch) {
+            const from = edgeMatch[1];
+            const to = edgeMatch[2];
+            const edgeLabel = edgeMatch[3] ? edgeMatch[3].replace(/\\n/g, ' ') : '';
+            if (!nodes.has(from)) nodes.set(from, from);
+            if (!nodes.has(to)) nodes.set(to, to);
+            edges.push({ from, to, label: edgeLabel });
+        }
+    });
+
+    const nodeArray = Array.from(nodes.entries());
+    if (nodeArray.length === 0) {
+        return `<svg viewBox="0 0 650 140" width="100%" height="140" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" rx="12" fill="#fff7ed" stroke="#ff6b35" stroke-width="1.5"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#9a3412" font-weight="700">Architecture Diagram Flow</text>
+        </svg>`;
+    }
+
+    const boxWidth = 140;
+    const boxHeight = 52;
+    const gapX = 50;
+    const paddingX = 35;
+    const totalWidth = Math.max(600, paddingX * 2 + nodeArray.length * (boxWidth + gapX) - gapX);
+    const totalHeight = 160;
+    const centerY = totalHeight / 2 - boxHeight / 2;
+
+    const coords = new Map();
+    let elementsSvg = '';
+
+    nodeArray.forEach(([id, label], index) => {
+        const x = paddingX + index * (boxWidth + gapX);
+        const y = centerY;
+        coords.set(id, { x, y, cx: x + boxWidth / 2, cy: y + boxHeight / 2 });
+
+        const isStart = index === 0;
+        const isEnd = index === nodeArray.length - 1;
+        const fill = isStart ? '#fff7ed' : (isEnd ? '#f0fdf4' : '#eff6ff');
+        const stroke = isStart ? '#ea580c' : (isEnd ? '#16a34a' : '#2563eb');
+        const textFill = isStart ? '#9a3412' : (isEnd ? '#166534' : '#1e40af');
+
+        elementsSvg += `
+            <g>
+                <rect x="${x}" y="${y}" width="${boxWidth}" height="${boxHeight}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+                <text x="${x + boxWidth / 2}" y="${y + boxHeight / 2}" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="${textFill}">
+                    ${label.slice(0, 22)}
+                </text>
+            </g>
+        `;
+    });
+
+    edges.forEach(({ from, to, label }) => {
+        const cFrom = coords.get(from);
+        const cTo = coords.get(to);
+        if (cFrom && cTo) {
+            const x1 = cFrom.x + boxWidth;
+            const y1 = cFrom.cy;
+            const x2 = cTo.x;
+            const y2 = cTo.cy;
+            elementsSvg += `
+                <g>
+                    <line x1="${x1}" y1="${y1}" x2="${x2 - 8}" y2="${y2}" stroke="#ff6b35" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+                    ${label ? `<text x="${(x1 + x2) / 2}" y="${y1 - 8}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748b">${label.slice(0, 18)}</text>` : ''}
+                </g>
+            `;
+        }
+    });
+
+    return `<svg viewBox="0 0 ${totalWidth} ${totalHeight}" width="100%" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3.5" orient="auto">
+                <polygon points="0 0, 7 3.5, 0 7" fill="#ff6b35"/>
+            </marker>
+        </defs>
+        ${elementsSvg}
+    </svg>`;
+}
+
 // Kroki Diagramming Engine Proxy (Graphviz, PlantUML, Mermaid, C4, D2, BlockDiag)
 app.post('/api/kroki', async (req, res) => {
+    let cleanCode = '';
+    let krokiType = 'graphviz';
     try {
         let { type = 'graphviz', code } = req.body;
         if (!code) return res.status(400).json({ error: 'Diagram code is required' });
 
-        let cleanCode = code.trim();
-        let krokiType = type.toLowerCase().replace(/^kroki:/, '').trim() || 'graphviz';
+        cleanCode = code.trim();
+        krokiType = type.toLowerCase().replace(/^kroki:/, '').trim() || 'graphviz';
 
         // 1. Auto-detect real diagram format from content
         if (/^\s*(%%|graph\s+|flowchart\s+|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie|gitGraph)/i.test(cleanCode)) {
@@ -2942,7 +3039,6 @@ app.post('/api/kroki', async (req, res) => {
 
         // 2. Sanitize Graphviz syntax: replace leading % / %% with // comments and auto-wrap if needed
         if (krokiType === 'graphviz') {
-            // If it starts with % or contains % lines, convert them to // comments
             cleanCode = cleanCode.replace(/^%+\s*(.*)$/gm, '// $1');
             if (!/^\s*(strict\s+)?(di)?graph\b/i.test(cleanCode)) {
                 if (cleanCode.includes('->') || cleanCode.includes('--')) {
@@ -2957,7 +3053,7 @@ app.post('/api/kroki', async (req, res) => {
             body: cleanCode
         });
 
-        // 3. Smart Fallback: If Graphviz failed, try Mermaid (often LLMs write Mermaid with %% comments)
+        // 3. Smart Fallback: If Graphviz failed, try Mermaid
         if (!upstream.ok && krokiType !== 'mermaid') {
             try {
                 const mermaidAttempt = await fetch(`https://kroki.io/mermaid/svg`, {
@@ -2974,16 +3070,20 @@ app.post('/api/kroki', async (req, res) => {
         }
 
         if (!upstream.ok) {
-            const errText = await upstream.text();
-            return res.status(upstream.status).json({ error: errText || 'Kroki diagram rendering failed' });
+            // Render built-in fallback SVG so user never sees a broken box
+            const fallbackSvg = generateFallbackDiagramSvg(cleanCode);
+            res.setHeader('Content-Type', 'application/json');
+            return res.json({ success: true, svg: fallbackSvg, type: 'fallback' });
         }
 
         const svg = await upstream.text();
         res.setHeader('Content-Type', 'application/json');
         return res.json({ success: true, svg: svg, type: krokiType });
     } catch (err) {
-        console.error('Kroki API Proxy Error:', err.message);
-        return res.status(502).json({ error: 'Failed to communicate with Kroki: ' + err.message });
+        console.warn('Kroki API Proxy Error, generating fallback SVG:', err.message);
+        const fallbackSvg = generateFallbackDiagramSvg(cleanCode || 'digraph G { A -> B; }');
+        res.setHeader('Content-Type', 'application/json');
+        return res.json({ success: true, svg: fallbackSvg, type: 'fallback' });
     }
 });
 

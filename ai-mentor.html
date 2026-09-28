@@ -682,6 +682,48 @@
             font-weight: 700;
         }
 
+        .bubble-content-ai h2 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--ai-text-main);
+            margin: 1rem 0 0.4rem 0;
+            padding-bottom: 4px;
+            border-bottom: 1.5px solid var(--ai-border);
+        }
+
+        .bubble-content-ai h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--ai-text-main);
+            margin: 0.8rem 0 0.3rem 0;
+        }
+
+        .bubble-content-ai ol {
+            padding-left: 1.3rem;
+            margin: 0.4rem 0;
+        }
+
+        .bubble-content-ai ol li {
+            margin: 0.25rem 0;
+            color: #334155;
+        }
+
+        .bubble-content-ai ul {
+            padding-left: 1.3rem;
+            margin: 0.4rem 0;
+        }
+
+        .bubble-content-ai ul li {
+            margin: 0.25rem 0;
+            color: #334155;
+        }
+
+        .bubble-content-ai hr {
+            border: none;
+            border-top: 1px solid var(--ai-border);
+            margin: 0.8rem 0;
+        }
+
         .bubble-user-text {
             background: #0f172a;
             color: #ffffff;
@@ -1523,14 +1565,31 @@
             window.speechSynthesis.cancel();
 
             let clean = rawText
-                .replace(/```image[\s\S]*?```/gi, " AI architecture image created. ")
-                .replace(/```chart[\s\S]*?```/gi, " Interactive chart plotted. ")
-                .replace(/```stickynote[\s\S]*?```/gi, " Revision sticky note pinned. ")
-                .replace(/```flashcard[\s\S]*?```/gi, " Revision flashcard rendered. ")
-                .replace(/```infographic[\s\S]*?```/gi, " Visual roadmap generated. ")
-                .replace(/```video[\s\S]*?```/gi, " Tutorial video attached. ")
-                .replace(/```[\s\S]*?```/g, " Code example provided. ")
-                .replace(/[*#`_]/g, '')
+                // Remove all code blocks & Kroki diagrams
+                .replace(/```[\s\S]*?```/g, ' ')
+                // Remove inline code
+                .replace(/`([^`]+)`/g, '$1')
+                // Remove markdown links & images [text](url) -> text
+                .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+                .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+                .replace(/https?:\/\/\S+/g, '')
+                .replace(/<[^>]*>/g, ' ')
+                // Remove heading markers (#)
+                .replace(/^#{1,6}\s*/gm, '')
+                // Convert bullet points to clean pauses (period)
+                .replace(/^\s*[-*•]\s+/gm, '')
+                // Convert numbered lists: "1. " -> "Step 1. "
+                .replace(/^\s*(\d+)[\.\)]\s+/gm, '$1. ')
+                // REMOVE ALL ASTERISKS completely (prevent "tarankan" in Hindi TTS)
+                .replace(/[*_~]/g, '')
+                // Remove hashtags anywhere
+                .replace(/#/g, '')
+                // Remove special symbols that TTS reads aloud
+                .replace(/[<>{}[\]|\\/]/g, ' ')
+                .replace(/["'"]/g, '')
+                .replace(/\n+/g, '. ')
+                .replace(/\.{2,}/g, '.')
+                .replace(/\s{2,}/g, ' ')
                 .trim();
 
             if (!clean) return;
@@ -1810,7 +1869,8 @@
             let text = rawText;
 
             // 0. Pre-process: Normalize common LLM diagram variants to kroki:graphviz
-            text = text.replace(/```(?:dot|graph|digraph)\s/gi, '```kroki:graphviz\n');
+            text = text.replace(/```(?:dot|graph|digraph|kroki-graphviz|architecture|diagram|flowchart)\s/gi, '```kroki:graphviz\n');
+            text = text.replace(/```kroki\s/gi, '```kroki:graphviz\n');
 
             // 1. Kroki Architecture & Process Diagrams (Graphviz, PlantUML, Mermaid, C4, D2, BlockDiag, Nomnoml, ERD)
             text = text.replace(/```(?:kroki:?([a-zA-Z0-9_-]*)|(graphviz|plantuml|mermaid|d2|c4plantuml|blockdiag|nomnoml|erd|actdiag|nwdiag))\s*([\s\S]*?)```/gi, function(match, t1, t2, code) {
@@ -1838,7 +1898,7 @@
                     <div class="ai-kroki-header">
                         <span style="display: inline-flex; align-items: center; gap: 6px;">
                             <i data-lucide="network" style="width: 14px; height: 14px; color: var(--ai-primary);"></i>
-                            KROKI ARCHITECTURE DIAGRAM • ${diagramType.toUpperCase()}
+                            ARCHITECTURE DIAGRAM • ${diagramType.toUpperCase()}
                         </span>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <button type="button" class="copy-code-btn" onclick="copyKrokiCode(this, '${encodedCode}')">Copy Syntax</button>
@@ -1847,7 +1907,7 @@
                     </div>
                     <div class="ai-kroki-body" data-kroki-type="${diagramType}" data-kroki-code="${encodedCode}">
                         <div class="kroki-render-target" style="display: flex; align-items: center; gap: 8px; color: #64748b; font-size: 0.85rem;">
-                            <i data-lucide="loader-2" class="spin" style="width: 16px; height: 16px;"></i> Rendering Kroki vector diagram...
+                            <i data-lucide="loader-2" class="spin" style="width: 16px; height: 16px;"></i> Rendering vector diagram...
                         </div>
                     </div>
                 </div>`;
@@ -1968,11 +2028,29 @@
             });
 
             // Markdown essentials
+            // Headings: convert any ## or ### to proper HTML headings
+            text = text.replace(/^###\s*(.*)$/gm, '<h3>$1</h3>');
+            text = text.replace(/^##\s*(.*)$/gm, '<h2>$1</h2>');
+            text = text.replace(/^#\s*(.*)$/gm, '<h2>$1</h2>');
+
+            // Bold and inline code
             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-            text = text.replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>');
-            text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
+
+            // Horizontal rules
+            text = text.replace(/^---+$/gm, '<hr>');
+
+            // Numbered lists (1. , 2. )
+            text = text.replace(/^\s*(\d+)[\.\)]\s+(.*)$/gm, '<oli data-n="$1">$2</oli>');
+            text = text.replace(/(<oli[\s\S]*?<\/oli>)/g, '<ol>$1</ol>');
+            text = text.replace(/<\/ol>\s*<ol>/g, '');
+            text = text.replace(/<oli data-n="(\d+)">(.*?)<\/oli>/g, '<li>$2</li>');
+
+            // Unordered bullet lists (- or * or •)
+            text = text.replace(/^\s*[-*•]\s+(.*)$/gm, '<uli>$1</uli>');
+            text = text.replace(/(<uli[\s\S]*?<\/uli>)/g, '<ul>$1</ul>');
             text = text.replace(/<\/ul>\s*<ul>/g, '');
+            text = text.replace(/<uli>(.*?)<\/uli>/g, '<li>$1</li>');
 
             let html = text.split(/\n{2,}/).map(seg => {
                 seg = seg.trim();
@@ -1984,6 +2062,10 @@
                     seg.startsWith('<div class="flashcard-box"') || 
                     seg.startsWith('<div class="ai-infographic-card"') || 
                     seg.startsWith('<div class="ai-video-link-card"') || 
+                    seg.startsWith('<h2') ||
+                    seg.startsWith('<h3') ||
+                    seg.startsWith('<hr') ||
+                    seg.startsWith('<ol') ||
                     seg.startsWith('<ul')) return seg;
                 return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
             }).join('');
