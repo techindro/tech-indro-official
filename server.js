@@ -2787,30 +2787,44 @@ CRITICAL RESPONSE STYLE & FORMAT RULES:
 - Keep bolding clean and readable — bold only key terms (2-3 words per point), never bold entire paragraphs.
 - Keep explanations simple, smooth, and friendly without dry jargon.
 
-DIAGRAM RULES (GRAPHVIZ / KROKI):
-When a visual diagram or flowchart is helpful for the topic:
-- Output a valid Graphviz digraph inside a fenced code block tagged \`\`\`kroki:graphviz
-- Structure MUST be valid DOT syntax:
-\`\`\`kroki:graphviz
-digraph G {
-  rankdir=LR;
-  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];
-  edge [color="#64748b", fontname="Helvetica", fontsize=10];
-  A [label="Input / Start"];
-  B [label="Processing Unit"];
-  C [label="Output Result"];
-  A -> B [label="Send"];
-  B -> C [label="Emit"];
-}
-\`\`\`
-- Keep node labels short, clean, in double quotes: NodeName [label="Label Text"].
-- Do NOT use comments starting with % or %%. Only use // for comments if needed.
-- The diagram must be strictly relevant and accurate for the user's question.
+DIAGRAM & ARCHITECTURE RULES (VERY IMPORTANT):
+- ALWAYS provide a unique, highly accurate, topic-specific diagram for the user's inquiry.
+- DO NOT provide the same generic diagram. Adapt the diagram strictly to the student's question.
+- You can use either:
+  1. MERMAID DIAGRAM (Recommended for system architecture, flowcharts, microservices, sequences):
+     Output inside \`\`\`mermaid
+     Example:
+     \`\`\`mermaid
+     flowchart TD
+         Client[Client Application] --> Gateway[API Gateway / Ingress]
+         Gateway --> Auth[Auth Service / JWT]
+         Gateway --> Service[Core Service Engine]
+         Service --> Queue[(Message Queue / Kafka)]
+         Service --> DB[(PostgreSQL Database)]
+     \`\`\`
+  2. KROKI GRAPHVIZ (Recommended for trees, graphs, network topology, compilers):
+     Output inside \`\`\`kroki:graphviz
+     Example:
+     \`\`\`kroki:graphviz
+     digraph G {
+       rankdir=LR;
+       node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica", fontsize=11];
+       edge [color="#64748b", fontname="Helvetica", fontsize=10];
+       A [label="Input"];
+       B [label="Process"];
+       A -> B;
+     }
+     \`\`\`
+- If a visual tech diagram image is helpful, you may also include an image card:
+  \`\`\`image
+  Prompt: Modern clean architectural diagram of [Topic], high resolution tech engineering infographic
+  Caption: [Topic] Architecture Overview
+  \`\`\`
 
 RESPONSE STRUCTURE:
 1. Quick, crystal-clear 1-2 sentence definition or summary.
 2. Smooth, simple explanation using numbered points (1. , 2. ) or clean bullet points (- ).
-3. A Kroki diagram if relevant to visualize the concept.
+3. A rich, tailored Mermaid or Kroki diagram visualizing the exact workflow/components.
 4. Clean code snippet or practical example if applicable.
 5. Key takeaways in 2-3 clean bullets (- ).
 
@@ -2821,9 +2835,9 @@ ${languageDirective}`;
         systemInstruction += `\n\nAUTHORITATIVE RETRIEVED TECH INDRO KNOWLEDGE BASE (RAG):\n${ragResult.context}\nINSTRUCTION: You must prioritize and ground your answers in the verified Tech Indro knowledge base facts above whenever applicable.`;
     }
 
-    // 1. Try Groq AI (Ultra-fast LLaMA models)
+    // 1. Try Groq AI (Ultra-fast LLaMA & GPT-OSS models)
     if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim() && process.env.GROQ_API_KEY !== 'YOUR_GROQ_API_KEY') {
-        const groqModels = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
+        const groqModels = ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b'];
         for (const groqModel of groqModels) {
             try {
                 const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -2848,7 +2862,7 @@ ${languageDirective}`;
                     const reply = groqData.choices?.[0]?.message?.content;
                     if (reply) {
                         const cleanOutput = cleanAIResponse(reply);
-                        return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'groq', ragSources: ragResult.sources });
+                        return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'groq', model: groqModel, ragSources: ragResult.sources });
                     }
                 }
             } catch (err) {
