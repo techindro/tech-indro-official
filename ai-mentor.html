@@ -1809,6 +1809,9 @@
             if (!rawText) return '';
             let text = rawText;
 
+            // 0. Pre-process: Normalize common LLM diagram variants to kroki:graphviz
+            text = text.replace(/```(?:dot|graph|digraph)\s/gi, '```kroki:graphviz\n');
+
             // 1. Kroki Architecture & Process Diagrams (Graphviz, PlantUML, Mermaid, C4, D2, BlockDiag, Nomnoml, ERD)
             text = text.replace(/```(?:kroki:?([a-zA-Z0-9_-]*)|(graphviz|plantuml|mermaid|d2|c4plantuml|blockdiag|nomnoml|erd|actdiag|nwdiag))\s*([\s\S]*?)```/gi, function(match, t1, t2, code) {
                 let diagramType = (t1 || t2 || '').toLowerCase();

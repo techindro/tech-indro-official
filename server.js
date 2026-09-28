@@ -2688,6 +2688,34 @@ How would you like to customize or expand this implementation for your productio
 }
 
 // ============================================================================
+// SMART AI RESPONSE CLEANER — Preserves code blocks & diagram syntax
+// ============================================================================
+function cleanAIResponse(rawText) {
+    if (!rawText) return '';
+
+    // Split text into code blocks and prose segments
+    // This ensures we NEVER corrupt ```kroki:graphviz ... ``` or any fenced code
+    const segments = rawText.split(/(```[\s\S]*?```)/g);
+
+    const cleaned = segments.map((segment, index) => {
+        // Odd indices are code blocks — preserve them exactly as-is
+        if (segment.startsWith('```')) {
+            return segment;
+        }
+        // Even indices are prose — clean formatting
+        return segment
+            // Remove emojis
+            .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
+            // Remove excessive heading markers (####, #####) but keep ## and ###
+            .replace(/^#{4,}\s*/gm, '### ')
+            // Clean up excessive asterisk bold (lines that are ALL bold become plain)
+            .replace(/^\*\*([^*]+)\*\*$/gm, '$1');
+    });
+
+    return cleaned.join('').trim();
+}
+
+// ============================================================================
 // CHATBOT API WITH DYNAMIC GROQ AI, GEMINI AI & LOCAL GENERATOR
 // ============================================================================
 app.post('/api/chat', chatLimiter, async (req, res) => {
@@ -2740,34 +2768,52 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
 
     let systemInstruction = customSystemInstruction;
     if (!systemInstruction) {
-        systemInstruction = `You are Tech Indro AI Senior Mentor and Architecture Engine.
-CRITICAL RULES:
-1. ZERO EMOJIS: Do not use any emojis, unicode smiles, or decorative symbols.
-2. NO ASTERISK CLUTTER: Do not wrap every word in double asterisks (**) or use multiple hashes (###). Use plain text and standard clean formatting.
-3. DYNAMIC CUSTOM DIAGRAMS (CRITICAL):
-- When the user asks for a diagram, flowchart, architecture, or visualization:
-  You MUST generate a 100% customized Kroki Graphviz (kroki:graphviz), PlantUML (kroki:plantuml), or Mermaid (mermaid or kroki:mermaid) diagram that specifically represents the EXACT entities, flow, and components of the user's inquiry!
-  NEVER output a generic microservices boilerplate unless the user explicitly requested microservices.
-  Example for auth: User -> Gateway -> AuthService -> Redis -> UserDB.
-  Example for e-commerce: User -> Cart -> OrderService -> PaymentGateway -> Inventory -> EventBus.
-  Example for DSA: Visualize tree nodes, graph edges, or array partitions.
-- When the user asks for an infographic or roadmap:
-  Output a fenced block:
-  \`\`\`infographic
-  Title: [Specific Roadmap Title]
-  Step 1: [Phase Name] | [Detailed Description]
-  Step 2: [Phase Name] | [Detailed Description]
-  Step 3: [Phase Name] | [Detailed Description]
-  Step 4: [Phase Name] | [Detailed Description]
-  Step 5: [Phase Name] | [Detailed Description]
-  \`\`\`
-4. DEEP DEFINITIONS & REAL WORKING CODE:
-- For every question, provide:
-  1. An authoritative technical definition and conceptual explanation tailored to their question.
-  2. A tailored Kroki diagram or infographic visualizing the system.
-  3. Real, runnable production-grade code (in \`\`\`python, \`\`\`javascript, etc.) with clean comments.
-  4. A focused follow-up question to continue implementing the project.
-5. ${languageDirective}`;
+        systemInstruction = `You are Tech Indro AI Senior Mentor — a world-class engineering tutor.
+
+RESPONSE FORMAT RULES:
+- Do NOT use emojis or unicode symbols.
+- Use **bold** only for key terms (max 3-4 per paragraph). Do not bold every word.
+- Use headings sparingly. Use at most one or two ## headings per response.
+- Write clean, readable paragraphs. Avoid walls of bullet points.
+- Keep explanations concise, practical, and directly relevant to the question.
+
+DIAGRAM RULES (VERY IMPORTANT):
+When a diagram, flowchart, architecture, or visualization is needed:
+- Output a valid Graphviz digraph inside a fenced code block tagged kroki:graphviz.
+- The diagram MUST be specific to the user's question (not generic boilerplate).
+- Use proper Graphviz DOT syntax: digraph G { rankdir=LR; node [...]; edge [...]; ... }
+- Do NOT put comments starting with % or %% inside Graphviz code. Use // for comments.
+- Do NOT mix Mermaid syntax inside a Graphviz block.
+- Example format:
+\`\`\`kroki:graphviz
+digraph G {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#fff7ed", color="#ea580c", fontname="Helvetica"];
+  A [label="Step 1"];
+  B [label="Step 2"];
+  A -> B;
+}
+\`\`\`
+
+INFOGRAPHIC / ROADMAP RULES:
+When user asks for a roadmap or step-by-step process:
+\`\`\`infographic
+Title: [Roadmap Title]
+Step 1: [Phase] | [Description]
+Step 2: [Phase] | [Description]
+\`\`\`
+
+CODE RULES:
+- Provide real, runnable code in proper fenced blocks (\`\`\`python, \`\`\`javascript, etc.).
+- Add brief, useful comments. Do not over-comment obvious lines.
+
+RESPONSE STRUCTURE:
+1. Clear explanation of the concept (2-3 paragraphs max).
+2. A Kroki diagram if relevant (architecture/flow/data structure visualization).
+3. Working code example if relevant.
+4. One follow-up question to guide the student further.
+
+${languageDirective}`;
     }
 
     // Augment System Instruction with RAG Context if available
@@ -2775,9 +2821,9 @@ CRITICAL RULES:
         systemInstruction += `\n\nAUTHORITATIVE RETRIEVED TECH INDRO KNOWLEDGE BASE (RAG):\n${ragResult.context}\nINSTRUCTION: You must prioritize and ground your answers in the verified Tech Indro knowledge base facts above whenever applicable.`;
     }
 
-    // 1. Try Groq AI (Ultra-fast, Qwen 3.8 27B, GPT-OSS 120B/20B, LLaMA)
+    // 1. Try Groq AI (Ultra-fast LLaMA models)
     if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim() && process.env.GROQ_API_KEY !== 'YOUR_GROQ_API_KEY') {
-        const groqModels = ['qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
+        const groqModels = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
         for (const groqModel of groqModels) {
             try {
                 const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -2792,7 +2838,8 @@ CRITICAL RULES:
                             { role: 'system', content: systemInstruction },
                             { role: 'user', content: message }
                         ],
-                        temperature: 0.6
+                        temperature: 0.5,
+                        max_tokens: 4096
                     })
                 });
 
@@ -2800,11 +2847,7 @@ CRITICAL RULES:
                     const groqData = await groqRes.json();
                     const reply = groqData.choices?.[0]?.message?.content;
                     if (reply) {
-                        let cleanOutput = reply
-                            .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
-                            .replace(/\*\*/g, '')
-                            .replace(/^###+\s*/gm, '')
-                            .trim();
+                        const cleanOutput = cleanAIResponse(reply);
                         return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'groq', ragSources: ragResult.sources });
                     }
                 }
@@ -2823,15 +2866,11 @@ CRITICAL RULES:
                 const response = await ai.models.generateContent({
                     model: modelName,
                     contents: message,
-                    config: { systemInstruction: systemInstruction, temperature: 0.7 }
+                    config: { systemInstruction: systemInstruction, temperature: 0.5 }
                 });
 
                 if (response && response.text) {
-                    let cleanOutput = response.text
-                        .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}]/gu, '')
-                        .replace(/\*\*/g, '')
-                        .replace(/^###+\s*/gm, '')
-                        .trim();
+                    const cleanOutput = cleanAIResponse(response.text);
                     return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'gemini', ragSources: ragResult.sources });
                 }
             } catch (error) {
