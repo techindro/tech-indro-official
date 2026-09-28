@@ -499,6 +499,128 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* ===== SPOTLIGHT: LATEST JOBS & AI SHIKSHAK ROHINI ===== */}
+        <View style={{ paddingHorizontal: 16, marginTop: 4, marginBottom: 12, gap: 10 }}>
+          {/* Latest Jobs Card */}
+          <TouchableOpacity
+            style={{
+              borderRadius: BorderRadius.lg,
+              borderWidth: 1.5,
+              borderColor: isDark ? '#1e3a8a' : '#bfdbfe',
+              overflow: 'hidden',
+            }}
+            onPress={() => router.push('/jobs' as any)}
+            activeOpacity={0.88}
+          >
+            <LinearGradient
+              colors={isDark ? ['#0f172a', '#1e293b'] : ['#eff6ff', '#ffffff']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ padding: 16 }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#16a34a' }} />
+                  <Text style={{ fontSize: 11, fontWeight: '800', color: '#16a34a', letterSpacing: 0.5 }}>
+                    LIVE HIRING
+                  </Text>
+                  <View style={{ backgroundColor: 'rgba(59, 130, 246, 0.12)', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 }}>
+                    <Text style={{ fontSize: 10, fontWeight: '700', color: '#2563eb' }}>Daily Updates</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#2563eb' }}>Explore Jobs</Text>
+                  <Ionicons name="arrow-forward" size={13} color="#2563eb" />
+                </View>
+              </View>
+
+              <Text style={{ fontSize: 16, fontWeight: '800', color: colors.text, marginBottom: 4 }}>
+                Latest Tech Jobs & IIT/IISc Research
+              </Text>
+              <Text style={{ fontSize: 12, color: colors.textMuted, lineHeight: 18, marginBottom: 10 }}>
+                Explore open developer jobs, industry internships, and funded research fellowships from FAANG, Startups & premier labs.
+              </Text>
+
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#1e293b' : '#dbeafe', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}>
+                  <Ionicons name="briefcase-outline" size={12} color="#2563eb" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>Full-Time Jobs</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#1e293b' : '#dcfce7', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}>
+                  <Ionicons name="school-outline" size={12} color="#059669" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>Internships</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#1e293b' : '#f3e8ff', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}>
+                  <Ionicons name="flask-outline" size={12} color="#7c3aed" />
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>IIT/IISc Research</Text>
+                </View>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          {/* AI Shikshak Rohini Spotlight Banner */}
+          <TouchableOpacity
+            style={{
+              borderRadius: BorderRadius.lg,
+              borderWidth: 1.5,
+              borderColor: isDark ? '#854d0e' : '#fde68a',
+              overflow: 'hidden',
+            }}
+            onPress={() => router.push('/shikshak' as any)}
+            activeOpacity={0.88}
+          >
+            <LinearGradient
+              colors={isDark ? ['#1e293b', '#0f172a'] : ['#fffbeb', '#fef3c7']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ padding: 14 }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+                  <View
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 22,
+                      backgroundColor: '#f59e0b',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text style={{ fontSize: 22 }}>🤖</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <Text style={{ fontSize: 14.5, fontWeight: '800', color: isDark ? '#f59e0b' : '#78350f' }}>
+                        AI Shikshak Rohini
+                      </Text>
+                      <View style={{ backgroundColor: '#f59e0b', paddingHorizontal: 5, paddingVertical: 1.5, borderRadius: 6 }}>
+                        <Text style={{ fontSize: 9.5, fontWeight: '800', color: '#fff' }}>LIVE VOICE</Text>
+                      </View>
+                    </View>
+                    <Text style={{ fontSize: 11.5, color: isDark ? '#cbd5e1' : '#92400e', marginTop: 1 }} numberOfLines={1}>
+                      Boliye ya likhiye — Hindi, English aur Bhojpuri me instant code answers!
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#ff6b35',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: 8,
+                  }}
+                >
+                  <Ionicons name="arrow-forward" size={16} color="#ffffff" />
+                </View>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+
         {/* ===== LEARNING PATHS (Features Target) ===== */}
         <View style={styles.section} onLayout={(e) => setFeaturesY(e.nativeEvent.layout.y)}>
           <View style={styles.sectionPill}>

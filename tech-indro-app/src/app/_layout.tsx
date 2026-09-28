@@ -103,9 +103,9 @@ function AppTabs() {
           }}
         />
 
-        {/* 3. AI Mentor */}
+        {/* 3. AI Shikshak (Rohini) */}
         <Tabs.Screen
-          name="ai-mentor"
+          name="shikshak"
           options={{
             title: 'AI Shikshak',
             tabBarIcon: ({ color }) => (
@@ -230,6 +230,18 @@ function AppTabs() {
         />
         <Tabs.Screen
           name="code-clash"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="ai-mentor"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="jobs"
           options={{
             href: null,
           }}

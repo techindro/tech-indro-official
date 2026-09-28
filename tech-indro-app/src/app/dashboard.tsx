@@ -44,9 +44,9 @@ interface DailyMission {
 
 const INITIAL_MISSIONS: DailyMission[] = [
   { id: '1', title: 'Solve 3 GATE / ISRO Quiz Questions', xp: 50, completed: false, route: '/quiz', icon: 'school' },
-  { id: '2', title: 'Ask AI Shikshak a Coding Doubt', xp: 25, completed: false, route: '/ai-mentor', icon: 'chatbubbles' },
+  { id: '2', title: 'Ask AI Shikshak a Coding Doubt', xp: 25, completed: false, route: '/shikshak', icon: 'sparkles' },
   { id: '3', title: 'Launch Thrusters in ISRO Space Lab', xp: 30, completed: true, route: '/isro-lab', icon: 'rocket' },
-  { id: '4', title: 'Flip 3 Flashcards in Revision Hub', xp: 20, completed: false, route: '/bookmarks', icon: 'bookmark' },
+  { id: '4', title: 'Explore Latest Tech Jobs & Internships', xp: 20, completed: false, route: '/jobs', icon: 'briefcase' },
 ];
 
 export default function DashboardScreen() {
@@ -656,8 +656,10 @@ export default function DashboardScreen() {
             <ScrollView contentContainerStyle={styles.menuGrid} showsVerticalScrollIndicator={false}>
               {[
                 { icon: 'home', label: 'Home', color: '#6366F1', route: '/' },
+                { icon: 'briefcase', label: 'Latest Jobs', color: '#10B981', route: '/jobs' },
+                { icon: 'sparkles', label: 'AI Shikshak', color: '#F59E0B', route: '/shikshak' },
+                { icon: 'chatbubbles', label: 'AI Mentor', color: '#FF6B35', route: '/ai-mentor' },
                 { icon: 'book', label: 'Programs', color: '#EC4899', route: '/programs' },
-                { icon: 'sparkles', label: 'AI Shikshak', color: '#FF6B35', route: '/ai-mentor' },
                 { icon: 'school', label: 'Test Series', color: '#10B981', route: '/quiz' },
                 { icon: 'terminal', label: 'Code Lab', color: '#3B82F6', route: '/indrolabs' },
                 { icon: 'rocket', label: 'ISRO Lab', color: '#38BDF8', route: '/isro-lab' },
@@ -937,7 +939,7 @@ export default function DashboardScreen() {
                   style={[styles.askAiLessonBtn, { backgroundColor: colors.card, borderColor: colors.primary }]}
                   onPress={() => {
                     setActiveLessonCourse(null);
-                    router.push('/ai-mentor');
+                    router.push('/shikshak' as any);
                   }}
                 >
                   <Ionicons name="sparkles" size={16} color={colors.primary} />

@@ -19,5 +19,9 @@
     "**/android/.gradle/**": true,
     "**/android/build/**": true,
     "**/android/app/build/**": true
-  }
+  },
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+  "css.validate": false,
+  "javascript.suggestionActions.enabled": false
 }

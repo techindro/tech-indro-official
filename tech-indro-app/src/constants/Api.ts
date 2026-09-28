@@ -39,4 +39,6 @@ export const ENDPOINTS = {
   PAYMENT_CREATE_INTENT: '/api/payments/create-intent',
   PAYMENT_CONFIRM: '/api/payments/confirm',
   PAYMENT_SYNC_STATUS: '/api/payments/sync-status',
+  JOBS: '/api/jobs',
+  JOBS_FETCH: '/api/jobs/fetch',
 };

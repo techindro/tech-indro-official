@@ -281,13 +281,37 @@ export default function HamburgerDrawer({ visible, onClose }: HamburgerDrawerPro
               <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
             </TouchableOpacity>
 
-            {/* AI Shikshak */}
+            {/* Latest Tech Jobs */}
             <TouchableOpacity
               style={[
                 styles.toolRow,
                 { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
               ]}
-              onPress={() => handleNavigate('/ai-mentor')}
+              onPress={() => handleNavigate('/jobs')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}>
+                <Ionicons name="briefcase-outline" size={19} color="#10b981" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Latest Tech Jobs</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#10b981' }]}>LIVE</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  FAANG, Startups & IIT/IISc Research
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* AI Shikshak (Rohini) */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/shikshak')}
               activeOpacity={0.75}
             >
               <View style={[styles.toolIconBox, { backgroundColor: 'rgba(245, 158, 11, 0.15)' }]}>
@@ -296,10 +320,34 @@ export default function HamburgerDrawer({ visible, onClose }: HamburgerDrawerPro
               <View style={styles.toolInfo}>
                 <View style={styles.toolTitleRow}>
                   <Text style={[styles.toolTitle, { color: colors.text }]}>AI Shikshak</Text>
-                  <Text style={[styles.toolMiniBadge, { color: '#f59e0b' }]}>24x7 AI</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#f59e0b' }]}>Rohini Live</Text>
                 </View>
                 <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
-                  Snap, voice, or text doubt solver
+                  Voice & code tutor in Hindi/Bhojpuri
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* 24/7 AI Mentor */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/ai-mentor')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(255, 107, 53, 0.15)' }]}>
+                <Ionicons name="chatbubbles-outline" size={19} color="#ff6b35" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>24/7 AI Mentor</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#ff6b35' }]}>Doubt Solver</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Deep concept & code review mentor
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
