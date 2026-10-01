@@ -2,7 +2,7 @@
 
 # TECHINDRO
 
-### LET'S CODE CREATE AND INNOVATE  
+### India's 1st LLM-Based Adaptive Learning Platform  
 **EK SAPNA EK SOCH EK FUTURE VISION .**
 
 [![Live](https://img.shields.io/badge/Live-tech--indro--official.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)
@@ -20,12 +20,15 @@
 
 ## Why Tech Indro
 
-Quality tech education in India is still gated by expensive hardware, scattered tools, and doubts that go unanswered for days. Tech Indro removes those barriers with one browser-based platform:
+Quality tech education in India is still gated by expensive hardware, scattered tools, and doubts that go unanswered for days. **Tech Indro is an LLM-Based Adaptive Learning Platform** that removes those barriers with a multi-model AI engine (Sarvam-105B, Groq, Gemini) that adapts to each learner's language, pace, and skill level:
 
-- **Learn** through structured, mentor-designed course batches.
+- **Adaptive AI Mentorship** — A multi-LLM engine that detects your language (Hindi, Bhojpuri, English, 22+ Indic languages) and adapts explanations to your skill level in real time.
+- **Learn** through structured, mentor-designed course batches with AI-powered doubt resolution.
 - **Practice** in a cloud IDE and a cybersecurity sandbox, with nothing to install.
-- **Get unstuck** instantly with a 24/7 voice-enabled AI tutor.
+- **Speak & Listen** — Ask doubts by voice and hear AI responses in natural Indian voices (Sarvam Bulbul v3).
+- **Get evaluated** with AI mock interviews, ATS resume scanning, and system design audits.
 - **Build** real open-source projects through our TSOC fellowship.
+
 
 ---
 
