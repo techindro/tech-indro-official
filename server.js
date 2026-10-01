@@ -2720,7 +2720,7 @@ function cleanAIResponse(rawText) {
 }
 
 // ============================================================================
-// CHATBOT API WITH DYNAMIC GROQ AI, GEMINI AI & LOCAL GENERATOR
+// CHATBOT API WITH DYNAMIC SARVAM AI, GROQ AI, GEMINI AI & LOCAL GENERATOR
 // ============================================================================
 app.post('/api/chat', chatLimiter, async (req, res) => {
     const { message, lang, agent, systemInstruction: customSystemInstruction, rag = true } = req.body;
@@ -2740,6 +2740,9 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
         /[अ-ह]/.test(message) ||
         /(karein|kaise|kya|hai|batayein|batao|chahiye|samjhao|sikhao|karu|samajh|didi|dost|naam|btao|bnao|kse|kre)/i.test(message)
     );
+
+    // Flag: is user communicating in an Indic language?
+    const isIndicLang = isBhojpuri || isHindi;
 
     // 0. RETRIEVAL-AUGMENTED GENERATION (RAG) CONTEXT RETRIEVAL (FASTAPI + LANGCHAIN)
     let ragResult = { hasContext: false, context: '', sources: [] };
@@ -2833,6 +2836,46 @@ ${languageDirective}`;
     // Augment System Instruction with RAG Context if available
     if (ragResult.hasContext && ragResult.context) {
         systemInstruction += `\n\nAUTHORITATIVE RETRIEVED TECH INDRO KNOWLEDGE BASE (RAG):\n${ragResult.context}\nINSTRUCTION: You must prioritize and ground your answers in the verified Tech Indro knowledge base facts above whenever applicable.`;
+    }
+
+    // 0. Try Sarvam AI (Sovereign Indian LLM — best for Hindi, Hinglish & Indic languages)
+    // Prioritize Sarvam for Indic queries; use as fallback for English
+    if (process.env.SARVAM_API_KEY && process.env.SARVAM_API_KEY.trim()) {
+        const sarvamModels = isIndicLang
+            ? ['sarvam-105b-conversations', 'sarvam-105b']
+            : ['sarvam-105b'];
+        for (const sarvamModel of sarvamModels) {
+            try {
+                const sarvamRes = await fetch('https://api.sarvam.ai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'api-subscription-key': process.env.SARVAM_API_KEY.trim()
+                    },
+                    body: JSON.stringify({
+                        model: sarvamModel,
+                        messages: [
+                            { role: 'system', content: systemInstruction },
+                            { role: 'user', content: message }
+                        ],
+                        temperature: 0.5,
+                        max_tokens: 4096
+                    }),
+                    signal: AbortSignal.timeout(30000)
+                });
+
+                if (sarvamRes.ok) {
+                    const sarvamData = await sarvamRes.json();
+                    const reply = sarvamData.choices?.[0]?.message?.content;
+                    if (reply) {
+                        const cleanOutput = cleanAIResponse(reply);
+                        return res.json({ response: cleanOutput, reply: cleanOutput, provider: 'sarvam', model: sarvamModel, ragSources: ragResult.sources });
+                    }
+                }
+            } catch (err) {
+                console.warn(`[Sarvam AI] Model ${sarvamModel} failed:`, err.message);
+            }
+        }
     }
 
     // 1. Try Groq AI (Ultra-fast LLaMA & GPT-OSS models)
@@ -3889,8 +3932,106 @@ async function callGeminiForFeature(prompt, systemInstruction, temperature = 0.5
             }
         }
     }
+
+    // 3. Try Sarvam AI (Sovereign Indian LLM fallback)
+    if (process.env.SARVAM_API_KEY && process.env.SARVAM_API_KEY.trim()) {
+        try {
+            const sarvamRes = await fetch('https://api.sarvam.ai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'api-subscription-key': process.env.SARVAM_API_KEY.trim()
+                },
+                body: JSON.stringify({
+                    model: 'sarvam-105b',
+                    messages: [
+                        { role: 'system', content: systemInstruction || 'You are an expert technical evaluator.' },
+                        { role: 'user', content: prompt }
+                    ],
+                    temperature: temperature
+                }),
+                signal: AbortSignal.timeout(30000)
+            });
+
+            if (sarvamRes.ok) {
+                const sarvamData = await sarvamRes.json();
+                const reply = sarvamData.choices?.[0]?.message?.content;
+                if (reply && reply.trim()) {
+                    return reply.trim();
+                }
+            }
+        } catch (err) {
+            console.warn('[AI Engine] Sarvam AI feature call error:', err.message);
+        }
+    }
     return null;
 }
+
+// ============================================================================
+// SARVAM AI BULBUL v3 — INDIC TEXT-TO-SPEECH (TTS) ENGINE
+// Supports 11 Indian languages + English with 30+ natural voices
+// ============================================================================
+app.post('/api/tts/sarvam', chatLimiter, async (req, res) => {
+    const { text, language, speaker, pace } = req.body;
+    if (!text || !text.trim()) {
+        return res.status(400).json({ error: 'Text is required for speech synthesis.' });
+    }
+
+    if (!process.env.SARVAM_API_KEY || !process.env.SARVAM_API_KEY.trim()) {
+        return res.status(503).json({ error: 'Sarvam AI TTS is not configured. Please add SARVAM_API_KEY to .env.' });
+    }
+
+    // Language code mapping for Bulbul v3
+    const langMap = {
+        'hi': 'hi-IN', 'en': 'en-IN', 'bn': 'bn-IN', 'ta': 'ta-IN',
+        'te': 'te-IN', 'kn': 'kn-IN', 'ml': 'ml-IN', 'mr': 'mr-IN',
+        'gu': 'gu-IN', 'pa': 'pa-IN', 'or': 'od-IN', 'od': 'od-IN',
+        'bho': 'hi-IN', 'auto': 'hi-IN'
+    };
+    const langCode = langMap[(language || 'hi').toLowerCase()] || 'hi-IN';
+
+    try {
+        const ttsRes = await fetch('https://api.sarvam.ai/text-to-speech', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'api-subscription-key': process.env.SARVAM_API_KEY.trim()
+            },
+            body: JSON.stringify({
+                inputs: [text.trim().slice(0, 2000)],
+                target_language_code: langCode,
+                speaker: speaker || 'meera',
+                pace: Math.min(2.0, Math.max(0.5, parseFloat(pace) || 1.0)),
+                model: 'bulbul:v3'
+            }),
+            signal: AbortSignal.timeout(15000)
+        });
+
+        if (!ttsRes.ok) {
+            const errBody = await ttsRes.text();
+            console.warn('[Sarvam TTS] API error:', ttsRes.status, errBody);
+            return res.status(ttsRes.status).json({ error: 'Sarvam TTS API error', detail: errBody });
+        }
+
+        const ttsData = await ttsRes.json();
+        // Sarvam returns { audios: ["base64_encoded_wav"] }
+        const audioBase64 = ttsData.audios?.[0];
+        if (!audioBase64) {
+            return res.status(500).json({ error: 'No audio returned from Sarvam TTS.' });
+        }
+
+        return res.json({
+            audio: audioBase64,
+            format: 'wav',
+            language: langCode,
+            provider: 'sarvam_bulbul_v3',
+            speaker: speaker || 'meera'
+        });
+    } catch (err) {
+        console.error('[Sarvam TTS] Error:', err.message);
+        return res.status(500).json({ error: 'Sarvam TTS service unavailable. Please try again.' });
+    }
+});
 
 // 1. API: Start AI Mock Interview Session
 app.post('/api/interview/start', chatLimiter, async (req, res) => {

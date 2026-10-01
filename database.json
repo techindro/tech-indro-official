@@ -72,6 +72,4154 @@
   },
   "jobs": [
     {
+      "id": "adzuna_1790821804288_2b6j1o",
+      "title": "Software Engineer",
+      "company": "Navaratan Technologies Private Limited",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5636066331?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Navtech an ISO-certified company provides Solutions and Services that help make a lasting impact on our customers' business. We are having development centers in India and US and have been awarded Bes",
+      "type": "Full-time",
+      "postedAt": "2026-02-19T19:58:22Z",
+      "fetchedAt": "2026-10-01T02:30:04.288Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804288_ryvo6n",
+      "title": "Software Engineer",
+      "company": "Fortanix",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5866455364?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About Us: In today's world, where data spreads across various clouds and devices, traditional security measures aren't enough. Businesses need a dynamic approach to defend against constant cyber threa",
+      "type": "Full-time",
+      "postedAt": "2026-09-02T09:44:36Z",
+      "fetchedAt": "2026-10-01T02:30:04.288Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=fortanix.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_d8b1xr",
+      "title": "Software Engineer",
+      "company": "Twenty20 Systems",
+      "location": "Bannerghatta Road, Bangalore",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5884870239?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Location: Bangalore (Hybrid) Experience: 3–5 Years About the Role At Twenty20 Systems, we are looking for a Software Engineer (Integration) who can build and support scalable integrations across enter",
+      "type": "Full-time",
+      "postedAt": "2026-09-15T21:48:14Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=twenty20systems.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_jwox0x",
+      "title": "Software Engineer",
+      "company": "ServiceNow",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5902942280?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description We are the AI Experience Framework (AIUX) team that builds the platform that powers ServiceNow's AI-first user interfaces. Using modern Lit-based web components, AIUX builds modular, r",
+      "type": "Full-time",
+      "postedAt": "2026-09-29T21:48:24Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=servicenow.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_vdmkf1",
+      "title": "Software Engineer",
+      "company": "Smiths Detection",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5895662291?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description Job Purpose: The Software Engineer role delivers scalable, secure, and maintainable software by solving complex problems and applying modern architectural patterns. It drives Agile, De",
+      "type": "Full-time",
+      "postedAt": "2026-09-24T02:40:22Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_a99z7b",
+      "title": "Software Engineer",
+      "company": "PlaySimple Games",
+      "location": "Agram, Bangalore",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5865376057?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Position Summary We are looking for a highly skilled and collaborative Software Engineer to join our core development team. In this role, you will be a key Individual Contributor responsible for build",
+      "type": "Full-time",
+      "postedAt": "2026-09-02T03:35:32Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=playsimplegames.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_9l6b49",
+      "title": "Software Engineer",
+      "company": "Writesonic",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5500617951?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About Writesonic Every day, millions turn to AI for answers—and if your brand isn't there, you're nowhere. Writesonic is leading the way with the world's most advanced AI SEO and Generative Engine Opt",
+      "type": "Full-time",
+      "postedAt": "2025-11-17T23:11:15Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=writesonic.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_ca31og",
+      "title": "Software Engineer",
+      "company": "Capawoke",
+      "location": "Bangalore, Karnataka",
+      "salary": "₹100K – ₹2000K",
+      "url": "https://www.adzuna.in/details/5832769660?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About the Opportunity A fast-scaling tech innovation hub in the SaaS and Enterprise Software sector, we build intelligent, scalable platforms that empower businesses to automate workflows, enhance pro",
+      "type": "Full-time",
+      "postedAt": "2026-08-08T06:52:24Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=capawoke.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_1zaifk",
+      "title": "Software Engineer",
+      "company": "Smartstream Limited",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5902946973?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Description Job Description - Database Administrator We are seeking an experienced and highly motivated professional to manage and optimize enterprise database environments, cloud infrastructure, and",
+      "type": "Full-time",
+      "postedAt": "2026-09-29T21:55:37Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_fmriun",
+      "title": "Software Engineer",
+      "company": "Company Not Disclosed",
+      "location": "Lucknow, Uttar Pradesh",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/4686707015?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "APV Technologies Private Limited is a product development software company. It has been developing software for international clients across the Globe for the last 15 years. The Company is Microsoft G",
+      "type": "Internship",
+      "postedAt": "2024-05-10T07:39:06Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=companynotdisclosed.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_83ufv9",
+      "title": "-Software Engineer",
+      "company": "Trigent Software Private Limited",
+      "location": "India",
+      "salary": "₹2500K – ₹2500K",
+      "url": "https://www.adzuna.in/details/5895535360?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description Design and develop OAM functionality for 2G/4G/5G Core & Radio Access Networks Adaptation of OAM functionality in distributed architecture using Openstack/Kubernetes environments Opera",
+      "type": "Full-time",
+      "postedAt": "2026-09-23T23:47:04Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_acem6i",
+      "title": "Software Engineer",
+      "company": "Eurofins GSC IT DC",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5875137729?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description Essential Job Duties: Level I - Minimum Manage designated technology application portfolio from configuration, maintenance and monitoring Provide analysis, architectural design and lea",
+      "type": "Full-time",
+      "postedAt": "2026-09-08T08:09:41Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=eurofinsgscitdc.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_9y8mah",
+      "title": "Software Engineer / Senior Software Engineer",
+      "company": "Vamstar",
+      "location": "Hyderabad, Telangana",
+      "salary": "₹100K – ₹1500K",
+      "url": "https://www.adzuna.in/details/2751436485?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Responsibilities Use latest processes and technology in order to build scalable, distributed, and fault-tolerant site/software systems. Research and evaluate new methodologies and technologies that im",
+      "type": "Full-time",
+      "postedAt": "2021-12-19T04:17:23Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vamstar.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804289_h71nd9",
+      "title": "Software Engineer/Sr Software Engineer",
+      "company": "Fliplearn Education",
+      "location": "India",
+      "salary": "₹1400K – ₹1500K",
+      "url": "https://www.adzuna.in/details/3332673312?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About Fliplearn Launched in the year 2015, Fliplearn is an award-winning Online Learning Transformation System that is aimed at helping schools redefine their teaching and learning processes. With an",
+      "type": "Full-time",
+      "postedAt": "2022-07-20T06:36:19Z",
+      "fetchedAt": "2026-10-01T02:30:04.289Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=fliplearneducation.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821804290_aemiaj",
+      "title": "Software Engineer / Senior Software Engineer",
+      "company": "ExcelSoft Technologies",
+      "location": "Mysore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5842589803?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "React: 1. Hand-on experience as a React Developer- front-end development role. 2. Strong proficiency in HTML, CSS,JavaScript , including DOM manipulation and the JavaScript object model. 3. Thorough u",
+      "type": "Full-time",
+      "postedAt": "2026-08-15T08:32:55Z",
+      "fetchedAt": "2026-10-01T02:30:04.290Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=excelsofttechnologies.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821807676_6t6gju",
+      "title": "AI Developer",
+      "company": "HealthAsyst",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5851865218?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Ability to face customer as AI expert, assisting in client consultations. - Own the solutioning process, Align AI projects with client requirements. - Drive the development of AI and ML solutions that",
+      "type": "Full-time",
+      "postedAt": "2026-08-22T07:34:57Z",
+      "fetchedAt": "2026-10-01T02:30:07.676Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=healthasyst.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821807676_fi1rwl",
+      "title": "AI Developer",
+      "company": "Accellor",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5880853885?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a highly motivated and skilled Generative AI (GenAI) Developer to join our dynamic team. You will be responsible for building and deploying GenAI solutions using large language mode",
+      "type": "Full-time",
+      "postedAt": "2026-09-12T16:13:33Z",
+      "fetchedAt": "2026-10-01T02:30:07.676Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=accellor.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821807676_u4mrqt",
+      "title": "AI Developer",
+      "company": "Movado Group",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5867226815?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Key Responsibilities Design and architect AI-enhanced solutions integrating SAP data, external cloud data sources (e.g., Google BigQuery, Amazon Redshift), and local file-based inputs Lead development",
+      "type": "Full-time",
+      "postedAt": "2026-09-02T21:31:03Z",
+      "fetchedAt": "2026-10-01T02:30:07.676Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=movadogroup.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821807676_l8bo2k",
+      "title": "AI Developer",
+      "company": "Codezen Tech Solutions",
+      "location": "Mumbai, Maharashtra",
+      "salary": "₹800K – ₹1200K",
+      "url": "https://www.adzuna.in/details/5245553994?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We’re looking for an experienced AI Developer to join our team and drive the design, development, and deployment of advanced computer-vision and LLM-based solutions. You’ll build real-time object dete",
+      "type": "Full-time",
+      "postedAt": "2025-06-12T05:02:53Z",
+      "fetchedAt": "2026-10-01T02:30:07.676Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=codezentechsolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821807676_pabpfr",
+      "title": "AI Developer",
+      "company": "Techtorch",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5881160864?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About TechTorch At TechTorch , we’re building the future of intelligent work. Our mission is to help companies design, build, and deploy AI agents that automate complex, real-world workflows — deliver",
+      "type": "Full-time",
+      "postedAt": "2026-09-12T21:37:37Z",
+      "fetchedAt": "2026-10-01T02:30:07.676Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=techtorch.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_g1qvdj",
+      "title": "Full Stack Developer",
+      "company": "Vrinda International",
+      "location": "Pune, Maharashtra",
+      "salary": "₹1200K – ₹1500K",
+      "url": "https://www.adzuna.in/details/5900003648?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description: Full Stack Developer Summary We are seeking a highly skilled Full Stack Developer to join our IT Services team, where you will play a pivotal role in designing, building, and maintain",
+      "type": "Full-time",
+      "postedAt": "2026-09-27T03:53:40Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vrindainternational.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_ukd1cv",
+      "title": "Full Stack Developer",
+      "company": "Vrinda International",
+      "location": "Bangalore, Karnataka",
+      "salary": "₹1000K – ₹1300K",
+      "url": "https://www.adzuna.in/details/5898568128?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Full Stack Developer Summary We are seeking a highly skilled Full Stack Developer with 6 to 9 years of professional experience to join our IT Services team. In this pivotal role, you will be responsib",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T22:14:25Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vrindainternational.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_29wuvu",
+      "title": "Full-Stack Developer",
+      "company": "VSI Infotech LLP",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5516085466?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "VSI Infotech LLP is looking for a passionate and skilled Full-Stack Developer to join our innovative team. In this multifaceted role, you will engage in the complete software development cycle, delive",
+      "type": "Full-time",
+      "postedAt": "2025-11-27T18:44:15Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vsiinfotechllp.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_frucm4",
+      "title": "FULL STACK DEVELOPER",
+      "company": "Vrinda International",
+      "location": "India",
+      "salary": "₹2000K – ₹2800K",
+      "url": "https://www.adzuna.in/details/5897308768?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Role Overview We are seeking an accomplished Full Stack Developer to join our IT Services team, where you will play a pivotal role in designing, building, and maintaining scalable web applications. Th",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T02:16:11Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vrindainternational.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_iwu1dp",
+      "title": "Full stack Developer",
+      "company": "Aliste Technologies",
+      "location": "Noida, Ghaziabad",
+      "salary": "₹1500K – ₹1800K",
+      "url": "https://www.adzuna.in/details/5832769844?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Role Overview: Aliste Technologies is seeking a talented and motivated Full-stack Developer with expertise in Node.js , Mongo DB, React Native and React.js to join our core engineering team. In this r",
+      "type": "Full-time",
+      "postedAt": "2026-08-08T06:52:25Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=alistetechnologies.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_hr2sja",
+      "title": "FULL STACK DEVELOPER",
+      "company": "Vrinda International",
+      "location": "Hyderabad, Telangana",
+      "salary": "₹1000K – ₹1000K",
+      "url": "https://www.adzuna.in/details/5901627684?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Summary We are seeking a seasoned Full Stack Developer to join our IT Services team. In this pivotal role, you will architect, build, and maintain robust web applications that drive business value. Th",
+      "type": "Full-time",
+      "postedAt": "2026-09-28T19:54:37Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=vrindainternational.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810686_w0lht0",
+      "title": "Full Stack Developer",
+      "company": "triveous",
+      "location": "India",
+      "salary": "₹500K – ₹700K",
+      "url": "https://www.adzuna.in/details/5883094446?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About the Role: We’re looking for a Full Stack Developer who can work across both frontend and backend development, build scalable and reliable applications, and collaborate closely with the product a",
+      "type": "Full-time",
+      "postedAt": "2026-09-14T07:05:51Z",
+      "fetchedAt": "2026-10-01T02:30:10.686Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=triveous.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810687_6noxwl",
+      "title": "Full Stack Developer",
+      "company": "SalaryBox",
+      "location": "Sector 45, Gurgaon",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5897308792?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About SalaryBox It’s an amazing time to be joining SalaryBox as we continue to transform attendance and payroll for over 60 million MSME’s in India. We launched the app in Jan 2021, and now have more",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T02:16:14Z",
+      "fetchedAt": "2026-10-01T02:30:10.687Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=salarybox.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810687_69zwbk",
+      "title": "Full Stack Developer",
+      "company": "Hire Fellows",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5868944195?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a skilled and adaptable Full-Stack Developer to join the technology team of a fast-growing, early-stage company building a multi-sided digital platform. You will take technical owne",
+      "type": "Full-time",
+      "postedAt": "2026-09-03T19:29:30Z",
+      "fetchedAt": "2026-10-01T02:30:10.687Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hirefellows.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810687_ug6sp9",
+      "title": "Full Stack Developer",
+      "company": "Qube Cinema",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5729388787?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Full Stack Developer Your Role Do you want your code to elevate the movie watching experience of millions across the globe? Qube has been built with strong passion for cinema and technology. In the la",
+      "type": "Full-time",
+      "postedAt": "2026-05-14T21:47:28Z",
+      "fetchedAt": "2026-10-01T02:30:10.687Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=qubecinema.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810687_katg4w",
+      "title": "Full Stack Developer",
+      "company": "BlueOptima",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5871006303?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description We are looking for a skilled Full Stack Developer to help develop our scalable, data-driven analytical dashboard. You'll focus on building responsive, user-friendly interfaces that del",
+      "type": "Full-time",
+      "postedAt": "2026-09-05T02:06:00Z",
+      "fetchedAt": "2026-10-01T02:30:10.687Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=blueoptima.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821810687_i23jf9",
+      "title": "Full Stack Developer",
+      "company": "Virallens",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5851019126?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Full Stack Engineer  Location: Bengaluru, Karnataka, India  Work Mode: On-site  Employment Type: Full-time ‍ Experience: 3–5 Years About Virallens Virallens is an AI-first technology company helping b",
+      "type": "Full-time",
+      "postedAt": "2026-08-21T18:15:16Z",
+      "fetchedAt": "2026-10-01T02:30:10.687Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=virallens.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_5pm675",
+      "title": "Data Scientist-Data Science-Data Scientist",
+      "company": "EXL",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5645288318?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Description Data Scientists design and implement data analysis processes to derive actionable insights. Duties include building statistical models, analyzing large datasets, and presenting findings to",
+      "type": "Full-time",
+      "postedAt": "2026-02-26T01:46:48Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=exl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_ib9z48",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Chandigarh University",
+      "location": "Chandigarh, India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5845820474?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a Data Scientist Data Science Intern to join our team at at CHANDIGARH UNIVERSITY contributing to software data or IT system development and support This role offers an inhand salar",
+      "type": "Internship",
+      "postedAt": "2026-08-18T07:15:45Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=chandigarhuniversity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_qyrmex",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Adway Institute Of Management Education Private Limited",
+      "location": "Coimbatore, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5808699400?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a Data Scientist Data Science Intern to join our team at at Adway Institute Of Management Education Private Limited contributing to software data or IT system development and suppor",
+      "type": "Research Internship (MS/PhD)",
+      "postedAt": "2026-07-21T06:40:29Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "research-internship",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_8ub7oq",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Amayradh Infotech Private Limited",
+      "location": "Delhi, India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5845820479?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a Data Scientist Data Science Intern to join our team at at Amayradh Infotech Private Limited contributing to software data or IT system development and support This role offers an",
+      "type": "Research Internship (MS/PhD)",
+      "postedAt": "2026-08-18T07:15:45Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "research-internship",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_r45kbo",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Kodetocareer",
+      "location": "Delhi, India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5845820435?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Data Science Trainer Intern Duration 3 Months Type Internship possible switch to paid Mode Online Offline We are looking for a passionate Data Science Trainer Intern to teach and mentor students in Py",
+      "type": "Internship",
+      "postedAt": "2026-08-18T07:15:45Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kodetocareer.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_kldcrm",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Technobrilliant Learning Solutions",
+      "location": "Pune, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5845820507?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Develop test or maintain software applications databases or analytical tools Analyze data generate insights and ensure system accuracy Troubleshoot issues and support daily IT operations Collaborate w",
+      "type": "Internship",
+      "postedAt": "2026-08-18T07:15:46Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=technobrilliantlearningsolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812506_k5vklw",
+      "title": "Data Scientist Data Science Intern",
+      "company": "Nettech India propmrsarfaraz Ahmed",
+      "location": "Thane, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5845820536?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a Data Scientist Data Science Intern to join our team at at Nettech India prop mr sarfaraz Ahmed contributing to software data or IT system development and support This role offers",
+      "type": "Internship",
+      "postedAt": "2026-08-18T07:15:46Z",
+      "fetchedAt": "2026-10-01T02:30:12.506Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=nettechindiapropmrsarfarazahmed.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_2hb3jy",
+      "title": "Data Scientist Senior Data Scientist",
+      "company": "Relay Human Cloud India",
+      "location": "Ahmedabad, Gujarat",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5808699328?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title Data Scientist Senior Data ScientistJob Location Ahmedabad Onsite Shift Time 2 00 PM 11 00 PM 5 days week Experience Required 35 YearsAbout the RoleWe are currently looking for a Data Scient",
+      "type": "Full-time",
+      "postedAt": "2026-07-21T06:40:29Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=relayhumancloudindia.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_s5ci3t",
+      "title": "Data Scientist/Senior Data Scientist",
+      "company": "Tiger Analytics",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5859122223?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "What You'll Do: Analyse and integrate clinical and multi-omics datasets (e.g., genomics, proteomics) to extract actionable insights. Develop and validate predictive models for biomedical research and",
+      "type": "Full-time",
+      "postedAt": "2026-08-28T07:37:28Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tigeranalytics.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_ia9erl",
+      "title": "Data Scientist/Senior Data Scientist",
+      "company": "Tiger Analytics",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5859122222?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "What You'll Do: Analyse and integrate clinical and multi-omics datasets (e.g., genomics, proteomics) to extract actionable insights. Develop and validate predictive models for biomedical research and",
+      "type": "Full-time",
+      "postedAt": "2026-08-28T07:37:28Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tigeranalytics.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_4mmdcw",
+      "title": "Data Scientist/Senior Data Scientist",
+      "company": "Tiger Analytics",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5859122250?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "What You'll Do: Analyse and integrate clinical and multi-omics datasets (e.g., genomics, proteomics) to extract actionable insights. Develop and validate predictive models for biomedical research and",
+      "type": "Full-time",
+      "postedAt": "2026-08-28T07:37:29Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tigeranalytics.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_0g3v2j",
+      "title": "Sr. Data Scientist / Data Scientist",
+      "company": "Williams-Sonoma",
+      "location": "Pune, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5838433187?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Description Key Responsibilities Design and delivery of ML/analytics solutions (forecasting, propensity, segmentation, churn, ranking, personalization) across retail and e-commerce use cases. Translat",
+      "type": "Full-time",
+      "postedAt": "2026-08-12T20:41:52Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=williamssonoma.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_vp8oxq",
+      "title": "Data Scientist",
+      "company": "Weekday AI",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5902633851?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "This role is for one of Weekday’s clients Salary range: Rs 6000000 - Rs 10000000 (ie INR 60 - 100 LPA) Min Experience: 10 years Location: Bengaluru, Karnataka, India JobType: full-time We are looking",
+      "type": "Full-time",
+      "postedAt": "2026-09-29T12:56:31Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=weekdayai.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821812507_g7l1jz",
+      "title": "Data Scientist",
+      "company": "S2V Automation Pvt Ltd",
+      "location": "Bangalore, Karnataka",
+      "salary": "₹1500K – ₹3000K",
+      "url": "https://www.adzuna.in/details/5899028643?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Data Scientist – Job Description Location: Bangalore, India Experience: 5–6 Years Employment Type: Full-time We are looking for a Data Scientist with 5–6 years of experience who can work closely with",
+      "type": "Full-time",
+      "postedAt": "2026-09-26T07:08:56Z",
+      "fetchedAt": "2026-10-01T02:30:12.507Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=s2vautomationpvtltd.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814386_hszvki",
+      "title": "FrontEnd Developer",
+      "company": "Skywings Advisors Pvt. Ltd.",
+      "location": "India",
+      "salary": "₹1000K – ₹2000K",
+      "url": "https://www.adzuna.in/details/5895535393?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description: Location: Chennai Sholinganallur Work Mode: Hybrid (4 days/week) Experience: 5 years Education: Bachelor's Degree Role: Senior Angular Frontend Developer Key Skills: Angular, HTML, CS",
+      "type": "Full-time",
+      "postedAt": "2026-09-23T23:47:08Z",
+      "fetchedAt": "2026-10-01T02:30:14.386Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=skywingsadvisorspvtltd.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814387_hgqq21",
+      "title": "Frontend Developer",
+      "company": "Company Not Disclosed",
+      "location": "Ernakulam, Kerala",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/4686702302?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Do you have the skills and experience to develop an application's user-facing code and the architecture of its immersive user experiences? Are you excited about being a part of one of the most innovat",
+      "type": "Full-time",
+      "postedAt": "2024-05-10T07:38:31Z",
+      "fetchedAt": "2026-10-01T02:30:14.387Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=companynotdisclosed.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814387_eadpkd",
+      "title": "Frontend Developer",
+      "company": "Gsource Technologies Private Limited",
+      "location": "Vadgaon Sheri, Pune",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5870977141?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About the Role We are building a multi-tenant SaaS platform that includes a full-featured cloud-based 2DCAD editor built on Three.js WebGL, a data-driven job management application, fieldcapture workf",
+      "type": "Full-time",
+      "postedAt": "2026-09-05T01:23:54Z",
+      "fetchedAt": "2026-10-01T02:30:14.387Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "research-institutes",
+      "companyTierLabel": "Elite Research Institutes & Universities",
+      "companyTierBadge": "Elite Research Lab",
+      "companyTierIcon": "landmark",
+      "companyTierColor": "#7c3aed",
+      "companyTierBg": "rgba(124, 58, 237, 0.1)",
+      "companyTierBorder": "rgba(124, 58, 237, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814387_phzjs7",
+      "title": "Frontend Developer",
+      "company": "Apprick Technologies Pvt Ltd",
+      "location": "Mumbai, Maharashtra",
+      "salary": "₹400K – ₹600K",
+      "url": "https://www.adzuna.in/details/3142255636?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for skilled frontend/fullstack developers with below requirements HTML CSS JavaScript ReactJs, ReactNative Good to have skills: AWS deployments and CI-CD, Python-Django backend integrat",
+      "type": "Full-time",
+      "postedAt": "2022-05-17T05:30:13Z",
+      "fetchedAt": "2026-10-01T02:30:14.387Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=appricktechnologiespvtltd.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814387_shgt6a",
+      "title": "Frontend Developer",
+      "company": "Deccan AI",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5889605864?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: Frontend Developer (Junior / Mid / Senior - React.js) Location: Hyderabad (Full-Time) About Us: We are an innovative startup working on state-of-the-art Large Language Models (LLMs) and AI-",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T22:04:36Z",
+      "fetchedAt": "2026-10-01T02:30:14.387Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=deccanai.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814387_bqo69k",
+      "title": "Frontend Developer",
+      "company": "App&Web",
+      "location": "Delhi, India",
+      "salary": "₹400K – ₹1200K",
+      "url": "https://www.adzuna.in/details/1171507430?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking to hire Frontend developer who should have around 2 years of experience with React Tech Stack and have worked extensively on frontend development including designs and api integrations.",
+      "type": "Full-time",
+      "postedAt": "2019-06-05T21:12:08Z",
+      "fetchedAt": "2026-10-01T02:30:14.387Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=appweb.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_liwew7",
+      "title": "Frontend Developer",
+      "company": "Qrata",
+      "location": "India",
+      "salary": "₹800K – ₹1600K",
+      "url": "https://www.adzuna.in/details/4514376406?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a Frontend Developer. As a Frontend Developer, you should be comfortable with Front-end languages, Frameworks, and third-party Libraries. You should also be a team playerwith a a kn",
+      "type": "Full-time",
+      "postedAt": "2024-01-07T15:07:58Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=qrata.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_68drd6",
+      "title": "Frontend Developer",
+      "company": "HashRoot",
+      "location": "Pune, Maharashtra",
+      "salary": "₹400K – ₹2400K",
+      "url": "https://www.adzuna.in/details/5095963210?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are seeking a skilled Frontend Developer to join our global automotive team. As Frontend Developer, you will be responsible for implementing features for critical application environments for indus",
+      "type": "Full-time",
+      "postedAt": "2025-03-16T04:28:40Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hashroot.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_fx3iv7",
+      "title": "Frontend Developer",
+      "company": "Ftechiz Solutions",
+      "location": "Dehradun, Uttarakhand",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/2214919685?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are hiring a Frontend Developer for Dehradun Location. Exp- 1.5-4 years Requirements: Work experience on AngularJs, Javascript & React Js. Good working knowledge of Frontend Development. Good Commu",
+      "type": "Full-time",
+      "postedAt": "2021-05-28T13:17:35Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ftechizsolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_th3urd",
+      "title": "Frontend Developer",
+      "company": "primathonin",
+      "location": "India",
+      "salary": "₹600K – ₹1200K",
+      "url": "https://www.adzuna.in/details/2800170606?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for champions for scalable web application development with experience in React. You would be working on React, Angular, Progressive web apps & some infusion of NodeJS. What you need to",
+      "type": "Full-time",
+      "postedAt": "2022-01-09T04:24:37Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=primathonin.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_gqphd3",
+      "title": "Frontend Developer",
+      "company": "Hashroot",
+      "location": "India",
+      "salary": "₹500K – ₹2000K",
+      "url": "https://www.adzuna.in/details/5092226879?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Overview adesso India specialises in optimization of core business processes for organizations. Our focus is on providing state-of-the-art solutions that streamline operations and elevate productivity",
+      "type": "Full-time",
+      "postedAt": "2025-03-14T04:30:39Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hashroot.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_ky1w9c",
+      "title": "Frontend Developer",
+      "company": "Fatakpay",
+      "location": "Mumbai, Maharashtra",
+      "salary": "₹400K – ₹600K",
+      "url": "https://www.adzuna.in/details/4532666664?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Position Overview: As a Frontend Developer at FatakPay, you will be responsible for translating design concepts into responsive and intuitive user interfaces. Working closely with our design and backe",
+      "type": "Full-time",
+      "postedAt": "2024-01-19T15:13:18Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=fatakpay.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_elaty7",
+      "title": "Frontend Developer",
+      "company": "RemoteStar",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5801966929?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Frontend Developer – Customer Data & Workforce Solutions About the Role Years of experience - 10 years Relevant years of experience - 8 Work mode - Hybrid Location - Bangalore As a Frontend Developer,",
+      "type": "Full-time",
+      "postedAt": "2026-07-16T06:17:49Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=remotestar.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_o7fh9n",
+      "title": "Frontend Developer",
+      "company": "Mantras2Success",
+      "location": "Secunderabad, Hyderabad",
+      "salary": "₹600K – ₹600K",
+      "url": "https://www.adzuna.in/details/5731729546?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description: As a Frontend Developer , you will be responsible for building and optimizing user-friendly, high-performance interfaces for our professional app. You will collaborate closely with pr",
+      "type": "Full-time",
+      "postedAt": "2026-05-17T02:13:38Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=mantras2success.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821814388_sswcvb",
+      "title": "Frontend Developer",
+      "company": "NeoGenCode Technologies Pvt Ltd",
+      "location": "Noida, Ghaziabad",
+      "salary": "₹700K – ₹1200K",
+      "url": "https://www.adzuna.in/details/5358012891?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About the Role We are seeking a creative and technically strong Frontend Developer with expertise in 3D animations to join our team. You will play a key role in building interactive, visually engaging",
+      "type": "Full-time",
+      "postedAt": "2025-08-19T05:44:37Z",
+      "fetchedAt": "2026-10-01T02:30:14.388Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=neogencodetechnologiespvtltd.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_9s71wj",
+      "title": "Cloud Engineer",
+      "company": "Gururo",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5018442749?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Responsibilities: Design, develop, and deploy modular cloud-based systems Develop and maintain cloud solutions in accordance with best practices Ensure efficient functioning of data storage and pr",
+      "type": "Full-time",
+      "postedAt": "2025-01-21T17:53:53Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=gururo.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_apyowp",
+      "title": "Cloud Engineering",
+      "company": "Artech Infosystems Private Limited",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5902358482?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "10 years of experience in software/ cloud engineering, AI, data engineering, or application development. 3 years serving as a lead developer on enterprise projects developing and delivering cloud-nati",
+      "type": "Full-time",
+      "postedAt": "2026-09-29T08:14:33Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "/assets/logos/mit.svg",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_r7hn3s",
+      "title": "Cloud Engineer",
+      "company": "Thinqor",
+      "location": "Bangalore, Karnataka",
+      "salary": "₹1500K – ₹2000K",
+      "url": "https://www.adzuna.in/details/5657199618?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Hiring: Cloud Engineer – MLOps Platform   Location: Bangalore  Experience: 5–8 Years We are looking for an experienced Cloud Engineer to support ML teams and drive end-to-end automation for model depl",
+      "type": "Full-time",
+      "postedAt": "2026-03-07T11:19:36Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=thinqor.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_o9o9p8",
+      "title": "Cloud Engineer",
+      "company": "American Technology Consulting",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5823352722?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Brief: We are looking for an experienced cloud engineer to work with our engineering team to develop, implement, optimize, and maintain cloud-based solutions. You will be responsible for deploying",
+      "type": "Full-time",
+      "postedAt": "2026-08-01T10:47:52Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=americantechnologyconsulting.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_r6lysp",
+      "title": "Cloud Engineering",
+      "company": "Great Techno Tycoon",
+      "location": "Indore, Madhya Pradesh",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5829886989?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Educational Qualification: Graduate, Technical Graduate Experience: 5 years of professional experience as a Cloud Engineer Role Overview: As a Cloud Engineer, you will tackle complex challenges in lar",
+      "type": "Full-time",
+      "postedAt": "2026-08-06T07:31:49Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=greattechnotycoon.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_2b70pf",
+      "title": "Cloud Engineer",
+      "company": "Nyusoft Solutions",
+      "location": "Ahmedabad, Gujarat",
+      "salary": "₹200K – ₹300K",
+      "url": "https://www.adzuna.in/details/4499249281?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: Junior Cloud Engineer Job Description : As a Junior Cloud Engineer, you will be working closely with senior IT professionals to contribute to the development and optimization of cloud infra",
+      "type": "Full-time",
+      "postedAt": "2023-12-28T15:04:53Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=nyusoftsolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815919_uuw3tv",
+      "title": "Cloud Engineer",
+      "company": "TRU",
+      "location": "Mohali, Punjab",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5877294967?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: Cloud Engineer Location: Mohali , India Department: Technology Job Type: Full-Time About Us: Tru is a Global Leading Organization dedicated to leveraging cutting-edge technology to drive bu",
+      "type": "Full-time",
+      "postedAt": "2026-09-09T21:37:46Z",
+      "fetchedAt": "2026-10-01T02:30:15.919Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tru.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_tk3u1y",
+      "title": "Cloud Engineer",
+      "company": "Endava",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5890487401?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Company Description Technology is our how. And people are our why. For over two decades, we have been harnessing technology to drive meaningful change. By combining world-class engineering, industry e",
+      "type": "Full-time",
+      "postedAt": "2026-09-19T16:13:52Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=endava.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_yac6v3",
+      "title": "Cloud Engineer",
+      "company": "Unnati",
+      "location": "Delhi, India",
+      "salary": "₹300K – ₹600K",
+      "url": "https://www.adzuna.in/details/2398472112?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "This is a great opportunity for young and ambitious people looking to make a career in IT infrastructure solution sales Our Client is an IT infrastructure services company, focused and specialized in",
+      "type": "Full-time",
+      "postedAt": "2021-08-21T21:23:15Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=unnati.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_d9mk25",
+      "title": "Cloud Engineer",
+      "company": "Ascentt-India",
+      "location": "Indore, Madhya Pradesh",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5784390818?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Cloud Engineer Experience 5 Years Location: Indore/Pune Job Description (Summary of Responsibilities): Seeking a Cloud Engineer to design, deploy, and manage cloud infrastructure on Cloud while suppor",
+      "type": "Full-time",
+      "postedAt": "2026-07-02T02:58:32Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ascenttindia.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_446ixs",
+      "title": "Cloud Engineer",
+      "company": "Launch IT Consulting",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5850376323?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Be a part of our success story. Launch offers talented and motivated people the opportunity to do the best work of their lives in a dynamic and growing company. Through competitive salaries, outstandi",
+      "type": "Full-time",
+      "postedAt": "2026-08-21T07:38:55Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=launchitconsulting.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_gvao56",
+      "title": "Cloud Engineer",
+      "company": "Zones, LLC",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5760992319?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Cloud Engineer Location: Bangalore, India Salary Range: INR 1200000-1800000 Annually Date Posted:Jun 10, 2026 Description Company Overview: When it comes to IT solution providers, there are a lot of c",
+      "type": "Full-time",
+      "postedAt": "2026-06-12T10:32:22Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=zonesllc.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790821815920_tuco5q",
+      "title": "Cloud Engineer",
+      "company": "Zones, LLC",
+      "location": "Noida, Ghaziabad",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5760992314?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Cloud Engineer Location: Noida, India Salary Range: INR 1200000-1800000 Annually Date Posted:Jun 10, 2026 Description Company Overview: When it comes to IT solution providers, there are a lot of choic",
+      "type": "Full-time",
+      "postedAt": "2026-06-12T10:32:22Z",
+      "fetchedAt": "2026-10-01T02:30:15.920Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=zonesllc.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560530_p4pr8n",
+      "title": "Software Engineer in Test",
+      "company": "Atomicwork",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5891981308?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=088210F8B75BEA2BE6FF727EA3CAE529E1B434DA",
+      "source": "adzuna",
+      "snippet": "Atomicwork is on a mission to transform the digital workplace experience by uniting people, processes, and platforms through AI automation. Our team is building a modern service management platform th",
+      "type": "Full-time",
+      "postedAt": "2026-09-20T23:28:36Z",
+      "fetchedAt": "2026-09-30T18:22:40.530Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=atomicwork.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560530_aqzak1",
+      "title": "Software Engineering Consultant",
+      "company": "Tata Consultancy Services",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5864436463?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=D1FC698051367D7EAC7648829C60258A51DB3DC6",
+      "source": "adzuna",
+      "snippet": "Greetings From TCS TCS presents an excellent opportunity for \"ServiceNow Developers\" Job Title: \"ServiceNow Developer\" * It is a Face to Face Interview on 19th September 2026 (Saturday) Experience Ran",
+      "type": "Full-time",
+      "postedAt": "2026-09-01T16:22:30Z",
+      "fetchedAt": "2026-09-30T18:22:40.530Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560530_6mw5re",
+      "title": "Software Engineer – Ruby (Remote)",
+      "company": "Quik Hire Staffing",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5882598256?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=9F48E6EAACA3ADFEAE93A9ADE5D856E9B96BA85F",
+      "source": "adzuna",
+      "snippet": "Role : Software Engineer – Ruby (Remote) Location : Remote (Work from Anywhere) Role Overview: We are hiring for one of our clients, seeking a Senior Software Engineer – Ruby (LLM Evaluation & Reposit",
+      "type": "Full-time",
+      "postedAt": "2026-09-13T17:22:32Z",
+      "fetchedAt": "2026-09-30T18:22:40.530Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=quikhirestaffing.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_c9i3lj",
+      "title": "Software Engineer - Networking Datapath",
+      "company": "MacroHire",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5870859107?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=04DA84F9994B10283E691E413776A527CCA24DA6",
+      "source": "adzuna",
+      "snippet": "Designation- Software Engineer - Networking Datapath (QoS/CoS/ Firewall/ACLs/Filters) Exp- 4-10 yrs Location- Bangalore JD- Develop cutting-edge platforms for next-gen Access and Aggregation Deploymen",
+      "type": "Full-time",
+      "postedAt": "2026-09-04T22:29:21Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=macrohire.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_dakydx",
+      "title": "Senior Software Engineer—Backend",
+      "company": "Pocket FM",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5870527778?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=BBD3355352785DE3DB2C4A7BDBE4EAD32B08FE15",
+      "source": "adzuna",
+      "snippet": "Senior Software Engineer-Backend Location: Bengaluru Experience: 3–5 years About Pocket FM: At our core, we are an AI-powered entertainment company with a deeply human-first philosophy. We believe tec",
+      "type": "Full-time",
+      "postedAt": "2026-09-04T16:57:48Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=pocketfm.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_jgurft",
+      "title": "Senior Network Software Engineer",
+      "company": "Persistent Systems",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5900616292?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=7145BAC2DCCE56498950A72B7C4FDA5A6786450A",
+      "source": "adzuna",
+      "snippet": "About Position: We are looking for an experienced R&D Engineer to join the team responsible for building and optimizing the high-performance packet capture pipeline at the core of our network analytic",
+      "type": "Full-time",
+      "postedAt": "2026-09-27T18:06:57Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=persistentsystems.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_qisdco",
+      "title": "Linux Software Engineer (Mesa Graphics)",
+      "company": "L&T Technology Services",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5871991891?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=85F5DD62F6956FDEC8D178CAC39F431F64C62CBC",
+      "source": "adzuna",
+      "snippet": "Linux Software Engineer (Mesa Graphics) Location: Bangalore Experience: 2 to 9 Years Education: B.E / B.Tech / M.E / M.Tech Mandatory Skills Strong hands-on experience in C/C++ Programming Strong deve",
+      "type": "Full-time",
+      "postedAt": "2026-09-05T18:30:21Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=lttechnologyservices.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_2a7w0g",
+      "title": "Senior Network Security Software Engineer",
+      "company": "Persistent Systems",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5899511617?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=D3AFE3F70136BD301006E1B1C6954753D410B2BA",
+      "source": "adzuna",
+      "snippet": "About Position: We are seeking a highly experienced Senior Firewall/Network Security Software Engineer with 8 years of expertise in C/C++ development for Linux and embedded systems. The role focuses o",
+      "type": "Full-time",
+      "postedAt": "2026-09-26T15:26:54Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=persistentsystems.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560531_rkzaqz",
+      "title": "Embedded Test & Systems Software Engineer",
+      "company": "ACL Digital",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889223211?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=4671AB125C4109DD02572DFF886FC50CA5A481E9",
+      "source": "adzuna",
+      "snippet": "We are seeking an Embedded Test & Systems Software Engineer to join our hardware-software integration team. In this role, you will bridge the gap between firmware development and system-level validati",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T17:32:16Z",
+      "fetchedAt": "2026-09-30T18:22:40.531Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=acldigital.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560532_ngliv1",
+      "title": "Senior Software Engineer - SAP MDG",
+      "company": "ZEISS India",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5898533474?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=BC0956DA97F2CA84A2824E462E144AEA4EEBC483",
+      "source": "adzuna",
+      "snippet": "Job Requirements 5 years of experience in Master Data Management & Governance Strong knowledge of ABAP Object Oriented Programming, Master Data Governance (MDG), ABAP Floor Plan Manager (FPM), ABAP We",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T22:01:00Z",
+      "fetchedAt": "2026-09-30T18:22:40.532Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=zeissindia.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560532_0w56nx",
+      "title": "Principal Software Engineer (Distributed Storage Systems)",
+      "company": "NorthStar HR Consultants",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5882857566?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=7F977C6D585AA45CCF2A2CD5961D4A8F1DDE5225",
+      "source": "adzuna",
+      "snippet": "Job Title - Principal Software Engineer (Cluster Infrastructure & Deployment - Distributed Storage Systems) Job Location - Pune, Maharashtra Must Have Skills - Go and Python for building system tools,",
+      "type": "Full-time",
+      "postedAt": "2026-09-14T01:08:55Z",
+      "fetchedAt": "2026-09-30T18:22:40.532Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=northstarhrconsultants.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560532_as6klo",
+      "title": "Technical Consultant II (Software Engineer - Java)",
+      "company": "Zafin",
+      "location": "Thiruvananthapuram, Kerala",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5898128658?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=B5B0C2EBEA7451A455CB225E6B1F56B1885AF63C",
+      "source": "adzuna",
+      "snippet": "What You Will Do Develop and implement SaaS integration solutions for enterprise banking applications. Build and maintain REST APIs, integration services, and event-driven solutions using Kafka. Work",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T15:23:24Z",
+      "fetchedAt": "2026-09-30T18:22:40.532Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=zafin.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560532_b72cry",
+      "title": "Senior Software Engineer (C++, Linux/MacOS)",
+      "company": "ConnectWise",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5884588533?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=5F512B182B4D6307E70684867699731C955B8A75",
+      "source": "adzuna",
+      "snippet": "About the Role You will be a senior engineer on the x360Sync team at ConnectWise, owning development of the macOS agent — a native desktop application at the heart of the x360Sync backup and file sync",
+      "type": "Full-time",
+      "postedAt": "2026-09-15T17:26:52Z",
+      "fetchedAt": "2026-09-30T18:22:40.532Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=connectwise.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792560532_3rmu2w",
+      "title": "Technical Consultant III (Senior Software Engineer - Java)",
+      "company": "Zafin",
+      "location": "Thiruvananthapuram, Kerala",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5898128637?se=_KLi6vu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=F0BEE4779F06BC5B45E311A2821A6EE499B37030",
+      "source": "adzuna",
+      "snippet": "What is the Opportunity? This role is ideal for engineers who want to go beyond building individual components and gain a deep understanding of how enterprise platforms come together. You will play a",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T15:23:23Z",
+      "fetchedAt": "2026-09-30T18:22:40.532Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=zafin.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561641_7fcrax",
+      "title": "AI Developer",
+      "company": "Accellor",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5663312572?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "We are looking for a highly motivated and skilled Generative AI (GenAI) Developer to join our dynamic team. You will be responsible for building and deploying GenAI solutions using large language mode",
+      "type": "Full-time",
+      "postedAt": "2026-03-13T15:31:25Z",
+      "fetchedAt": "2026-09-30T18:22:41.641Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=accellor.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561641_qcg21e",
+      "title": "AI Developer",
+      "company": "Salvo Software",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5737288042?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "About Salvo Software Salvo Software is a global firm that provides cost-effective software solutions to guide enterprises and startups through digital transformation. With distributed teams across the",
+      "type": "Full-time",
+      "postedAt": "2026-05-22T10:22:30Z",
+      "fetchedAt": "2026-09-30T18:22:41.641Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=salvosoftware.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561641_95zhie",
+      "title": "Sales Development Representative (SDR) - AI Product (B2B)",
+      "company": "Newton School",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5893929973?se=SGnK6_u88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=07C9A6EE2DE8A49FFB5ABCD19CE943436A8EE828",
+      "source": "adzuna",
+      "snippet": "About Newton School Come be part of a rocket ship that’s creating a massive impact in the world of education! Every year, over a million college graduates enter the job market, yet only ~5% are consid",
+      "type": "Full-time",
+      "postedAt": "2026-09-22T17:38:43Z",
+      "fetchedAt": "2026-09-30T18:22:41.641Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=newtonschool.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561641_kzexhx",
+      "title": "AI Developer",
+      "company": "Top Gen AI Jobs",
+      "location": "Ahmedabad, Gujarat",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5866922256?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Home/Jobs/AI Developer AI Developer Softcodes Technologies Ahmedabad 2 years Today $18.1K–28.9K/yr Full-time Onsite Skills Required LLM Gen AI NLP Machine Learning Python AI/ML frameworks Description",
+      "type": "Full-time",
+      "postedAt": "2026-09-02T16:15:22Z",
+      "fetchedAt": "2026-09-30T18:22:41.641Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=topgenaijobs.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_dpqmgd",
+      "title": "AI Developer",
+      "company": "EmbarkingOnVoyage Digital Solutions Pvt Ltd",
+      "location": "Pune, Maharashtra",
+      "salary": "₹500K – ₹1500K",
+      "url": "https://www.adzuna.in/details/5868707129?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Role: AI Developer Experience: 3–4 Years Employment Type: Full-Time Location: Goregaon, Mumbai About the Role We are looking for an experienced AI Developer with 3–4 years of software development expe",
+      "type": "Full-time",
+      "postedAt": "2026-09-03T16:09:37Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=embarkingonvoyagedigitalsolutionspvtltd.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_5str7y",
+      "title": "AI Developer",
+      "company": "r3 Consultant",
+      "location": "Pune, Maharashtra",
+      "salary": "₹2000K – ₹2500K",
+      "url": "https://www.adzuna.in/details/5095628723?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: AI Lead Location: Pune (Hybrid/ remote), Budget: Up to 34 LPA Experience Required: 5 years Work Mode: Onsite/Hybrid Job Summary: We are looking for an AI Developer Lead with hands-on experi",
+      "type": "Full-time",
+      "postedAt": "2025-03-15T23:09:30Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=r3consultant.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_bq3vff",
+      "title": "AI Developer",
+      "company": "SmartDocs Business Solutions",
+      "location": "Hyderabad, Telangana",
+      "salary": "₹600K – ₹2000K",
+      "url": "https://www.adzuna.in/details/5645840236?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description – AI Developer Job Description We are seeking a forward-thinking AI Developer with expertise in Generative AI, Machine Learning, Data Science, and Advanced Analytics . In this role, yo",
+      "type": "Full-time",
+      "postedAt": "2026-02-26T11:27:51Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=smartdocsbusinesssolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_8xeq2e",
+      "title": "AI Developer",
+      "company": "NAM Info Pvt Ltd",
+      "location": "Bangalore, Karnataka",
+      "salary": "₹500K – ₹1800K",
+      "url": "https://www.adzuna.in/details/5820973837?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: AI Developer Location: Bangalore / Hyderabad Experience: 5–7 Years Notice Period: Immediate to 15 days Preferred About the Role We are looking for a skilled AI Developer to design, develop,",
+      "type": "Full-time",
+      "postedAt": "2026-07-30T15:55:51Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=naminfopvtltd.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_9p8aif",
+      "title": "AI Developer",
+      "company": "Concentrix",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5891912511?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title: AI Developer Job Description We're Concentrix. The intelligent transformation partner. Solution-focused. Tech-powered. Intelligence-fueled. The global technology and services leader that po",
+      "type": "Full-time",
+      "postedAt": "2026-09-20T21:55:58Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=concentrix.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_7gjce1",
+      "title": "AI Developer",
+      "company": "Flutter",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5897044548?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "AI Developer ABOUT FLUTTER ENTERTAINMENT Flutter Entertainment is the world’s largest sports betting and iGaming operator with 15.9 million Average Monthly Players worldwide and an annual revenue of $",
+      "type": "Full-time",
+      "postedAt": "2026-09-24T21:12:01Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=flutter.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792561642_07fx5z",
+      "title": "AI Developer",
+      "company": "SKF",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5879141685?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job description We are seeking a talented and motivated AI Developer to join our dynamic Aerospace digital team. The ideal candidate will be responsible for developing Generative AI solutions and Mach",
+      "type": "Full-time",
+      "postedAt": "2026-09-11T07:38:44Z",
+      "fetchedAt": "2026-09-30T18:22:41.642Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=skf.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_oym6h0",
+      "title": "Network Automation Engineer",
+      "company": "HCLTech",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5897294863?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=7F6415075E522C65F3A8AD89C11C338BE4B2A639",
+      "source": "adzuna",
+      "snippet": "Hiring: Network Automation Full Stack Developer (E3)  Location: Pan India  Experience: 6-11 Years  Role Level: E3 Are you passionate about building next-generation network automation platforms , self",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T01:53:45Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hcltech.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_xcdko1",
+      "title": "Network Automation Engineer",
+      "company": "HCLTech",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5897295839?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=59A73C231FC11C4EA2CF27EB2C9EB371C06C1BA7",
+      "source": "adzuna",
+      "snippet": "Hiring: Network Automation Full Stack Developer (E3)  Location: Pan India  Experience: 6-11 Years  Role Level: E3 Are you passionate about building next-generation network automation platforms , self",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T01:55:48Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hcltech.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_0gvwyi",
+      "title": "Network Automation Engineer",
+      "company": "HCLTech",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5896253257?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=AB250009C83CBC89AB4D4EFCD5F982D55979D5FC",
+      "source": "adzuna",
+      "snippet": "Hiring: Network Automation Full Stack Developer (E3)  Location: Pan India  Experience: 6-11 Years  Role Level: E3 Are you passionate about building next-generation network automation platforms , self",
+      "type": "Full-time",
+      "postedAt": "2026-09-24T09:51:05Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hcltech.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_vzzwx2",
+      "title": "Assistant Professor",
+      "company": "Galgotias University",
+      "location": "Noida, Ghaziabad",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5870527521?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=EEFC508F380C673CC8A2A894A43E1A0541384480",
+      "source": "adzuna",
+      "snippet": "Galgotias University is inviting applications for the position of Assistant Professor – Computer Science & Engineering (CSE) in the School of Computing Science & Engineering, Greater Noida . The unive",
+      "type": "Full-time",
+      "postedAt": "2026-09-04T16:57:29Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=galgotiasuniversity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_1637pd",
+      "title": "Technical Delivery Manager",
+      "company": "ValueLabs",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5871991644?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=7683E4A43185438892831A6DC48FBC9602112BF1",
+      "source": "adzuna",
+      "snippet": "Required Qualifications: Bachelor’s or Master’s degree in Computer Science, Engineering, or a related field. 12 years of experience in software delivery, with 5 years in a leadership role (e.g., Techn",
+      "type": "Full-time",
+      "postedAt": "2026-09-05T18:29:39Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=valuelabs.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_oz6hfe",
+      "title": "Front-End Developer – SCG India",
+      "company": "SCG",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5895239478?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=A5EBC0717373016F466770F6E471584D41415360",
+      "source": "adzuna",
+      "snippet": "About SCG in India SCG is modernizing its India operations with digital platforms, advanced analytics, and technology-enabled services . Front-end development is essential to ensuring that our digital",
+      "type": "Full-time",
+      "postedAt": "2026-09-23T19:41:02Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=scg.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_7vsmxl",
+      "title": "GCS and UI/UX Development Engineer",
+      "company": "Tunga Aerospace Industries Pvt. Ltd.",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5870857251?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=0522B487E7D1B5109ABC16966D717A5A38B0E2C9",
+      "source": "adzuna",
+      "snippet": "Job Code: CoE-SAI-GCS-M-001 Experience: 5 - 7 Years Location: One-Hub, Thiruporur,Chennai. Qualifications Bachelor’s / Master’s in Computer Science / Software Engineering Preferred Experience 5–7 year",
+      "type": "Full-time",
+      "postedAt": "2026-09-04T22:28:25Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tungaaerospaceindustriespvtltd.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_6nbmye",
+      "title": "Presales Solutions Consultant",
+      "company": "Edureka",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5879668042?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=9AB739202E7A5E473A8BFEB1D498CDDE96D756FF",
+      "source": "adzuna",
+      "snippet": "Job Title : Pre-Sales Solution Associate – Enterprise Business Location : Bengaluru (Work from Office) Experience: 2–4 Years Business Unit : Edureka Enterprise (B2B Corporate Learning) Reporting To: H",
+      "type": "Full-time",
+      "postedAt": "2026-09-11T17:16:04Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=edureka.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_o00ypy",
+      "title": "Agile Scrum",
+      "company": "Tata Consultancy Services",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5876019918?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=53C791BE4F011760A27F6EC578FBD7A03234304D",
+      "source": "adzuna",
+      "snippet": "Agile Scrum Bachelor's degree in computer science, Engineering, or related field. 8 years of experience in full stack development Strong hands-on expertise in: PHP (Yii2 framework) React (18) and Type",
+      "type": "Full-time",
+      "postedAt": "2026-09-09T01:05:24Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_savrzm",
+      "title": "Back End Engineer",
+      "company": "ALLSTARSIT",
+      "location": "Delhi, India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886096301?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=3874D35FE6660667627EE47B28728C86F02D23F6",
+      "source": "adzuna",
+      "snippet": "About the Role We are seeking a highly analytical Backend Developer to join the Core Stability Team. You will take ownership of T3 escalations across our foundational systems, including the Backend Co",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T17:27:35Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=allstarsit.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792562668_ur4ro6",
+      "title": "Back End Developer",
+      "company": "Bandhan Technologies",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5882592374?se=7qpp7Pu88RGwgaviw0YlUg&utm_medium=api&utm_source=440a82d2&v=F16ECF2C87CADF4B30F450188D14DCA9800A951A",
+      "source": "adzuna",
+      "snippet": "We are seeking a skilled Full Stack Developer with expertise in Angular 16, Node.js, and AWS to join our dynamic team. The ideal candidate should have experience working with front-end and back-end te",
+      "type": "Full-time",
+      "postedAt": "2026-09-13T17:18:18Z",
+      "fetchedAt": "2026-09-30T18:22:42.668Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=bandhantechnologies.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792563587_8xbw8x",
+      "title": "Data Scientist",
+      "company": "NexionPro Services",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5897294998?se=JiAH7fu88RGFzc6HHKviZw&utm_medium=api&utm_source=440a82d2&v=00C52913533EC157E04D224B04185CB4554EE1D6",
+      "source": "adzuna",
+      "snippet": "Role: Data Scientist Work Location: Bangalore Experience: 6-8Yrs Work Mode: Hybrid Key Skills: Strong hands-on experience in Python and SQL Strong expertise in A/B Testing, Hypothesis Testing, and Exp",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T01:53:58Z",
+      "fetchedAt": "2026-09-30T18:22:43.587Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=nexionproservices.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792563587_ipnky6",
+      "title": "Data Scientist",
+      "company": "Tata Consultancy Services",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889682066?se=JiAH7fu88RGFzc6HHKviZw&utm_medium=api&utm_source=440a82d2&v=4A300A1D142B510F16088BE81DE7B3A8DA9CB687",
+      "source": "adzuna",
+      "snippet": "Greetings from Tata Consultancy Services! Join us and be part of TCS's AI Cloud transformation journey! About the Unit: TCS Cloud is accelerating the shift to an AI-powered, cloud-first future. As a s",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T23:24:32Z",
+      "fetchedAt": "2026-09-30T18:22:43.587Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792564715_snyyov",
+      "title": "Frontend Developer",
+      "company": "Graystone Capital",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5900616316?se=uouY7fu88RG5W_OotpWUug&utm_medium=api&utm_source=440a82d2&v=8E7A9657D51179B646040EA179A2BA75BE15EEBD",
+      "source": "adzuna",
+      "snippet": "FRONTEND DEVELOPER Location: India/UAE | Full-Time | On-Site Graystone Capital is building a next-generation AI-powered internal platform. We are looking for a high-performance Frontend Developer to b",
+      "type": "Internship",
+      "postedAt": "2026-09-27T18:07:04Z",
+      "fetchedAt": "2026-09-30T18:22:44.715Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=graystonecapital.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792564716_3es9nj",
+      "title": "Senior Frontend Developer",
+      "company": "Wizard Infoways Pvt. Ltd.",
+      "location": "New Delhi, Delhi",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5900875609?se=uouY7fu88RG5W_OotpWUug&utm_medium=api&utm_source=440a82d2&v=4A3E63DA2E124F0503C032DE702714F9B54AC2FB",
+      "source": "adzuna",
+      "snippet": "Role Description This is a full-time on-site role for a Frontend Developer specializing in React and Next.js, Typescript located in Noida. As a Frontend Developer, you will be responsible for developi",
+      "type": "Full-time",
+      "postedAt": "2026-09-28T02:02:20Z",
+      "fetchedAt": "2026-09-30T18:22:44.716Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=wizardinfowayspvtltd.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792564716_fdznnn",
+      "title": "Drupal Frontend Developer",
+      "company": "Specbee",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5897294660?se=uouY7fu88RG5W_OotpWUug&utm_medium=api&utm_source=440a82d2&v=48491312816D4E33B5790486065B95A5A3B44283",
+      "source": "adzuna",
+      "snippet": "We're looking for a Drupal Frontend Developer with strong front-end engineering skills and solid working knowledge of Drupal to build high-quality, accessible, and performant user experiences. This is",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T01:52:39Z",
+      "fetchedAt": "2026-09-30T18:22:44.716Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=specbee.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792564716_jqpfqv",
+      "title": "Senior Frontend Developer",
+      "company": "Tuebora Inc",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5864442793?se=uouY7fu88RG5W_OotpWUug&utm_medium=api&utm_source=440a82d2&v=F98A57921AF3C0DCE8449AC135343ADE2CB42AAD",
+      "source": "adzuna",
+      "snippet": "Senior UI / React Developer (Full-Stack capable, AI-enabled, B2B/Enterprise) We are looking for a Senior UI / React Developer who can build scalable enterprise web applications and also has strong bac",
+      "type": "Full-time",
+      "postedAt": "2026-09-01T16:23:17Z",
+      "fetchedAt": "2026-09-30T18:22:44.716Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tueborainc.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_m6klz5",
+      "title": "Lead Security Engineer | AWS, Cloud & Application Security",
+      "company": "Edvak EHR",
+      "location": "Hyderabad, Telangana",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5895239757?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=94A3D8219AD903B6883A4793D05EA3CA64BF3E70",
+      "source": "adzuna",
+      "snippet": "Dear Candidate, About Company: Edvak is a US-based SaaS company transforming the healthcare sector with our innovative AI solutions. We are dedicated to excellence, creativity, and innovation, deliver",
+      "type": "Full-time",
+      "postedAt": "2026-09-23T19:41:33Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=edvakehr.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_79zjot",
+      "title": "Network Cloud & Data Center Design Engineer [T500-27704]",
+      "company": "ADM",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5898535075?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=45FE5475F94D95F8DD10B86B3AD8AE0B3B8A674F",
+      "source": "adzuna",
+      "snippet": "About ADM: We are one of the world’s largest nutrition companies and a global leader in human and animal nutrition. We unlock the power of nature to provide nourishing quality of life by transforming",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T22:03:51Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=adm.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_9wltn4",
+      "title": "Business Development Executive",
+      "company": "Calsoft",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5900875568?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=E6C92793BE4DF5A3953DEC3ADF4022C178970949",
+      "source": "adzuna",
+      "snippet": "Job Description: Business Development Executive / Manager – IT Services (US Market) Location Pune, India (Work from Office) Shift: CST / US Central Time Zone Market Focus: United States Experience: 4–",
+      "type": "Full-time",
+      "postedAt": "2026-09-28T02:02:05Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=calsoft.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_ejvbrq",
+      "title": "GCP Data Engineer",
+      "company": "Tata Consultancy Services",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5889220273?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=9D23CF814369E4618A55A82D562F827B78BAD11B",
+      "source": "adzuna",
+      "snippet": "Tata Consultancy Services is Hiring GCP Data Engineer for Chennai Location Role: GCP Data Engineer Experience: 4-10 years Location: Chennai Mode of Interview: Walk-in Job Description Technical/Functio",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T17:29:49Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_euovtv",
+      "title": "Cloud Engineer",
+      "company": "Interscripts, Inc.",
+      "location": "Kyasaram, Hyderabad",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5895861045?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Title:Cloud Engineer Location:Kondapur, Hyderabad work timings:5:30pm - 2:30am IST (Eastern Time) We are seeking a Cloud Engineer to architect, scale, and optimize mission-critical cloud environme",
+      "type": "Full-time",
+      "postedAt": "2026-09-24T06:22:27Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=interscriptsinc.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_t5vil0",
+      "title": "Cloud Engineer",
+      "company": "Infotel UK",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5737754342?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Position Purpose: As part of our transformation programs, we need to board our applications on IBM cloud by 2026. Within the implementation team, the candidate will work with multiple teams, including",
+      "type": "Full-time",
+      "postedAt": "2026-05-22T22:31:36Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=infoteluk.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_e6k81y",
+      "title": "Walkin Drive-19 Sep-Chennai -Google Data Engineer",
+      "company": "Tata Consultancy Services",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5881760240?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=B15CFCDCF3177A69CE3A1E06750BC78399D8822C",
+      "source": "adzuna",
+      "snippet": "Inviting Application for Walkin Interview Drive-19 Sept-Chennai Role: Google Data Engineer Exp: 4-15 years Registration Time: 9:30-12:30pm Location: TCS -Magnum Block IT SEZ Phase-2, 200 Feet Radial R",
+      "type": "Full-time",
+      "postedAt": "2026-09-13T01:07:03Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tcs.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790792565637_e2in5j",
+      "title": "Senior Data Engineer",
+      "company": "Satwic Inc",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5879663975?se=_FE_7vu88RGGRMm4C9apug&utm_medium=api&utm_source=440a82d2&v=4E40C039F5D8FB1FCC8C6968A88340FBB2D790E3",
+      "source": "adzuna",
+      "snippet": "Design, implement Azure data solutions Migrations to Azure using services such as Data Factory, Synapse, Databricks, Function App, and ADLS Migrate legacy SSIS packages to Azure cloud Integrate data f",
+      "type": "Full-time",
+      "postedAt": "2026-09-11T17:13:14Z",
+      "fetchedAt": "2026-09-30T18:22:45.637Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=satwicinc.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790792569523_l8p55c",
+      "title": "Web Development Intern",
+      "company": "Innovexis",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5903291632?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Description Innovexis is seeking a Web Development Intern to join our team in India. This internship position is fully remote, offering a flexible and immersive opportunity to gain hands-on experience",
+      "type": "Internship",
+      "postedAt": "2026-09-30T07:50:53Z",
+      "fetchedAt": "2026-09-30T18:22:49.523Z",
+      "opportunityType": "internship",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=innovexis.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
       "id": "adzuna_1790596653752_0g6qur",
       "title": "System Software Engineer",
       "company": "Evolving Systems",
@@ -8934,11 +13082,11 @@
     }
   ],
   "jobsMeta": {
-    "lastFetchedAt": "2026-09-28T11:57:44.807Z",
-    "totalFetched": 232,
+    "lastFetchedAt": "2026-10-01T02:30:21.816Z",
+    "totalFetched": 357,
     "providers": {
-      "adzuna": 826,
-      "remotive": 452
+      "adzuna": 1046,
+      "remotive": 580
     }
   },
   "certificates": [
@@ -9129,6 +13277,30 @@
       "verifiedLedger": "Tech Indro Academic Ledger Node #1",
       "updatedAt": "2026-09-28T12:07:01.591Z",
       "createdAt": "2026-09-28T12:01:52.668Z"
+    },
+    {
+      "certId": "TI-CERT-2026-26350",
+      "studentName": "Student",
+      "courseName": "Freelancing, Social Media & Open Source",
+      "issueDate": "July 2026",
+      "honors": "none",
+      "ledgerHash": "0x4AC62930085AFCE2AC66321CA02AA40CD8BAAC23",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-01T02:31:53.146Z",
+      "createdAt": "2026-10-01T02:31:53.146Z"
     }
   ]
 }

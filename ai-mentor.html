@@ -763,62 +763,117 @@
             50% { height: 14px; }
         }
 
-        /* Code Blocks */
+        /* Premium Code Blocks with Perfect Syntax Colors */
         .code-block-wrapper {
-            background: #0f172a;
-            border-radius: 10px;
-            margin: 0.85rem 0;
+            background: #0b0f19;
+            border-radius: 12px;
+            margin: 1rem 0;
             overflow: hidden;
             border: 1px solid #1e293b;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         .code-header {
-            background: #1e293b;
-            padding: 6px 14px;
+            background: #111827;
+            padding: 8px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .code-header-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .code-dot.red { background: #ef4444; }
+        .code-dot.yellow { background: #f59e0b; }
+        .code-dot.green { background: #10b981; }
+
+        .code-lang-tag {
             font-size: 0.75rem;
-            font-weight: 700;
-            color: #94a3b8;
-            letter-spacing: 0.6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-weight: 800;
+            color: #38bdf8;
+            letter-spacing: 0.8px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
         }
 
         .copy-code-btn {
             background: rgba(255, 255, 255, 0.08);
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: #e2e8f0;
-            padding: 3px 10px;
-            border-radius: 5px;
-            font-size: 0.72rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
 
         .copy-code-btn:hover {
-            background: var(--ai-primary);
-            color: white;
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #3b82f6;
+            transform: translateY(-1px);
         }
 
         .code-block-wrapper pre {
-            padding: 14px 16px;
+            padding: 16px 20px;
             margin: 0;
             overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.88rem;
-            line-height: 1.55;
-            color: #f1f5f9;
+            font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #f1f5f9 !important;
+            background: transparent !important;
         }
 
         .code-block-wrapper code {
-            background: transparent;
-            color: inherit;
+            background: transparent !important;
+            color: #f1f5f9 !important;
             padding: 0;
             font-family: inherit;
         }
+
+        /* Prevent parent list/text styles from overriding code elements */
+        .code-block-wrapper pre,
+        .code-block-wrapper pre code,
+        .code-block-wrapper pre code * {
+            box-sizing: border-box;
+            color: #f8fafc;
+        }
+
+        .code-block-wrapper pre ul,
+        .code-block-wrapper pre ol,
+        .code-block-wrapper pre li {
+            color: #f8fafc !important;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+        }
+
+        /* Perfect High-Contrast Modern Developer Syntax Palette (Tokyo Night / GitHub Dark) */
+        .tok-key { color: #38bdf8 !important; font-weight: 700; }     /* Bright Sky Blue for YAML/JSON Keys */
+        .tok-string { color: #4ade80 !important; }                     /* Vibrant Mint Green for Strings */
+        .tok-number { color: #fb923c !important; font-weight: 600; }  /* Warm Orange for Ports & Numbers */
+        .tok-dash { color: #f43f5e !important; font-weight: 800; }    /* Pink Accent for YAML Dashes */
+        .tok-keyword { color: #c084fc !important; font-weight: 700; } /* Neon Purple for Keywords */
+        .tok-comment { color: #94a3b8 !important; font-style: italic; } /* Crisp Readable Slate for Comments */
+        .tok-punct { color: #e2e8f0 !important; }
 
         .inline-code, code:not(pre code) {
             background: #f1f5f9;
@@ -1863,6 +1918,31 @@
             if (speakImmediately) speakVoiceText(text);
         }
 
+        // Modern Syntax Highlighter for Code Blocks
+        function highlightCodeSyntax(code, lang) {
+            let safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // 1. Comments (# ... or // ...)
+            safe = safe.replace(/((?:#|\/\/).*?$)/gm, '<span class="tok-comment">$1</span>');
+            
+            // 2. Strings ("..." or '...')
+            safe = safe.replace(/(["'])(.*?)\1/g, '<span class="tok-string">$1$2$1</span>');
+            
+            // 3. Numbers / Ports (80:80, 8081, 3.9)
+            safe = safe.replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="tok-number">$1</span>');
+            
+            // 4. YAML / JSON Keys (word followed by :)
+            safe = safe.replace(/(^\s*)([a-zA-Z0-9_\.-]+)(:)/gm, '$1<span class="tok-key">$2</span><span class="tok-punct">$3</span>');
+            
+            // 5. YAML list dashes (- item)
+            safe = safe.replace(/(^\s*)(- )/gm, '$1<span class="tok-dash">- </span>');
+            
+            // 6. Keywords
+            safe = safe.replace(/\b(version|services|volumes|environment|ports|depends_on|image|restart|networks|build|command|entrypoint|def|function|const|let|var|import|from|return|if|else|for|while|class|async|await|true|false|null|None)\b/g, '<span class="tok-keyword">$1</span>');
+            
+            return safe;
+        }
+
         // Markdown & Rich Component Parser
         function renderCleanMarkdown(rawText) {
             if (!rawText) return '';
@@ -2038,17 +2118,28 @@
                 </div>`;
             });
 
-            // 7. Code Blocks
+            // 7. Code Blocks: EXTRACT FIRST to prevent markdown list parser from corrupting YAML / indented code!
+            const codeBlocks = [];
             text = text.replace(/```([a-zA-Z0-9_-]*)\s*([\s\S]*?)```/g, function(match, lang, code) {
                 const l = (lang || 'code').toUpperCase();
-                const safe = code.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                return `<div class="code-block-wrapper">
+                const highlighted = highlightCodeSyntax(code, lang);
+                const blockHtml = `<div class="code-block-wrapper">
                     <div class="code-header">
-                        <span>${l}</span>
-                        <button type="button" class="copy-code-btn" onclick="copyCode(this)">Copy Code</button>
+                        <div class="code-header-left">
+                            <span class="code-dot red"></span>
+                            <span class="code-dot yellow"></span>
+                            <span class="code-dot green"></span>
+                            <span class="code-lang-tag">${l}</span>
+                        </div>
+                        <button type="button" class="copy-code-btn" onclick="copyCode(this)">
+                            <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy Code
+                        </button>
                     </div>
-                    <pre><code>${safe}</code></pre>
+                    <pre><code class="language-${lang || 'code'}">${highlighted}</code></pre>
                 </div>`;
+                const placeholder = `@@@TECHINDRO_CODEBLOCK_${codeBlocks.length}@@@`;
+                codeBlocks.push(blockHtml);
+                return `\n\n${placeholder}\n\n`;
             });
 
             // Markdown essentials
@@ -2079,7 +2170,7 @@
             let html = text.split(/\n{2,}/).map(seg => {
                 seg = seg.trim();
                 if (!seg) return '';
-                if (seg.startsWith('<div class="code-block-wrapper"') || 
+                if (seg.startsWith('@@@TECHINDRO_CODEBLOCK_') ||
                     seg.startsWith('<div class="ai-kroki-card"') || 
                     seg.startsWith('<div class="ai-media-card"') || 
                     seg.startsWith('<div class="ai-stickynote"') || 
@@ -2093,6 +2184,11 @@
                     seg.startsWith('<ul')) return seg;
                 return `<p>${seg.replace(/\n/g, '<br>')}</p>`;
             }).join('');
+
+            // Restore isolated code blocks with full syntax highlighting
+            codeBlocks.forEach((blockHtml, idx) => {
+                html = html.replace(new RegExp(`<p>\\s*@@@TECHINDRO_CODEBLOCK_${idx}@@@\\s*<\\/p>|@@@TECHINDRO_CODEBLOCK_${idx}@@@`, 'g'), blockHtml);
+            });
 
             return html;
         }

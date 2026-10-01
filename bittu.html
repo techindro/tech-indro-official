@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bittu — Bite-Sized Gamified Coding | Tech Indro</title>
-    <meta name="description" content="Master Python, JavaScript, HTML, C++, Java, and SQL through bite-sized, gamified daily lessons with Bittu. Learn free in Unit 1, unlock Pro for advanced units & certificate!">
+    <title>Motu &amp; Patlu — Bite-Sized Gamified Coding | Tech Indro</title>
+    <meta name="description" content="Master Python, JavaScript, HTML, C++, Java, and SQL through bite-sized, gamified daily lessons with Motu, Patlu, John, and Chingam. Free interactive coding puzzles!">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -459,15 +459,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, rgba(255, 107, 53, 0.03) 65%, transparent 72%);
+            background: #ffffff;
             border-radius: 50%;
+            border: 4px solid #fed7aa;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.25);
         }
 
         .mascot-img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 18px rgba(255, 107, 53, 0.3));
+            object-fit: cover;
+            object-position: center 15%;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             animation: mascotFloat 3s ease-in-out infinite;
         }
@@ -740,8 +744,12 @@
             width: 76px;
             height: 76px;
             flex-shrink: 0;
-            object-fit: contain;
-            filter: drop-shadow(0 6px 14px rgba(255, 107, 53, 0.3));
+            object-fit: cover;
+            object-position: center 15%;
+            border-radius: 50%;
+            border: 3px solid #fed7aa;
+            background: #ffffff;
+            box-shadow: 0 6px 14px rgba(255, 107, 53, 0.25);
         }
 
         .dialog-bubble {
@@ -1075,11 +1083,15 @@
         .mascot-choice-card.selected { border-color: #ff6b35; background: rgba(255, 107, 53, 0.1); }
 
         .choice-avatar {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 8px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+            object-fit: cover;
+            object-position: center 15%;
+            border-radius: 50%;
+            border: 3px solid #fed7aa;
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         }
 
         .celebration-screen {
@@ -1103,8 +1115,12 @@
         .celeb-mascot {
             width: 160px;
             height: 160px;
-            object-fit: contain;
-            filter: drop-shadow(0 12px 28px rgba(255, 107, 53, 0.45));
+            object-fit: cover;
+            object-position: center 15%;
+            border-radius: 50%;
+            border: 4px solid #ffd700;
+            background: #ffffff;
+            box-shadow: 0 12px 28px rgba(255, 107, 53, 0.4);
             margin-bottom: 20px;
             animation: mascotFloat 3s ease-in-out infinite;
         }
@@ -1166,7 +1182,7 @@
                 <a href="index.html" class="brand-zone" title="Back to Tech Indro Home">
                     <img src="assets/logo.svg" alt="Tech Indro" style="height: 38px; width: auto; border-radius: 8px;">
                     <div>
-                        <div style="font-weight: 900; font-size: 1.3rem; letter-spacing: -0.5px; line-height: 1; color: #ff6b35;">BITTU</div>
+                        <div style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.5px; line-height: 1; color: #ff6b35;">MOTU &amp; PATLU</div>
                         <span class="brand-badge">Bite-Sized Coding</span>
                     </div>
                 </a>
@@ -1205,7 +1221,7 @@
             <!-- Gamification Badges Strip -->
             <div class="gamify-stats">
                 <!-- PRO Badge Indicator -->
-                <button class="stat-pro-badge" id="proNavBtn" onclick="openProModal()" title="Bittu Pro Status">
+                <button class="stat-pro-badge" id="proNavBtn" onclick="openProModal()" title="Motu &amp; Patlu Pro Status">
                     <i data-lucide="crown" style="width: 16px; height: 16px; fill: #ffd700; color: #ffd700;"></i>
                     <span id="proNavText">Unlock Pro</span>
                 </button>
@@ -1243,20 +1259,20 @@
         <!-- RIGHT: MASCOT COMPANION & PRO UPSELL SIDEBAR -->
         <aside class="sidebar-col">
             
-            <!-- Companion Character Station (Bittu the Bear!) -->
+            <!-- Companion Character Station (Motu & Patlu) -->
             <div class="companion-card">
                 <div class="mascot-avatar-wrap" onclick="triggerMascotCheer()">
-                    <img src="assets/bholua-bear.png" alt="Bittu (Bholua) The Coding Bear" class="mascot-img" id="sidebarMascotImg">
+                    <img src="assets/motu-character.jpg" alt="Motu - Coding Hero" class="mascot-img" id="sidebarMascotImg">
                     <div class="mascot-badge" id="mascotBadge">
                         <i data-lucide="code" style="width: 16px; height: 16px; color: white;"></i>
                     </div>
                 </div>
-                <div class="mascot-name" id="sidebarMascotName">Bittu</div>
-                <div class="mascot-role">Your Coding Guru &amp; Cheerleader</div>
+                <div class="mascot-name" id="sidebarMascotName">Motu</div>
+                <div class="mascot-role" id="sidebarMascotRole">Samosa Lover &amp; Coding Hero</div>
 
                 <!-- Speech Bubble -->
                 <div class="mascot-speech" id="mascotQuote">
-                    "Unit 1 sabhi ke liye bilkul FREE hai! Aage ke units me master bano aur certificate paao!"
+                    "Khaali pet mere dimaag ki batti nahi jalti! Samosa khao aur code banao!"
                 </div>
 
                 <div style="display: flex; gap: 8px;">
@@ -1264,7 +1280,7 @@
                         <i data-lucide="users" style="width: 16px; height: 16px; color: var(--primary-orange);"></i>
                         Change Companion
                     </button>
-                    <button class="btn-companion-switch" style="width: 50px;" onclick="speakMascotQuote()" title="Voice: Listen to Bittu speak!">
+                    <button class="btn-companion-switch" style="width: 50px;" onclick="speakMascotQuote()" title="Voice: Listen to speech!">
                         <i data-lucide="volume-2" style="width: 16px; height: 16px; color: var(--primary-orange);"></i>
                     </button>
                 </div>
@@ -1277,7 +1293,7 @@
                         <i data-lucide="crown" style="width: 20px; height: 20px;"></i>
                     </div>
                     <div>
-                        <div style="font-weight: 800; font-size: 1rem; color: #9333ea;">Bittu Pro Pass</div>
+                        <div style="font-weight: 800; font-size: 1rem; color: #9333ea;">Motu &amp; Patlu Pro Pass</div>
                         <div style="font-size: 0.78rem; color: var(--text-sub);">Unlock Remaining Units</div>
                     </div>
                 </div>
@@ -1285,7 +1301,7 @@
                     Units 2, 3, 4 &amp; 5 have advanced interview &amp; DSA challenges. Unlock all units with unlimited hearts!
                 </p>
                 <button class="btn-3d" style="width: 100%; padding: 10px; font-size: 0.88rem; background: linear-gradient(135deg, #9333ea, #6366f1); box-shadow: 0 4px 0 #581c87; color: white;" onclick="openProModal()">
-                    <i data-lucide="sparkles" style="width: 16px; height: 16px; vertical-align: middle;"></i> Get Bittu Pro
+                    <i data-lucide="sparkles" style="width: 16px; height: 16px; vertical-align: middle;"></i> Get Motu &amp; Patlu Pro
                 </button>
             </div>
 
@@ -1370,7 +1386,7 @@
                 <i data-lucide="crown" style="width: 36px; height: 36px;"></i>
             </div>
 
-            <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; color: #0f172a;">Unlock Bittu Pro</h2>
+            <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; color: #0f172a;">Unlock Motu &amp; Patlu Pro</h2>
             <p style="font-size: 0.95rem; color: var(--text-sub); margin-bottom: 20px;">
                 Unit 1 is free for everyone. Unlock all remaining advanced units and supercharge your coding journey!
             </p>
@@ -1391,7 +1407,7 @@
                 </div>
                 <div class="pro-feature-item">
                     <i data-lucide="check-circle-2"></i>
-                    <span><b>Bittu AI 24/7 Code Doubt Engine</b></span>
+                    <span><b>Motu &amp; Patlu AI 24/7 Code Doubt Engine</b></span>
                 </div>
             </div>
 
@@ -1466,29 +1482,25 @@
             <p style="font-size: 0.9rem; color: var(--text-sub);">Select who cheers you on during coding exercises and gives you helpful syntax tips!</p>
 
             <div class="companion-picker-grid">
-                <div class="mascot-choice-card selected" onclick="pickMascot('bittu')">
-                    <img src="assets/bholua-bear.png" class="choice-avatar" alt="Bittu (Bholua) Bear">
-                    <div style="font-weight: 800; font-size: 1rem;">Bittu (Bholua)</div>
-                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Friendly Coding Bear. Speaks Hindi &amp; Hinglish!</div>
+                <div class="mascot-choice-card selected" onclick="pickMascot('motu')">
+                    <img src="assets/motu-character.jpg" class="choice-avatar" alt="Motu">
+                    <div style="font-weight: 800; font-size: 1rem;">Motu</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Samosa Lover &amp; Coding Hero. Samosa power &amp; energy!</div>
                 </div>
-                <div class="mascot-choice-card" onclick="pickMascot('indro')">
-                    <img src="assets/golua-owl.png" class="choice-avatar" alt="Golua (Owl)">
-                    <div style="font-weight: 800; font-size: 1rem;">Golua (Owl)</div>
-                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Wise Tech Owl. Sharp algorithmic hints.</div>
+                <div class="mascot-choice-card" onclick="pickMascot('patlu')">
+                    <img src="assets/patlu-character.jpg" class="choice-avatar" alt="Patlu">
+                    <div style="font-weight: 800; font-size: 1rem;">Patlu</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Idea Guru &amp; Logic Mastermind. High IQ algorithms!</div>
                 </div>
-                <div class="mascot-choice-card" onclick="pickMascot('bitbot')">
-                    <div class="choice-avatar" style="background: linear-gradient(135deg, #06b6d4, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; border-radius: 50%;">
-                        <i data-lucide="bot" style="width: 36px; height: 36px;"></i>
-                    </div>
-                    <div style="font-weight: 800; font-size: 1rem;">Bit-Bot</div>
-                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">AI Robot. Microsecond syntax audits!</div>
+                <div class="mascot-choice-card" onclick="pickMascot('john')">
+                    <img src="assets/john-character.jpg" class="choice-avatar" alt="John the Don">
+                    <div style="font-weight: 800; font-size: 1rem;">John the Don</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Ultimate Don &amp; Bug Buster. Furfuri Nagar swag!</div>
                 </div>
-                <div class="mascot-choice-card" onclick="pickMascot('rani')">
-                    <div class="choice-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: white; border-radius: 50%;">
-                        <i data-lucide="zap" style="width: 36px; height: 36px;"></i>
-                    </div>
-                    <div style="font-weight: 800; font-size: 1rem;">Rani</div>
-                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Clever Coder. Pro tips &amp; speed tricks.</div>
+                <div class="mascot-choice-card" onclick="pickMascot('chingam')">
+                    <img src="assets/chingam-character.jpg" class="choice-avatar" alt="Inspector Chingam">
+                    <div style="font-weight: 800; font-size: 1rem;">Inspector Chingam</div>
+                    <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">Law &amp; Syntax Cop. Zero bugs allowed!</div>
                 </div>
             </div>
 
@@ -1500,9 +1512,9 @@
     <!-- LESSON COMPLETED CELEBRATION MODAL                   -->
     <!-- ==================================================== -->
     <div class="celebration-screen" id="celebrationScreen">
-        <img src="assets/bholua-bear.png" id="celebMascotImg" class="celeb-mascot" alt="Celebrating Mascot">
+        <img src="assets/motu-character.jpg" id="celebMascotImg" class="celeb-mascot" alt="Celebrating Companion">
         <div class="celeb-title" id="celebTitle">LESSON COMPLETED!</div>
-        <div class="celeb-subtitle" id="celebSubtitle">You completed the lesson with flying colors! Bittu is proud of you!</div>
+        <div class="celeb-subtitle" id="celebSubtitle">You completed the lesson with flying colors! Motu is proud of you!</div>
 
         <div class="celeb-stats-grid">
             <div class="celeb-stat-card">
@@ -1636,71 +1648,94 @@
 
         // --- 2. Mascot System & Voice ---
         const MASCOTS = {
-            bittu: {
-                id: 'bittu',
-                name: 'Bittu (Bholua)',
-                role: 'Your Coding Guru & Cheerleader',
-                avatar: 'assets/bholua-bear.png',
+            motu: {
+                id: 'motu',
+                name: 'Motu',
+                role: 'Samosa Lover & Coding Hero',
+                avatar: 'assets/motu-character.jpg',
+                pitch: 1.05,
+                rate: 0.95,
                 quotes: [
-                    "Unit 1 sabhi ke liye bilkul FREE hai! Aage ke units me master bano aur certificate paao!",
-                    "Coding seekhna ab aasan hai! Har roz ek naya puzzle solve karo aur tech master bano!",
-                    "Shabaash mere dost! Clean syntax dekh kar dil khush ho gaya!",
-                    "Daily streak banaye rakho aur nayi languages seekho!"
+                    "Khaali pet mere dimaag ki batti nahi jalti! Samosa khao aur code banao!",
+                    "Wah Patlu! Kya mast program banaya hai, ab party me samose hone chahiye!",
+                    "Mera dimaag chal gaya! Ekdum correct answer!",
+                    "Daily streak banaye rakho aur Motu ke sath coding master bano!"
                 ]
             },
-            indro: {
-                id: 'indro',
-                name: 'Golua (Owl)',
-                role: 'Wise Tech Owl',
-                avatar: 'assets/golua-owl.png',
+            patlu: {
+                id: 'patlu',
+                name: 'Patlu',
+                role: 'Logic & Algorithm Mastermind',
+                avatar: 'assets/patlu-character.jpg',
+                pitch: 1.25,
+                rate: 1.0,
                 quotes: [
-                    "Keep your algorithmic vision razor sharp today!",
-                    "Every master was once a beginner who refused to quit.",
-                    "Clean code is poetry. Let us write another masterpiece!"
+                    "Idea! Coding problem ka smart algorithm mil gaya!",
+                    "Motu, code hamesha dimaag aur logic se chalta hai, samose se nahi!",
+                    "Shabaash! Perfect syntax, time complexity O(1)!",
+                    "Clean code is poetry. Har bug ka solution Patlu ke paas hai!"
                 ]
             },
-            bitbot: {
-                id: 'bitbot',
-                name: 'Bit-Bot',
-                role: 'AI Autonomous Robot',
-                avatar: 'assets/bholua-bear.png',
+            john: {
+                id: 'john',
+                name: 'John the Don',
+                role: 'Ultimate Bug Buster & Don',
+                avatar: 'assets/john-character.jpg',
+                pitch: 0.82,
+                rate: 0.9,
                 quotes: [
-                    "Neural pathways optimized. Ready to compile code!",
-                    "Analyzing syntax... Efficiency rating: 100% optimal!"
+                    "John banega sabse bada Coder Don! Ha ha ha!",
+                    "Mere hote huye koi syntax error chhu nahi sakta!",
+                    "O number 1, number 2! Dekho kaisa zabardast code likha hai!",
+                    "Furfuri nagar ka sabse shaana programmer hu main!"
                 ]
             },
-            rani: {
-                id: 'rani',
-                name: 'Rani',
-                role: 'Clever Coder',
-                avatar: 'assets/golua-owl.png',
+            chingam: {
+                id: 'chingam',
+                name: 'Inspector Chingam',
+                role: 'Law & Syntax Enforcement Officer',
+                avatar: 'assets/chingam-character.jpg',
+                pitch: 0.95,
+                rate: 1.05,
                 quotes: [
-                    "Work smart! I know the cleanest coding patterns.",
-                    "That was a clever solution! You think like an engineer!"
+                    "Inspector Chingam ke chakkal se bachna yamraj ke bas ka bhi nahi hai!",
+                    "Kanoon aur Syntax todne walo ko Chingam seedha jail bhejega!",
+                    "Kamaal kar ditta! Ekdum bullet-speed me code solve kar ditta!",
+                    "Thaaen! Ek goli me saare bugs dher kar diye!"
                 ]
             }
         };
 
-        let currentMascotKey = localStorage.getItem('bittu_mascot') || 'bittu';
+        let currentMascotKey = localStorage.getItem('bittu_mascot') || 'motu';
+        if (!MASCOTS[currentMascotKey]) currentMascotKey = 'motu';
         let isUserPro = localStorage.getItem('bittu_is_pro') === 'true';
 
         function updateMascotUI() {
-            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const m = MASCOTS[currentMascotKey] || MASCOTS.motu;
             const img = document.getElementById('sidebarMascotImg');
             if (img) img.src = m.avatar;
             const name = document.getElementById('sidebarMascotName');
             if (name) name.innerText = m.name;
+            const role = document.getElementById('sidebarMascotRole');
+            if (role) role.innerText = m.role;
             const quoteEl = document.getElementById('mascotQuote');
             if (quoteEl) {
                 const randomQ = m.quotes[Math.floor(Math.random() * m.quotes.length)];
                 quoteEl.innerText = `"${randomQ}"`;
             }
+            document.querySelectorAll('.mascot-choice-card').forEach(c => {
+                c.classList.remove('selected');
+                const onclickAttr = c.getAttribute('onclick') || '';
+                if (onclickAttr.includes(`'${currentMascotKey}'`)) {
+                    c.classList.add('selected');
+                }
+            });
         }
 
         function triggerMascotCheer() {
             playSuccessSound();
             const quoteEl = document.getElementById('mascotQuote');
-            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const m = MASCOTS[currentMascotKey] || MASCOTS.motu;
             const randomQ = m.quotes[Math.floor(Math.random() * m.quotes.length)];
             if (quoteEl) quoteEl.innerText = `"${randomQ}"`;
             if (window.confetti) {
@@ -1711,11 +1746,12 @@
         function speakMascotQuote() {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
+                const m = MASCOTS[currentMascotKey] || MASCOTS.motu;
                 const quoteText = document.getElementById('mascotQuote').innerText;
                 const cleanText = quoteText.replace(/["\uD800-\uDFFF].*/g, '').trim();
                 const utter = new SpeechSynthesisUtterance(cleanText);
-                utter.rate = 0.95;
-                utter.pitch = 1.2; // Cheerful female companion pitch
+                utter.rate = m.rate || 0.95;
+                utter.pitch = m.pitch || 1.1;
                 const femaleVoice = typeof window.getTechIndroFemaleVoice === 'function' ?
                     window.getTechIndroFemaleVoice('hi-IN') : null;
                 if (femaleVoice) utter.voice = femaleVoice;
@@ -1730,7 +1766,9 @@
             currentMascotKey = key;
             localStorage.setItem('bittu_mascot', key);
             document.querySelectorAll('.mascot-choice-card').forEach(c => c.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('selected');
+            }
             updateMascotUI();
         }
 
@@ -1745,17 +1783,17 @@
                         unitNumber: 1,
                         isPaid: false,
                         title: 'Unit 1: Foundations & First Code',
-                        desc: 'Master print(), strings, and variables with Bittu!',
+                        desc: 'Master print(), strings, and variables with Motu &amp; Patlu!',
                         guide: `<h4>Python Basics Guidebook</h4>
                             <p><b>1. Printing Text:</b> Use <code>print("Your text")</code> to output text to screen.</p>
-                            <p><b>2. Variables:</b> Store information like <code>name = "Bittu"</code> or <code>score = 100</code>.</p>`,
+                            <p><b>2. Variables:</b> Store information like <code>name = "Motu"</code> or <code>samosas = 10</code>.</p>`,
                         lessons: [
                             {
                                 id: 'py-u1-1',
                                 title: 'Say Hello to Python',
                                 type: 'arrange',
                                 prompt: 'Arrange the code blocks to print "Hello World" in Python:',
-                                dialogText: "Bittu says: Let us start with every programmer's first step!",
+                                dialogText: "Motu says: Khaali pet dimaag nahi chalta, let us take the first coding step!",
                                 codeSnippet: null,
                                 blocks: ['print(', '"Hello World"', ')', 'echo', 'console.log'],
                                 correctOrder: ['print(', '"Hello World"', ')'],
@@ -1765,9 +1803,9 @@
                                 id: 'py-u1-2',
                                 title: 'Storing in Variables',
                                 type: 'fill_blank',
-                                prompt: 'Complete the line to store the companion\'s name in a variable:',
-                                dialogText: 'Bittu needs a variable to hold his name!',
-                                codeSnippet: '_____ = "Bittu"',
+                                prompt: 'Complete the line to store Motu\'s name in a variable:',
+                                dialogText: 'Motu needs a variable to hold his name!',
+                                codeSnippet: '_____ = "Motu"',
                                 options: ['name', 'print()', '123', 'def'],
                                 correctAnswer: 'name',
                                 explanation: 'Variables in Python start with letters or underscores, like "name".'
@@ -1777,9 +1815,9 @@
                                 title: 'What does this print?',
                                 type: 'choice',
                                 prompt: 'What will be the output of this Python code?',
-                                dialogText: 'Bittu is testing your math calculation logic!',
-                                codeSnippet: 'apples = 5\nbananas = 3\nprint(apples + bananas)',
-                                options: ['8', '"apples + bananas"', '53', 'Error'],
+                                dialogText: 'Patlu has an idea! Solve this samosa math logic:',
+                                codeSnippet: 'samosas = 5\njalebis = 3\nprint(samosas + jalebis)',
+                                options: ['8', '"samosas + jalebis"', '53', 'Error'],
                                 correctAnswer: '8',
                                 explanation: '5 + 3 equals 8. Python adds integers naturally!'
                             },
@@ -1788,7 +1826,7 @@
                                 title: 'Spot the Syntax Error',
                                 type: 'choice',
                                 prompt: 'Which line contains a syntax error in Python?',
-                                dialogText: 'Help Bittu find the bug before executing!',
+                                dialogText: 'Inspector Chingam is inspecting syntax for illegal bugs!',
                                 codeSnippet: 'A: print("Hello")\nB: print("Welcome"\nC: score = 100',
                                 options: ['Line A', 'Line B (Missing closing parenthesis)', 'Line C'],
                                 correctAnswer: 'Line B (Missing closing parenthesis)',
@@ -1798,12 +1836,12 @@
                                 id: 'py-u1-5',
                                 title: 'Unit 1 Milestone: Final Challenge',
                                 type: 'arrange',
-                                prompt: 'Assemble the code to print Bittu\'s age (5):',
-                                dialogText: 'Final challenge of Unit 1! Let us finish strong!',
+                                prompt: 'Assemble the code to print Motu\'s samosa count (5):',
+                                dialogText: 'John the Don challenged you! Finish strong to claim victory!',
                                 codeSnippet: null,
-                                blocks: ['age = 5', 'print(', 'age', ')', 'var age'],
-                                correctOrder: ['age = 5', 'print(', 'age', ')'],
-                                explanation: 'We create variable age = 5 and pass it into print(age)!'
+                                blocks: ['samosas = 5', 'print(', 'samosas', ')', 'var samosas'],
+                                correctOrder: ['samosas = 5', 'print(', 'samosas', ')'],
+                                explanation: 'We create variable samosas = 5 and pass it into print(samosas)!'
                             }
                         ]
                     },
@@ -1811,7 +1849,7 @@
                         unitNumber: 2,
                         isPaid: true,
                         title: 'Unit 2: Memory & Data Types (PRO)',
-                        desc: 'Master strings, floats, type casting & user inputs with Bittu Pro!',
+                        desc: 'Master strings, floats, type casting &amp; user inputs with Motu &amp; Patlu Pro!',
                         guide: `<h4>Unit 2: Data Types (PRO)</h4><p>Learn integers, floats, booleans, and type conversions.</p>`,
                         lessons: [
                             {
@@ -1819,7 +1857,7 @@
                                 title: 'Float vs Integer Types',
                                 type: 'choice',
                                 prompt: 'What is the data type of 3.14 in Python?',
-                                dialogText: 'Bittu asks a core computer science data type question!',
+                                dialogText: 'Motu asks a core computer science data type question!',
                                 codeSnippet: 'pi = 3.14\nprint(type(pi))',
                                 options: ['float', 'int', 'str', 'double'],
                                 correctAnswer: 'float',
@@ -2116,7 +2154,7 @@
                                 title: 'Select All Users',
                                 type: 'arrange',
                                 prompt: 'Arrange the SQL query to fetch all rows from users:',
-                                dialogText: 'Bittu queries the database for enrolled learners!',
+                                dialogText: 'Patlu queries the database for enrolled learners!',
                                 codeSnippet: null,
                                 blocks: ['SELECT *', 'FROM', 'users;', 'GET', 'WHERE'],
                                 correctOrder: ['SELECT *', 'FROM', 'users;'],
@@ -2556,7 +2594,7 @@
                     <div class="feedback-icon-circle"><i data-lucide="check" style="width:28px;height:28px;"></i></div>
                     <div>
                         <div class="feedback-title">Perfect Answer!</div>
-                        <div class="feedback-sub">${q.explanation || 'Great intuition! Bittu gives a thumbs up!'}</div>
+                        <div class="feedback-sub">${q.explanation || (m.name + ' gives a big thumbs up!')}</div>
                     </div>
                 `;
 
@@ -2621,7 +2659,7 @@
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             }
 
-            const m = MASCOTS[currentMascotKey] || MASCOTS.bittu;
+            const m = MASCOTS[currentMascotKey] || MASCOTS.motu;
             document.getElementById('celebMascotImg').src = m.avatar;
             document.getElementById('celebSubtitle').innerText = `You completed ${currentLesson.title}! ${m.name} is proud of your progress!`;
             document.getElementById('celebrationScreen').classList.add('active');
