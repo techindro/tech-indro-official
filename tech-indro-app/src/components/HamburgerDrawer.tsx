@@ -257,6 +257,30 @@ export default function HamburgerDrawer({ visible, onClose }: HamburgerDrawerPro
               <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
             </TouchableOpacity>
 
+            {/* Motu & Patlu Gamified Coding Quest */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/motu-patlu' as any)}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(234, 88, 12, 0.15)' }]}>
+                <Ionicons name="game-controller-outline" size={19} color="#ea580c" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Motu &amp; Patlu Coding</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#ea580c' }]}>5 Min/Day</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Gamified puzzles, voice mentors &amp; Samosa XP
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
             {/* IndroLabs */}
             <TouchableOpacity
               style={[

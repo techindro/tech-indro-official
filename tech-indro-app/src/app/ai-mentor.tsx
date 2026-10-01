@@ -24,7 +24,7 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 import ChatBubble, { Message } from '@/components/ChatBubble';
-import { sendChatMessage } from '@/services/api';
+import { sendChatMessage, playIndicVoice, stopAnyVoice } from '@/services/api';
 
 type MentorRole = 'tutor' | 'reviewer' | 'career';
 type VoiceLang = 'hi-IN' | 'en-US';
@@ -55,7 +55,7 @@ export default function AIMentorScreen() {
     {
       id: 'welcome',
       role: 'ai',
-      text: 'Namaste! 🙏 Mai hoon **Tech Indro AI Mentor**.\n\nAap mujhse coding doubts, concepts, ya career roadmap ke baare me pooch sakte hain. **Mic button** daba kar bol kar bhi pooch sakte hain!',
+      text: 'Namaste! Mai hoon **Tech Indro AI Mentor**.\n\nAap mujhse coding doubts, concepts, ya career roadmap ke baare me pooch sakte hain. **Mic button** daba kar bol kar bhi pooch sakte hain!',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -76,29 +76,23 @@ export default function AIMentorScreen() {
       .trim();
   };
 
-  // Text-To-Speech
+  // Text-To-Speech powered by Sarvam AI Bulbul v3 Indic voice
   const speakText = (text: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const cleaned = cleanMarkdownForSpeech(text);
-      const utterance = new SpeechSynthesisUtterance(cleaned);
-      utterance.lang = voiceLang;
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-
-      window.speechSynthesis.speak(utterance);
-    }
+    const sarvamLang = voiceLang.startsWith('hi') ? 'hi' : 'en';
+    playIndicVoice({
+      text,
+      language: sarvamLang,
+      speaker: 'meera',
+      pace: 1.0,
+      onStart: () => setIsSpeaking(true),
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false),
+    });
   };
 
   const stopSpeaking = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
+    stopAnyVoice();
+    setIsSpeaking(false);
   };
 
   // Toggle Speech Recognition
@@ -262,10 +256,10 @@ Always be encouraging, highly technical, yet beginner-friendly.`;
   const generateFallbackReply = (query: string, currentRole: MentorRole): string => {
     const q = query.toLowerCase();
     if (q.includes('react') || q.includes('hook')) {
-      return `### React Hooks Samajhte Hain ⚛️\n\nReact Hooks functional components me state aur lifecycle methods use karne dete hain.\n\n\`\`\`javascript\nimport React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(count + 1)}>Clicked: {count}</button>;\n}\n\`\`\`\n\n**Common Hooks:**\n- \`useState\`: State manage karne ke liye\n- \`useEffect\`: Side effects (data fetching, subscriptions)\n- \`useRef\`: Mutable DOM references`;
+      return `### React Hooks Samajhte Hain\n\nReact Hooks functional components me state aur lifecycle methods use karne dete hain.\n\n\`\`\`javascript\nimport React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(count + 1)}>Clicked: {count}</button>;\n}\n\`\`\`\n\n**Common Hooks:**\n- \`useState\`: State manage karne ke liye\n- \`useEffect\`: Side effects (data fetching, subscriptions)\n- \`useRef\`: Mutable DOM references`;
     }
     if (q.includes('dsa') || q.includes('c++')) {
-      return `### DSA Roadmap in C++ 🚀\n\n1. **Language Basics:** Pointers, STL (Vector, Map, Set, Queue, Stack)\n2. **Array & String:** Two Pointers, Sliding Window\n3. **Recursion & Backtracking**\n4. **Trees & Graphs:** BFS, DFS, Dijkstra\n5. **Dynamic Programming:** 1D, 2D memoization\n\n*Tip:* Daily 2 LeetCode problems solve karo consistent rahne ke liye!`;
+      return `### DSA Roadmap in C++\n\n1. **Language Basics:** Pointers, STL (Vector, Map, Set, Queue, Stack)\n2. **Array & String:** Two Pointers, Sliding Window\n3. **Recursion & Backtracking**\n4. **Trees & Graphs:** BFS, DFS, Dijkstra\n5. **Dynamic Programming:** 1D, 2D memoization\n\n*Tip:* Daily 2 LeetCode problems solve karo consistent rahne ke liye!`;
     }
     return `Dhanyawad aapke sawaal ke liye! (${currentRole.toUpperCase()} Mode)\n\nAapne poocha: *"${query}"*\n\nTech Indro par hum is topic ko practical real-world projects ke saath sikhate hain. Koi specific doubt ho toh bilkul poochein!`;
   };
@@ -315,9 +309,12 @@ Always be encouraging, highly technical, yet beginner-friendly.`;
             style={styles.langToggleBtn}
             onPress={() => setVoiceLang(voiceLang === 'hi-IN' ? 'en-US' : 'hi-IN')}
           >
-            <Text style={styles.langToggleText}>
-              {voiceLang === 'hi-IN' ? '🇮🇳 Hindi' : '🌐 EN'}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <Ionicons name={voiceLang === 'hi-IN' ? 'language' : 'globe-outline'} size={13} color="#ff6b35" />
+              <Text style={styles.langToggleText}>
+                {voiceLang === 'hi-IN' ? 'Hindi' : 'English'}
+              </Text>
+            </View>
           </TouchableOpacity>
 
           {/* Auto Speak Toggle */}
@@ -423,7 +420,10 @@ Always be encouraging, highly technical, yet beginner-friendly.`;
         {/* Quick Suggestion Chips (only if 2 or fewer messages) */}
         {messages.length <= 2 && (
           <View style={styles.suggestionContainer}>
-            <Text style={styles.suggestionTitle}>💡 Suggested Questions</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+              <Ionicons name="bulb-outline" size={15} color="#f59e0b" />
+              <Text style={styles.suggestionTitle}>Suggested Questions</Text>
+            </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestionsScroll}>
               {SUGGESTIONS.map((s, idx) => (
                 <TouchableOpacity

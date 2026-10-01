@@ -52,11 +52,11 @@ const SAMPLE_CHALLENGE: ClashChallenge = {
 };
 
 const LEADERBOARD_USERS = [
-  { rank: 1, name: 'Aarav Sharma', rating: 2450, tier: 'Grandmaster', wins: 142, coins: 4850, avatar: '👨‍💻' },
-  { rank: 2, name: 'Priya Verma', rating: 2310, tier: 'Master', wins: 118, coins: 3920, avatar: '👩‍💻' },
-  { rank: 3, name: 'Vikram Patel', rating: 2190, tier: 'Diamond', wins: 94, coins: 3100, avatar: '🚀' },
-  { rank: 4, name: 'Ananya Roy', rating: 2040, tier: 'Diamond', wins: 81, coins: 2650, avatar: '⚡' },
-  { rank: 5, name: 'You (Oscar_Dev)', rating: 1890, tier: 'Platinum', wins: 56, coins: 1250, avatar: '🐕' },
+  { rank: 1, name: 'Aarav Sharma', rating: 2450, tier: 'Grandmaster', wins: 142, coins: 4850, avatar: 'AS' },
+  { rank: 2, name: 'Priya Verma', rating: 2310, tier: 'Master', wins: 118, coins: 3920, avatar: 'PV' },
+  { rank: 3, name: 'Vikram Patel', rating: 2190, tier: 'Diamond', wins: 94, coins: 3100, avatar: 'VP' },
+  { rank: 4, name: 'Ananya Roy', rating: 2040, tier: 'Diamond', wins: 81, coins: 2650, avatar: 'AR' },
+  { rank: 5, name: 'You (Oscar_Dev)', rating: 1890, tier: 'Platinum', wins: 56, coins: 1250, avatar: 'ME' },
 ];
 
 export default function CodeClashScreen() {
@@ -145,7 +145,7 @@ export default function CodeClashScreen() {
 
         {/* IndroCoins Pill */}
         <View style={styles.coinsBadge}>
-          <Text style={styles.coinIcon}>🪙</Text>
+          <Ionicons name="sparkles" size={14} color="#f59e0b" style={{ marginRight: 4 }} />
           <Text style={styles.coinVal}>{coins}</Text>
         </View>
       </View>
@@ -238,7 +238,7 @@ export default function CodeClashScreen() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Text style={[styles.modeTitle, { color: colors.text }]}>1v1 Ranked Duel</Text>
                   <View style={styles.stakeBadge}>
-                    <Text style={styles.stakeBadgeText}>WAGER 50 🪙</Text>
+                    <Text style={styles.stakeBadgeText}>WAGER 50 COINS</Text>
                   </View>
                 </View>
                 <Text style={[styles.modeDesc, { color: colors.textMuted }]}>
@@ -303,7 +303,9 @@ export default function CodeClashScreen() {
             <View style={[styles.duelCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <View style={styles.duelHeader}>
                 <View style={styles.playerCol}>
-                  <Text style={styles.playerAvatar}>🐕</Text>
+                  <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: '#ea580c22', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
+                    <Ionicons name="person" size={18} color="#ea580c" />
+                  </View>
                   <Text style={[styles.playerName, { color: colors.text }]}>You (1890)</Text>
                   <View style={styles.progressBar}>
                     <View style={[styles.progressFill, { width: `${(testsPassed / 3) * 100}%` }]} />
@@ -320,7 +322,9 @@ export default function CodeClashScreen() {
                 </View>
 
                 <View style={styles.playerCol}>
-                  <Text style={styles.playerAvatar}>🤖</Text>
+                  <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: '#0284c722', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
+                    <Ionicons name="hardware-chip-outline" size={18} color="#0284c7" />
+                  </View>
                   <Text style={[styles.playerName, { color: colors.text }]}>Oscar.Ai Bot</Text>
                   <View style={styles.progressBar}>
                     <View style={[styles.progressFill, { width: `${(rivalProgress / 3) * 100}%`, backgroundColor: '#0284c7' }]} />
@@ -334,7 +338,7 @@ export default function CodeClashScreen() {
                 <View style={styles.victoryCard}>
                   <Ionicons name="trophy" size={24} color="#ffd700" />
                   <View style={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={styles.victoryTitle}>VICTORY ACHIEVED! 🎉</Text>
+                    <Text style={styles.victoryTitle}>VICTORY ACHIEVED!</Text>
                     <Text style={styles.victorySubtitle}>+100 IndroCoins added to your wallet</Text>
                   </View>
                 </View>
@@ -432,7 +436,7 @@ export default function CodeClashScreen() {
 
                 <View style={{ alignItems: 'flex-end' }}>
                   <Text style={[styles.userMMR, { color: Colors.primary }]}>{user.rating} MMR</Text>
-                  <Text style={styles.userCoinsLbl}>{user.coins} 🪙</Text>
+                  <Text style={styles.userCoinsLbl}>{user.coins} Coins</Text>
                 </View>
               </View>
             ))}

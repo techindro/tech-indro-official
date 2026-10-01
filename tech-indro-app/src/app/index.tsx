@@ -312,7 +312,10 @@ export default function HomeScreen() {
                   onPress={() => router.push('/programs')}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.primaryBtnText}>🚀 Start Learning Free</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Ionicons name="sparkles" size={16} color="#ffffff" />
+                    <Text style={styles.primaryBtnText}>Start Learning Free</Text>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.secondaryBtn}
@@ -323,9 +326,22 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </View>
 
-              {/* Trust Rating Line */}
-              <View style={styles.heroTrustLine}>
-                <Text style={styles.heroTrustText}>★ 4.9/5 Rating  |  🎯 100% Job Assistance  |  📱 Learn on Mobile</Text>
+              {/* Trust Rating Line with Real Icons */}
+              <View style={[styles.heroTrustLine, { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Ionicons name="star" size={13} color="#f59e0b" />
+                  <Text style={styles.heroTrustText}>4.9/5 Rating</Text>
+                </View>
+                <Text style={{ color: isDark ? '#475569' : '#CBD5E1' }}>|</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Ionicons name="shield-checkmark" size={13} color="#10b981" />
+                  <Text style={styles.heroTrustText}>100% Job Assistance</Text>
+                </View>
+                <Text style={{ color: isDark ? '#475569' : '#CBD5E1' }}>|</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Ionicons name="phone-portrait-outline" size={13} color="#38bdf8" />
+                  <Text style={styles.heroTrustText}>Learn on Mobile</Text>
+                </View>
               </View>
             </View>
 
@@ -587,7 +603,7 @@ export default function HomeScreen() {
                       justifyContent: 'center',
                     }}
                   >
-                    <Text style={{ fontSize: 22 }}>🤖</Text>
+                    <Ionicons name="headset" size={22} color="#ffffff" />
                   </View>
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -615,6 +631,67 @@ export default function HomeScreen() {
                   }}
                 >
                   <Ionicons name="arrow-forward" size={16} color="#ffffff" />
+                </View>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+
+        {/* Motu & Patlu Gamified Coding Spotlight Banner */}
+        <View style={{ paddingHorizontal: 16, marginTop: 12 }}>
+          <TouchableOpacity
+            onPress={() => router.push('/motu-patlu' as any)}
+            style={{
+              borderRadius: 18,
+              overflow: 'hidden',
+              elevation: 4,
+              shadowColor: '#ea580c',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 10,
+              borderWidth: 1.5,
+              borderColor: '#ea580c',
+            }}
+            activeOpacity={0.88}
+          >
+            <LinearGradient
+              colors={isDark ? ['#1e1b4b', '#0f172a'] : ['#fff7ed', '#ffedd5']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ padding: 14 }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}>
+                  <Image
+                    source={require('../../assets/images/characters/motu-character.png')}
+                    style={{ width: 46, height: 46, borderRadius: 23 }}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <Text style={{ fontSize: 14.5, fontWeight: '800', color: isDark ? '#fb923c' : '#c2410c' }}>
+                        Motu &amp; Patlu Coding Quest
+                      </Text>
+                      <View style={{ backgroundColor: '#ea580c', paddingHorizontal: 6, paddingVertical: 1.5, borderRadius: 6 }}>
+                        <Text style={{ fontSize: 9.5, fontWeight: '800', color: '#fff' }}>5 MIN/DAY</Text>
+                      </View>
+                    </View>
+                    <Text style={{ fontSize: 11.5, color: isDark ? '#cbd5e1' : '#7c2d12', marginTop: 1 }} numberOfLines={1}>
+                      Bite-sized puzzles, Samosa XP streak &amp; real character voice mentors!
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#ea580c',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: 8,
+                  }}
+                >
+                  <Ionicons name="game-controller" size={16} color="#ffffff" />
                 </View>
               </View>
             </LinearGradient>

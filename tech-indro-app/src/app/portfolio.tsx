@@ -68,13 +68,13 @@ export default function ResumeBuilderScreen() {
         'Achieved 90%+ percentile across 4,500+ technical assessments in Data Structures, Systems, and Distributed Computing.',
       ]);
       setAiEnhancing(false);
-      Alert.alert('AI Optimization Complete! ✨', 'All resume project bullet points enhanced with ATS action verbs and quantifiable metrics.');
+      Alert.alert('AI Optimization Complete!', 'All resume project bullet points enhanced with ATS action verbs and quantifiable metrics.');
     }, 1200);
   };
 
   const handleExportPDF = () => {
     Alert.alert(
-      'Resume Downloaded! 📄',
+      'Resume Downloaded!',
       `ATS-friendly PDF resume (${fullName.replace(/\s+/g, '_')}_Resume.pdf) has been generated and saved.`,
       [{ text: 'Awesome!' }]
     );
@@ -82,7 +82,7 @@ export default function ResumeBuilderScreen() {
 
   const handleCopyLink = () => {
     Alert.alert(
-      'Portfolio Link Copied! 🔗',
+      'Portfolio Link Copied!',
       `https://techindro.dev/portfolio/${fullName.toLowerCase().replace(/\s+/g, '-')}`
     );
   };

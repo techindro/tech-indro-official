@@ -760,3 +760,126 @@ Keep answers concise, direct, and encouraging. Give code snippets ready to copy!
 
   return getOfflineShikshakResponse(message, lang);
 }
+
+// ====== SARVAM AI BULBUL v3 TTS SERVICE ======
+
+export interface SarvamTtsParams {
+  text: string;
+  language?: string;
+  speaker?: string;
+  pace?: number;
+}
+
+export interface SarvamTtsResponse {
+  audio: string; // base64 encoded wav
+  format: string; // 'wav'
+  language: string;
+  provider: string;
+  speaker: string;
+}
+
+let activeAudioInstance: any = null;
+
+export async function requestSarvamTts(params: SarvamTtsParams): Promise<SarvamTtsResponse> {
+  return await apiRequest<SarvamTtsResponse>(ENDPOINTS.TTS_SARVAM, {
+    method: 'POST',
+    body: JSON.stringify({
+      text: params.text,
+      language: params.language || 'hi',
+      speaker: params.speaker || 'meera',
+      pace: params.pace || 1.0,
+    }),
+  });
+}
+
+export function stopAnyVoice(): void {
+  if (activeAudioInstance) {
+    try {
+      activeAudioInstance.pause();
+      activeAudioInstance.currentTime = 0;
+    } catch (e) {}
+    activeAudioInstance = null;
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+}
+
+export async function playIndicVoice(options: {
+  text: string;
+  language?: string;
+  speaker?: string;
+  pace?: number;
+  onStart?: () => void;
+  onEnd?: () => void;
+  onError?: (err: any) => void;
+}): Promise<void> {
+  const { text, language = 'hi', speaker = 'meera', pace = 1.0, onStart, onEnd, onError } = options;
+  stopAnyVoice();
+
+  // Clean markdown for speech
+  const cleanedText = text
+    .replace(/```[\s\S]*?```/g, ' Maine iska aasan code screen par likh diya hai, aap use dekh aur copy kar sakte ho! ')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/#+\s+/g, '')
+    .replace(/[-*•]\s+/g, '')
+    .trim();
+
+  if (!cleanedText) return;
+
+  // Trim to 500 characters max for snappy TTS generation
+  const ttsText = cleanedText.length > 500 ? cleanedText.substring(0, 497) + '...' : cleanedText;
+
+  const fallbackSpeech = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(cleanedText.substring(0, 300));
+      utterance.lang = language === 'en' ? 'en-US' : 'hi-IN';
+      utterance.rate = 1.0;
+      utterance.onstart = () => onStart?.();
+      utterance.onend = () => onEnd?.();
+      utterance.onerror = (e) => {
+        onError?.(e);
+        onEnd?.();
+      };
+      window.speechSynthesis.speak(utterance);
+    } else {
+      onEnd?.();
+    }
+  };
+
+  try {
+    const res = await requestSarvamTts({
+      text: ttsText,
+      language,
+      speaker,
+      pace,
+    });
+
+    if (res && res.audio) {
+      if (typeof window !== 'undefined' && typeof window.Audio !== 'undefined') {
+        const audio = new window.Audio(`data:audio/wav;base64,${res.audio}`);
+        activeAudioInstance = audio;
+        audio.onplay = () => onStart?.();
+        audio.onended = () => {
+          activeAudioInstance = null;
+          onEnd?.();
+        };
+        audio.onerror = () => {
+          activeAudioInstance = null;
+          fallbackSpeech();
+        };
+        await audio.play();
+        return;
+      }
+    }
+  } catch (err) {
+    // Sarvam API unreachable or error - fall through to Web Speech Synthesis
+  }
+
+  fallbackSpeech();
+}
+

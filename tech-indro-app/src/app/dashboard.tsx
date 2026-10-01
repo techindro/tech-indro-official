@@ -180,7 +180,7 @@ export default function DashboardScreen() {
           progress: nextProg,
           nextTopic:
             nextDone === c.totalLessons
-              ? 'Course Completed! Verified Certificate Ready 🎓'
+              ? 'Course Completed! Verified Certificate Ready'
               : `Module ${Math.floor(nextDone / 4) + 1}: Advanced Industry Architecture`,
         };
       }
@@ -194,7 +194,7 @@ export default function DashboardScreen() {
     await AsyncStorage.setItem('@user_indro_xp', newXp.toString());
 
     Alert.alert(
-      '🎉 Lesson Completed!',
+      'Lesson Completed!',
       'Great work! You earned +25 Indro XP and pushed your course progress forward.',
       [{ text: 'Great!', onPress: () => setActiveLessonCourse(null) }]
     );

@@ -37,7 +37,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: '1',
     category: 'streak',
-    title: '🔥 Keep Your 7-Day Streak Alive!',
+    title: 'Keep Your 7-Day Streak Alive!',
     message: 'You have only 4 hours left today to complete your Daily Coding Assessment and preserve your 2,450 XP bonus.',
     time: '2 hours ago',
     isRead: false,
@@ -61,7 +61,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: '3',
     category: 'announcement',
-    title: '🚀 TSOC 2026 Fellowship Applications Closing',
+    title: 'TSOC 2026 Fellowship Applications Closing',
     message: 'Over 1,200 developers have applied. Submit your GitHub portfolio before April 10 to qualify for ₹50K stipend.',
     time: 'Yesterday',
     isRead: false,
@@ -73,7 +73,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: '4',
     category: 'streak',
-    title: '🏆 Achievement Unlocked: Top 5% Quizzer',
+    title: 'Achievement Unlocked: Top 5% Quizzer',
     message: 'Congratulations! Your score in the GATE Robotics test placed you on the National Podium.',
     time: '2 days ago',
     isRead: true,
@@ -207,10 +207,19 @@ export default function NotificationsScreen() {
               tab === 'all'
                 ? `All (${notifications.length})`
                 : tab === 'streak'
-                ? '🔥 Streaks'
+                ? 'Streaks'
                 : tab === 'course'
-                ? '📚 Courses'
-                : '📢 TSOC & News';
+                ? 'Courses'
+                : 'TSOC & News';
+
+            const chipIcon =
+              tab === 'all'
+                ? 'albums-outline'
+                : tab === 'streak'
+                ? 'flame-outline'
+                : tab === 'course'
+                ? 'book-outline'
+                : 'megaphone-outline';
 
             return (
               <TouchableOpacity
@@ -222,15 +231,18 @@ export default function NotificationsScreen() {
                 ]}
                 onPress={() => setActiveTab(tab)}
               >
-                <Text
-                  style={[
-                    styles.filterChipText,
-                    { color: colors.textMuted },
-                    active && { color: '#fff', fontWeight: 'bold' },
-                  ]}
-                >
-                  {label}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                  <Ionicons name={chipIcon as any} size={14} color={active ? '#fff' : colors.textMuted} />
+                  <Text
+                    style={[
+                      styles.filterChipText,
+                      { color: colors.textMuted },
+                      active && { color: '#fff', fontWeight: 'bold' },
+                    ]}
+                  >
+                    {label}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           })}

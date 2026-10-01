@@ -1,5 +1,53 @@
 [
   {
+    "id": "t-sarvam-ai",
+    "name": "Sarvam AI",
+    "category": "AI Agents",
+    "description": "India's Sovereign Generative AI — 105B Indic LLM & Bulbul v3 Voice in 11+ Indian Languages.",
+    "link": "https://sarvam.ai",
+    "icon": "🇮🇳"
+  },
+  {
+    "id": "t-groq",
+    "name": "Groq AI",
+    "category": "Coding",
+    "description": "World's fastest LPU inference engine powering ultra-low-latency Llama 3 & DeepSeek models.",
+    "link": "https://groq.com",
+    "icon": "⚡"
+  },
+  {
+    "id": "t-gemini",
+    "name": "Google Gemini",
+    "category": "AI Agents",
+    "description": "Next-gen multimodal reasoning model with massive 2M token context window & coding intelligence.",
+    "link": "https://gemini.google.com",
+    "icon": "✨"
+  },
+  {
+    "id": "t-canva",
+    "name": "Canva Magic Studio",
+    "category": "Design",
+    "description": "AI-powered creative design suite — Magic Design, text-to-graphics, AI presentations & brand assets.",
+    "link": "https://www.canva.com/magic/",
+    "icon": "🎨"
+  },
+  {
+    "id": "t-chatgpt",
+    "name": "ChatGPT (OpenAI)",
+    "category": "AI Agents",
+    "description": "Industry-defining conversational & coding assistant with GPT-4o, reasoning & deep search.",
+    "link": "https://chatgpt.com",
+    "icon": "🤖"
+  },
+  {
+    "id": "t-claude",
+    "name": "Claude 3.5 Sonnet",
+    "category": "Coding",
+    "description": "Top-tier AI intelligence for complex software engineering, architecture & artifact generation.",
+    "link": "https://claude.ai",
+    "icon": "🧠"
+  },
+  {
     "id": "t1",
     "name": "Cursor",
     "category": "Coding",

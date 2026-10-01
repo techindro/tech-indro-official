@@ -60,7 +60,7 @@ export default function CheckoutScreen() {
   const handleApplyCoupon = () => {
     if (couponCode.trim().toUpperCase() === 'TECHINDRO' || couponCode.trim().toUpperCase() === 'ISRO50') {
       setCouponApplied(true);
-      Alert.alert('Coupon Applied! 🎉', 'Flat ₹200 additional discount added!');
+      Alert.alert('Coupon Applied!', 'Flat ₹200 additional discount added!');
     } else {
       Alert.alert('Invalid Coupon', 'Try "TECHINDRO" for exclusive student discount.');
     }
@@ -203,7 +203,7 @@ export default function CheckoutScreen() {
           <View style={styles.successIconCircle}>
             <Ionicons name="checkmark" size={48} color="#10B981" />
           </View>
-          <Text style={styles.successHeader}>Enrollment Successful! 🎉</Text>
+          <Text style={styles.successHeader}>Enrollment Successful!</Text>
           <Text style={styles.successSub}>
             Welcome to <Text style={{ fontWeight: 'bold', color: Colors.primaryLight }}>{courseTitle}</Text>.
           </Text>

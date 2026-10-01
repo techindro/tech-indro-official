@@ -163,8 +163,8 @@ SELECT
   student_name,
   score,
   CASE 
-    WHEN score >= 95 THEN 'Distinction 🏆'
-    ELSE 'Merit ⭐'
+    WHEN score >= 95 THEN 'Distinction'
+    ELSE 'Merit'
   END AS badge
 FROM enrollments
 WHERE score >= 90
@@ -217,9 +217,9 @@ ORDER BY score DESC;
 </head>
 <body>
   <div class="card">
-    <h2>🚀 IndroLabs Mobile</h2>
+    <h2>IndroLabs Mobile</h2>
     <p>Live Web DOM preview rendering directly inside the Tech Indro mobile runtime.</p>
-    <button class="btn" onclick="alert('IndroLabs Sandbox Activated!')">Test Interaction ⚡</button>
+    <button class="btn" onclick="alert('IndroLabs Sandbox Activated!')">Test Interaction</button>
   </div>
 </body>
 </html>
@@ -265,7 +265,7 @@ function calculateFibonacci(n) {
 console.log("Welcome to IndroLabs Runtime!");
 const result = calculateFibonacci(8);
 console.log("Fibonacci Series (first 8):", result);
-console.log("Status: Execution Successful! 🚀");
+console.log("Status: Execution Successful!");
 `,
   },
   html: {
@@ -273,12 +273,12 @@ console.log("Status: Execution Successful! 🚀");
     ext: '.html',
     code: `<!-- Tech Indro Web Engine -->
 <div style="padding: 20px; background: #0F172A; border-radius: 12px; border: 1px solid #38BDF8; text-align: center; font-family: sans-serif;">
-  <h2 style="color: #38BDF8; margin: 0 0 8px 0;">🚀 Tech Indro Web Engine</h2>
+  <h2 style="color: #38BDF8; margin: 0 0 8px 0;">Tech Indro Web Engine</h2>
   <p style="color: #E2E8F0; font-size: 14px; margin: 0 0 16px 0;">
     Build responsive UI layouts directly inside your mobile playground.
   </p>
   <button style="background: linear-gradient(90deg, #6366F1, #8B5CF6); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold;">
-    Explore Full Stack Track ⚡
+    Explore Full Stack Track
   </button>
 </div>
 `,
@@ -494,7 +494,7 @@ Please provide:
       }
     } catch (err: any) {
       setAiResponse(
-        `AI Mentor Connection Note:\n${err.message || 'Could not reach AI Mentor'}.\n\n💡 Tip: Check your syntax, indentation, and variable names!`
+        `AI Mentor Connection Note:\n${err.message || 'Could not reach AI Mentor'}.\n\nTip: Check your syntax, indentation, and variable names!`
       );
     } finally {
       setAiLoading(false);
@@ -505,7 +505,7 @@ Please provide:
     if (extractedFixCode) {
       setCode(extractedFixCode);
       setAiModalVisible(false);
-      showToast('✨ AI Fix applied to code editor!');
+      showToast('AI Fix applied to code editor!');
     }
   };
 
@@ -716,14 +716,17 @@ Please provide:
               />
             ) : (
               <View style={styles.liveWebCard}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#38BDF8', marginBottom: 4 }}>
-                  🚀 Web DOM Render Container
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <Ionicons name="globe-outline" size={16} color="#38BDF8" />
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#38BDF8' }}>
+                    Web DOM Render Container
+                  </Text>
+                </View>
                 <Text style={{ fontSize: 12, color: '#94A3B8', marginBottom: 12 }}>
                   HTML & CSS layout validated. For full browser preview, test in Web or Expo Go.
                 </Text>
                 <View style={styles.htmlPreviewSample}>
-                  <Text style={{ color: '#38BDF8', fontWeight: 'bold', fontSize: 16 }}>🚀 Tech Indro Web Engine</Text>
+                  <Text style={{ color: '#38BDF8', fontWeight: 'bold', fontSize: 16 }}>Tech Indro Web Engine</Text>
                   <Text style={{ color: '#E2E8F0', fontSize: 12, marginTop: 4 }}>
                     Build responsive UI layouts directly inside your mobile playground.
                   </Text>

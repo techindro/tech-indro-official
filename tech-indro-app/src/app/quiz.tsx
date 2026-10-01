@@ -167,7 +167,7 @@ export default function QuizScreen() {
               />
             </View>
             <Text style={styles.resultTitle}>
-              {pct >= 70 ? 'Shaandaar! 🌟' : pct >= 40 ? 'Good Effort! 👍' : 'Practice More! 📚'}
+              {pct >= 70 ? 'Shaandaar Performance!' : pct >= 40 ? 'Good Effort!' : 'Keep Practicing!'}
             </Text>
             <Text style={styles.resultScoreText}>
               Aapka Score: <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>{score}</Text> / {quizQuestions.length} ({pct}%)

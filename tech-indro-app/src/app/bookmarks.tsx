@@ -213,12 +213,23 @@ export default function BookmarksScreen() {
               tab === 'all'
                 ? `All (${bookmarks.length})`
                 : tab === 'question'
-                ? '📝 Questions'
+                ? 'Questions'
                 : tab === 'ai_note'
-                ? '🤖 AI Notes'
+                ? 'AI Notes'
                 : tab === 'personal_note'
-                ? '📌 Notes'
-                : '⚡ Flashcard Mode';
+                ? 'Notes'
+                : 'Flashcards';
+
+            const tabIconName =
+              tab === 'all'
+                ? 'albums-outline'
+                : tab === 'question'
+                ? 'help-circle-outline'
+                : tab === 'ai_note'
+                ? 'sparkles-outline'
+                : tab === 'personal_note'
+                ? 'document-text-outline'
+                : 'flash-outline';
 
             return (
               <TouchableOpacity
@@ -233,15 +244,18 @@ export default function BookmarksScreen() {
                   setIsFlipped(false);
                 }}
               >
-                <Text
-                  style={[
-                    styles.tabChipText,
-                    { color: colors.textMuted },
-                    active && { color: '#fff', fontWeight: 'bold' },
-                  ]}
-                >
-                  {label}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                  <Ionicons name={tabIconName as any} size={14} color={active ? '#fff' : colors.textMuted} />
+                  <Text
+                    style={[
+                      styles.tabChipText,
+                      { color: colors.textMuted },
+                      active && { color: '#fff', fontWeight: 'bold' },
+                    ]}
+                  >
+                    {label}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           })}

@@ -219,7 +219,7 @@ export default function TSOCScreen() {
             {submitted ? (
               <View style={styles.successBox}>
                 <Ionicons name="checkmark-circle" size={60} color={Colors.success} />
-                <Text style={styles.successTitle}>Application Submitted! 🎉</Text>
+                <Text style={styles.successTitle}>Application Submitted Successfully!</Text>
                 <Text style={styles.successDesc}>
                   Humne aapka application note kar liya hai ({email}). Review team agle 3 dino me email par update karegi.
                 </Text>

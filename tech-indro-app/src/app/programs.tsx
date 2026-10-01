@@ -32,7 +32,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 const FILTERS = [
   { label: 'All', key: 'all' },
-  { label: 'Competitive Hackathons 🏆', key: 'hackathons' },
+  { label: 'Competitive Hackathons', key: 'hackathons' },
   { label: 'Coding & AI', key: 'coding' },
   { label: 'Life & Health', key: 'life' },
   { label: 'Business', key: 'business' },

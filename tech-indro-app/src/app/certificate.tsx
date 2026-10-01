@@ -150,15 +150,15 @@ export default function CertificateScreen() {
       await AsyncStorage.setItem('@tech_indro_user_cert_honors', editInputHonors ? '1' : '0');
     } catch {}
 
-    Alert.alert('✅ Certificate Updated', `Credentials customized for ${trimmedName}!`);
+    Alert.alert('Certificate Updated', `Credentials customized for ${trimmedName}!`);
   };
 
   const handleCopyLink = () => {
-    Alert.alert('📋 Credential Link Copied', `https://techindro.com/verify/${certId} copied to clipboard.`);
+    Alert.alert('Credential Link Copied', `https://techindro.com/verify/${certId} copied to clipboard.`);
   };
 
   const shareUrl = `https://techindro.com/verify/${certId}`;
-  const shareText = `I, ${userName}, am proud to share my verified Certificate of Completion from Tech Indro in "${courseTitle}"! 🎓\n\nVerify: ${shareUrl}`;
+  const shareText = `I, ${userName}, am proud to share my verified Certificate of Completion from Tech Indro in "${courseTitle}"!\n\nVerify: ${shareUrl}`;
 
   const handleShareLinkedIn = () => {
     Linking.openURL(
@@ -173,7 +173,7 @@ export default function CertificateScreen() {
   };
 
   const handleDownload = () => {
-    Alert.alert('📥 Certificate Downloaded', `Official Credential ${certId} for ${userName}.pdf generated.`, [
+    Alert.alert('Certificate Downloaded', `Official Credential ${certId} for ${userName}.pdf generated.`, [
       { text: 'OK' },
     ]);
   };
@@ -223,7 +223,7 @@ export default function CertificateScreen() {
                   {/* India's 1st AI-Powered Platform Badge */}
                   <View style={styles.indiaFirstBanner}>
                     <Text style={styles.indiaFirstBannerText}>
-                      🇮🇳 INDIA'S 1ST AI-POWERED LEARNING PLATFORM • AI AUDITED
+                      INDIA'S 1ST AI-POWERED LEARNING PLATFORM • AI AUDITED
                     </Text>
                   </View>
 
@@ -360,7 +360,7 @@ export default function CertificateScreen() {
         >
           <Ionicons name="sparkles" size={18} color="#FFFFFF" />
           <Text style={styles.aiCareerBtnText}>
-            🤖 AI Career Copilot (Resume Bullets & Pitch)
+            AI Career Copilot (Resume Bullets & Pitch)
           </Text>
         </TouchableOpacity>
 
@@ -552,7 +552,7 @@ export default function CertificateScreen() {
             <View style={[styles.modalCard, { backgroundColor: colors.card, borderColor: '#8B5CF6' }]}>
               <View style={styles.modalHeaderRow}>
                 <View>
-                  <Text style={[styles.modalTitle, { color: colors.text }]}>🤖 AI Career Copilot</Text>
+                  <Text style={[styles.modalTitle, { color: colors.text }]}>AI Career Copilot</Text>
                   <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
                     India's 1st AI-Powered Placement Prep • Shikshak Engine
                   </Text>
@@ -610,7 +610,7 @@ export default function CertificateScreen() {
                   </View>
                   <TouchableOpacity
                     style={[styles.copyLinkBtn, { borderColor: '#8B5CF6', marginTop: 8 }]}
-                    onPress={() => Alert.alert('📋 Copied', 'All ATS Resume Bullets copied to clipboard!')}
+                    onPress={() => Alert.alert('Copied', 'All ATS Resume Bullets copied to clipboard!')}
                   >
                     <Ionicons name="copy-outline" size={16} color="#8B5CF6" />
                     <Text style={{ color: '#8B5CF6', fontWeight: '700', fontSize: 13 }}>
@@ -625,7 +625,7 @@ export default function CertificateScreen() {
                 <View>
                   <View style={[styles.aiBulletCard, { padding: 12 }]}>
                     <Text style={[styles.aiBulletText, { color: colors.text, lineHeight: 20 }]}>
-                      🚀 Thrilled to announce that I have successfully completed "{courseTitle}" from Tech Indro — India's 1st AI-Powered Learning Platform! 🇮🇳✨{'\n\n'}
+                      Thrilled to announce that I have successfully completed "{courseTitle}" from Tech Indro — India's 1st AI-Powered Learning Platform!{'\n\n'}
                       My capstone projects were audited by Tech Indro's Shikshak AI Engine with a verified 98.4% AI Skill Score.{'\n\n'}
                       #TechIndro #ArtificialIntelligence #Engineering #Placements2026 #AIReady
                     </Text>
@@ -650,7 +650,7 @@ export default function CertificateScreen() {
                   </View>
                   <TouchableOpacity
                     style={[styles.copyLinkBtn, { borderColor: '#8B5CF6', marginTop: 8 }]}
-                    onPress={() => Alert.alert('📋 Copied', 'Elevator pitch copied to clipboard!')}
+                    onPress={() => Alert.alert('Copied', 'Elevator pitch copied to clipboard!')}
                   >
                     <Ionicons name="copy-outline" size={16} color="#8B5CF6" />
                     <Text style={{ color: '#8B5CF6', fontWeight: '700', fontSize: 13 }}>

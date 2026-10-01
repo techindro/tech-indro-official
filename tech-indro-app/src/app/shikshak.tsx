@@ -23,7 +23,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '@/hooks/useTheme';
-import { askAiShikshak } from '@/services/api';
+import { askAiShikshak, playIndicVoice, stopAnyVoice } from '@/services/api';
 
 type LanguageMode = 'auto' | 'hi' | 'en' | 'bhojpuri';
 
@@ -53,7 +53,7 @@ export default function ShikshakScreen() {
     {
       id: 'welcome',
       role: 'ai',
-      text: 'Namaste! Main hoon aapka AI Shikshak Rohini 🤖.\n\nAap mujhse Hindi, English ya Bhojpuri me koi bhi coding sawal pooch sakte ho — jaise Python, FastAPI, Robotics, Web Development, ya Math. Har sawal ka real technical solution aur code voice ke sath milega!',
+      text: 'Namaste! Main hoon aapka AI Shikshak Rohini.\n\nAap mujhse Hindi, English ya Bhojpuri me koi bhi coding sawal pooch sakte ho — jaise Python, FastAPI, Robotics, Web Development, ya Math. Har sawal ka real technical solution aur code voice ke sath milega!',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -111,40 +111,24 @@ export default function ShikshakScreen() {
       .trim();
   };
 
-  // Text-To-Speech
+  // Text-To-Speech powered by Sarvam AI Bulbul v3 Indic voice engine
   const speak = (rawText: string) => {
     if (!voiceEnabled) return;
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const clean = cleanForSpeech(rawText);
-      if (!clean) return;
-
-      const utterance = new SpeechSynthesisUtterance(clean);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.05;
-
-      const voices = window.speechSynthesis.getVoices();
-      const hindiVoice = voices.find(
-        (v) => v.lang && (v.lang.includes('hi') || v.name.includes('Hindi') || v.lang.includes('IN'))
-      );
-      if (hindiVoice) {
-        utterance.voice = hindiVoice;
-        utterance.lang = 'hi-IN';
-      }
-
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-
-      window.speechSynthesis.speak(utterance);
-    }
+    const sarvamLang = lang === 'en' ? 'en' : (lang === 'bhojpuri' ? 'bho' : 'hi');
+    playIndicVoice({
+      text: rawText,
+      language: sarvamLang,
+      speaker: 'meera',
+      pace: 1.0,
+      onStart: () => setIsSpeaking(true),
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false),
+    });
   };
 
   const stopSpeaking = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
+    stopAnyVoice();
+    setIsSpeaking(false);
   };
 
   // Speech-To-Text Recognition
@@ -354,7 +338,7 @@ export default function ShikshakScreen() {
       >
         {isAi && (
           <View style={styles.aiAvatarCircle}>
-            <Text style={{ fontSize: 20 }}>🤖</Text>
+            <Ionicons name="headset" size={18} color="#ffffff" />
           </View>
         )}
 
@@ -447,7 +431,7 @@ export default function ShikshakScreen() {
           </TouchableOpacity>
           <View style={styles.mascotBox}>
             <View style={styles.mascotRing}>
-              <Text style={{ fontSize: 18 }}>🤖</Text>
+              <Ionicons name="school" size={18} color="#ffffff" />
             </View>
             <View>
               <View style={styles.titleRow}>
@@ -588,7 +572,7 @@ export default function ShikshakScreen() {
             loading ? (
               <View style={styles.typingIndicator}>
                 <View style={styles.aiAvatarCircle}>
-                  <Text style={{ fontSize: 20 }}>🤖</Text>
+                  <Ionicons name="headset" size={18} color="#ffffff" />
                 </View>
                 <View
                   style={[
@@ -598,7 +582,7 @@ export default function ShikshakScreen() {
                 >
                   <ActivityIndicator size="small" color="#f59e0b" />
                   <Text style={[styles.typingText, { color: colors.textMuted }]}>
-                    Rohini soch rahi hai aur code taiyar kar rahi hai... ✨
+                    Rohini soch rahi hai aur code taiyar kar rahi hai...
                   </Text>
                 </View>
               </View>
@@ -645,7 +629,7 @@ export default function ShikshakScreen() {
             placeholder={
               isListening
                 ? 'Sun raha hoon... Boliye!'
-                : 'Puchiye koi bhi sawal... ya mic se boliye 🎙️'
+                : 'Puchiye koi bhi sawal... ya mic se boliye'
             }
             placeholderTextColor={isDark ? '#64748b' : '#94a3b8'}
             value={inputText}

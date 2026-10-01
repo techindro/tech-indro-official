@@ -36,6 +36,24 @@ const ALL_TOOLS: AiTool[] = require('../../assets/data/ai-tools.json');
 function getToolIcon(tool: AiTool): { name: any; color: string; bg: string } {
   const name = tool.name.toLowerCase();
   const cat = tool.category.toLowerCase();
+  if (name.includes('sarvam')) {
+    return { name: 'globe-outline', color: '#EA580C', bg: '#EA580C22' };
+  }
+  if (name.includes('groq')) {
+    return { name: 'flash', color: '#F59E0B', bg: '#F59E0B22' };
+  }
+  if (name.includes('gemini')) {
+    return { name: 'sparkles', color: '#0284C7', bg: '#0284C722' };
+  }
+  if (name.includes('canva')) {
+    return { name: 'color-palette', color: '#06B6D4', bg: '#06B6D422' };
+  }
+  if (name.includes('chatgpt')) {
+    return { name: 'chatbubbles-outline', color: '#10B981', bg: '#10B98122' };
+  }
+  if (name.includes('claude')) {
+    return { name: 'bulb-outline', color: '#D97706', bg: '#D9770622' };
+  }
   if (name.includes('cursor') || name.includes('github') || name.includes('code') || cat === 'coding') {
     return { name: 'code-slash', color: '#6366F1', bg: '#6366F122' };
   }

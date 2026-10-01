@@ -41,4 +41,6 @@ export const ENDPOINTS = {
   PAYMENT_SYNC_STATUS: '/api/payments/sync-status',
   JOBS: '/api/jobs',
   JOBS_FETCH: '/api/jobs/fetch',
+  TTS_SARVAM: '/api/tts/sarvam',
 };
+
