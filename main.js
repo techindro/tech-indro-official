@@ -122,7 +122,7 @@ function ensureNavDrawer() {
 
             <!-- Platform Features Section -->
             <div class="drawer-section-title" style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
-                <span>PLATFORM FEATURES</span>
+                <span style="font-weight: 800; letter-spacing: 0.5px; text-transform: none;">Platform Features</span>
                 <span class="drawer-badge" style="background: linear-gradient(135deg, #ec4899, #f43f5e); font-size: 0.65rem; color: white;">NEW</span>
             </div>
             <div class="drawer-primary-links">
