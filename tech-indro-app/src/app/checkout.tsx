@@ -45,7 +45,7 @@ export default function CheckoutScreen() {
   const [upiId, setUpiId] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const { user } = useAuth();
-  const [routedGateway, setRoutedGateway] = useState('Hyperswitch Smart Routing');
+  const [routedGateway, setRoutedGateway] = useState('Razorpay Gateway (rzp_test_TjBdLNapXFt0Rw)');
   const [paymentId, setPaymentId] = useState('');
 
   const [cardExpiry, setCardExpiry] = useState('');
@@ -130,9 +130,9 @@ export default function CheckoutScreen() {
         throw new Error(confirmRes.error || 'Payment confirmation failed');
       }
 
-      const generatedTxn = confirmRes.transactionId || ('TXN_HS_' + Date.now());
+      const generatedTxn = confirmRes.transactionId || ('TXN_RZP_' + Date.now());
       setTransactionId(generatedTxn);
-      setRoutedGateway(confirmRes.routedGateway || 'Hyperswitch Multi-Processor Switch');
+      setRoutedGateway(confirmRes.routedGateway || 'Razorpay Gateway (rzp_test_TjBdLNapXFt0Rw)');
 
       // 3. Save to user's enrolled courses in local storage for offline & fast access
       const stored = await AsyncStorage.getItem('@enrolled_courses');
@@ -147,7 +147,7 @@ export default function CheckoutScreen() {
         enrolledAt: new Date().toISOString(),
         txn: generatedTxn,
         paymentId: intent.paymentId,
-        orchestrator: 'Hyperswitch by Juspay',
+        orchestrator: 'Razorpay Gateway',
       };
 
       if (!enrolled.some((c: any) => c.id === courseId)) {
@@ -284,15 +284,15 @@ export default function CheckoutScreen() {
         </View>
       </View>
 
-      {/* Hyperswitch by Juspay Badge */}
+      {/* Razorpay Gateway Badge */}
       <View style={styles.hyperswitchBanner}>
         <View style={styles.hsIconBox}>
-          <Ionicons name="git-network-outline" size={16} color="#0EA5E9" />
+          <Ionicons name="shield-checkmark" size={16} color="#10B981" />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.hsTitle}>⚡ Powered by Juspay Hyperswitch</Text>
+          <Text style={styles.hsTitle}>⚡ Powered by Razorpay Gateway</Text>
           <Text style={styles.hsSubtitle}>
-            Smart multi-processor switch (Razorpay, Cashfree, UPI Intent, 3DS Cards)
+            Key: rzp_test_TjBdLNapXFt0Rw • Instant UPI, 3DS Cards & NetBanking
           </Text>
         </View>
       </View>

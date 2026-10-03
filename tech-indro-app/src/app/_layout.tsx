@@ -13,6 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeProvider, useTheme } from '@/hooks/useTheme';
 import NetworkStatusBanner from '@/components/NetworkStatusBanner';
+import { telemetry } from '@/services/telemetry';
 
 function AppTabs() {
   const { colors, isDark } = useTheme();
@@ -84,6 +85,9 @@ function AppTabs() {
         {/* 1. Home */}
         <Tabs.Screen
           name="index"
+          listeners={{
+            focus: () => telemetry.screen('Tab: Home'),
+          }}
           options={{
             title: 'Home',
             tabBarIcon: ({ color }) => (
@@ -95,6 +99,9 @@ function AppTabs() {
         {/* 2. Programs */}
         <Tabs.Screen
           name="programs"
+          listeners={{
+            focus: () => telemetry.screen('Tab: Programs'),
+          }}
           options={{
             title: 'Programs',
             tabBarIcon: ({ color }) => (
@@ -106,6 +113,9 @@ function AppTabs() {
         {/* 3. AI Shikshak (Rohini) */}
         <Tabs.Screen
           name="shikshak"
+          listeners={{
+            focus: () => telemetry.screen('Tab: AI Shikshak'),
+          }}
           options={{
             title: 'AI Shikshak',
             tabBarIcon: ({ color }) => (
@@ -117,6 +127,9 @@ function AppTabs() {
         {/* 4. Quiz / Test Series */}
         <Tabs.Screen
           name="quiz"
+          listeners={{
+            focus: () => telemetry.screen('Tab: Test Series'),
+          }}
           options={{
             title: 'Test Series',
             tabBarIcon: ({ color }) => (
@@ -128,6 +141,9 @@ function AppTabs() {
         {/* 5. Dashboard */}
         <Tabs.Screen
           name="dashboard"
+          listeners={{
+            focus: () => telemetry.screen('Tab: Dashboard'),
+          }}
           options={{
             title: 'Dashboard',
             tabBarIcon: ({ color }) => (

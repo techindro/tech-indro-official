@@ -39,8 +39,12 @@ export const ENDPOINTS = {
   PAYMENT_CREATE_INTENT: '/api/payments/create-intent',
   PAYMENT_CONFIRM: '/api/payments/confirm',
   PAYMENT_SYNC_STATUS: '/api/payments/sync-status',
+  RAZORPAY_CREATE_ORDER: '/api/payments/razorpay/create-order',
+  RAZORPAY_VERIFY: '/api/payments/razorpay/verify',
   JOBS: '/api/jobs',
   JOBS_FETCH: '/api/jobs/fetch',
   TTS_SARVAM: '/api/tts/sarvam',
 };
+
+export const RAZORPAY_KEY_ID = 'rzp_test_TjBdLNapXFt0Rw';
 

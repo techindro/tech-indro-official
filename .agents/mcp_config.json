@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "tech-indro": {
+      "command": "node",
+      "args": [
+        "c:/Users/LENOVO/OneDrive/Desktop/tech-indro-website/tech-indro-official/scripts/tech-indro-mcp.mjs"
+      ],
+      "env": {
+        "RAZORPAY_KEY_ID": "rzp_test_TjBdLNapXFt0Rw"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "c:/Users/LENOVO/OneDrive/Desktop/tech-indro-website"
+      ]
+    }
+  }
+}
