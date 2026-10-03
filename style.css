@@ -492,30 +492,6 @@ nav {
     transform: translateY(-2px);
 }
 
-.btn-secondary-hero {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    border-radius: var(--radius-md);
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: var(--transition);
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);
-}
-
-.btn-secondary-hero:hover {
-    background: rgba(255, 255, 255, 0.16);
-    border-color: #ffffff;
-    transform: translateY(-2px);
-}
-
 .hero-image {
     position: relative;
 }
