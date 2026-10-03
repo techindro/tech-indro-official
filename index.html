@@ -1330,15 +1330,13 @@
                         </p>
                     </div>
                     <div class="hero-image fade-in">
-                        <div onclick="openDemoModal()" style="background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); width: 100%; max-width: 500px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                            <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                                <div style="width: 60px; height: 60px; border-radius: 50%; background: #ff6b35; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(255, 107, 53, 0.4);">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5 3L19 12L5 21V3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
+                        <div onclick="openDemoModal()" style="background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 18px; box-shadow: 0 16px 32px rgba(0,0,0,0.14); backdrop-filter: blur(8px); border: 1.5px solid rgba(255, 255, 255, 0.2); width: 100%; max-width: 440px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'; this.style.borderColor='rgba(255,255,255,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(255,255,255,0.2)';">
+                            <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.2s ease;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="margin-left: 2px;">
+                                    <path d="M5 3L19 12L5 21V3Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
-                            <span style="color: white; font-weight: 600; font-size: 1.1rem;">Watch Demo Class</span>
+                            <span style="color: rgba(255, 255, 255, 0.92); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.2px;">Watch Demo Class</span>
                         </div>
                     </div>
                 </div>
@@ -3336,6 +3334,9 @@
                     box-shadow: 0 10px 30px rgba(0,0,0,0.04);
                     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                     position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
                 }
                 .adv-batch-card:hover {
                     transform: translateY(-12px);
@@ -3370,6 +3371,7 @@
                     position: relative;
                     background-size: cover;
                     background-position: center;
+                    flex-shrink: 0;
                 }
                 .adv-batch-img::after {
                     content: '';
@@ -3384,12 +3386,18 @@
                 }
                 .adv-batch-content {
                     padding: 2rem;
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
                 }
                 .adv-batch-content h3 {
                     font-size: 1.4rem;
                     font-weight: 800;
                     color: #0f172a;
                     margin-bottom: 1rem;
+                }
+                .adv-batch-content p {
+                    flex: 1;
                 }
                 .adv-batch-meta {
                     display: flex;
@@ -3416,6 +3424,7 @@
                     text-decoration: none;
                     transition: all 0.3s ease;
                     border: 1px solid #e2e8f0;
+                    margin-top: auto;
                 }
                 .adv-batch-card:hover .adv-batch-btn {
                     background: var(--primary);
@@ -4429,8 +4438,28 @@
 
         <!-- Modern Tech Indro Footer -->
         <footer style="background: #1e293b; color: #f8fafc; padding: 4rem 0 0; font-family: 'Inter', sans-serif;">
+            <style>
+                .footer-main-grid {
+                    display: grid;
+                    grid-template-columns: 2fr 1.5fr 1.1fr 1.6fr;
+                    gap: 2.25rem;
+                    margin-bottom: 3rem;
+                }
+                @media (max-width: 960px) {
+                    .footer-main-grid {
+                        grid-template-columns: 1fr 1fr;
+                        gap: 2.5rem;
+                    }
+                }
+                @media (max-width: 580px) {
+                    .footer-main-grid {
+                        grid-template-columns: 1fr;
+                        gap: 2rem;
+                    }
+                }
+            </style>
             <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
+                <div class="footer-main-grid">
                     
                     <!-- Column 1: Brand & Apps -->
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -4604,7 +4633,6 @@
                             <span class="drawer-card-title">Courses</span>
                             <span class="drawer-badge">Explore All</span>
                         </div>
-                        <span class="drawer-card-desc">AI, Robotics, Ethical Hacking & Full Stack</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4625,7 +4653,6 @@
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Tools Hub</span>
                             <span class="drawer-badge" style="background: #8b5cf6; color: white;">50+ Tools</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Best AI tools for coding, design, agents &amp; productivity</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4646,7 +4673,6 @@
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Agent</span>
                             <span class="drawer-badge" style="background: #6366f1; color: white;">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Autonomous conversational agent for voice doubts &amp; code solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4665,12 +4691,11 @@
                             <span class="drawer-card-title">About us</span>
                             <span class="drawer-badge" style="background: #3b82f6;">Our Story</span>
                         </div>
-                        <span class="drawer-card-desc">Vision, pedagogy & ecosystem for future leaders</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
 
-                <!-- 3. Contact -->
+                <!-- 5. Contact -->
                 <a href="support.html" class="drawer-card" onclick="closeNavDrawer()">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #10b981, #047857);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4682,12 +4707,11 @@
                             <span class="drawer-card-title">Contact</span>
                             <span class="drawer-badge live-badge">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc">Talk to counselors, call & WhatsApp support</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
 
-                <!-- 4. Latest Jobs -->
+                <!-- 6. Latest Jobs -->
                 <a href="javascript:void(0)" class="drawer-card" onclick="closeNavDrawer(); toggleLatestJobsView(true);">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #ff6b35, #ea580c);">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4700,7 +4724,6 @@
                             <span class="drawer-card-title">Latest Jobs</span>
                             <span class="drawer-badge" style="background: #16a34a;">Live Feed</span>
                         </div>
-                        <span class="drawer-card-desc">Bengaluru, Hyderabad, Pune, Mumbai &amp; Remote openings</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4725,7 +4748,6 @@
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AR/VR Immersive Labs</span>
                             <span class="drawer-badge" style="background: linear-gradient(135deg, #ff6b35, #ea580c); font-size: 0.65rem; color: white;">XR LABS</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">AR circuits, VR classrooms, MR drone labs — learn in 3D reality</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4743,7 +4765,6 @@
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Technical Interview Studio</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Simulate tech rounds &amp; benchmark resume against ATS algorithms</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4760,7 +4781,6 @@
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Code Clash Arena</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Live algorithmic duels, test case runner &amp; Elo benchmarks</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4778,7 +4798,6 @@
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Engineering Portfolio Studio</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Production developer profile builder with verified credentials</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4798,7 +4817,6 @@
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">System Design Canvas</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Interactive distributed architecture canvas &amp; 100k RPS simulator</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -4817,7 +4835,6 @@
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Community &amp; Doubt Hub</span>
                             <span class="drawer-badge" style="background: #9333ea; color: white;">Doubt Hub</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Peer questions &amp; 24/7 AI Mentor instant solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -5037,8 +5054,8 @@
                     </div>
                 </div>
 
-                <!-- 4 Step Milestones -->
-                <div style="display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+                <!-- 4 Step Milestones Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
                     ${data.milestones.map(m => `
                         <div class="milestone-step-card">
                             <div class="milestone-num">${m.step}</div>
@@ -5048,17 +5065,20 @@
                     `).join('')}
                 </div>
 
-                <!-- Footer CTAs: Centered cohesive flow aligned with grid -->
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem; background: #f8fafc; padding: 1.75rem 2rem; border-radius: 16px; border: 1px solid #e2e8f0; text-align: center;">
-                    <div style="font-size: 0.95rem; color: #475569; max-width: 650px;">
-                        🎯 <strong>Hiring Partners in this domain:</strong> ${data.companies}
+                <!-- Footer CTAs: Anchored to 4-column grid (Columns 1-2: Partners, Column 3: Counseling, Column 4: Batch) -->
+                <div class="roadmap-footer-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.25rem; align-items: center; background: #f8fafc; padding: 1.4rem 1.8rem; border-radius: 16px; border: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.95rem; color: #475569; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;" aria-hidden="true">🎯</span>
+                        <div><strong>Top Hiring Partners:</strong> ${data.companies}</div>
                     </div>
-                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                        <button type="button" onclick="openCounselingModal()" style="background: white; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 11px 24px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#ff6b35'; this.style.color='#ff6b35';" onmouseout="this.style.borderColor='#cbd5e1'; this.style.color='#1e293b';">
+                    <div>
+                        <button type="button" onclick="openCounselingModal()" style="width: 100%; justify-content: center; background: white; border: 1.5px solid #cbd5e1; color: #1e293b; padding: 11px 18px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: all 0.2s; text-align: center; display: flex; align-items: center;" onmouseover="this.style.borderColor='#ff6b35'; this.style.color='#ff6b35';" onmouseout="this.style.borderColor='#cbd5e1'; this.style.color='#1e293b';">
                             Book 1:1 Counseling
                         </button>
-                        <a href="programs.html" style="background: #ff6b35; color: white; padding: 11px 26px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); transition: all 0.2s;" onmouseover="this.style.background='#ea580c'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#ff6b35'; this.style.transform='translateY(0)';">
-                            <span>View Recommended Batch</span>
+                    </div>
+                    <div>
+                        <a href="programs.html" style="width: 100%; justify-content: center; background: #ff6b35; color: white; padding: 11px 18px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.28); text-align: center; transition: all 0.2s;" onmouseover="this.style.background='#ea580c'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#ff6b35'; this.style.transform='translateY(0)';">
+                            <span>Explore Batch</span>
                             <span aria-hidden="true">➔</span>
                         </a>
                     </div>

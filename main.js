@@ -42,7 +42,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title">Courses</span>
                             <span class="drawer-badge">Explore All</span>
                         </div>
-                        <span class="drawer-card-desc">AI, Robotics, Ethical Hacking & Full Stack</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -62,7 +61,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Tools Hub</span>
                             <span class="drawer-badge" style="background: #8b5cf6; color: white;">50+ Tools</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Best AI tools for coding, design, agents &amp; productivity</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -82,7 +80,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">AI Agent</span>
                             <span class="drawer-badge" style="background: #6366f1; color: white;">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Autonomous conversational agent for voice doubts &amp; code solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -99,7 +96,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title">About us</span>
                             <span class="drawer-badge" style="background: #3b82f6;">Our Story</span>
                         </div>
-                        <span class="drawer-card-desc">Vision, pedagogy & ecosystem for future leaders</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -114,7 +110,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title">Contact</span>
                             <span class="drawer-badge live-badge">24/7 Live</span>
                         </div>
-                        <span class="drawer-card-desc">Talk to counselors, call & WhatsApp support</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -139,7 +134,6 @@ function ensureNavDrawer() {
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Technical Interview Studio</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Simulate tech rounds &amp; benchmark resume against ATS algorithms</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -156,7 +150,6 @@ function ensureNavDrawer() {
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Code Clash Arena</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Live algorithmic duels, test case runner &amp; Elo benchmarks</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -174,7 +167,6 @@ function ensureNavDrawer() {
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Engineering Portfolio Studio</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Production developer profile builder with verified credentials</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -194,7 +186,6 @@ function ensureNavDrawer() {
                         <div class="drawer-card-title-row">
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">System Design Canvas</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Interactive distributed architecture canvas &amp; 100k RPS simulator</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
@@ -213,7 +204,6 @@ function ensureNavDrawer() {
                             <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Community &amp; Doubt Hub</span>
                             <span class="drawer-badge" style="background: #9333ea; color: white;">Doubt Hub</span>
                         </div>
-                        <span class="drawer-card-desc" style="color: #374151; font-weight: 500;">Peer questions &amp; 24/7 AI Mentor instant solutions</span>
                     </div>
                     <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
