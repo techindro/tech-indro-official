@@ -232,19 +232,20 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 99999;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             padding: 18px;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
             box-sizing: border-box;
         }
 
         .ti-cookie-modal-backdrop.ti-modal-open {
+            display: flex;
             opacity: 1;
-            visibility: visible;
+            pointer-events: auto;
         }
 
         .ti-cookie-modal {

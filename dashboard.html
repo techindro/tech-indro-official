@@ -285,11 +285,17 @@
     <main class="dashboard-main container">
         <div class="dashboard-header fade-in">
             <div>
-                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Welcome back, Student! 👋</h1>
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 0.5rem;">
+        <img id="dashUserAvatar" src="assets/motu-character.jpg" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 3px solid #ff6b35; box-shadow: 0 4px 15px rgba(255,107,53,0.3);">
+        <div>
+            <h1 id="dashboardWelcomeHeading" style="font-size: 2.2rem; margin: 0;">Welcome back, Student! 👋</h1>
+            <a href="profile.html" style="font-size: 0.85rem; color: #ff6b35; font-weight: 700; text-decoration: none;"><i data-lucide="edit-3" style="width:13px;height:13px;vertical-align:middle;"></i> Edit Profile &amp; Change Photo</a>
+        </div>
+    </div>
                 <p style="color: var(--text-muted); font-size: 1.1rem;">Ready to conquer your goals today?</p>
                 <div style="margin-top: 1.5rem;">
                     <a href="programs.html" class="btn-primary">Browse More Courses</a>
-                    <a href="checkout.html" class="btn-secondary" style="margin-left: 1rem;"><i data-lucide="shopping-cart"></i> Buy Premium</a>
+                    <a href="checkout.html?id=tech-indro-premium&title=Tech+Indro+Premium+All-Access&price=999" class="btn-secondary" style="margin-left: 1rem;"><i data-lucide="zap"></i> Buy Premium (Razorpay)</a>
                 </div>
             </div>
             
@@ -307,6 +313,16 @@
             <h2 style="margin-bottom: 1.2rem; font-size: 1.35rem; color: var(--text-main); font-weight: 800;">Student Workspace & Tools</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
 
+
+                <a href="profile.html" style="background: var(--surface); border: 1.5px solid #ff6b35; border-radius: 14px; padding: 20px; text-decoration: none; display: flex; align-items: center; gap: 14px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(255,107,53,0.08);">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 107, 53, 0.15); color: #ff6b35; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="user-cog" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0 0 4px; font-size: 1rem; font-weight: 800; color: var(--text-main);">My Profile &amp; Photo</h4>
+                        <p style="margin: 0; font-size: 0.8rem; color: var(--text-muted);">Change Photo, Name, Bio &amp; Skills</p>
+                    </div>
+                </a>
 
                 <a href="portfolio.html" style="background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; align-items: center; gap: 14px; transition: transform 0.2s, box-shadow 0.2s;">
                     <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(139, 92, 246, 0.12); color: #8b5cf6; display: flex; align-items: center; justify-content: center;">
@@ -584,7 +600,7 @@
                             <div class="ti-cert-course-title" id="certCourseName">Applied AI and Data Science Program</div>
 
                             <!-- Date -->
-                            <div class="ti-cert-date-label" id="certDate">July 2026</div>
+                            <div class="ti-cert-date-label" id="certDate">in July 2026</div>
 
                             <!-- Two Signatures Row with Dotted Lines -->
                             <div class="ti-cert-signatures-row">
@@ -825,5 +841,24 @@
             color: #6B7280;
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const rawUser = localStorage.getItem('techIndroUser') || localStorage.getItem('currentUser') || localStorage.getItem('user');
+                if (rawUser) {
+                    const u = JSON.parse(rawUser);
+                    if (u.name) {
+                        const heading = document.getElementById('dashboardWelcomeHeading');
+                        if (heading) heading.innerText = `Welcome back, ${u.name}! 👋`;
+                    }
+                    if (u.avatar || u.photo) {
+                        const av = document.getElementById('dashUserAvatar');
+                        if (av) av.src = u.avatar || u.photo;
+                    }
+                }
+            } catch (e) {}
+        });
+    </script>
 </body>
 </html>

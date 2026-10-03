@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile &amp; Settings | Tech Indro</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+            --primary-orange: #ff6b35;
+            --primary-purple: #9333ea;
+            --primary-green: #10b981;
+            --primary-blue: #0284c7;
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0b1120;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            max-width: 1050px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* Profile Layout */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (max-width: 860px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Sidebar Card */
+        .profile-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            text-align: center;
+            position: relative;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 18px;
+        }
+
+        .avatar-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-orange);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.25);
+            background: #f1f5f9;
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: var(--primary-orange);
+            color: white;
+            border: 3px solid var(--bg-card);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .avatar-upload-btn:hover {
+            transform: scale(1.1);
+            background: #e0531e;
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .profile-email {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255, 107, 53, 0.12);
+            color: var(--primary-orange);
+            margin-bottom: 24px;
+        }
+
+        .stats-mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-mini-card {
+            background: rgba(0,0,0,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 8px;
+        }
+
+        .stat-mini-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .stat-mini-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Right Content Panel */
+        .content-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.02);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-family: inherit;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.45);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Avatar Picker Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: modalPop 0.2s ease-out;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .avatar-presets-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .preset-avatar-card {
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg-card);
+        }
+
+        .preset-avatar-card:hover, .preset-avatar-card.selected {
+            border-color: var(--primary-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        .preset-avatar-card img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 6px;
+        }
+
+        .preset-avatar-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Toast notification */
+        .toast-notify {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #10b981;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+            z-index: 10001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast-notify.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Not Logged In State */
+        .not-logged-in-box {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            max-width: 500px;
+            margin: 60px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header" style="position: fixed; top: 0; left: 0; right: 0; background: var(--bg-card); border-bottom: 1px solid var(--border-color); z-index: 999; height: 70px;">
+        <nav class="container nav-container" style="display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 12px;">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 42px; width: auto; border-radius: 10px;">
+                <span style="font-weight: 900; font-size: 1.3rem; letter-spacing: 0.5px; color: var(--text-main);">TECH INDRO</span>
+            </a>
+            <ul class="nav-links" style="display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0;">
+                <li><a href="dashboard.html" style="text-decoration: none; color: var(--text-sub); font-weight: 700; font-size: 0.92rem;"><i data-lucide="layout-dashboard" style="width: 16px; height: 16px; vertical-align: middle;"></i> Dashboard</a></li>
+                <li><a href="bittu.html" style="text-decoration: none; color: var(--text-sub); font-weight: 700; font-size: 0.92rem;"><i data-lucide="gamepad-2" style="width: 16px; height: 16px; vertical-align: middle;"></i> Motu &amp; Patlu Coding</a></li>
+                <li><a href="programs.html" style="text-decoration: none; color: var(--text-sub); font-weight: 700; font-size: 0.92rem;"><i data-lucide="book-open" style="width: 16px; height: 16px; vertical-align: middle;"></i> Courses</a></li>
+                <li><a href="profile.html" style="text-decoration: none; color: var(--primary-orange); font-weight: 800; font-size: 0.92rem;"><i data-lucide="user" style="width: 16px; height: 16px; vertical-align: middle;"></i> My Profile</a></li>
+                <li><button onclick="handleLogout()" style="background: none; border: 1.5px solid var(--border-color); border-radius: 8px; padding: 6px 14px; font-weight: 700; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; gap: 6px;"><i data-lucide="log-out" style="width: 15px; height: 15px;"></i> Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="profile-container">
+
+        <!-- Logged-in View -->
+        <div id="loggedInView" class="profile-grid" style="display: none;">
+            
+            <!-- Left Profile Sidebar -->
+            <div class="profile-card">
+                <div class="avatar-wrapper">
+                    <img id="profileAvatarImg" src="assets/motu-character.jpg" class="avatar-img" alt="User Profile Picture">
+                    <button class="avatar-upload-btn" onclick="openAvatarModal()" title="Change Profile Picture">
+                        <i data-lucide="camera" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+
+                <div class="profile-name">
+                    <span id="profileDisplayName">Student Name</span>
+                    <i data-lucide="badge-check" style="width: 20px; height: 20px; color: #0284c7; fill: #0284c7;"></i>
+                </div>
+                <div class="profile-email" id="profileDisplayEmail">student@techindro.com</div>
+
+                <div class="badge-pill" id="profileRoleBadge">
+                    <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Pro Learner
+                </div>
+
+                <p id="profileDisplayBio" style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 24px;">
+                    Motu &amp; Patlu Coding Explorer. Mastering modern engineering with Tech Indro!
+                </p>
+
+                <!-- Stats summary -->
+                <div class="stats-mini-grid">
+                    <div class="stat-mini-card">
+                        <div class="stat-mini-val" id="profileXpVal" style="color: #ff9600;">
+                            <i data-lucide="zap" style="width: 18px; height: 18px; fill: #ff9600;"></i> 1,150
+                        </div>
+                        <div class="stat-mini-label">Total XP</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="stat-mini-val" id="profileStreakVal" style="color: #f97316;">
+                            <i data-lucide="flame" style="width: 18px; height: 18px; fill: #f97316;"></i> 7 Days
+                        </div>
+                        <div class="stat-mini-label">Day Streak</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="stat-mini-val" id="profileGemsVal" style="color: #1cb0f6;">
+                            <i data-lucide="gem" style="width: 18px; height: 18px; fill: #1cb0f6;"></i> 450
+                        </div>
+                        <div class="stat-mini-label">Indro Gems</div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <div class="stat-mini-val" id="profileCompletedVal" style="color: #10b981;">
+                            <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i> 14
+                        </div>
+                        <div class="stat-mini-label">Lessons Solved</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <a href="bittu.html" class="btn-save" style="width: 100%; text-decoration: none; justify-content: center; box-sizing: border-box; background: linear-gradient(135deg, #9333ea, #6366f1); box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);">
+                        <i data-lucide="gamepad-2" style="width: 18px; height: 18px;"></i> Continue Coding Game
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Content Panel: Edit Profile Form -->
+            <div class="content-panel">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i data-lucide="user-cog" style="color: var(--primary-orange);"></i> Edit Profile Details
+                    </h2>
+                    <span style="font-size: 0.82rem; color: var(--text-sub);">All changes sync automatically</span>
+                </div>
+
+                <form id="profileEditForm" onsubmit="saveProfileChanges(event)">
+                    
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="inputName">Full Name *</label>
+                            <input type="text" id="inputName" class="form-input" placeholder="e.g., Shubham Sharma" required oninput="previewNameChange(this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="inputEmail">Email Address</label>
+                            <input type="email" id="inputEmail" class="form-input" placeholder="student@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="inputPhone">Mobile Number (+91)</label>
+                            <input type="tel" id="inputPhone" class="form-input" placeholder="e.g., 9876543210" pattern="[0-9]{10}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="inputCollege">College / School / Organization</label>
+                            <input type="text" id="inputCollege" class="form-input" placeholder="e.g., IIT Delhi / Delhi University">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputHeadline">Headline / Bio</label>
+                        <textarea id="inputHeadline" class="form-textarea" rows="2" placeholder="e.g., Passionate student exploring Python, Machine Learning and Data Structures with Motu & Patlu!"></textarea>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="inputGithub">GitHub Profile URL</label>
+                            <input type="url" id="inputGithub" class="form-input" placeholder="https://github.com/username">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="inputLinkedin">LinkedIn Profile URL</label>
+                            <input type="url" id="inputLinkedin" class="form-input" placeholder="https://linkedin.com/in/username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputSkills">Primary Skills (Comma Separated)</label>
+                        <input type="text" id="inputSkills" class="form-input" placeholder="Python, JavaScript, SQL, DSA, AI/ML, React">
+                    </div>
+
+                    <!-- Password Update Section (Optional) -->
+                    <div style="margin: 28px 0 20px; padding-top: 20px; border-top: 1px dashed var(--border-color);">
+                        <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="shield" style="width: 18px; height: 18px; color: #0284c7;"></i> Security &amp; Password (Optional)
+                        </h4>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label class="form-label" for="inputOldPassword">Current Password</label>
+                                <input type="password" id="inputOldPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="inputNewPassword">New Password (Min 6 chars)</label>
+                                <input type="password" id="inputNewPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 28px;">
+                        <button type="submit" id="btnSaveProfile" class="btn-save">
+                            <i data-lucide="save" style="width: 18px; height: 18px;"></i> SAVE PROFILE CHANGES
+                        </button>
+                        <span id="saveStatusHint" style="font-size: 0.85rem; color: var(--text-sub);"></span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Not Logged In View -->
+        <div id="notLoggedInView" class="not-logged-in-box" style="display: none;">
+            <div style="width: 70px; height: 70px; background: rgba(255, 107, 53, 0.12); color: var(--primary-orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i data-lucide="lock" style="width: 36px; height: 36px;"></i>
+            </div>
+            <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 10px;">Please Sign In to Access Your Profile</h2>
+            <p style="color: var(--text-sub); margin-bottom: 28px; line-height: 1.5;">
+                Log in to edit your photo, change your name, update your learning goals, and access your course certificates!
+            </p>
+            <div style="display: flex; gap: 14px; justify-content: center;">
+                <a href="login.html" class="btn-save" style="text-decoration: none;">
+                    <i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Sign In / Login
+                </a>
+                <a href="bittu.html" class="btn-save" style="text-decoration: none; background: #64748b; box-shadow: none;">
+                    Explore Lessons Free
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AVATAR PICKER & PHOTO UPLOAD MODAL -->
+    <div class="modal-overlay" id="avatarModal">
+        <div class="modal-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="image" style="width: 20px; height: 20px; color: var(--primary-orange);"></i> Change Profile Photo
+                </h3>
+                <button onclick="closeAvatarModal()" style="background: none; border: none; cursor: pointer; color: var(--text-sub);">
+                    <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+                </button>
+            </div>
+            
+            <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 18px;">
+                Upload a custom photo from your device, or pick one of our official avatars:
+            </p>
+
+            <!-- File Upload Option -->
+            <div style="border: 2px dashed var(--border-color); border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 20px; background: rgba(0,0,0,0.01); cursor: pointer;" onclick="document.getElementById('avatarFileInput').click()">
+                <i data-lucide="upload-cloud" style="width: 32px; height: 32px; color: var(--primary-orange); margin-bottom: 6px;"></i>
+                <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">Upload Custom Photo from Device</div>
+                <div style="font-size: 0.78rem; color: var(--text-sub); margin-top: 4px;">PNG, JPG, WEBP (Auto-centered &amp; cropped)</div>
+                <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+
+            <!-- Pre-made Avatars Gallery -->
+            <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+                Or Choose an Official Avatar:
+            </div>
+            <div class="avatar-presets-grid">
+                <div class="preset-avatar-card" onclick="selectPresetAvatar('assets/motu-character.jpg', 'Motu', this)">
+                    <img src="assets/motu-character.jpg" alt="Motu">
+                    <div class="preset-avatar-name">Motu</div>
+                </div>
+                <div class="preset-avatar-card" onclick="selectPresetAvatar('assets/patlu-character.jpg', 'Patlu', this)">
+                    <img src="assets/patlu-character.jpg" alt="Patlu">
+                    <div class="preset-avatar-name">Patlu</div>
+                </div>
+                <div class="preset-avatar-card" onclick="selectPresetAvatar('assets/dr-jhatka-character.jpg', 'Dr. Jhatka', this)">
+                    <img src="assets/dr-jhatka-character.jpg" alt="Dr. Jhatka">
+                    <div class="preset-avatar-name">Dr. Jhatka</div>
+                </div>
+                <div class="preset-avatar-card" onclick="selectPresetAvatar('assets/chingam-character.jpg', 'Chingam', this)">
+                    <img src="assets/chingam-character.jpg" alt="Chingam">
+                    <div class="preset-avatar-name">Chingam</div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-save" style="width: 100%; justify-content: center;" onclick="applyChosenAvatar()">
+                    Apply Photo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div class="toast-notify" id="toastNotify">
+        <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+        <span id="toastMessage">Profile updated successfully!</span>
+    </div>
+
+    <script src="api-client.js"></script>
+    <script>
+        // Global User State
+        let currentUser = null;
+        let pendingAvatarData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+            loadUserProfile();
+        });
+
+        // Load user profile from localStorage and verify with backend
+        async function loadUserProfile() {
+            try {
+                // 1. Check local session
+                let user = null;
+                const rawUser = localStorage.getItem('techIndroUser') || localStorage.getItem('currentUser') || localStorage.getItem('user');
+                if (rawUser) {
+                    user = JSON.parse(rawUser);
+                }
+
+                // 2. Try server sync if available
+                if (window.TechIndroAuth && TechIndroAuth.isAuthenticated()) {
+                    try {
+                        const verifiedUser = await TechIndroAuth.verifySession();
+                        if (verifiedUser) user = verifiedUser;
+                    } catch (e) {}
+                }
+
+                if (!user) {
+                    // Show friendly demo student or not logged in prompt
+                    document.getElementById('notLoggedInView').style.display = 'block';
+                    document.getElementById('loggedInView').style.display = 'none';
+                    return;
+                }
+
+                currentUser = user;
+                renderProfileUI(user);
+            } catch (err) {
+                console.error('Error loading profile:', err);
+            }
+        }
+
+        // Render UI with user details
+        function renderProfileUI(user) {
+            document.getElementById('notLoggedInView').style.display = 'none';
+            document.getElementById('loggedInView').style.display = 'grid';
+
+            const name = user.name || 'Tech Indro Student';
+            const email = user.email || 'student@techindro.com';
+            const phone = user.phone || '';
+            const avatar = user.avatar || user.photo || 'assets/motu-character.jpg';
+            const bio = user.bio || user.headline || 'Motu & Patlu Coding Explorer. Mastering modern engineering with Tech Indro!';
+            const college = user.college || '';
+            const github = user.github || '';
+            const linkedin = user.linkedin || '';
+            const skills = Array.isArray(user.skills) ? user.skills.join(', ') : (user.skills || 'Python, JavaScript, SQL');
+
+            // Left card elements
+            document.getElementById('profileDisplayName').innerText = name;
+            document.getElementById('profileDisplayEmail').innerText = email;
+            document.getElementById('profileAvatarImg').src = avatar;
+            document.getElementById('profileDisplayBio').innerText = bio;
+
+            // Role badge
+            const isPro = localStorage.getItem('bittu_is_pro') === 'true' || user.role === 'pro';
+            const badgeEl = document.getElementById('profileRoleBadge');
+            if (isPro) {
+                badgeEl.innerHTML = '<i data-lucide="crown" style="width: 14px; height: 14px; fill: #ffd700; color: #ffd700;"></i> MOTU &amp; PATLU PRO PASS';
+                badgeEl.style.background = 'linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(99, 102, 241, 0.15))';
+                badgeEl.style.color = '#9333ea';
+            } else {
+                badgeEl.innerHTML = '<i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Free Student';
+            }
+
+            // Sync Motu-Patlu stats from bittu_stats
+            try {
+                const bittuStats = JSON.parse(localStorage.getItem('bittu_stats') || '{"xp": 1150, "streak": 7, "gems": 450, "completed": {}}');
+                document.getElementById('profileXpVal').innerHTML = `<i data-lucide="zap" style="width: 18px; height: 18px; fill: #ff9600;"></i> ${bittuStats.xp || 1150}`;
+                document.getElementById('profileStreakVal').innerHTML = `<i data-lucide="flame" style="width: 18px; height: 18px; fill: #f97316;"></i> ${bittuStats.streak || 7} Days`;
+                document.getElementById('profileGemsVal').innerHTML = `<i data-lucide="gem" style="width: 18px; height: 18px; fill: #1cb0f6;"></i> ${bittuStats.gems || 450}`;
+                
+                let totalCompleted = 0;
+                if (bittuStats.completed) {
+                    for (const lang in bittuStats.completed) {
+                        totalCompleted += bittuStats.completed[lang].length;
+                    }
+                }
+                document.getElementById('profileCompletedVal').innerHTML = `<i data-lucide="check-circle" style="width: 18px; height: 18px;"></i> ${totalCompleted || 14}`;
+            } catch (e) {}
+
+            // Populate form inputs
+            document.getElementById('inputName').value = name;
+            document.getElementById('inputEmail').value = email;
+            document.getElementById('inputPhone').value = phone;
+            document.getElementById('inputHeadline').value = bio;
+            document.getElementById('inputCollege').value = college;
+            document.getElementById('inputGithub').value = github;
+            document.getElementById('inputLinkedin').value = linkedin;
+            document.getElementById('inputSkills').value = skills;
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Live Name Preview
+        function previewNameChange(val) {
+            document.getElementById('profileDisplayName').innerText = val.trim() || 'Student Name';
+        }
+
+        // Avatar Modal Handlers
+        function openAvatarModal() {
+            document.getElementById('avatarModal').classList.add('active');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeAvatarModal() {
+            document.getElementById('avatarModal').classList.remove('active');
+        }
+
+        function selectPresetAvatar(src, name, el) {
+            pendingAvatarData = src;
+            document.querySelectorAll('.preset-avatar-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        // File upload with auto-resize and client compression
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file (PNG, JPG, WEBP).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const img = new Image();
+                img.onload = function() {
+                    // Create canvas to scale down to 320x320 for instant performance
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const size = 320;
+                    canvas.width = size;
+                    canvas.height = size;
+
+                    // Center crop to square
+                    const minDim = Math.min(img.width, img.height);
+                    const sx = (img.width - minDim) / 2;
+                    const sy = (img.height - minDim) / 2;
+
+                    ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, size, size);
+                    pendingAvatarData = canvas.toDataURL('image/jpeg', 0.85);
+
+                    // Show instant preview
+                    document.getElementById('profileAvatarImg').src = pendingAvatarData;
+                    closeAvatarModal();
+                    showToast('Photo selected! Click "SAVE PROFILE CHANGES" to save.');
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyChosenAvatar() {
+            if (pendingAvatarData) {
+                document.getElementById('profileAvatarImg').src = pendingAvatarData;
+                closeAvatarModal();
+                showToast('Photo updated! Click "SAVE PROFILE CHANGES" to save.');
+            } else {
+                closeAvatarModal();
+            }
+        }
+
+        // Save Profile Changes
+        async function saveProfileChanges(e) {
+            e.preventDefault();
+
+            const saveBtn = document.getElementById('btnSaveProfile');
+            const originalHtml = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> Saving...';
+            if (window.lucide) lucide.createIcons();
+
+            const updatedData = {
+                name: document.getElementById('inputName').value.trim(),
+                email: document.getElementById('inputEmail').value.trim(),
+                phone: document.getElementById('inputPhone').value.trim(),
+                bio: document.getElementById('inputHeadline').value.trim(),
+                headline: document.getElementById('inputHeadline').value.trim(),
+                college: document.getElementById('inputCollege').value.trim(),
+                github: document.getElementById('inputGithub').value.trim(),
+                linkedin: document.getElementById('inputLinkedin').value.trim(),
+                skills: document.getElementById('inputSkills').value.split(',').map(s => s.trim()).filter(Boolean),
+                avatar: pendingAvatarData || (currentUser ? currentUser.avatar : 'assets/motu-character.jpg'),
+                photo: pendingAvatarData || (currentUser ? currentUser.photo : 'assets/motu-character.jpg')
+            };
+
+            const oldPassword = document.getElementById('inputOldPassword').value;
+            const newPassword = document.getElementById('inputNewPassword').value;
+            if (newPassword) {
+                if (newPassword.length < 6) {
+                    alert('New password must be at least 6 characters long.');
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalHtml;
+                    return;
+                }
+                updatedData.oldPassword = oldPassword;
+                updatedData.newPassword = newPassword;
+            }
+
+            try {
+                // Save via TechIndroAuth or backend API
+                if (window.TechIndroAuth) {
+                    await TechIndroAuth.updateProfile(updatedData);
+                } else {
+                    const res = await fetch('/api/auth/profile', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedData)
+                    });
+                    const d = await res.json();
+                    if (!res.ok) throw new Error(d.error || 'Server error');
+                    localStorage.setItem('techIndroUser', JSON.stringify(d.user));
+                }
+
+                // Trigger confetti
+                if (window.confetti) {
+                    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+                }
+
+                showToast('Profile & Photo updated successfully! 🎉');
+                currentUser = Object.assign({}, currentUser || {}, updatedData);
+                renderProfileUI(currentUser);
+
+                // Clear password fields
+                document.getElementById('inputOldPassword').value = '';
+                document.getElementById('inputNewPassword').value = '';
+            } catch (err) {
+                console.error('Failed to save profile:', err);
+                // Local save fallback
+                const merged = Object.assign({}, currentUser || {}, updatedData);
+                localStorage.setItem('techIndroUser', JSON.stringify(merged));
+                localStorage.setItem('currentUser', JSON.stringify(merged));
+                showToast('Profile saved to local storage! 🎉');
+                currentUser = merged;
+                renderProfileUI(currentUser);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalHtml;
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotify');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                if (window.TechIndroAuth) {
+                    TechIndroAuth.logout();
+                } else {
+                    localStorage.removeItem('techIndroUser');
+                    localStorage.removeItem('techIndroToken');
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

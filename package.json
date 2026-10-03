@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "node server.js",
+    "mcp": "node scripts/tech-indro-mcp.mjs",
+    "test:mcp": "node scripts/test-mcp.mjs",
     "rag": "python rag_service.py",
+    "db:migrate": "node scripts/migrate-to-postgres.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +28,7 @@
   "homepage": "https://github.com/techindro/tech-indro-website#readme",
   "dependencies": {
     "@google/genai": "^2.10.0",
+    "@modelcontextprotocol/sdk": "^1.32.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -32,6 +36,7 @@
     "express": "^5.2.1",
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
-    "kafkajs": "^2.2.4"
+    "kafkajs": "^2.2.4",
+    "pg": "^8.23.1"
   }
 }

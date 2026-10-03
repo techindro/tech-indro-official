@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="theme-notifications.js"></script>
+    <script src="posthog-analytics.js" defer></script>
     <style>
 
         * {
@@ -19,7 +20,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
@@ -1265,7 +1266,7 @@
         <nav class="container">
             <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 55px; white-space: nowrap; flex-shrink: 0;">
                 <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 15px; box-shadow: 0 4px 12px rgba(255,255,255,0.1); background: white;">
-                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
+                <span style="font-family: inherit; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black; white-space: nowrap;">TECH INDRO</span>
             </a>
             <div class="nav-right-container">
                 <div class="nav-links">
@@ -1299,27 +1300,18 @@
                         <div class="hero-stats">
 
                             <div class="hero-stat">
-
-                                <h3>1.2L+</h3>
-
+                                <div class="hero-stat-number" role="text" style="font-size: 1.8rem; font-weight: 800; color: #ffd700; margin-bottom: 0.2rem;">1.2L+</div>
                                 <p>Learners</p>
-
                             </div>
 
                             <div class="hero-stat" onclick="location.href='ai-mentor.html'" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" title="Try 24/7 AI Mentor">
-
-                                <h3>24/7</h3>
-
+                                <div class="hero-stat-number" role="text" style="font-size: 1.8rem; font-weight: 800; color: #ffd700; margin-bottom: 0.2rem;">24/7</div>
                                 <p style="color: #ffd700; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;">AI Mentors <i data-lucide="arrow-right" style="width: 14px; height: 14px; stroke: #ffd700;"></i></p>
-
                             </div>
 
                             <div class="hero-stat">
-
-                                <h3 style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #ffd700;">4.9 <i data-lucide="star" style="width: 22px; height: 22px; color: #ffd700; fill: #ffd700;"></i></h3>
-
+                                <div class="hero-stat-number" role="text" style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #ffd700; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.2rem;">4.9 <i data-lucide="star" style="width: 22px; height: 22px; color: #ffd700; fill: #ffd700;"></i></div>
                                 <p>Student Rating</p>
-
                             </div>
 
                         </div>
@@ -1461,6 +1453,7 @@
                     font-weight: 800;
                     font-size: 1.05rem;
                     text-decoration: none;
+                    text-transform: none;
                     display: inline-flex;
                     align-items: center;
                     gap: 10px;
@@ -1585,7 +1578,7 @@
 
                         <div class="techlingo-cta-row">
                             <a href="bittu.html" class="techlingo-play-btn">
-                                <i data-lucide="play" style="width: 20px; height: 20px; fill: white;"></i> START PLAYING FREE
+                                <i data-lucide="play" style="width: 20px; height: 20px; fill: white;"></i> Start Playing Free
                             </a>
                             <div class="techlingo-perks">
                                 <span style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="heart" style="width: 16px; height: 16px; color: #ef4444; fill: #ef4444;"></i> 5 Hearts</span> • 
@@ -1606,7 +1599,7 @@
                         <div class="techlingo-card">
                             <!-- Speech Bubble -->
                             <div style="background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 16px; padding: 14px 18px; font-weight: 600; font-size: 0.95rem; color: #7c2d12; margin-bottom: 14px; line-height: 1.5; text-align: center;">
-                                "Motu, code hamesha dimaag aur logic se chalta hai, samose se nahi!" 💡🧠
+                                "Motu, code hamesha dimaag aur logic se chalta hai, samose se nahi!"
                             </div>
 
                             <!-- Code Snippet Preview -->
@@ -1734,9 +1727,9 @@
                     <div class="company-pill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux"><span>Linux Systems</span></div>
                 </div>
 
-                <!-- Explore Latest Jobs CTA Banner -->
-                <div style="text-align: center; margin-top: 2.25rem;">
-                    <button type="button" id="exploreLatestJobsBtn" onclick="toggleLatestJobsView()" style="display: inline-flex; align-items: center; gap: 10px; background: #ffffff; color: #ff6b35; border: 2px solid #ff6b35; padding: 12px 30px; border-radius: 50px; font-weight: 700; font-size: 0.98rem; box-shadow: 0 8px 22px rgba(255, 107, 53, 0.15); transition: all 0.3s ease; cursor: pointer; font-family: inherit;" onmouseover="this.style.background='#ff6b35'; this.style.color='#ffffff'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 28px rgba(255, 107, 53, 0.28)';" onmouseout="if(!window.isLatestJobsOpen){this.style.background='#ffffff'; this.style.color='#ff6b35'; this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 22px rgba(255, 107, 53, 0.15)';}">
+                <!-- Explore Latest Jobs CTA Button -->
+                <div style="text-align: center; margin-top: 2.25rem; display: flex; justify-content: center;">
+                    <button type="button" id="exploreLatestJobsBtn" onclick="toggleLatestJobsView()" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #ffffff; color: #ff6b35; border: 2px solid #ff6b35; padding: 12px 28px; border-radius: 50px; font-weight: 700; font-size: 0.98rem; box-shadow: 0 8px 22px rgba(255, 107, 53, 0.15); transition: all 0.3s ease; cursor: pointer; font-family: inherit; width: auto; max-width: fit-content; margin: 0 auto;" onmouseover="this.style.background='#ff6b35'; this.style.color='#ffffff'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 28px rgba(255, 107, 53, 0.28)';" onmouseout="if(!window.isLatestJobsOpen){this.style.background='#ffffff'; this.style.color='#ff6b35'; this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 22px rgba(255, 107, 53, 0.15)';}">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                         <span id="exploreLatestJobsText">Explore Latest Jobs &amp; Opportunities</span>
                         <span style="background: #ff6b35; color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">LIVE</span>
@@ -3110,7 +3103,7 @@
 
                                         <!-- 7. Date -->
                                         <div style="font-size: 10px; color: #4B5563; margin-bottom: 14px; font-weight: 500;">
-                                            September 2026
+                                            in July 2026
                                         </div>
 
                                         <!-- 8. Dual Signatures Row with Dotted Lines -->
@@ -3225,7 +3218,7 @@
                 <!-- Student Workspace & Tools Suite -->
                 <div style="margin-bottom: 5rem;">
                     <div style="text-align: center; margin-bottom: 2.5rem;">
-                        <span style="display: inline-block; padding: 6px 20px; background: rgba(255, 107, 53, 0.1); color: #ff6b35; font-weight: 800; border-radius: 30px; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1rem;">Student Workspace</span>
+                        <span style="display: inline-block; padding: 6px 20px; background: rgba(255, 107, 53, 0.1); color: #ff6b35; font-weight: 800; border-radius: 30px; font-size: 0.85rem; letter-spacing: 1.5px; margin-bottom: 1rem;">Student Workspace</span>
                         <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.75rem;">Essential Tools & Career Services</h2>
                         <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 620px; margin: 0 auto;">Everything you need to excel in your coursework, prepare for GATE/ISRO, and land top product roles.</p>
                     </div>
@@ -3323,40 +3316,26 @@
         <section class="live-batches" style="background: white; padding: 6rem 0; position: relative;">
             <style>
                 .adv-batch-container {
-                    display: flex;
-                    gap: 2.5rem;
-                    overflow-x: auto;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+                    gap: 2rem;
                     padding-bottom: 2rem;
                     padding-top: 1rem;
-                    scroll-snap-type: x mandatory;
-                    -webkit-overflow-scrolling: touch;
-                }
-                .adv-batch-container::-webkit-scrollbar {
-                    height: 8px;
-                }
-                .adv-batch-container::-webkit-scrollbar-track {
-                    background: #f1f5f9;
-                    border-radius: 10px;
-                }
-                .adv-batch-container::-webkit-scrollbar-thumb {
-                    background: #cbd5e1;
-                    border-radius: 10px;
-                }
-                .adv-batch-container::-webkit-scrollbar-thumb:hover {
-                    background: #94a3b8;
+                    width: 100%;
+                    box-sizing: border-box;
                 }
                 
                 .adv-batch-card {
-                    min-width: 380px;
+                    width: 100%;
+                    min-width: 0;
+                    box-sizing: border-box;
                     background: #ffffff;
                     border: 1px solid rgba(0,0,0,0.06);
                     border-radius: 24px;
                     overflow: hidden;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-                    scroll-snap-align: start;
                     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                     position: relative;
-                    flex-shrink: 0;
                 }
                 .adv-batch-card:hover {
                     transform: translateY(-12px);
@@ -3527,12 +3506,18 @@
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
                 }
-                .roadmap-tab-btn.active {
-                    background: #ff6b35;
+                .roadmap-tab-btn:hover {
                     border-color: #ff6b35;
-                    color: white;
-                    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.35);
+                    color: #ff6b35;
+                }
+                .roadmap-tab-btn.active,
+                .roadmap-tab-btn[aria-selected="true"] {
+                    background: #ea580c;
+                    border-color: #ea580c;
+                    color: #ffffff !important;
+                    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.35);
                     transform: translateY(-2px);
+                    font-weight: 800;
                 }
                 .milestone-step-card {
                     background: white;
@@ -3601,15 +3586,15 @@
                 </div>
 
                 <!-- Goal Tabs -->
-                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
-                    <button class="roadmap-tab-btn active" onclick="switchRoadmapTab('college', this)">
-                        <span>🎓</span> For College Students
+                <div role="tablist" aria-label="Career Roadmaps" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+                    <button role="tab" aria-selected="true" aria-controls="roadmapContent" id="tab-college" class="roadmap-tab-btn active" onclick="switchRoadmapTab('college', this)">
+                        <span aria-hidden="true">🎓</span> For College Students
                     </button>
-                    <button class="roadmap-tab-btn" onclick="switchRoadmapTab('pro', this)">
-                        <span>💼</span> Working Professionals
+                    <button role="tab" aria-selected="false" aria-controls="roadmapContent" id="tab-pro" class="roadmap-tab-btn" onclick="switchRoadmapTab('pro', this)">
+                        <span aria-hidden="true">💼</span> Working Professionals
                     </button>
-                    <button class="roadmap-tab-btn" onclick="switchRoadmapTab('nontech', this)">
-                        <span>🚀</span> Non-Tech to Software & AI
+                    <button role="tab" aria-selected="false" aria-controls="roadmapContent" id="tab-nontech" class="roadmap-tab-btn" onclick="switchRoadmapTab('nontech', this)">
+                        <span aria-hidden="true">🚀</span> Non-Tech to Software &amp; AI
                     </button>
                 </div>
 
@@ -3764,18 +3749,20 @@
                     position: absolute;
                     background: white;
                     border-radius: 20px;
-                    padding: 1rem 1.5rem;
+                    padding: 0.75rem 1.25rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
                     font-weight: 700;
                     color: #0f172a;
                     animation: float-bubble 6s ease-in-out infinite;
                     display: flex;
                     align-items: center;
-                    gap: 10px;
+                    gap: 8px;
+                    pointer-events: none;
+                    z-index: 1;
                 }
-                .adv-doubt-visual .bubble-1 { top: 10%; right: 10%; animation-delay: 0s; color: #ef4444; }
-                .adv-doubt-visual .bubble-2 { bottom: 20%; left: 0; animation-delay: -2s; color: #10b981; }
-                .adv-doubt-visual .bubble-3 { top: 40%; left: -10%; animation-delay: -4s; color: #f59e0b; }
+                .adv-doubt-visual .bubble-1 { top: 10%; right: 5%; animation-delay: 0s; color: #ef4444; }
+                .adv-doubt-visual .bubble-2 { bottom: 15%; right: 10%; animation-delay: -2s; color: #10b981; }
+                .adv-doubt-visual .bubble-3 { top: 45%; left: 2%; animation-delay: -4s; color: #f59e0b; }
                 
                 @keyframes float-bubble {
                     0%, 100% { transform: translateY(0); }
@@ -4009,7 +3996,7 @@
                 <div style="position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: linear-gradient(180deg, #ff6b35, #f59e0b);"></div>
                 
                 <div style="margin-bottom: 0.75rem;">
-                    <span style="font-size: 3.5rem; line-height: 1; color: #ff6b35; font-family: 'Times New Roman', Georgia, serif; font-weight: bold;">“</span>
+                    <span style="font-size: 3.5rem; line-height: 1; color: #ff6b35; font-family: Georgia, serif; font-weight: bold;">“</span>
                 </div>
                 
                 <blockquote style="font-size: 1.65rem; font-weight: 700; line-height: 1.5; color: #0f172a; margin: 0 0 2.5rem; letter-spacing: -0.3px; font-style: normal; max-width: 950px;">
@@ -5021,8 +5008,12 @@
 
         function switchRoadmapTab(type, btnEl) {
             if (btnEl) {
-                document.querySelectorAll('.roadmap-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.roadmap-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
                 btnEl.classList.add('active');
+                btnEl.setAttribute('aria-selected', 'true');
             }
             const data = ROADMAP_DATA[type] || ROADMAP_DATA.college;
             const container = document.getElementById('roadmapContent');
@@ -5322,6 +5313,5 @@ vector<int> twoSum(vector<int>& nums, int target) {
         }
     };
     </script>
-    <script src="main.js"></script>
 </body>
 </html>

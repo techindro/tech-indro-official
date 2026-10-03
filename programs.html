@@ -323,9 +323,13 @@
                         <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1rem;">${course.description.substring(0, 80)}...</p>
                         <div class="course-price-wrap">
                             <div class="course-price">
-                                <span class="current-price">Free Trial</span>
+                                <span class="current-price">₹799</span>
+                                <span class="original-price" style="text-decoration: line-through; color: #94a3b8; font-size: 0.82rem; margin-left: 4px;">₹2,999</span>
                             </div>
-                            <a href="course-details.html?id=${course.id}" class="btn-primary" style="padding: 0.5rem 1rem;">View Details</a>
+                            <div style="display: flex; gap: 6px;">
+                                <a href="course-details.html?id=${course.id}" class="btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;">Details</a>
+                                <a href="checkout.html?id=${course.id}&title=${encodeURIComponent(course.title)}&price=799" class="btn-primary" style="padding: 0.4rem 0.75rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="zap" style="width: 13px; height: 13px;"></i> Enroll</a>
+                            </div>
                         </div>
                     </div>
                 `;

@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="posthog-analytics.js" defer></script>
     
     <style>
         :root {
@@ -75,11 +76,12 @@
         }
 
         /* Certificate Frame Wrapper */
+        /* Certificate Frame Wrapper (Matches Hero Showcase Size: max-width 620px) */
         .cert-frame-shadow {
             width: 100%;
-            max-width: 960px;
-            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 8px 16px -6px rgba(15, 23, 42, 0.06);
-            border-radius: 8px;
+            max-width: 620px;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.14), 0 8px 16px -6px rgba(15, 23, 42, 0.06);
+            border-radius: 12px;
             margin-bottom: 2rem;
             background-color: #ffffff;
             border: 1px solid #E2E8F0;
@@ -91,19 +93,19 @@
             width: 100%;
             background-color: #FFFFFF;
             color: #111827;
-            padding: 12px;
+            padding: 8px;
             box-sizing: border-box;
-            border-radius: 2px;
+            border-radius: 4px;
         }
         .cert-border-outer {
             border: 1.5px solid var(--mit-burgundy);
-            padding: 3.5px;
+            padding: 3px;
             box-sizing: border-box;
             background: #ffffff;
         }
         .cert-border-middle {
-            border: 3.2px solid var(--mit-burgundy);
-            padding: 3.5px;
+            border: 2.5px solid var(--mit-burgundy);
+            padding: 3px;
             box-sizing: border-box;
         }
         .cert-border-inner {
@@ -116,19 +118,19 @@
         /* 4 Stepped Corner Motifs */
         .corner-square {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background-color: #ffffff;
             border: 1.5px solid var(--mit-burgundy);
             z-index: 10;
         }
-        .corner-tl { top: -6px; left: -6px; }
-        .corner-tr { top: -6px; right: -6px; }
-        .corner-bl { bottom: -6px; left: -6px; }
-        .corner-br { bottom: -6px; right: -6px; }
+        .corner-tl { top: -5px; left: -5px; }
+        .corner-tr { top: -5px; right: -5px; }
+        .corner-bl { bottom: -5px; left: -5px; }
+        .corner-br { bottom: -5px; right: -5px; }
 
         .cert-body-content {
-            padding: 36px 44px;
+            padding: 18px 22px 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -141,48 +143,51 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            margin-bottom: 24px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
         .cert-logo-img {
-            height: 52px;
+            height: 32px;
             width: auto;
             object-fit: contain;
         }
         .pro-edu-box {
             text-align: left;
+            line-height: 1.1;
         }
         .pro-text, .edu-text {
-            font-size: 20px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--mit-burgundy);
-            line-height: 22px;
-            letter-spacing: -0.3px;
+            line-height: 1.1;
+            letter-spacing: -0.2px;
         }
 
         /* 2. Label */
         .cert-certify-line {
-            font-size: 13.5px;
-            color: #374151;
-            margin-bottom: 14px;
+            font-size: 10px;
+            color: #475569;
+            margin-bottom: 4px;
+            font-weight: 500;
         }
 
         /* 3. Recipient Name */
         .cert-student-name {
-            font-size: 34px;
+            font-size: 1.7rem;
             font-weight: 800;
             color: #111827;
-            letter-spacing: -0.4px;
-            margin-bottom: 18px;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
         }
 
         /* 4. Center Crimson Seal */
         .cert-seal-box {
-            margin-bottom: 18px;
+            margin-bottom: 8px;
         }
         .seal-circle-outer {
-            width: 84px;
-            height: 84px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             border: 1.5px solid var(--mit-burgundy);
             display: flex;
@@ -192,19 +197,19 @@
             box-sizing: border-box;
         }
         .seal-circle-middle {
-            width: 76px;
-            height: 76px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             border: 0.8px dashed var(--mit-burgundy);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2px;
+            padding: 1.5px;
             box-sizing: border-box;
         }
         .seal-circle-inner {
-            width: 68px;
-            height: 68px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             border: 1.2px solid var(--mit-burgundy);
             background-color: #FFF8F8;
@@ -213,105 +218,110 @@
             align-items: center;
             justify-content: center;
             box-sizing: border-box;
+            box-shadow: inset 0 0 5px rgba(139,30,45,0.06);
         }
         .seal-text-top {
-            font-size: 6px;
+            font-size: 4.5px;
             font-weight: 800;
             color: var(--mit-burgundy);
-            letter-spacing: 1px;
+            letter-spacing: 0.6px;
         }
         .seal-symbol-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 2px 0;
+            margin: 1px 0;
+            line-height: 1;
         }
         .seal-svg-icon {
-            width: 16px;
-            height: 16px;
+            width: 11px;
+            height: 11px;
             color: var(--mit-burgundy);
             display: block;
         }
         .seal-text-bottom {
-            font-size: 4.8px;
+            font-size: 3.5px;
             font-weight: 700;
             color: var(--mit-burgundy);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
         /* 5. Completion Label */
         .cert-completed-line {
-            font-size: 13px;
-            color: #374151;
-            margin-bottom: 10px;
+            font-size: 10px;
+            color: #475569;
+            margin-bottom: 4px;
+            font-weight: 500;
         }
 
         /* 6. Course Title */
         .cert-course-title {
-            font-size: 24px;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #111827;
             letter-spacing: -0.3px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         /* 7. Date */
         .cert-date-line {
-            font-size: 12.5px;
+            font-size: 10px;
             color: #4B5563;
-            margin-bottom: 34px;
+            margin-bottom: 14px;
+            font-weight: 500;
         }
 
         /* 8. Signatures Row */
         .cert-signatures-row {
             display: flex;
             justify-content: space-between;
+            align-items: flex-end;
             width: 100%;
-            padding: 0 24px;
+            padding: 0 16px;
             box-sizing: border-box;
         }
         .cert-sig-col {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 200px;
+            width: 140px;
         }
         .cert-handwritten-sig {
             font-family: 'Dancing Script', 'Caveat', cursive;
-            font-size: 23px;
+            font-size: 20px;
             color: #1F2937;
-            margin-bottom: 4px;
+            margin-bottom: 1px;
             transform: rotate(-2deg);
+            font-weight: 700;
         }
         .cert-dotted-divider {
-            width: 180px;
-            border-bottom: 1.4px dotted #6B7280;
-            margin-bottom: 6px;
+            width: 125px;
+            border-bottom: 1.2px dotted #6B7280;
+            margin-bottom: 3px;
         }
         .cert-signer-name {
-            font-size: 11px;
+            font-size: 9.5px;
             font-weight: 700;
             color: #111827;
         }
         .cert-signer-role {
-            font-size: 9.5px;
+            font-size: 8px;
             color: #4B5563;
-            margin-top: 1px;
         }
         .cert-signer-org {
-            font-size: 9px;
+            font-size: 7.5px;
             color: #6B7280;
         }
 
         /* Actions & Verification Box */
         .cert-actions-card {
             width: 100%;
-            max-width: 960px;
+            max-width: 620px;
             background: #FFFFFF;
             border: 1px solid #E2E8F0;
             box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             box-sizing: border-box;
         }
         .verify-pill {
@@ -371,6 +381,16 @@
         .btn-whatsapp {
             background: #25D366;
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+        .btn-twitter {
+            background: #0f1419;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 20, 25, 0.2);
+        }
+        .btn-download-card {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
         }
         .btn-print {
             background: #F8FAFC;
@@ -432,7 +452,7 @@
         /* ═══════════════════════════════════════════════════════════ */
         .cert-edit-toolbar {
             width: 100%;
-            max-width: 960px;
+            max-width: 620px;
             background: #FFFFFF;
             border: 1px solid #E2E8F0;
             box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
@@ -1022,90 +1042,19 @@
             font-weight: 800;
         }
 
-        /* AI Academic Citation */
-        .cert-citation-wrapper {
-            margin: 8px auto 14px auto;
-            max-width: 720px;
-            padding: 6px 14px;
-            background: rgba(249, 250, 251, 0.85);
-            border-left: 2.5px solid var(--mit-burgundy);
-            border-radius: 0 4px 4px 0;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-        .cert-citation-wrapper:hover {
-            background: var(--cert-accent-light);
-        }
-        .cert-citation-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 7.5px;
-            font-weight: 800;
-            color: var(--mit-burgundy);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .cert-citation-text {
-            font-size: 10.5px;
-            font-style: italic;
-            color: #4B5563;
-            line-height: 1.45;
-            outline: none;
-            cursor: text;
-        }
-        .cert-citation-text:focus {
-            background: #FFFFFF;
-            box-shadow: 0 0 0 2px rgba(139, 30, 45, 0.15);
-            color: #111827;
+        /* AI Academic Citation & Matrix (Hidden to match exact clean Hero Showcase Rectangle) */
+        .cert-citation-wrapper,
+        .cert-ai-matrix,
+        .ai-neural-seal {
+            display: none !important;
         }
 
-        /* AI Neural Competency Matrix Strip */
-        .cert-ai-matrix {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            max-width: 720px;
-            margin: 10px auto 14px auto;
-            padding: 8px 12px;
-            background: #F9FAFB;
-            border: 1px solid #E5E7EB;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        .ai-matrix-col {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border-right: 1px solid #E5E7EB;
-        }
-        .ai-matrix-col:last-child {
-            border-right: none;
-        }
-        .matrix-score {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--mit-burgundy);
-            letter-spacing: 0.3px;
-        }
-        .matrix-label {
-            font-size: 7.5px;
-            font-weight: 700;
-            color: #6B7280;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-top: 1px;
-        }
-
-        /* Seals Cluster (Emblem + Holographic Seal) */
+        /* Centered Single Emblem Seal (Matches Hero Showcase) */
         .cert-seals-cluster {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 24px;
-            margin: 12px 0 10px 0;
+            margin: 4px 0 6px 0;
         }
         .ai-neural-seal {
             width: 68px;
@@ -1429,7 +1378,7 @@
                     <label class="studio-label" for="dateInputControl">
                         <i data-lucide="calendar"></i> Completion Date:
                     </label>
-                    <input type="text" id="dateInputControl" class="studio-input" placeholder="e.g. September 2026 or today" oninput="handleDateChange(this.value)" />
+                    <input type="text" id="dateInputControl" class="studio-input" placeholder="e.g. July 2026 or today" oninput="handleDateChange(this.value)" />
                 </div>
 
                 <!-- 4. Honors & Distinction Ribbon -->
@@ -1584,7 +1533,7 @@
                                 <div class="cert-course-title" id="viewCourseTitle" contenteditable="true" spellcheck="false" title="Click to edit course title directly">Applied AI and Data Science Program</div>
 
                                 <!-- 7. Date (Directly Editable) -->
-                                <div class="cert-date-line" id="viewCertDate" contenteditable="true" spellcheck="false" title="Click to edit date directly">July 2026</div>
+                                <div class="cert-date-line" id="viewCertDate" contenteditable="true" spellcheck="false" title="Click to edit date directly">in July 2026</div>
 
                                 <!-- AI Academic Citation (Inline Editable) -->
                                 <div class="cert-citation-wrapper" id="certCitationWrapper">
@@ -1687,8 +1636,17 @@
                 <button onclick="openVerifyModal()" class="action-btn btn-verify-modal">
                     <i data-lucide="badge-check"></i> Verify Credential
                 </button>
-                <button onclick="shareLinkedIn()" class="action-btn btn-linkedin">
-                    <i data-lucide="share-2"></i> Add to LinkedIn
+                <button onclick="addToLinkedInProfile()" class="action-btn btn-linkedin" title="Add official license to your LinkedIn Profile">
+                    <i data-lucide="award"></i> Add to LinkedIn Profile
+                </button>
+                <button onclick="shareLinkedIn()" class="action-btn btn-linkedin" title="Share with rich preview on LinkedIn Feed">
+                    <i data-lucide="share-2"></i> Post on LinkedIn
+                </button>
+                <button onclick="shareTwitter()" class="action-btn btn-twitter" title="Share achievement on X / Twitter">
+                    <i data-lucide="send"></i> Share on X
+                </button>
+                <button onclick="downloadLinkedInCard()" class="action-btn btn-download-card" title="Download 1200x630 social card for your feed">
+                    <i data-lucide="image"></i> Download Social Card
                 </button>
                 <button onclick="shareWhatsApp()" class="action-btn btn-whatsapp">
                     <i data-lucide="message-circle"></i> Share on WhatsApp
@@ -2100,7 +2058,12 @@
             }
         }
 
-        if (dateEl) dateEl.innerText = paramDate;
+        function formatDisplayDate(val) {
+            const raw = (val || '').trim() || "July 2026";
+            return raw.toLowerCase().startsWith('in ') ? raw : `in ${raw}`;
+        }
+
+        if (dateEl) dateEl.innerText = formatDisplayDate(paramDate);
         if (dateInputEl) dateInputEl.value = paramDate;
 
         if (honorsSelectEl) honorsSelectEl.value = savedHonors;
@@ -2206,7 +2169,9 @@
             const trimmed = (val || '').trim() || "July 2026";
             paramDate = trimmed;
             try { localStorage.setItem('techIndroCertDate', trimmed); } catch(e) {}
-            if (dateEl) dateEl.innerText = trimmed;
+            if (dateEl) dateEl.innerText = formatDisplayDate(trimmed);
+            const modalDateEl = document.getElementById('modalIssueDate');
+            if (modalDateEl) modalDateEl.innerText = formatDisplayDate(trimmed);
             showSyncBadge('✓ Date Updated');
         }
 
@@ -2276,7 +2241,6 @@
             });
         }
         if (dateEl) {
-            dateEl.addEventListener('input', () => handleDateChange(dateEl.innerText));
             dateEl.addEventListener('blur', () => handleDateChange(dateEl.innerText));
             dateEl.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') { e.preventDefault(); dateEl.blur(); }
@@ -2733,14 +2697,61 @@
             }, 3000);
         }
 
-        // 13. Social Sharing
+        // 13. Social Sharing & Viral Proof-of-Work
+        function getCanonicalVerifyUrl() {
+            return `${window.location.origin}/verify/${encodeURIComponent(paramCertId)}`;
+        }
+
+        // 1-Click Add Official License to LinkedIn Profile
+        function addToLinkedInProfile() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const certUrl = getCanonicalVerifyUrl();
+            const linkedInUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(paramCourse)}&organizationName=${encodeURIComponent("Tech Indro")}&issueYear=${year}&issueMonth=${month}&certUrl=${encodeURIComponent(certUrl)}&certId=${encodeURIComponent(paramCertId)}`;
+            window.open(linkedInUrl, '_blank');
+            showToast("Opening LinkedIn to add certification to your profile!");
+        }
+
+        // Share with Dynamic OpenGraph Image Preview on LinkedIn Feed
         function shareLinkedIn() {
-            const shareUrl = `${window.location.origin}/certificate.html?certId=${encodeURIComponent(paramCertId)}&studentName=${encodeURIComponent(paramStudent)}`;
+            const shareUrl = getCanonicalVerifyUrl();
             window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank');
         }
+
+        // Share on X (Twitter)
+        function shareTwitter() {
+            const shareUrl = getCanonicalVerifyUrl();
+            const tweet = `Proud to earn my verified Certificate in "${paramCourse}" from @TechIndro! 🎓⚡\n\nVerify credential: ${shareUrl}\n\n#TechIndro #AI #Developer #TechJobs`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank');
+        }
+
+        // Download High-Res 1200x630 Social Card
+        async function downloadLinkedInCard() {
+            try {
+                showToast("Generating your 1200x630 social card...");
+                const res = await fetch(`/api/certificate/og-image/${encodeURIComponent(paramCertId)}`);
+                if (!res.ok) throw new Error("Failed to load image");
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${paramCertId}-social-card.svg`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                showToast("Social card downloaded! You can attach it to your LinkedIn post.");
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to download card. Opening preview directly...");
+                window.open(`/api/certificate/og-image/${encodeURIComponent(paramCertId)}`, '_blank');
+            }
+        }
+
         function shareWhatsApp() {
-            const shareUrl = `${window.location.origin}/certificate.html?certId=${encodeURIComponent(paramCertId)}&studentName=${encodeURIComponent(paramStudent)}`;
-            const text = `I, ${paramStudent}, am proud to share my verified Certificate of Completion from Tech Indro in "${paramCourse}"!\n\nVerify: ${shareUrl}`;
+            const shareUrl = getCanonicalVerifyUrl();
+            const text = `I, ${paramStudent}, am proud to share my verified Certificate of Completion from Tech Indro in "${paramCourse}"!\n\nVerify Credential: ${shareUrl}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>

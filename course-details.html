@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="posthog-analytics.js" defer></script>
     <style>
         .course-hero {
             padding: 8rem 0 4rem;
@@ -270,8 +272,16 @@
                     </ul>
 
                     <a href="#" class="btn-primary" id="enrollBtn"
-                        style="width: 100%; text-align: center; justify-content: center; font-size: 1.1rem; padding: 1rem;">Enroll
-                        Now</a>
+                        style="width: 100%; text-align: center; justify-content: center; font-size: 1.1rem; padding: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="zap" style="width: 18px; height: 18px;"></i> Instant Enroll with Razorpay
+                    </a>
+                    <a href="#" id="customCheckoutBtn" class="btn-secondary"
+                        style="width: 100%; text-align: center; justify-content: center; font-size: 0.92rem; padding: 0.75rem; margin-top: 0.6rem; display: flex; align-items: center; gap: 6px;">
+                        <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i> Proceed to Checkout Page
+                    </a>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.8rem; color: #10b981; margin-top: 0.6rem;">
+                        <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Razorpay Verified (rzp_test_TjBdLNapXFt0Rw)
+                    </div>
                     <a href="ai-mentor.html" class="btn-secondary"
                         style="width: 100%; text-align: center; justify-content: center; font-size: 0.95rem; padding: 0.8rem; margin-top: 0.8rem; border-color: #6366f1; color: #818cf8; background: rgba(99, 102, 241, 0.08); display: inline-flex; align-items: center; gap: 6px;">
                         <i data-lucide="bot" style="width: 16px; height: 16px;"></i> Launch AI Mentor Lab
@@ -559,26 +569,129 @@
                 document.getElementById('courseDesc').innerText = "The requested course could not be loaded.";
             }
 
-            // Handle Enrollment
+            // Handle Enrollment with Razorpay
+            const RAZORPAY_KEY = 'rzp_test_TjBdLNapXFt0Rw';
+            const coursePrice = 2999;
+            const courseName = course?.title || 'Tech Indro Program';
+
+            const checkoutBtn = document.getElementById('customCheckoutBtn');
+            if (checkoutBtn) {
+                checkoutBtn.href = `checkout.html?id=${encodeURIComponent(courseId)}&title=${encodeURIComponent(courseName)}&price=${coursePrice}`;
+            }
+
             const enrollBtn = document.getElementById('enrollBtn');
             if (enrollBtn) {
-                enrollBtn.addEventListener('click', (e) => {
+                enrollBtn.addEventListener('click', async (e) => {
                     e.preventDefault();
                     if (!courseId) return;
 
-                    let enrolled = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
-                    if (!enrolled.includes(courseId)) {
-                        enrolled.push(courseId);
-                        localStorage.setItem('enrolledCourses', JSON.stringify(enrolled));
+                    let savedUser = null;
+                    try {
+                        savedUser = JSON.parse(localStorage.getItem('currentUser') || localStorage.getItem('user') || 'null');
+                    } catch (err) {}
+
+                    const custName = savedUser?.name || 'Tech Indro Student';
+                    const custEmail = savedUser?.email || 'student@techindro.com';
+                    const custPhone = savedUser?.phone || '9876543210';
+
+                    enrollBtn.innerHTML = 'Opening Razorpay... <i data-lucide="loader" class="spin"></i>';
+                    enrollBtn.style.opacity = '0.8';
+
+                    if (typeof Razorpay === 'undefined') {
+                        // Redirect to checkout.html if SDK not loaded
+                        window.location.href = `checkout.html?id=${encodeURIComponent(courseId)}&title=${encodeURIComponent(courseName)}&price=${coursePrice}`;
+                        return;
                     }
 
-                    // Simulate processing
-                    enrollBtn.innerText = "Processing...";
-                    enrollBtn.style.opacity = "0.7";
+                    try {
+                        // Create Razorpay Order
+                        let orderId = 'order_' + Date.now();
+                        try {
+                            const orderRes = await fetch('/api/payments/razorpay/create-order', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    amount: coursePrice,
+                                    courseId,
+                                    courseTitle: courseName,
+                                    customerName: custName,
+                                    customerEmail: custEmail,
+                                    customerPhone: custPhone
+                                })
+                            });
+                            if (orderRes.ok) {
+                                const ordData = await orderRes.json();
+                                if (ordData.orderId && !ordData.orderId.startsWith('order_rzp_')) {
+                                    orderId = ordData.orderId;
+                                }
+                            }
+                        } catch (err) {
+                            console.warn('Backend order call skipped, using direct checkout:', err);
+                        }
 
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 800);
+                        const options = {
+                            key: RAZORPAY_KEY,
+                            amount: coursePrice * 100,
+                            currency: 'INR',
+                            name: 'Tech Indro',
+                            description: `Enroll: ${courseName}`,
+                            image: 'assets/logo.svg',
+                            order_id: orderId.startsWith('order_') ? undefined : orderId,
+                            prefill: {
+                                name: custName,
+                                email: custEmail,
+                                contact: custPhone
+                            },
+                            notes: {
+                                courseId: courseId,
+                                courseTitle: courseName
+                            },
+                            theme: {
+                                color: '#ff6b35'
+                            },
+                            handler: async function (response) {
+                                enrollBtn.innerHTML = 'Enrolled! Unlocking... 🎉';
+                                try {
+                                    await fetch('/api/payments/razorpay/verify', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            razorpay_payment_id: response.razorpay_payment_id,
+                                            razorpay_order_id: response.razorpay_order_id || orderId,
+                                            razorpay_signature: response.razorpay_signature || '',
+                                            courseId,
+                                            courseTitle: courseName,
+                                            customerEmail: custEmail,
+                                            amount: coursePrice
+                                        })
+                                    });
+                                } catch (e) {}
+
+                                let enrolled = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+                                if (!enrolled.includes(courseId)) {
+                                    enrolled.push(courseId);
+                                    localStorage.setItem('enrolledCourses', JSON.stringify(enrolled));
+                                }
+
+                                setTimeout(() => {
+                                    window.location.href = "dashboard.html";
+                                }, 600);
+                            },
+                            modal: {
+                                ondismiss: function () {
+                                    enrollBtn.innerHTML = '<i data-lucide="zap" style="width: 18px; height: 18px;"></i> Instant Enroll with Razorpay';
+                                    enrollBtn.style.opacity = '1';
+                                    lucide.createIcons();
+                                }
+                            }
+                        };
+
+                        const rzp = new Razorpay(options);
+                        rzp.open();
+                    } catch (err) {
+                        console.error('Razorpay popup error:', err);
+                        window.location.href = `checkout.html?id=${encodeURIComponent(courseId)}&title=${encodeURIComponent(courseName)}&price=${coursePrice}`;
+                    }
                 });
             }
         });

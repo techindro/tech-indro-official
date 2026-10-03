@@ -72,6 +72,906 @@
   },
   "jobs": [
     {
+      "id": "adzuna_1790977520722_7s2h2x",
+      "title": "Software Engineer",
+      "company": "Danaher",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5908097945?se=YkJlj6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=59A8B5AAE15D1396D2B24AE47EC52782EFA04007",
+      "source": "adzuna",
+      "snippet": "This job is with Danaher, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Bring more to life",
+      "type": "Full-time",
+      "postedAt": "2026-10-02T19:03:39Z",
+      "fetchedAt": "2026-10-02T21:45:20.722Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=danaher.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977520723_oc94gu",
+      "title": "Senior Software Engineer",
+      "company": "Moody's",
+      "location": "Noida, Gautam Buddha Nagar",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5890717585?se=YkJlj6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=0CF01E3A3B88C3D86F9B38884DC8589CFA479FFA",
+      "source": "adzuna",
+      "snippet": "This job is with Moody's, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At Moody's, we uni",
+      "type": "Full-time",
+      "postedAt": "2026-09-19T20:33:31Z",
+      "fetchedAt": "2026-10-02T21:45:20.723Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=moodys.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977522387_p8v8oh",
+      "title": "AI Developer",
+      "company": "Wissen Technology",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5903777304?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "AI Developer Primary Skill-set (Must have) Generative AI Expertise: 2-3 years of experience in designing and implementing generative AI solutions, including knowledge of various generative and autoreg",
+      "type": "Full-time",
+      "postedAt": "2026-09-30T16:15:39Z",
+      "fetchedAt": "2026-10-02T21:45:22.387Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=wissentechnology.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977523517_buk1c2",
+      "title": "Software Engineer - Full Stack Development",
+      "company": "Kyndryl",
+      "location": "Pune, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5890717320?se=-vhQkaq-8RGdRLcUnFY4TA&utm_medium=api&utm_source=440a82d2&v=8DA059C597F4614F0B5668734633E5C97F3B42AF",
+      "source": "adzuna",
+      "snippet": "This job is with Kyndryl, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Who We Are At Kynd",
+      "type": "Full-time",
+      "postedAt": "2026-09-19T20:33:21Z",
+      "fetchedAt": "2026-10-02T21:45:23.517Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kyndryl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977523517_4thxn1",
+      "title": "Full Stack Developer (UI  Backend), GCP & AI, AVP",
+      "company": "Deutsche Bank",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5853225983?se=-vhQkaq-8RGdRLcUnFY4TA&utm_medium=api&utm_source=440a82d2&v=F34B36B39AA529D98A4B48A88F405652667676AF",
+      "source": "adzuna",
+      "snippet": "This job is with Deutsche Bank, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Position Ove",
+      "type": "Full-time",
+      "postedAt": "2026-08-23T08:07:04Z",
+      "fetchedAt": "2026-10-02T21:45:23.517Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=deutschebank.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977523517_98jiqi",
+      "title": "Java Full Stack Developer - Pune/ Bengaluru/ Chennai/ Mumbai/ Gurugram/ Hyderabad",
+      "company": "Capco",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5857251211?se=-vhQkaq-8RGdRLcUnFY4TA&utm_medium=api&utm_source=440a82d2&v=182C7F72178A2B8EE5BD625E5160C56836BDE817",
+      "source": "adzuna",
+      "snippet": "This job is with Capco, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Job Title: Java Full",
+      "type": "Full-time",
+      "postedAt": "2026-08-27T02:10:40Z",
+      "fetchedAt": "2026-10-02T21:45:23.517Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=capco.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_5l7c28",
+      "title": "Data Scientist",
+      "company": "Kyndryl",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5837138848?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=86962F79F06A105F30676367582529277DE10978",
+      "source": "adzuna",
+      "snippet": "This job is with Kyndryl, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Who We Are At Kynd",
+      "type": "Full-time",
+      "postedAt": "2026-08-12T01:59:18Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kyndryl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_y4n319",
+      "title": "Data Scientist",
+      "company": "Kyndryl",
+      "location": "Mumbai, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5849296977?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=0FFA2BB725355D26B4B624FA5365F48C2D8B894C",
+      "source": "adzuna",
+      "snippet": "This job is with Kyndryl, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Who We Are At Kynd",
+      "type": "Full-time",
+      "postedAt": "2026-08-20T10:04:35Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kyndryl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_o2xh44",
+      "title": "Data Scientist",
+      "company": "eBay",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5857251146?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=43EC4FC89638B5AB4C3D5267B80E2B1135A6C706",
+      "source": "adzuna",
+      "snippet": "This job is with eBay, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At eBay, we're more t",
+      "type": "Full-time",
+      "postedAt": "2026-08-27T02:10:30Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ebay.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_eack32",
+      "title": "SR DATA SCIENTIST",
+      "company": "TE Connectivity",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5887061000?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=380CB727EA1E86AC53A4AD2BD901D1168D15F113",
+      "source": "adzuna",
+      "snippet": "This job is with TE Connectivity, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At TE, you",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T08:30:58Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=teconnectivity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_8e9nhd",
+      "title": "Senior Data Scientist",
+      "company": "Capco",
+      "location": "Pune, Maharashtra",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5837139664?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=ED6BA5AD0CD866FF72094C6C9DA2A79C45B1F7F2",
+      "source": "adzuna",
+      "snippet": "This job is with Capco, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Job Title: Senior Da",
+      "type": "Full-time",
+      "postedAt": "2026-08-12T01:59:40Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=capco.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_ry9sv1",
+      "title": "Principal Data Scientist",
+      "company": "HP",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5896317187?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=312B7C5675955A61C87FFF00D18C4EE32F523E90",
+      "source": "adzuna",
+      "snippet": "This job is with HP, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Principal Data Scientis",
+      "type": "Full-time",
+      "postedAt": "2026-09-24T10:32:01Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hp.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524795_t34t9j",
+      "title": "Data Scientist 2",
+      "company": "HP",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5902562297?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=8DF4D14A5732928CD87D979C05275A0A8D325E5E",
+      "source": "adzuna",
+      "snippet": "This job is with HP, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Data Scientist 2 Descri",
+      "type": "Full-time",
+      "postedAt": "2026-09-29T10:34:29Z",
+      "fetchedAt": "2026-10-02T21:45:24.795Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hp.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524796_4gr979",
+      "title": "Senior Data Scientist",
+      "company": "Kraft Heinz",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5822403303?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=8275CB4E87777E50BE08D22D65CF6F2BCB4647D1",
+      "source": "adzuna",
+      "snippet": "This job is with Kraft Heinz, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Job Descriptio",
+      "type": "Full-time",
+      "postedAt": "2026-07-31T19:50:45Z",
+      "fetchedAt": "2026-10-02T21:45:24.796Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kraftheinz.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524796_4z5mgt",
+      "title": "PRINCIPAL DATA SCIENCE",
+      "company": "TE Connectivity",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5887061537?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=AFA6DE1B8A2D6D21FCAB81CF431E2675BF60D197",
+      "source": "adzuna",
+      "snippet": "This job is with TE Connectivity, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At TE, you",
+      "type": "Full-time",
+      "postedAt": "2026-09-17T08:31:14Z",
+      "fetchedAt": "2026-10-02T21:45:24.796Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=teconnectivity.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524796_176oyt",
+      "title": "Senior Data Scientist",
+      "company": "HP",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5894389937?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=FC021119FD7C4ECE15FE37EFA7D4AA78785E1CAC",
+      "source": "adzuna",
+      "snippet": "This job is with HP, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Senior Data Scientist D",
+      "type": "Full-time",
+      "postedAt": "2026-09-23T04:31:06Z",
+      "fetchedAt": "2026-10-02T21:45:24.796Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hp.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524796_si03ww",
+      "title": "Sr. Data Scientist",
+      "company": "LexisNexis Legal & Professional®",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5892037425?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=02F7B9AE4875C03485ECB7E9A321C04349FCC2A2",
+      "source": "adzuna",
+      "snippet": "This job is with LexisNexis Legal & Professional®, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter dir",
+      "type": "Full-time",
+      "postedAt": "2026-09-21T02:28:37Z",
+      "fetchedAt": "2026-10-02T21:45:24.796Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=lexisnexislegalprofessional.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977524797_xjr3ur",
+      "title": "Senior Data Scientist– Pricing",
+      "company": "HP",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5897683552?se=FpwOkqq-8RGTyvTH5qRQ7A&utm_medium=api&utm_source=440a82d2&v=41A305BFA278EE44986D8928D8B4E8EDE5B00327",
+      "source": "adzuna",
+      "snippet": "This job is with HP, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Senior Data Scientist-",
+      "type": "Full-time",
+      "postedAt": "2026-09-25T06:38:48Z",
+      "fetchedAt": "2026-10-02T21:45:24.797Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hp.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977526050_zr5bu9",
+      "title": "Lead UI Engineer",
+      "company": "Thermo Fisher Scientific",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886486670?se=UHXIkqq-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=6A245C297CC4658B6F9D3FA794AF576CC7D001F8",
+      "source": "adzuna",
+      "snippet": "This job is with Thermo Fisher Scientific, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. W",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:34:56Z",
+      "fetchedAt": "2026-10-02T21:45:26.050Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=thermofisherscientific.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977526050_485k0x",
+      "title": "Sr. Engineering Manager",
+      "company": "Thermo Fisher Scientific",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5886486728?se=UHXIkqq-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=945710DBCC3F1B3A536F30F7243C21CDADD83B63",
+      "source": "adzuna",
+      "snippet": "This job is with Thermo Fisher Scientific, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. W",
+      "type": "Full-time",
+      "postedAt": "2026-09-16T22:34:56Z",
+      "fetchedAt": "2026-10-02T21:45:26.050Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=thermofisherscientific.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977526050_5zu9gi",
+      "title": "MTS-1 Software Engineer - Fullstack",
+      "company": "eBay",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5857251118?se=UHXIkqq-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=554CED14F27E25A70D6F4A2B3F87FC47BCEAA74C",
+      "source": "adzuna",
+      "snippet": "This job is with eBay, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At eBay, we're more t",
+      "type": "Full-time",
+      "postedAt": "2026-08-27T02:10:26Z",
+      "fetchedAt": "2026-10-02T21:45:26.050Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ebay.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977527480_o32v5m",
+      "title": "Customer Success Engineer – Cloud Engineering & Platform Enablement",
+      "company": "Deutsche Bank",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5907102057?se=2rCTk6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=C07E6029009D4210B6A6343C4FE0FE2E611227B2",
+      "source": "adzuna",
+      "snippet": "This job is with Deutsche Bank, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Position Ove",
+      "type": "Full-time",
+      "postedAt": "2026-10-02T09:17:25Z",
+      "fetchedAt": "2026-10-02T21:45:27.480Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=deutschebank.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977527480_lle42o",
+      "title": "Manager, Cloud Network Engineering",
+      "company": "eBay",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5899924442?se=2rCTk6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=641EB7EE5F523CDAC5E0D71BA5AF03652816A1E1",
+      "source": "adzuna",
+      "snippet": "This job is with eBay, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. At eBay, we're more t",
+      "type": "Full-time",
+      "postedAt": "2026-09-26T22:38:30Z",
+      "fetchedAt": "2026-10-02T21:45:27.480Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=ebay.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977527481_tkc7fa",
+      "title": "Data Loss Prevention & Cloud Access Security Broker Engineer",
+      "company": "Kyndryl",
+      "location": "Noida, Ghaziabad",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5905062731?se=2rCTk6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=7C95AE1E8B7680351D12F3B01AB0F7E8D792E31B",
+      "source": "adzuna",
+      "snippet": "This job is with Kyndryl, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Who We Are At Kynd",
+      "type": "Full-time",
+      "postedAt": "2026-10-01T12:36:08Z",
+      "fetchedAt": "2026-10-02T21:45:27.481Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=kyndryl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1790977527481_j9zbb0",
+      "title": "Engineering Manager (C# .NET, Cloud)",
+      "company": "Danaher",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/land/ad/5888967524?se=2rCTk6q-8RGN96JAzfykhw&utm_medium=api&utm_source=440a82d2&v=C2542EDD4A39F68B1215AC4F8CF429303ABEC4C9",
+      "source": "adzuna",
+      "snippet": "This job is with Danaher, an inclusive employer and a member of myGwork – the largest global platform for the LGBTQ business community. Please do not contact the recruiter directly. Bring more to life",
+      "type": "Full-time",
+      "postedAt": "2026-09-18T14:35:28Z",
+      "fetchedAt": "2026-10-02T21:45:27.481Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=danaher.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1790977528465_wtmrq9",
+      "title": "Staff/ Sr Staff - Mixed-Signal Verification",
+      "company": "TYLsemi",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5905434125?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Role Overview The role involves end-to-end mixed-signal verification of high-current IVR designs , including developing behavioral models, performing analog-digital co-simulation, and verifying digita",
+      "type": "Full-time",
+      "postedAt": "2026-10-01T16:27:19Z",
+      "fetchedAt": "2026-10-02T21:45:28.465Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=tylsemi.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "remotive_1790977517822_yer6r3",
+      "title": "Senior back-end Engineer",
+      "company": "Lemon.io",
+      "location": "Europe, USA, UK, Canada, Australia, Ireland, Switzerland, Singapore, Mexico, Iceland, Norway",
+      "salary": null,
+      "url": "https://remotive.com/remote-jobs/software-development/senior-back-end-engineer-2091132",
+      "source": "remotive",
+      "snippet": "Senior Developer? Work Remote. Get Paid Well. Build What Matters.\n \nLemon.io connects hand-picked senior developers with vetted startups across the US and Europe — no bidding wars, no ghosting, just s",
+      "type": "full-time",
+      "postedAt": "2026-09-30T13:15:26",
+      "fetchedAt": "2026-10-02T21:45:17.822Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=lemonio.com&sz=128",
+      "companyTier": "startups",
+      "companyTierLabel": "High-Growth Startups",
+      "companyTierBadge": "High-Growth Startup",
+      "companyTierIcon": "trending-up",
+      "companyTierColor": "#059669",
+      "companyTierBg": "rgba(5, 150, 105, 0.1)",
+      "companyTierBorder": "rgba(5, 150, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "top-asian"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Top Asian"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Top Asian (NUS/NTU)"
+      ]
+    },
+    {
       "id": "adzuna_1790821804288_2b6j1o",
       "title": "Software Engineer",
       "company": "Navaratan Technologies Private Limited",
@@ -13082,23 +13982,37 @@
     }
   ],
   "jobsMeta": {
-    "lastFetchedAt": "2026-10-01T02:30:21.816Z",
-    "totalFetched": 357,
+    "lastFetchedAt": "2026-10-02T21:45:33.727Z",
+    "totalFetched": 384,
     "providers": {
-      "adzuna": 1046,
-      "remotive": 580
+      "adzuna": 1157,
+      "remotive": 648
     }
   },
   "certificates": [
     {
       "certId": "TI-CERT-2026-94",
-      "studentName": "Satyam Yaduvanshi",
+      "studentName": "Satyam Raghuvanshi",
       "courseName": "Applied AI and Data Science Program",
-      "issueDate": "Sept 2026",
+      "issueDate": "in July 2026",
       "honors": "GRADE A+ HONORS",
-      "ledgerHash": "0xA798554D5CFF2576BA031E2ACA2B5C4C9D63",
+      "ledgerHash": "0x575D34D0C9B711CA79AC7182E55AC5C5EB92CEC6",
       "aiScore": "98.4%",
-      "verifiedAt": "2026-09-14T01:24:51.364Z"
+      "verifiedAt": "2026-09-14T01:24:51.364Z",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-01T18:06:58.363Z"
     },
     {
       "certId": "TI-CERT-2026-5534",
@@ -13252,7 +14166,21 @@
       "honors": "none",
       "ledgerHash": "0xF8BF26DF6045C079F3C21BBDE3F5415627242B62",
       "aiScore": "98.4%",
-      "verifiedAt": "2026-09-18T20:51:46.382Z"
+      "verifiedAt": "2026-09-18T20:51:46.382Z",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-01T16:10:35.238Z"
     },
     {
       "certId": "TI-CERT-2026-28754",
@@ -13301,6 +14229,78 @@
       "verifiedLedger": "Tech Indro Academic Ledger Node #1",
       "updatedAt": "2026-10-01T02:31:53.146Z",
       "createdAt": "2026-10-01T02:31:53.146Z"
+    },
+    {
+      "certId": "TI-CERT-2026-65731",
+      "studentName": "Aarav Patel",
+      "courseName": "FAANG DSA & Algorithmic Problem Solving",
+      "issueDate": "July 2026",
+      "honors": "none",
+      "ledgerHash": "0x16340F7D5AFD37FE847BD962DFE36182CEE9DEEA",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-01T16:10:43.646Z",
+      "createdAt": "2026-10-01T16:10:43.646Z"
+    },
+    {
+      "certId": "TI-CERT-2026-92265",
+      "studentName": "Aarav Patel",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "none",
+      "ledgerHash": "0x0A6AAB58A1E92CB09F3F531E96F2B02E51944421",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-01T16:28:42.819Z",
+      "createdAt": "2026-10-01T16:10:49.698Z"
+    },
+    {
+      "certId": "TI-CERT-2026-52458",
+      "studentName": "Satyam Raghuvanshi",
+      "courseName": "Applied AI and Data Science Program",
+      "issueDate": "in July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0x290B1DF6AF5862A6643BA38F1130697F02275A2E",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-02T21:50:21.838Z",
+      "createdAt": "2026-10-01T16:32:07.794Z"
     }
   ]
 }

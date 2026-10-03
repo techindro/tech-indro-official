@@ -72,6 +72,37 @@ window.TechIndroAuth = {
             console.warn('[TechIndroAuth] Session check offline or skipped:', e.message);
         }
         return this.getUser();
+    },
+    async updateProfile(profileData) {
+        const user = this.getUser();
+        const payload = { ...profileData };
+        if (user && user.id && !payload.id) payload.id = user.id;
+        if (user && user.email && !payload.email) payload.email = user.email;
+
+        try {
+            const res = await this.fetchWithAuth('/auth/profile', {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (res.ok && data.user) {
+                this.setSession(data.user, data.token || this.getToken());
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                localStorage.setItem('user', JSON.stringify(data.user));
+                return { success: true, user: data.user, message: data.message };
+            } else {
+                throw new Error(data.error || 'Failed to update profile on server');
+            }
+        } catch (err) {
+            // Local fallback if offline or standalone
+            console.warn('[TechIndroAuth] Offline profile update fallback:', err.message);
+            const mergedUser = Object.assign({}, user || {}, payload, { updatedAt: new Date().toISOString() });
+            this.setSession(mergedUser, this.getToken());
+            localStorage.setItem('currentUser', JSON.stringify(mergedUser));
+            localStorage.setItem('user', JSON.stringify(mergedUser));
+            return { success: true, user: mergedUser, message: 'Profile saved locally!' };
+        }
     }
 };
 
