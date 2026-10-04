@@ -14,6 +14,7 @@ import {
   Linking,
   Alert,
   Platform,
+  Image,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -104,6 +105,38 @@ const CATEGORIES = [
   { label: 'Video', icon: 'videocam-outline' },
   { label: 'Audio', icon: 'musical-notes-outline' },
 ];
+
+function ToolLogo({ link, name, iconConfig }: { link: string; name: string; iconConfig: { name: any; color: string; bg: string } }) {
+  const [imgError, setImgError] = useState(false);
+  let domain = '';
+  try {
+    const match = link.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/im);
+    domain = match ? match[1] : '';
+  } catch {
+    domain = '';
+  }
+
+  const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : '';
+
+  if (!imgError && faviconUrl) {
+    return (
+      <View style={[styles.iconCircle, { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#e2e8f0', padding: 5, overflow: 'hidden' }]}>
+        <Image
+          source={{ uri: faviconUrl }}
+          style={{ width: '100%', height: '100%', borderRadius: 8 }}
+          resizeMode="contain"
+          onError={() => setImgError(true)}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <View style={[styles.iconCircle, { backgroundColor: iconConfig.bg }]}>
+      <Ionicons name={iconConfig.name} size={22} color={iconConfig.color} />
+    </View>
+  );
+}
 
 export default function AiToolsScreen() {
   const router = useRouter();
@@ -274,9 +307,7 @@ export default function AiToolsScreen() {
           return (
             <View style={[styles.toolCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <View style={styles.toolTopRow}>
-                <View style={[styles.iconCircle, { backgroundColor: iconConfig.bg }]}>
-                  <Ionicons name={iconConfig.name} size={22} color={iconConfig.color} />
-                </View>
+                <ToolLogo link={item.link} name={item.name} iconConfig={iconConfig} />
 
                 <View style={{ flex: 1 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

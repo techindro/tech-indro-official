@@ -595,15 +595,31 @@ export default function HomeScreen() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                   <View
                     style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 22,
-                      backgroundColor: '#f59e0b',
+                      width: 46,
+                      height: 46,
+                      borderRadius: 23,
+                      backgroundColor: '#ffedd5',
+                      borderWidth: 2,
+                      borderColor: '#f59e0b',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      position: 'relative',
                     }}
                   >
-                    <Ionicons name="headset" size={22} color="#ffffff" />
+                    <Text style={{ fontSize: 24 }}>🤖</Text>
+                    <View
+                      style={{
+                        position: 'absolute',
+                        bottom: -1,
+                        right: -1,
+                        width: 13,
+                        height: 13,
+                        borderRadius: 7,
+                        backgroundColor: '#16a34a',
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                      }}
+                    />
                   </View>
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -987,7 +1003,11 @@ export default function HomeScreen() {
             </Text>
             <View style={styles.quoteAuthor}>
               <View style={styles.quoteAvatar}>
-                <Text style={{ color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18 }}>SP</Text>
+                <Image
+                  source={require('@/assets/images/shubham-patel.jpg')}
+                  style={styles.quoteAvatarImg}
+                  resizeMode="cover"
+                />
               </View>
               <View>
                 <Text style={styles.quoteAuthorName}>Shubham Patel</Text>
@@ -1206,7 +1226,7 @@ export default function HomeScreen() {
             <Text style={styles.floatingHelpText}>Need Help? Chat with us!</Text>
           </View>
           <View style={styles.floatingHelpCircle}>
-            <Ionicons name="school" size={20} color="#ffffff" />
+            <Ionicons name="chatbubbles" size={20} color="#ffffff" />
           </View>
         </TouchableOpacity>
       </View>
@@ -2128,9 +2148,9 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
   },
   quoteAvatar: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
@@ -2141,6 +2161,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 4,
+    overflow: 'hidden',
+  },
+  quoteAvatarImg: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 28,
   },
   quoteAuthorName: {
     fontSize: FontSize.lg,

@@ -338,7 +338,7 @@ export default function ShikshakScreen() {
       >
         {isAi && (
           <View style={styles.aiAvatarCircle}>
-            <Ionicons name="headset" size={18} color="#ffffff" />
+            <Text style={{ fontSize: 18 }}>🤖</Text>
           </View>
         )}
 
@@ -572,7 +572,7 @@ export default function ShikshakScreen() {
             loading ? (
               <View style={styles.typingIndicator}>
                 <View style={styles.aiAvatarCircle}>
-                  <Ionicons name="headset" size={18} color="#ffffff" />
+                  <Text style={{ fontSize: 18 }}>🤖</Text>
                 </View>
                 <View
                   style={[
@@ -837,10 +837,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   aiAvatarCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#fffbeb',
+    borderWidth: 1.5,
+    borderColor: '#fde68a',
     alignItems: 'center',
     justifyContent: 'center',
   },

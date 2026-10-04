@@ -31,7 +31,7 @@ export default function ChatBubble({ message, isUser: isUserProp, isLoading }: C
     return (
       <View style={[styles.row]}>
         <View style={styles.aiAvatar}>
-          <Ionicons name="hardware-chip" size={16} color={Colors.white} />
+          <Text style={{ fontSize: 18 }}>🤖</Text>
         </View>
         <View style={[styles.bubble, styles.aiBubble]}>
           <View style={styles.loadingDots}>
@@ -82,7 +82,7 @@ export default function ChatBubble({ message, isUser: isUserProp, isLoading }: C
     <View style={[styles.row, isUser && styles.rowUser]}>
       {!isUser && (
         <View style={styles.aiAvatar}>
-          <Ionicons name="hardware-chip" size={16} color={Colors.white} />
+          <Text style={{ fontSize: 18 }}>🤖</Text>
         </View>
       )}
       <View style={[styles.bubble, isUser ? styles.userBubble : styles.aiBubble]}>
@@ -109,15 +109,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   aiAvatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: Colors.primaryDark,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#fff7ed',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 2,
-    borderWidth: 1,
-    borderColor: Colors.primary,
+    borderWidth: 1.5,
+    borderColor: '#ffedd5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 1,
   },
   bubble: {
     maxWidth: '82%',

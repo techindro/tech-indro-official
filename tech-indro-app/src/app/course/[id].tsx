@@ -25,6 +25,7 @@ import Colors, {
 } from '@/constants/Colors';
 import { fetchCourseById, type Course } from '@/services/api';
 import { useTheme } from '@/hooks/useTheme';
+import { getCourseThumbnail, DEFAULT_COURSE_IMAGE } from '@/constants/CourseImages';
 
 const RESOURCE_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
   youtube: 'logo-youtube',
@@ -86,7 +87,11 @@ export default function CourseDetailScreen() {
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         {/* Hero Image with Gradient Overlay */}
         <View style={styles.imageContainer}>
-          <Image source={{ uri: course.image }} style={styles.courseImage} />
+          <Image
+            source={{ uri: getCourseThumbnail(course) }}
+            style={styles.courseImage}
+            resizeMode="cover"
+          />
           <LinearGradient
             colors={['transparent', 'rgba(0,0,0,0.75)']}
             style={styles.imageOverlay}

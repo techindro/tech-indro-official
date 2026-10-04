@@ -1,11 +1,12 @@
 /**
  * Course Card — reusable component matching website's card design
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors, { BorderRadius, FontSize, FontWeight, Spacing } from '@/constants/Colors';
 import type { Course } from '@/services/api';
+import { getCourseThumbnail, DEFAULT_COURSE_IMAGE } from '@/constants/CourseImages';
 
 interface CourseCardProps {
   course: Course;
@@ -13,10 +14,17 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ course, onPress }: CourseCardProps) {
+  const [imgSrc, setImgSrc] = useState(getCourseThumbnail(course));
+
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}>
       {/* Thumbnail */}
-      <Image source={{ uri: course.image }} style={styles.thumbnail} />
+      <Image
+        source={{ uri: imgSrc }}
+        style={styles.thumbnail}
+        resizeMode="cover"
+        onError={() => setImgSrc(DEFAULT_COURSE_IMAGE)}
+      />
       <View style={styles.badge}>
         <Text style={styles.badgeText}>{course.duration}</Text>
       </View>
