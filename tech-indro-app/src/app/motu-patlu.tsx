@@ -597,27 +597,50 @@ export default function MotuPatluGameScreen() {
   const insets = useSafeAreaInsets();
   const { colors, isDark } = useTheme();
 
+  // Selected Stage / Tier (Basic, Medium, Data Science, AI/ML)
   const [activeTierId, setActiveTierId] = useState<string>('basic');
   const [activeMascotKey, setActiveMascotKey] = useState<string>('motu');
+
+  // Gamified Stats
   const [streakDays, setStreakDays] = useState(5);
   const [samosaXp, setSamosaXp] = useState(320);
-  const [samosas, setSamosas] = useState(5);
-  const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
+  const [samosas, setSamosas] = useState(5); // Hearts / Lives
 
-  // Lesson Interactive States
+  // Progress tracking: unlocked index per stage
+  const [unlockedByTier, setUnlockedByTier] = useState<Record<string, number>>({
+    basic: 0,
+    medium: 0,
+    datascience: 0,
+    aiml: 0,
+  });
+
+  // Chests claimed
+  const [claimedChests, setClaimedChests] = useState<Record<string, boolean>>({});
+
+  // Active Lesson Modal
+  const [lessonModalVisible, setLessonModalVisible] = useState(false);
+  const [activeLessonIndex, setActiveLessonIndex] = useState(0);
+
+  // Lesson Interactive State
   const [selectedBlocks, setSelectedBlocks] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+
+  // Modals
   const [celebrationVisible, setCelebrationVisible] = useState(false);
+  const [guidebookVisible, setGuidebookVisible] = useState(false);
+  const [chestModalVisible, setChestModalVisible] = useState(false);
+  const [rewardAmount, setRewardAmount] = useState(50);
 
   const activeMascot = MASCOTS[activeMascotKey] || MASCOTS.motu;
   const currentTier = LEVEL_TIERS.find((t) => t.id === activeTierId) || LEVEL_TIERS[0];
   const lessons = currentTier.lessons;
-  const currentLesson = lessons[currentLessonIndex] || lessons[0];
+  const unlockedIndex = unlockedByTier[activeTierId] ?? 0;
+  const playingLesson = lessons[activeLessonIndex] || lessons[0];
 
-  // Load progress from storage
+  // Load progress on mount
   useEffect(() => {
     (async () => {
       try {
@@ -627,6 +650,16 @@ export default function MotuPatluGameScreen() {
         }
         const savedXp = await AsyncStorage.getItem('tech_indro_samosa_xp');
         if (savedXp) setSamosaXp(parseInt(savedXp, 10));
+
+        const savedProgress = await AsyncStorage.getItem('tech_indro_tier_progress');
+        if (savedProgress) {
+          setUnlockedByTier((prev) => ({ ...prev, ...JSON.parse(savedProgress) }));
+        }
+
+        const savedChests = await AsyncStorage.getItem('tech_indro_claimed_chests');
+        if (savedChests) {
+          setClaimedChests(JSON.parse(savedChests));
+        }
       } catch (e) {}
     })();
   }, []);
@@ -647,24 +680,65 @@ export default function MotuPatluGameScreen() {
     }
   };
 
-  const handleVoiceDialogue = () => {
+  const handleVoiceDialogue = (customText?: string, speaker?: string) => {
     if (isSpeaking) {
       stopAnyVoice();
       setIsSpeaking(false);
       return;
     }
-    const textToSpeak = `${activeMascot.name} says: ${currentLesson.dialogue}`;
+    const textToSpeak = customText || `${activeMascot.name} says: ${playingLesson.dialogue}`;
     playIndicVoice({
       text: textToSpeak,
       language: 'hi',
-      speaker: activeMascot.voiceSpeaker,
+      speaker: speaker || activeMascot.voiceSpeaker,
       onStart: () => setIsSpeaking(true),
       onEnd: () => setIsSpeaking(false),
       onError: () => setIsSpeaking(false),
     });
   };
 
-  // Block arrange click handler
+  // Open Lesson Modal
+  const handleOpenLesson = (index: number) => {
+    if (index > unlockedIndex) {
+      Alert.alert(
+        'Lesson Locked',
+        'Pichle puzzles complete karo ya active challenge khelo to unlock this step!',
+        [{ text: 'Theek Hai' }]
+      );
+      return;
+    }
+    setActiveLessonIndex(index);
+    setSelectedBlocks([]);
+    setSelectedOption(null);
+    setIsAnswered(false);
+    setIsCorrect(false);
+    setLessonModalVisible(true);
+    stopAnyVoice();
+    setIsSpeaking(false);
+  };
+
+  // Chest Click
+  const handleOpenChest = (index: number) => {
+    const chestKey = `${activeTierId}_chest_${index}`;
+    if (index > unlockedIndex) {
+      Alert.alert('Chest Locked', 'Is milestone chest tak pahuchne ke liye pehle ke lessons complete karo!');
+      return;
+    }
+    if (claimedChests[chestKey]) {
+      Alert.alert('Already Claimed', 'Aapne ye Samosa XP treasure pehle hi claim kar liya hai!');
+      return;
+    }
+    setRewardAmount(50);
+    setChestModalVisible(true);
+    const newChests = { ...claimedChests, [chestKey]: true };
+    setClaimedChests(newChests);
+    AsyncStorage.setItem('tech_indro_claimed_chests', JSON.stringify(newChests)).catch(() => {});
+    const newXp = samosaXp + 50;
+    setSamosaXp(newXp);
+    AsyncStorage.setItem('tech_indro_samosa_xp', newXp.toString()).catch(() => {});
+  };
+
+  // Toggle Block in Arrange
   const handleToggleBlock = (block: string) => {
     if (isAnswered) return;
     if (selectedBlocks.includes(block)) {
@@ -679,13 +753,13 @@ export default function MotuPatluGameScreen() {
     if (isAnswered) return;
 
     let correct = false;
-    if (currentLesson.type === 'arrange') {
-      const target = currentLesson.correctOrder || [];
+    if (playingLesson.type === 'arrange') {
+      const target = playingLesson.correctOrder || [];
       correct =
         selectedBlocks.length === target.length &&
         selectedBlocks.every((val, idx) => val === target[idx]);
     } else {
-      correct = selectedOption === currentLesson.correctAnswer;
+      correct = selectedOption === playingLesson.correctAnswer;
     }
 
     setIsCorrect(correct);
@@ -696,6 +770,14 @@ export default function MotuPatluGameScreen() {
       setSamosaXp(newXp);
       AsyncStorage.setItem('tech_indro_samosa_xp', newXp.toString()).catch(() => {});
 
+      // Unlock next lesson if this was the active one
+      if (activeLessonIndex === unlockedIndex && unlockedIndex < lessons.length - 1) {
+        const nextUnlocked = unlockedIndex + 1;
+        const newProgress = { ...unlockedByTier, [activeTierId]: nextUnlocked };
+        setUnlockedByTier(newProgress);
+        AsyncStorage.setItem('tech_indro_tier_progress', JSON.stringify(newProgress)).catch(() => {});
+      }
+
       const cheer = `${activeMascot.name} says: Wah kya baat hai! Bilkul sahi jawaab!`;
       playIndicVoice({
         text: cheer,
@@ -705,12 +787,15 @@ export default function MotuPatluGameScreen() {
         onEnd: () => setIsSpeaking(false),
       });
 
-      if (currentLessonIndex === lessons.length - 1) {
-        setTimeout(() => setCelebrationVisible(true), 1000);
+      if (activeLessonIndex === lessons.length - 1) {
+        setTimeout(() => {
+          setLessonModalVisible(false);
+          setCelebrationVisible(true);
+        }, 1200);
       }
     } else {
-      setSamosas(Math.max(0, samosas - 1));
-      const hint = `${activeMascot.name} says: Arrey dhyan se socho! Fir se koshish karo!`;
+      setSamosas((prev) => Math.max(0, prev - 1));
+      const hint = `${activeMascot.name} says: Arrey dhyan se socho! Fir se try karo!`;
       playIndicVoice({
         text: hint,
         language: 'hi',
@@ -722,8 +807,8 @@ export default function MotuPatluGameScreen() {
   };
 
   const handleNextLesson = () => {
-    if (currentLessonIndex < lessons.length - 1) {
-      setCurrentLessonIndex(currentLessonIndex + 1);
+    if (activeLessonIndex < lessons.length - 1) {
+      setActiveLessonIndex(activeLessonIndex + 1);
       setSelectedBlocks([]);
       setSelectedOption(null);
       setIsAnswered(false);
@@ -731,6 +816,7 @@ export default function MotuPatluGameScreen() {
       stopAnyVoice();
       setIsSpeaking(false);
     } else {
+      setLessonModalVisible(false);
       setCelebrationVisible(true);
     }
   };
@@ -742,441 +828,920 @@ export default function MotuPatluGameScreen() {
     setIsCorrect(false);
   };
 
-  return (
-    <SafeAreaView style={[styles.container, { backgroundColor: isDark ? '#0B0F19' : '#F8FAFC' }]} edges={['top']}>
-      {/* Top Header */}
-      <View style={[styles.header, { borderBottomColor: isDark ? '#1E293B' : '#E2E8F0' }]}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={[styles.iconButton, { backgroundColor: isDark ? '#1E293B' : '#EDF2F7' }]}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="arrow-back" size={20} color={isDark ? '#F1F5F9' : '#0F172A'} />
-        </TouchableOpacity>
+  // Duolingo winding S-curve horizontal offsets
+  const PATH_OFFSETS = [0, -44, -58, -32, 12, 50, 58, 28, -16, 0];
 
-        <View style={styles.headerTitleWrap}>
-          <Text style={[styles.headerTitle, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-            Motu &amp; Patlu Coding Quest
-          </Text>
-          <View style={styles.proPill}>
-            <Ionicons name="sparkles" size={11} color="#FFF" />
-            <Text style={styles.proPillText}>GAMIFIED</Text>
+  const completedCount = Math.min(lessons.length, unlockedIndex);
+  const progressRatio = lessons.length > 0 ? (completedCount / lessons.length) * 100 : 0;
+
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor: isDark ? '#0B0F19' : '#F7F9FA' }]} edges={['top']}>
+      {/* 1. DUOLINGO TOP STATS BAR */}
+      <View style={[styles.duoHeader, { backgroundColor: isDark ? '#111827' : '#FFFFFF', borderBottomColor: isDark ? '#1F2937' : '#E5E7EB' }]}>
+        <View style={styles.duoHeaderLeft}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={[styles.backCircleBtn, { backgroundColor: isDark ? '#1F2937' : '#F3F4F6' }]}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="arrow-back" size={20} color={isDark ? '#F9FAFB' : '#111827'} />
+          </TouchableOpacity>
+
+          <View style={[styles.langChip, { borderColor: isDark ? '#374151' : '#E5E7EB', backgroundColor: isDark ? '#1F2937' : '#FFFFFF' }]}>
+            <Ionicons name="code-slash" size={15} color="#58CC02" />
+            <Text style={[styles.langChipText, { color: isDark ? '#F9FAFB' : '#111827' }]}>Python 3</Text>
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={handleVoiceDialogue}
-          style={[
-            styles.soundBtn,
-            { backgroundColor: isSpeaking ? '#EA580C' : isDark ? '#1E293B' : '#EDF2F7' },
-          ]}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name={isSpeaking ? 'volume-high' : 'volume-medium-outline'}
-            size={20}
-            color={isSpeaking ? '#FFF' : isDark ? '#CBD5E1' : '#475569'}
-          />
-        </TouchableOpacity>
+        <View style={styles.duoStatsRow}>
+          {/* Streak */}
+          <View style={[styles.statBadge, styles.streakBadge]}>
+            <Ionicons name="flame" size={17} color="#FF9600" />
+            <Text style={[styles.statBadgeText, { color: '#FF9600' }]}>{streakDays}</Text>
+          </View>
+
+          {/* Samosa XP / Gems */}
+          <View style={[styles.statBadge, styles.gemsBadge]}>
+            <Ionicons name="diamond" size={16} color="#1CB0F6" />
+            <Text style={[styles.statBadgeText, { color: '#1CB0F6' }]}>{samosaXp}</Text>
+          </View>
+
+          {/* Hearts / Lives */}
+          <View style={[styles.statBadge, styles.heartsBadge]}>
+            <Ionicons name="heart" size={17} color="#FF4B4B" />
+            <Text style={[styles.statBadgeText, { color: '#FF4B4B' }]}>{samosas}</Text>
+          </View>
+
+          {/* Pro Shield */}
+          <LinearGradient
+            colors={['#9333EA', '#6366F1']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.proShieldBadge}
+          >
+            <Ionicons name="shield" size={13} color="#FFF" />
+            <Text style={styles.proShieldText}>PRO</Text>
+          </LinearGradient>
+        </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Stats Bar */}
-        <View style={[styles.statsBar, { backgroundColor: isDark ? '#131D31' : '#FFFFFF' }]}>
-          <View style={styles.statItem}>
-            <View style={[styles.statIconBadge, { backgroundColor: '#EA580C22' }]}>
-              <Ionicons name="flame" size={18} color="#EA580C" />
+        {/* 2. DUOLINGO STAGE NAV PILLS */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.stageNavScroll}
+        >
+          {LEVEL_TIERS.map((tier) => {
+            const isActive = tier.id === activeTierId;
+            return (
+              <TouchableOpacity
+                key={tier.id}
+                onPress={() => setActiveTierId(tier.id)}
+                activeOpacity={0.8}
+                style={[
+                  styles.stageNavPill,
+                  isActive
+                    ? [styles.stageNavPillActive, { backgroundColor: tier.color, borderColor: tier.color }]
+                    : [
+                        styles.stageNavPillInactive,
+                        {
+                          backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
+                          borderColor: isDark ? '#374151' : '#E5E7EB',
+                        },
+                      ],
+                ]}
+              >
+                <Ionicons
+                  name={tier.iconName}
+                  size={15}
+                  color={isActive ? '#FFFFFF' : isDark ? '#9CA3AF' : '#6B7280'}
+                />
+                <Text
+                  style={[
+                    styles.stageNavPillText,
+                    { color: isActive ? '#FFFFFF' : isDark ? '#E5E7EB' : '#374151' },
+                  ]}
+                >
+                  {tier.title}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        {/* 3. DUOLINGO UNIT 3D BANNER CARD */}
+        <View
+          style={[
+            styles.unitCard,
+            {
+              backgroundColor: currentTier.color,
+              borderBottomColor:
+                currentTier.id === 'basic'
+                  ? '#0369A1'
+                  : currentTier.id === 'medium'
+                  ? '#B45309'
+                  : currentTier.id === 'datascience'
+                  ? '#047857'
+                  : '#6D28D9',
+            },
+          ]}
+        >
+          <View style={styles.unitCardTop}>
+            <View style={styles.unitBadgeRow}>
+              <View style={styles.unitBadgePill}>
+                <Text style={styles.unitBadgePillText}>{currentTier.badge}</Text>
+              </View>
+              <Text style={styles.unitProgressText}>
+                {completedCount}/{lessons.length} Completed
+              </Text>
             </View>
-            <View>
-              <Text style={[styles.statValue, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>{streakDays} Days</Text>
-              <Text style={styles.statLabel}>Streak</Text>
-            </View>
+
+            <TouchableOpacity
+              onPress={() => setGuidebookVisible(true)}
+              style={styles.guidebookBtn}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="book-outline" size={15} color="#FFFFFF" />
+              <Text style={styles.guidebookBtnText}>GUIDEBOOK</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.statDivider} />
+          <Text style={styles.unitTitleText}>{currentTier.title}: Quest Map</Text>
+          <Text style={styles.unitDescText}>{currentTier.description}</Text>
 
-          <View style={styles.statItem}>
-            <View style={[styles.statIconBadge, { backgroundColor: '#F59E0B22' }]}>
-              <Ionicons name="ribbon" size={18} color="#F59E0B" />
-            </View>
-            <View>
-              <Text style={[styles.statValue, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>{samosaXp} XP</Text>
-              <Text style={styles.statLabel}>Coding Points</Text>
-            </View>
-          </View>
-
-          <View style={styles.statDivider} />
-
-          <View style={styles.statItem}>
-            <View style={[styles.statIconBadge, { backgroundColor: '#10B98122' }]}>
-              <Ionicons name="shield-checkmark" size={18} color="#10B981" />
-            </View>
-            <View>
-              <Text style={[styles.statValue, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>{samosas}/5</Text>
-              <Text style={styles.statLabel}>Energy</Text>
-            </View>
+          {/* Unit Progress Bar */}
+          <View style={styles.unitProgressBarTrack}>
+            <View style={[styles.unitProgressBarFill, { width: `${progressRatio}%` }]} />
           </View>
         </View>
 
-        {/* Progressive Roadmap Stage Tabs (Basic -> Medium -> Data Science -> AI/ML) */}
-        <View style={styles.tierSection}>
-          <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-              Learning Roadmap Stages
-            </Text>
-            <Text style={styles.sectionSub}>Progress from Python basics to AI &amp; Machine Learning</Text>
-          </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tierList}>
-            {LEVEL_TIERS.map((tier) => {
-              const isActive = tier.id === activeTierId;
-              return (
-                <TouchableOpacity
-                  key={tier.id}
-                  onPress={() => {
-                    setActiveTierId(tier.id);
-                    setCurrentLessonIndex(0);
-                    handleResetChallenge();
-                  }}
-                  activeOpacity={0.8}
+        {/* 4. DUOLINGO S-CURVE WINDING LEARNING PATH */}
+        <View style={styles.pathArea}>
+          {lessons.map((lesson, idx) => {
+            const isCompleted = idx < unlockedIndex;
+            const isActive = idx === unlockedIndex;
+            const isLocked = idx > unlockedIndex;
+            const isChest = idx === 4 || idx === 9; // Milestone Chests at node 5 and 10
+            const chestKey = `${activeTierId}_chest_${idx}`;
+            const isChestClaimed = claimedChests[chestKey];
+            const offset = PATH_OFFSETS[idx % PATH_OFFSETS.length];
+
+            // Render inline character dialog after node 2, 5, 8
+            const showMotuBalloon = idx === 2;
+            const showPatluBalloon = idx === 5;
+            const showChingamBalloon = idx === 8;
+
+            return (
+              <View key={lesson.id} style={styles.pathStepWrapper}>
+                {/* Connecting Path Line to next node */}
+                {idx > 0 && (
+                  <View
+                    style={[
+                      styles.pathConnectorLine,
+                      {
+                        backgroundColor:
+                          idx <= unlockedIndex
+                            ? currentTier.color
+                            : isDark
+                            ? '#374151'
+                            : '#E5E7EB',
+                      },
+                    ]}
+                  />
+                )}
+
+                {/* Stepping Stone Node */}
+                <View
                   style={[
-                    styles.tierCard,
+                    styles.nodeContainer,
                     {
-                      backgroundColor: isActive ? tier.color : isDark ? '#131D31' : '#FFFFFF',
-                      borderColor: isActive ? tier.color : isDark ? '#1E293B' : '#E2E8F0',
+                      transform: [{ translateX: offset }],
                     },
                   ]}
                 >
-                  <View style={styles.tierBadgeRow}>
-                    <Text style={[styles.tierBadgeText, { color: isActive ? '#FFF' : tier.color }]}>
-                      {tier.badge}
-                    </Text>
-                    <Ionicons name={tier.iconName} size={15} color={isActive ? '#FFF' : tier.color} />
+                  {/* Floating "START" Tooltip above active node */}
+                  {isActive && (
+                    <View style={styles.startTooltipContainer}>
+                      <View style={[styles.startTooltipBadge, { backgroundColor: currentTier.color }]}>
+                        <Text style={styles.startTooltipText}>START</Text>
+                      </View>
+                      <View
+                        style={[
+                          styles.startTooltipArrow,
+                          { borderTopColor: currentTier.color },
+                        ]}
+                      />
+                    </View>
+                  )}
+
+                  {/* 3D Stepping Stone Button */}
+                  <TouchableOpacity
+                    onPress={() => (isChest ? handleOpenChest(idx) : handleOpenLesson(idx))}
+                    activeOpacity={0.82}
+                    style={[
+                      isChest ? styles.chestNodeBtn : styles.circleNodeBtn,
+                      isCompleted
+                        ? styles.nodeBtnCompleted
+                        : isActive
+                        ? [styles.nodeBtnActive, { backgroundColor: currentTier.color }]
+                        : isLocked
+                        ? isDark
+                          ? styles.nodeBtnLockedDark
+                          : styles.nodeBtnLockedLight
+                        : {},
+                    ]}
+                  >
+                    {isChest ? (
+                      <Ionicons
+                        name="gift"
+                        size={30}
+                        color={isChestClaimed ? '#FDE68A' : '#FFFFFF'}
+                      />
+                    ) : isCompleted ? (
+                      <Ionicons name="checkmark" size={32} color="#FFFFFF" />
+                    ) : isActive ? (
+                      <Ionicons name="star" size={32} color="#FFFFFF" />
+                    ) : (
+                      <Ionicons
+                        name="lock-closed"
+                        size={24}
+                        color={isDark ? '#6B7280' : '#9CA3AF'}
+                      />
+                    )}
+                  </TouchableOpacity>
+
+                  {/* Node label */}
+                  <Text
+                    style={[
+                      styles.nodeLabelText,
+                      {
+                        color: isActive
+                          ? isDark
+                            ? '#F9FAFB'
+                            : '#111827'
+                          : isDark
+                          ? '#9CA3AF'
+                          : '#6B7280',
+                        fontWeight: isActive ? '800' : '600',
+                      },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {isChest ? (isChestClaimed ? 'Claimed' : '+50 XP Chest') : `Lesson ${idx + 1}`}
+                  </Text>
+                </View>
+
+                {/* Inline Character Dialogue Balloon: Motu */}
+                {showMotuBalloon && (
+                  <View
+                    style={[
+                      styles.characterBalloonCard,
+                      {
+                        backgroundColor: isDark ? '#1F2937' : '#FFF7ED',
+                        borderColor: '#EA580C',
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require('../../assets/images/characters/motu-character.png')}
+                      style={styles.characterBalloonAvatar}
+                    />
+                    <View style={styles.characterBalloonContent}>
+                      <View style={styles.characterBalloonNameRow}>
+                        <Text style={[styles.characterBalloonName, { color: '#EA580C' }]}>
+                          Motu (Coding Hero)
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleVoiceDialogue(
+                              'Khaali pet mere dimaag ki batti nahi jalti! Samosa khao aur mast code banao!',
+                              'arvind'
+                            )
+                          }
+                          style={[styles.miniSpeakerBtn, { backgroundColor: '#EA580C' }]}
+                        >
+                          <Ionicons name="volume-high" size={13} color="#FFF" />
+                        </TouchableOpacity>
+                      </View>
+                      <Text
+                        style={[
+                          styles.characterBalloonSpeech,
+                          { color: isDark ? '#E5E7EB' : '#7C2D12' },
+                        ]}
+                      >
+                        "Khaali pet dimaag nahi chalta! Jaldi se variable aur math logic puzzles solve karo!"
+                      </Text>
+                    </View>
                   </View>
-                  <Text style={[styles.tierTitle, { color: isActive ? '#FFF' : isDark ? '#F8FAFC' : '#0F172A' }]}>
-                    {tier.title}
+                )}
+
+                {/* Inline Character Dialogue Balloon: Patlu */}
+                {showPatluBalloon && (
+                  <View
+                    style={[
+                      styles.characterBalloonCard,
+                      {
+                        backgroundColor: isDark ? '#1F2937' : '#F0F9FF',
+                        borderColor: '#0284C7',
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require('../../assets/images/characters/patlu-character.jpg')}
+                      style={styles.characterBalloonAvatar}
+                    />
+                    <View style={styles.characterBalloonContent}>
+                      <View style={styles.characterBalloonNameRow}>
+                        <Text style={[styles.characterBalloonName, { color: '#0284C7' }]}>
+                          Patlu (Logic Master)
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleVoiceDialogue(
+                              'Idea! Coding problem ka smart algorithm mil gaya! Code logic se chalta hai!',
+                              'meera'
+                            )
+                          }
+                          style={[styles.miniSpeakerBtn, { backgroundColor: '#0284C7' }]}
+                        >
+                          <Ionicons name="volume-high" size={13} color="#FFF" />
+                        </TouchableOpacity>
+                      </View>
+                      <Text
+                        style={[
+                          styles.characterBalloonSpeech,
+                          { color: isDark ? '#E5E7EB' : '#0369A1' },
+                        ]}
+                      >
+                        "Smart algorithm se har problem solve hoti hai! Loops aur conditions par focus rakho!"
+                      </Text>
+                    </View>
+                  </View>
+                )}
+
+                {/* Inline Character Dialogue Balloon: Chingam */}
+                {showChingamBalloon && (
+                  <View
+                    style={[
+                      styles.characterBalloonCard,
+                      {
+                        backgroundColor: isDark ? '#1F2937' : '#F0FDF4',
+                        borderColor: '#16A34A',
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require('../../assets/images/characters/chingam-character.jpg')}
+                      style={styles.characterBalloonAvatar}
+                    />
+                    <View style={styles.characterBalloonContent}>
+                      <View style={styles.characterBalloonNameRow}>
+                        <Text style={[styles.characterBalloonName, { color: '#16A34A' }]}>
+                          Inspector Chingam
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleVoiceDialogue(
+                              'Chingam ke ilaqe me koi syntax error bach nahi sakta!',
+                              'arvind'
+                            )
+                          }
+                          style={[styles.miniSpeakerBtn, { backgroundColor: '#16A34A' }]}
+                        >
+                          <Ionicons name="volume-high" size={13} color="#FFF" />
+                        </TouchableOpacity>
+                      </View>
+                      <Text
+                        style={[
+                          styles.characterBalloonSpeech,
+                          { color: isDark ? '#E5E7EB' : '#15803D' },
+                        ]}
+                      >
+                        "Syntax police on duty! Closing parenthesis aur quotes ka dhyan rakhein!"
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* 5. PICK YOUR CODING BUDDY (Mascot Switcher) */}
+        <View style={styles.mascotSection}>
+          <Text style={[styles.mascotSectionTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+            Pick Your Companion
+          </Text>
+          <Text style={styles.mascotSectionSub}>
+            Tap a hero to change your mentor voice (Sarvam AI)
+          </Text>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.mascotRow}>
+            {Object.keys(MASCOTS).map((key) => {
+              const m = MASCOTS[key];
+              const isSelected = m.id === activeMascotKey;
+              return (
+                <TouchableOpacity
+                  key={m.id}
+                  onPress={() => handleSelectMascot(m.id)}
+                  activeOpacity={0.8}
+                  style={[
+                    styles.mascotCard,
+                    {
+                      backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
+                      borderColor: isSelected ? m.accentColor : isDark ? '#374151' : '#E5E7EB',
+                      borderWidth: isSelected ? 2.5 : 1.5,
+                      borderBottomWidth: isSelected ? 5 : 2,
+                      borderBottomColor: isSelected ? m.accentColor : isDark ? '#374151' : '#E5E7EB',
+                    },
+                  ]}
+                >
+                  <Image source={m.avatar} style={styles.mascotAvatar} resizeMode="cover" />
+                  <Text style={[styles.mascotName, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+                    {m.name}
                   </Text>
-                  <Text style={[styles.tierDesc, { color: isActive ? '#E2E8F0' : '#64748B' }]} numberOfLines={1}>
-                    {tier.description}
+                  <Text style={styles.mascotRole} numberOfLines={1}>
+                    {m.role.split('&')[0]}
                   </Text>
+                  {isSelected && (
+                    <View style={[styles.activeDot, { backgroundColor: m.accentColor }]}>
+                      <Ionicons name="checkmark" size={12} color="#FFF" />
+                    </View>
+                  )}
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
         </View>
 
-        {/* Mascot Picker Station */}
-        <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-            Pick Your Coding Buddy
-          </Text>
-          <Text style={styles.sectionSub}>Tap character to activate custom mentor voice</Text>
-        </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.mascotList}>
-          {Object.keys(MASCOTS).map((key) => {
-            const m = MASCOTS[key];
-            const isSelected = m.id === activeMascotKey;
-            return (
-              <TouchableOpacity
-                key={m.id}
-                onPress={() => handleSelectMascot(m.id)}
-                activeOpacity={0.8}
-                style={[
-                  styles.mascotCard,
-                  {
-                    backgroundColor: isDark ? '#131D31' : '#FFFFFF',
-                    borderColor: isSelected ? m.accentColor : isDark ? '#1E293B' : '#E2E8F0',
-                    borderWidth: isSelected ? 2.5 : 1,
-                  },
-                ]}
-              >
-                <Image source={m.avatar} style={styles.mascotAvatar} resizeMode="cover" />
-                <Text style={[styles.mascotCardName, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-                  {m.name}
-                </Text>
-                <Text style={styles.mascotCardRole} numberOfLines={1}>
-                  {m.role.split('&')[0]}
-                </Text>
-                {isSelected && (
-                  <View style={[styles.mascotActiveDot, { backgroundColor: m.accentColor }]}>
-                    <Ionicons name="checkmark" size={12} color="#FFF" />
-                  </View>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-
-        {/* Dialogue Bubble Station */}
-        <View
-          style={[
-            styles.dialogueBox,
-            {
-              backgroundColor: isDark ? '#1E293B' : '#FFF7ED',
-              borderColor: activeMascot.accentColor,
-            },
-          ]}
-        >
-          <View style={styles.dialogueHeader}>
-            <Image source={activeMascot.avatar} style={styles.dialogueAvatar} />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.dialogueName, { color: activeMascot.accentColor }]}>
-                {activeMascot.name} (Active Companion)
-              </Text>
-              <Text style={[styles.dialogueText, { color: isDark ? '#F1F5F9' : '#7C2D12' }]}>
-                "{currentLesson.dialogue}"
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={handleVoiceDialogue}
-              style={[styles.voicePlayBtn, { backgroundColor: activeMascot.accentColor }]}
-              activeOpacity={0.8}
-            >
-              <Ionicons name={isSpeaking ? 'pause' : 'play'} size={16} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Lesson Card */}
-        <View
-          style={[
-            styles.lessonCard,
-            {
-              backgroundColor: isDark ? '#131D31' : '#FFFFFF',
-              borderColor: isDark ? '#1E293B' : '#E2E8F0',
-            },
-          ]}
-        >
-          {/* Progress Header */}
-          <View style={styles.lessonProgressRow}>
-            <Text style={[styles.lessonBadgeText, { color: activeMascot.accentColor }]}>
-              PUZZLE {currentLessonIndex + 1} OF {lessons.length} • {currentTier.badge}
-            </Text>
-            <Text style={[styles.lessonTitleText, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-              {currentLesson.title}
-            </Text>
-          </View>
-
-          <Text style={[styles.promptText, { color: isDark ? '#CBD5E1' : '#334155' }]}>
-            {currentLesson.prompt}
-          </Text>
-
-          {/* Code Snippet Box (if any) */}
-          {currentLesson.codeSnippet && (
-            <View style={styles.codeSnippetContainer}>
-              <Text style={styles.codeSnippetText}>{currentLesson.codeSnippet}</Text>
-            </View>
-          )}
-
-          {/* TYPE: ARRANGE CODE BLOCKS */}
-          {currentLesson.type === 'arrange' && (
-            <View style={styles.puzzleArea}>
-              <Text style={styles.subAreaLabel}>Constructed Code Output:</Text>
-              <View
-                style={[
-                  styles.constructedDropzone,
-                  {
-                    borderColor: isDark ? '#334155' : '#CBD5E1',
-                    backgroundColor: isDark ? '#0B0F19' : '#F8FAFC',
-                  },
-                ]}
-              >
-                {selectedBlocks.length === 0 ? (
-                  <Text style={styles.dropzonePlaceholder}>
-                    Tap blocks below in the correct sequence...
-                  </Text>
-                ) : (
-                  <View style={styles.assembledBlocksRow}>
-                    {selectedBlocks.map((blk, idx) => (
-                      <TouchableOpacity
-                        key={idx}
-                        onPress={() => handleToggleBlock(blk)}
-                        style={[styles.assembledBlock, { backgroundColor: activeMascot.accentColor }]}
-                      >
-                        <Text style={styles.assembledBlockText}>{blk}</Text>
-                        <Ionicons name="close-circle" size={14} color="#FFF" style={{ marginLeft: 4 }} />
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )}
-              </View>
-
-              <Text style={styles.subAreaLabel}>Available Blocks:</Text>
-              <View style={styles.availableBlocksWrap}>
-                {currentLesson.blocks?.map((blk, idx) => {
-                  const isUsed = selectedBlocks.includes(blk);
-                  return (
-                    <TouchableOpacity
-                      key={idx}
-                      disabled={isUsed || isAnswered}
-                      onPress={() => handleToggleBlock(blk)}
-                      style={[
-                        styles.blockPill,
-                        {
-                          backgroundColor: isUsed
-                            ? isDark ? '#1E293B' : '#E2E8F0'
-                            : isDark ? '#1E293B' : '#F1F5F9',
-                          borderColor: isUsed ? 'transparent' : isDark ? '#475569' : '#CBD5E1',
-                          opacity: isUsed ? 0.4 : 1,
-                        },
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.blockPillText,
-                          { color: isUsed ? '#94A3B8' : isDark ? '#F8FAFC' : '#0F172A' },
-                        ]}
-                      >
-                        {blk}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </View>
-          )}
-
-          {/* TYPE: FILL BLANK & CHOICE */}
-          {(currentLesson.type === 'fill_blank' || currentLesson.type === 'choice') && (
-            <View style={styles.optionsWrap}>
-              {currentLesson.options?.map((opt, idx) => {
-                const isSelected = selectedOption === opt;
-                let optionBg = isDark ? '#1E293B' : '#F8FAFC';
-                let optionBorder = isDark ? '#334155' : '#CBD5E1';
-
-                if (isAnswered) {
-                  if (opt === currentLesson.correctAnswer) {
-                    optionBg = '#10B98122';
-                    optionBorder = '#10B981';
-                  } else if (isSelected) {
-                    optionBg = '#EF444422';
-                    optionBorder = '#EF4444';
-                  }
-                } else if (isSelected) {
-                  optionBg = `${activeMascot.accentColor}22`;
-                  optionBorder = activeMascot.accentColor;
-                }
-
-                return (
-                  <TouchableOpacity
-                    key={idx}
-                    disabled={isAnswered}
-                    onPress={() => setSelectedOption(opt)}
-                    style={[styles.optionItem, { backgroundColor: optionBg, borderColor: optionBorder }]}
-                  >
-                    <View style={styles.optionRadio}>
-                      {isSelected ? (
-                        <Ionicons
-                          name={isAnswered ? (isCorrect ? 'checkmark-circle' : 'close-circle') : 'radio-button-on'}
-                          size={20}
-                          color={isAnswered ? (isCorrect ? '#10B981' : '#EF4444') : activeMascot.accentColor}
-                        />
-                      ) : (
-                        <Ionicons name="radio-button-off" size={20} color={isDark ? '#475569' : '#94A3B8'} />
-                      )}
-                    </View>
-                    <Text style={[styles.optionText, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-                      {opt}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          )}
-
-          {/* Result / Explanation Box */}
-          {isAnswered && (
-            <View
-              style={[
-                styles.resultCard,
-                {
-                  backgroundColor: isCorrect ? '#10B98118' : '#EF444418',
-                  borderColor: isCorrect ? '#10B981' : '#EF4444',
-                },
-              ]}
-            >
-              <View style={styles.resultHeader}>
-                <Ionicons
-                  name={isCorrect ? 'checkmark-circle' : 'alert-circle'}
-                  size={24}
-                  color={isCorrect ? '#10B981' : '#EF4444'}
-                />
-                <Text style={[styles.resultTitle, { color: isCorrect ? '#10B981' : '#EF4444' }]}>
-                  {isCorrect ? 'Shaandaar! Correct Answer!' : 'Oops! Galat Answer'}
-                </Text>
-              </View>
-              <Text style={[styles.explanationText, { color: isDark ? '#E2E8F0' : '#334155' }]}>
-                {currentLesson.explanation}
-              </Text>
-            </View>
-          )}
-
-          {/* Action Buttons */}
-          <View style={styles.buttonActionRow}>
-            {!isAnswered ? (
-              <TouchableOpacity
-                onPress={handleCheckAnswer}
-                style={[styles.primaryActionBtn, { backgroundColor: activeMascot.accentColor }]}
-                activeOpacity={0.8}
-              >
-                <Ionicons name="checkmark-done-circle" size={20} color="#FFF" style={{ marginRight: 6 }} />
-                <Text style={styles.primaryActionBtnText}>Check Answer</Text>
-              </TouchableOpacity>
-            ) : isCorrect ? (
-              <TouchableOpacity
-                onPress={handleNextLesson}
-                style={[styles.primaryActionBtn, { backgroundColor: '#10B981' }]}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.primaryActionBtnText}>Next Challenge</Text>
-                <Ionicons name="arrow-forward" size={18} color="#FFF" style={{ marginLeft: 6 }} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={handleResetChallenge}
-                style={[styles.primaryActionBtn, { backgroundColor: '#EA580C' }]}
-                activeOpacity={0.8}
-              >
-                <Ionicons name="refresh" size={18} color="#FFF" style={{ marginRight: 6 }} />
-                <Text style={styles.primaryActionBtnText}>Try Again</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-
-        {/* Motu & Patlu 3D Spotlight Banner */}
-        <View style={[styles.spotlightBanner, { backgroundColor: isDark ? '#1E293B' : '#FFF' }]}>
+        {/* 6. DUOLINGO JUMP-IN CALLOUT */}
+        <View style={[styles.jumpInBanner, { backgroundColor: isDark ? '#1F2937' : '#FFFFFF', borderColor: isDark ? '#374151' : '#E5E7EB' }]}>
           <Image
             source={require('../../assets/images/characters/motu-patlu-3d.png')}
-            style={styles.spotlightImage}
+            style={styles.jumpInImage}
             resizeMode="contain"
           />
-          <View style={styles.spotlightTextWrap}>
-            <Text style={[styles.spotlightTitle, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-              Master Coding in 5 Mins/Day!
+          <View style={styles.jumpInInfo}>
+            <Text style={[styles.jumpInTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+              Ready for Lesson {unlockedIndex + 1}?
             </Text>
-            <Text style={styles.spotlightSub}>
-              Bite-sized daily quests built for school kids, college students, and tech enthusiasts.
+            <Text style={styles.jumpInSub}>
+              {lessons[unlockedIndex]?.title || 'Continue your coding streak!'}
             </Text>
+            <TouchableOpacity
+              onPress={() => handleOpenLesson(unlockedIndex)}
+              style={[styles.jumpInBtn, { backgroundColor: currentTier.color }]}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.jumpInBtnText}>START LESSON</Text>
+              <Ionicons name="arrow-forward" size={16} color="#FFF" />
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
 
-      {/* Level Completion Modal */}
+      {/* 7. DUOLINGO INTERACTIVE LESSON MODAL */}
+      <Modal visible={lessonModalVisible} animationType="slide" presentationStyle="pageSheet">
+        <SafeAreaView
+          style={[styles.lessonModalContainer, { backgroundColor: isDark ? '#0B0F19' : '#FFFFFF' }]}
+          edges={['top', 'bottom']}
+        >
+          {/* Modal Header */}
+          <View style={[styles.modalNavHeader, { borderBottomColor: isDark ? '#1F2937' : '#E5E7EB' }]}>
+            <TouchableOpacity
+              onPress={() => setLessonModalVisible(false)}
+              style={styles.modalCloseCircle}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="close" size={24} color={isDark ? '#9CA3AF' : '#6B7280'} />
+            </TouchableOpacity>
+
+            {/* Duolingo Progress Bar */}
+            <View style={styles.modalProgressTrack}>
+              <View
+                style={[
+                  styles.modalProgressFill,
+                  {
+                    width: `${((activeLessonIndex + 1) / lessons.length) * 100}%`,
+                  },
+                ]}
+              />
+            </View>
+
+            {/* Lives */}
+            <View style={styles.modalLivesRow}>
+              <Ionicons name="heart" size={22} color="#FF4B4B" />
+              <Text style={styles.modalLivesCount}>{samosas}</Text>
+            </View>
+          </View>
+
+          <ScrollView contentContainerStyle={styles.lessonModalScroll} showsVerticalScrollIndicator={false}>
+            {/* Mascot Dialogue Header */}
+            <View
+              style={[
+                styles.modalDialogueBubble,
+                {
+                  backgroundColor: isDark ? '#1F2937' : '#FFF7ED',
+                  borderColor: activeMascot.accentColor,
+                },
+              ]}
+            >
+              <Image source={activeMascot.avatar} style={styles.modalDialogueAvatar} />
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.modalDialogueName, { color: activeMascot.accentColor }]}>
+                  {activeMascot.name}
+                </Text>
+                <Text style={[styles.modalDialogueText, { color: isDark ? '#F9FAFB' : '#7C2D12' }]}>
+                  "{playingLesson.dialogue}"
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => handleVoiceDialogue()}
+                style={[styles.modalVoiceBtn, { backgroundColor: activeMascot.accentColor }]}
+                activeOpacity={0.8}
+              >
+                <Ionicons name={isSpeaking ? 'pause' : 'volume-high'} size={18} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Question Prompt */}
+            <Text style={[styles.modalPromptTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+              {playingLesson.prompt}
+            </Text>
+
+            {/* Code Snippet Box (if applicable) */}
+            {playingLesson.codeSnippet && (
+              <View style={styles.modalCodeBox}>
+                <Text style={styles.modalCodeText}>{playingLesson.codeSnippet}</Text>
+              </View>
+            )}
+
+            {/* Interactive Type 1: Arrange Blocks */}
+            {playingLesson.type === 'arrange' && (
+              <View style={styles.arrangeSection}>
+                <Text style={styles.areaSubtitle}>Your Assembled Code:</Text>
+                <View
+                  style={[
+                    styles.dropzoneBox,
+                    {
+                      borderColor: isDark ? '#374151' : '#CBD5E1',
+                      backgroundColor: isDark ? '#111827' : '#F9FAFB',
+                    },
+                  ]}
+                >
+                  {selectedBlocks.length === 0 ? (
+                    <Text style={styles.dropzoneHelpText}>
+                      Tap available blocks below in proper order...
+                    </Text>
+                  ) : (
+                    <View style={styles.assembledChipsRow}>
+                      {selectedBlocks.map((blk, idx) => (
+                        <TouchableOpacity
+                          key={idx}
+                          onPress={() => handleToggleBlock(blk)}
+                          style={[styles.assembledChip, { backgroundColor: activeMascot.accentColor }]}
+                        >
+                          <Text style={styles.assembledChipText}>{blk}</Text>
+                          <Ionicons name="close-circle" size={14} color="#FFF" style={{ marginLeft: 4 }} />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+
+                <Text style={styles.areaSubtitle}>Available Blocks:</Text>
+                <View style={styles.availableChipsRow}>
+                  {playingLesson.blocks?.map((blk, idx) => {
+                    const isUsed = selectedBlocks.includes(blk);
+                    return (
+                      <TouchableOpacity
+                        key={idx}
+                        disabled={isUsed || isAnswered}
+                        onPress={() => handleToggleBlock(blk)}
+                        style={[
+                          styles.blockChip3D,
+                          {
+                            backgroundColor: isUsed
+                              ? isDark
+                                ? '#1F2937'
+                                : '#E5E7EB'
+                              : isDark
+                              ? '#1F2937'
+                              : '#FFFFFF',
+                            borderColor: isUsed
+                              ? 'transparent'
+                              : isDark
+                              ? '#374151'
+                              : '#D1D5DB',
+                            borderBottomColor: isUsed
+                              ? 'transparent'
+                              : isDark
+                              ? '#111827'
+                              : '#9CA3AF',
+                            opacity: isUsed ? 0.35 : 1,
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.blockChipText,
+                            { color: isUsed ? '#9CA3AF' : isDark ? '#F9FAFB' : '#111827' },
+                          ]}
+                        >
+                          {blk}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
+
+            {/* Interactive Type 2 & 3: Fill Blanks & Choice */}
+            {(playingLesson.type === 'fill_blank' || playingLesson.type === 'choice') && (
+              <View style={styles.optionsList}>
+                {playingLesson.options?.map((opt, idx) => {
+                  const isSelected = selectedOption === opt;
+                  let bg = isDark ? '#1F2937' : '#FFFFFF';
+                  let border = isDark ? '#374151' : '#E5E7EB';
+                  let bottomBorder = isDark ? '#111827' : '#CBD5E1';
+
+                  if (isAnswered) {
+                    if (opt === playingLesson.correctAnswer) {
+                      bg = '#DCFCE7';
+                      border = '#16A34A';
+                      bottomBorder = '#15803D';
+                    } else if (isSelected) {
+                      bg = '#FEE2E2';
+                      border = '#DC2626';
+                      bottomBorder = '#991B1B';
+                    }
+                  } else if (isSelected) {
+                    bg = isDark ? '#1E293B' : '#EFF6FF';
+                    border = '#3B82F6';
+                    bottomBorder = '#1D4ED8';
+                  }
+
+                  return (
+                    <TouchableOpacity
+                      key={idx}
+                      disabled={isAnswered}
+                      onPress={() => setSelectedOption(opt)}
+                      activeOpacity={0.8}
+                      style={[
+                        styles.optionCard3D,
+                        {
+                          backgroundColor: bg,
+                          borderColor: border,
+                          borderBottomColor: bottomBorder,
+                        },
+                      ]}
+                    >
+                      <View style={styles.optionIndexBadge}>
+                        <Text style={styles.optionIndexText}>{idx + 1}</Text>
+                      </View>
+                      <Text
+                        style={[
+                          styles.optionTitleText,
+                          { color: isDark ? '#F9FAFB' : '#111827' },
+                        ]}
+                      >
+                        {opt}
+                      </Text>
+                      {isSelected && (
+                        <Ionicons
+                          name={
+                            isAnswered
+                              ? isCorrect
+                                ? 'checkmark-circle'
+                                : 'close-circle'
+                              : 'radio-button-on'
+                          }
+                          size={22}
+                          color={
+                            isAnswered
+                              ? isCorrect
+                                ? '#16A34A'
+                                : '#DC2626'
+                              : '#3B82F6'
+                          }
+                        />
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
+          </ScrollView>
+
+          {/* DUOLINGO STICKY BOTTOM RESULT / ACTION BAR */}
+          <View
+            style={[
+              styles.modalBottomBar,
+              isAnswered && isCorrect
+                ? styles.bottomBarSuccess
+                : isAnswered && !isCorrect
+                ? styles.bottomBarError
+                : {
+                    backgroundColor: isDark ? '#111827' : '#FFFFFF',
+                    borderTopColor: isDark ? '#1F2937' : '#E5E7EB',
+                  },
+            ]}
+          >
+            {isAnswered ? (
+              <View style={styles.resultBannerInner}>
+                <View style={styles.resultTopRow}>
+                  <Ionicons
+                    name={isCorrect ? 'checkmark-circle' : 'close-circle'}
+                    size={30}
+                    color={isCorrect ? '#16A34A' : '#DC2626'}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={[
+                        styles.resultHeading,
+                        { color: isCorrect ? '#16A34A' : '#DC2626' },
+                      ]}
+                    >
+                      {isCorrect ? 'Shaandaar! Correct Answer!' : 'Oops! Not quite right'}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.resultExplanation,
+                        { color: isDark ? '#E5E7EB' : '#374151' },
+                      ]}
+                    >
+                      {playingLesson.explanation}
+                    </Text>
+                  </View>
+                </View>
+
+                {isCorrect ? (
+                  <TouchableOpacity
+                    onPress={handleNextLesson}
+                    style={styles.duoActionBtnSuccess}
+                    activeOpacity={0.85}
+                  >
+                    <Text style={styles.duoActionBtnText}>CONTINUE</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={handleResetChallenge}
+                    style={styles.duoActionBtnError}
+                    activeOpacity={0.85}
+                  >
+                    <Text style={styles.duoActionBtnText}>TRY AGAIN</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={handleCheckAnswer}
+                disabled={
+                  playingLesson.type === 'arrange'
+                    ? selectedBlocks.length === 0
+                    : !selectedOption
+                }
+                style={[
+                  styles.duoCheckBtn,
+                  (playingLesson.type === 'arrange'
+                    ? selectedBlocks.length === 0
+                    : !selectedOption) && styles.duoCheckBtnDisabled,
+                ]}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.duoActionBtnText}>CHECK</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </SafeAreaView>
+      </Modal>
+
+      {/* 8. TREASURE CHEST MODAL */}
+      <Modal visible={chestModalVisible} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={[styles.chestRewardCard, { backgroundColor: isDark ? '#1F2937' : '#FFFFFF' }]}>
+            <View style={styles.chestBigIconBadge}>
+              <Ionicons name="gift" size={54} color="#F59E0B" />
+            </View>
+            <Text style={[styles.chestRewardTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+              Treasure Unlocked!
+            </Text>
+            <Text style={styles.chestRewardSub}>
+              Aapne milestone challenge paar kiya! Furfuri Nagar bonus Samosa XP rewarded!
+            </Text>
+
+            <View style={styles.chestXpPill}>
+              <Ionicons name="diamond" size={20} color="#1CB0F6" />
+              <Text style={styles.chestXpText}>+{rewardAmount} Samosa XP</Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => setChestModalVisible(false)}
+              style={styles.chestClaimBtn}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.chestClaimBtnText}>CLAIM &amp; CONTINUE</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* 9. STAGE GUIDEBOOK MODAL */}
+      <Modal visible={guidebookVisible} animationType="slide" presentationStyle="pageSheet">
+        <SafeAreaView
+          style={[styles.guidebookContainer, { backgroundColor: isDark ? '#0B0F19' : '#FFFFFF' }]}
+        >
+          <View style={[styles.modalNavHeader, { borderBottomColor: isDark ? '#1F2937' : '#E5E7EB' }]}>
+            <TouchableOpacity
+              onPress={() => setGuidebookVisible(false)}
+              style={styles.modalCloseCircle}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="close" size={24} color={isDark ? '#9CA3AF' : '#6B7280'} />
+            </TouchableOpacity>
+            <Text style={[styles.guidebookNavTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+              {currentTier.title} Guidebook
+            </Text>
+            <View style={{ width: 36 }} />
+          </View>
+
+          <ScrollView contentContainerStyle={styles.guidebookScroll}>
+            <View style={[styles.guidebookHero, { backgroundColor: currentTier.color }]}>
+              <Ionicons name={currentTier.iconName} size={36} color="#FFF" />
+              <Text style={styles.guidebookHeroTitle}>{currentTier.title} Cheatsheet</Text>
+              <Text style={styles.guidebookHeroSub}>{currentTier.description}</Text>
+            </View>
+
+            <View style={styles.guidebookBody}>
+              <Text style={[styles.guidebookSectionHeader, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+                Key Syntax &amp; Rules
+              </Text>
+
+              <View
+                style={[
+                  styles.syntaxCard,
+                  { backgroundColor: isDark ? '#1F2937' : '#F9FAFB', borderColor: isDark ? '#374151' : '#E5E7EB' },
+                ]}
+              >
+                <Text style={styles.syntaxCardTitle}>1. Output &amp; Variables</Text>
+                <Text style={styles.syntaxCardCode}>print("Hello World"){"\n"}hero_name = "Motu"</Text>
+                <Text style={styles.syntaxCardDesc}>
+                  Use print() to output data to the screen. Variable names must start with a letter or underscore.
+                </Text>
+              </View>
+
+              <View
+                style={[
+                  styles.syntaxCard,
+                  { backgroundColor: isDark ? '#1F2937' : '#F9FAFB', borderColor: isDark ? '#374151' : '#E5E7EB' },
+                ]}
+              >
+                <Text style={styles.syntaxCardTitle}>2. Conditionals (if-else)</Text>
+                <Text style={styles.syntaxCardCode}>if samosas &gt; 0:{"\n"}    print("Happy Motu!")</Text>
+                <Text style={styles.syntaxCardDesc}>
+                  Python uses 4 spaces (indentation) to define code blocks inside if, for, while, and def statements.
+                </Text>
+              </View>
+
+              <View
+                style={[
+                  styles.syntaxCard,
+                  { backgroundColor: isDark ? '#1F2937' : '#F9FAFB', borderColor: isDark ? '#374151' : '#E5E7EB' },
+                ]}
+              >
+                <Text style={styles.syntaxCardTitle}>3. Functions</Text>
+                <Text style={styles.syntaxCardCode}>def boost_energy(x):{"\n"}    return x * 10</Text>
+                <Text style={styles.syntaxCardDesc}>
+                  Define reusable functions with the "def" keyword and return values using "return".
+                </Text>
+              </View>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </Modal>
+
+      {/* 10. STAGE CELEBRATION MODAL */}
       <Modal visible={celebrationVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalCard, { backgroundColor: isDark ? '#131D31' : '#FFFFFF' }]}>
+          <View style={[styles.celebrationCard, { backgroundColor: isDark ? '#1F2937' : '#FFFFFF' }]}>
             <Image
               source={require('../../assets/images/characters/motu-patlu-3d.png')}
-              style={styles.modalImage}
+              style={styles.celebrationImg}
               resizeMode="contain"
             />
-            <Text style={[styles.modalTitle, { color: isDark ? '#F8FAFC' : '#0F172A' }]}>
-              {currentTier.title} Completed!
+            <Text style={[styles.celebrationTitle, { color: isDark ? '#F9FAFB' : '#111827' }]}>
+              {currentTier.title} Mastered!
             </Text>
-            <Text style={styles.modalSub}>
-              You mastered all puzzles in {currentTier.title} with Motu &amp; Patlu! +125 Samosa XP earned!
+            <Text style={styles.celebrationSub}>
+              Aapne sabhi 10 puzzles complete kar liye! Motu, Patlu aur Furfuri Nagar team aapko salute karti hai!
             </Text>
+
+            <View style={styles.celebrationXpRow}>
+              <Ionicons name="trophy" size={24} color="#F59E0B" />
+              <Text style={styles.celebrationXpText}>+125 Samosa XP Master Badge</Text>
+            </View>
 
             {(() => {
               const currentIdx = LEVEL_TIERS.findIndex((t) => t.id === activeTierId);
@@ -1187,13 +1752,12 @@ export default function MotuPatluGameScreen() {
                     onPress={() => {
                       setCelebrationVisible(false);
                       setActiveTierId(nextTier.id);
-                      setCurrentLessonIndex(0);
-                      handleResetChallenge();
                     }}
-                    style={[styles.modalBtn, { backgroundColor: nextTier.color }]}
+                    style={[styles.celebrationNextBtn, { backgroundColor: nextTier.color }]}
+                    activeOpacity={0.85}
                   >
-                    <Ionicons name="arrow-forward-circle" size={20} color="#FFF" style={{ marginRight: 6 }} />
-                    <Text style={styles.modalBtnText}>Advance to {nextTier.title}</Text>
+                    <Text style={styles.celebrationNextBtnText}>Advance to {nextTier.title}</Text>
+                    <Ionicons name="arrow-forward" size={18} color="#FFF" />
                   </TouchableOpacity>
                 );
               }
@@ -1201,19 +1765,10 @@ export default function MotuPatluGameScreen() {
             })()}
 
             <TouchableOpacity
-              onPress={() => {
-                setCelebrationVisible(false);
-                setCurrentLessonIndex(0);
-                handleResetChallenge();
-              }}
-              style={[styles.modalBtn, { backgroundColor: '#EA580C' }]}
+              onPress={() => setCelebrationVisible(false)}
+              style={styles.celebrationCloseBtn}
             >
-              <Ionicons name="trophy" size={20} color="#FFF" style={{ marginRight: 6 }} />
-              <Text style={styles.modalBtnText}>Claim Badge &amp; Replay</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setCelebrationVisible(false)} style={styles.modalCloseBtn}>
-              <Text style={styles.modalCloseBtnText}>Close</Text>
+              <Text style={styles.celebrationCloseText}>Back to Quest Map</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1226,109 +1781,334 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
+  // 1. Top Duolingo Bar
+  duoHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderBottomWidth: 1,
   },
-  iconButton: {
+  duoHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backCircleBtn: {
     width: 38,
     height: 38,
     borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerTitleWrap: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  proPill: {
+  langChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    backgroundColor: '#EA580C',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 10,
-    marginTop: 2,
+    gap: 6,
+    borderWidth: 1.5,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
   },
-  proPillText: {
-    color: '#FFF',
-    fontSize: 9.5,
+  langChipText: {
+    fontSize: 13,
     fontWeight: '800',
-    letterSpacing: 0.5,
   },
-  soundBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  statsBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 14,
-    borderRadius: 16,
-    marginBottom: 20,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-  },
-  statItem: {
+  duoStatsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  statIconBadge: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+  statBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  streakBadge: {
+    backgroundColor: 'rgba(255, 150, 0, 0.12)',
+  },
+  gemsBadge: {
+    backgroundColor: 'rgba(28, 176, 246, 0.12)',
+  },
+  heartsBadge: {
+    backgroundColor: 'rgba(255, 75, 75, 0.12)',
+  },
+  statBadgeText: {
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  proShieldBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  proShieldText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: '900',
+  },
+  scrollContent: {
+    paddingBottom: 60,
+  },
+
+  // 2. Stage Nav Pills
+  stageNavScroll: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    gap: 8,
+  },
+  stageNavPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderBottomWidth: 3,
+  },
+  stageNavPillActive: {},
+  stageNavPillInactive: {},
+  stageNavPillText: {
+    fontSize: 12.5,
+    fontWeight: '800',
+  },
+
+  // 3. Duolingo Unit Card Header
+  unitCard: {
+    marginHorizontal: 16,
+    borderRadius: 20,
+    padding: 18,
+    borderBottomWidth: 6,
+    marginBottom: 20,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+  },
+  unitCardTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  unitBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  unitBadgePill: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  unitBadgePillText: {
+    color: '#FFF',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 0.5,
+  },
+  unitProgressText: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  guidebookBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.4)',
+  },
+  guidebookBtnText: {
+    color: '#FFF',
+    fontSize: 10.5,
+    fontWeight: '900',
+    letterSpacing: 0.5,
+  },
+  unitTitleText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '900',
+    marginBottom: 4,
+  },
+  unitDescText: {
+    color: 'rgba(255, 255, 255, 0.92)',
+    fontSize: 12.5,
+    fontWeight: '500',
+    lineHeight: 17,
+    marginBottom: 12,
+  },
+  unitProgressBarTrack: {
+    height: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  unitProgressBarFill: {
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+  },
+
+  // 4. Winding Path Area
+  pathArea: {
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  pathStepWrapper: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  pathConnectorLine: {
+    width: 6,
+    height: 24,
+    borderRadius: 3,
+  },
+  nodeContainer: {
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  startTooltipContainer: {
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  startTooltipBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'rgba(0,0,0,0.25)',
+  },
+  startTooltipText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  startTooltipArrow: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 6,
+    borderRightWidth: 6,
+    borderTopWidth: 6,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+  },
+  circleNodeBtn: {
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 7,
+  },
+  chestNodeBtn: {
+    width: 78,
+    height: 68,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 7,
+    backgroundColor: '#F59E0B',
+    borderBottomColor: '#B45309',
+  },
+  nodeBtnCompleted: {
+    backgroundColor: '#FFC800',
+    borderBottomColor: '#CC9A00',
+  },
+  nodeBtnActive: {
+    borderBottomColor: '#0369A1',
+    elevation: 4,
+  },
+  nodeBtnLockedLight: {
+    backgroundColor: '#E5E7EB',
+    borderBottomColor: '#CBD5E1',
+  },
+  nodeBtnLockedDark: {
+    backgroundColor: '#374151',
+    borderBottomColor: '#1F2937',
+  },
+  nodeLabelText: {
+    fontSize: 11,
+    marginTop: 4,
+  },
+
+  // Character Dialogue Balloons along Path
+  characterBalloonCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginHorizontal: 20,
+    marginVertical: 14,
+    padding: 12,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderBottomWidth: 3,
+    width: SCREEN_WIDTH - 40,
+  },
+  characterBalloonAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  characterBalloonContent: {
+    flex: 1,
+  },
+  characterBalloonNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 2,
+  },
+  characterBalloonName: {
+    fontSize: 12.5,
+    fontWeight: '800',
+  },
+  miniSpeakerBtn: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  statValue: {
-    fontSize: 14.5,
+  characterBalloonSpeech: {
+    fontSize: 12,
+    fontWeight: '500',
+    lineHeight: 16,
+  },
+
+  // 5. Mascot Switcher Section
+  mascotSection: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+  },
+  mascotSectionTitle: {
+    fontSize: 16,
     fontWeight: '800',
   },
-  statLabel: {
-    fontSize: 11,
-    color: '#64748B',
-  },
-  statDivider: {
-    width: 1,
-    height: 28,
-    backgroundColor: '#E2E8F0',
-  },
-  sectionHeader: {
-    marginBottom: 10,
-  },
-  sectionTitle: {
-    fontSize: 17,
-    fontWeight: '800',
-  },
-  sectionSub: {
-    fontSize: 12.5,
+  mascotSectionSub: {
+    fontSize: 12,
     color: '#64748B',
     marginTop: 2,
+    marginBottom: 10,
   },
-  mascotList: {
-    gap: 12,
-    paddingBottom: 16,
+  mascotRow: {
+    gap: 10,
+    paddingBottom: 10,
   },
   mascotCard: {
     width: 105,
@@ -1338,21 +2118,21 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   mascotAvatar: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     marginBottom: 6,
   },
-  mascotCardName: {
-    fontSize: 13,
+  mascotName: {
+    fontSize: 12.5,
     fontWeight: '800',
   },
-  mascotCardRole: {
-    fontSize: 10,
+  mascotRole: {
+    fontSize: 9.5,
     color: '#64748B',
     marginTop: 2,
   },
-  mascotActiveDot: {
+  activeDot: {
     position: 'absolute',
     top: 6,
     right: 6,
@@ -1362,87 +2142,156 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dialogueBox: {
+
+  // 6. Duolingo Jump-In Banner
+  jumpInBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    marginHorizontal: 16,
+    marginTop: 16,
+    padding: 14,
+    borderRadius: 18,
     borderWidth: 1.5,
-    borderRadius: 16,
-    padding: 12,
-    marginBottom: 20,
+    borderBottomWidth: 4,
   },
-  dialogueHeader: {
+  jumpInImage: {
+    width: 80,
+    height: 70,
+  },
+  jumpInInfo: {
+    flex: 1,
+  },
+  jumpInTitle: {
+    fontSize: 14.5,
+    fontWeight: '900',
+    marginBottom: 2,
+  },
+  jumpInSub: {
+    fontSize: 11.5,
+    color: '#64748B',
+    marginBottom: 8,
+  },
+  jumpInBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  jumpInBtnText: {
+    color: '#FFF',
+    fontSize: 12,
+    fontWeight: '900',
+    letterSpacing: 0.5,
+  },
+
+  // 7. Interactive Lesson Modal
+  lessonModalContainer: {
+    flex: 1,
+  },
+  modalNavHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    gap: 12,
+  },
+  modalCloseCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalProgressTrack: {
+    flex: 1,
+    height: 12,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  modalProgressFill: {
+    height: '100%',
+    backgroundColor: '#58CC02',
+    borderRadius: 6,
+  },
+  modalLivesRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  modalLivesCount: {
+    color: '#FF4B4B',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  lessonModalScroll: {
+    padding: 18,
+    paddingBottom: 120,
+  },
+  modalDialogueBubble: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    padding: 12,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    marginBottom: 16,
   },
-  dialogueAvatar: {
+  modalDialogueAvatar: {
     width: 44,
     height: 44,
     borderRadius: 22,
   },
-  dialogueName: {
+  modalDialogueName: {
     fontSize: 12,
     fontWeight: '800',
-    marginBottom: 2,
   },
-  dialogueText: {
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '500',
+  modalDialogueText: {
+    fontSize: 12.5,
+    fontWeight: '600',
+    lineHeight: 17,
   },
-  voicePlayBtn: {
+  modalVoiceBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lessonCard: {
-    borderWidth: 1,
-    borderRadius: 18,
-    padding: 16,
-    marginBottom: 20,
-  },
-  lessonProgressRow: {
-    marginBottom: 8,
-  },
-  lessonBadgeText: {
-    fontSize: 11,
+  modalPromptTitle: {
+    fontSize: 16,
     fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  lessonTitleText: {
-    fontSize: 18,
-    fontWeight: '800',
-    marginTop: 2,
-  },
-  promptText: {
-    fontSize: 14,
-    lineHeight: 20,
+    lineHeight: 22,
     marginBottom: 14,
   },
-  codeSnippetContainer: {
+  modalCodeBox: {
     backgroundColor: '#0F172A',
-    padding: 12,
+    padding: 14,
     borderRadius: 12,
     marginBottom: 16,
   },
-  codeSnippetText: {
+  modalCodeText: {
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     color: '#38BDF8',
-    fontSize: 13.5,
-    lineHeight: 20,
+    fontSize: 13,
+    lineHeight: 19,
   },
-  puzzleArea: {
+  arrangeSection: {
     marginTop: 4,
   },
-  subAreaLabel: {
+  areaSubtitle: {
     fontSize: 12,
-    color: '#64748B',
     fontWeight: '700',
+    color: '#64748B',
     marginBottom: 6,
-    marginTop: 6,
+    marginTop: 4,
   },
-  constructedDropzone: {
-    minHeight: 52,
+  dropzoneBox: {
+    minHeight: 56,
     borderWidth: 1.5,
     borderStyle: 'dashed',
     borderRadius: 12,
@@ -1450,130 +2299,151 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
   },
-  dropzonePlaceholder: {
+  dropzoneHelpText: {
     color: '#94A3B8',
     fontSize: 12,
     textAlign: 'center',
     fontStyle: 'italic',
   },
-  assembledBlocksRow: {
+  assembledChipsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
   },
-  assembledBlock: {
+  assembledChip: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 7,
-    borderRadius: 8,
+    borderRadius: 10,
   },
-  assembledBlockText: {
+  assembledChipText: {
     color: '#FFF',
     fontSize: 13,
     fontWeight: '700',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
-  availableBlocksWrap: {
+  availableChipsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
     marginBottom: 16,
   },
-  blockPill: {
-    borderWidth: 1,
-    borderRadius: 8,
+  blockChip3D: {
+    borderWidth: 1.5,
+    borderBottomWidth: 3.5,
+    borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  blockPillText: {
+  blockChipText: {
     fontSize: 13,
     fontWeight: '700',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
-  optionsWrap: {
+  optionsList: {
     gap: 10,
     marginBottom: 16,
   },
-  optionItem: {
+  optionCard3D: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1.5,
+    borderWidth: 2,
+    borderBottomWidth: 4.5,
+    borderRadius: 14,
+    padding: 13,
+    gap: 10,
+  },
+  optionIndexBadge: {
+    width: 24,
+    height: 24,
     borderRadius: 12,
-    padding: 12,
-  },
-  optionRadio: {
-    marginRight: 10,
-  },
-  optionText: {
-    fontSize: 13.5,
-    fontWeight: '600',
-    flex: 1,
-  },
-  resultCard: {
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-  },
-  resultHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 4,
-  },
-  resultTitle: {
-    fontSize: 14.5,
-    fontWeight: '800',
-  },
-  explanationText: {
-    fontSize: 12.5,
-    lineHeight: 18,
-  },
-  buttonActionRow: {
-    marginTop: 4,
-  },
-  primaryActionBtn: {
-    flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0.06)',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 13,
-    borderRadius: 12,
   },
-  primaryActionBtnText: {
-    color: '#FFF',
-    fontSize: 15,
+  optionIndexText: {
+    fontSize: 12,
     fontWeight: '800',
+    color: '#64748B',
   },
-  spotlightBanner: {
-    borderRadius: 18,
-    padding: 14,
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 14,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-  },
-  spotlightImage: {
-    width: 90,
-    height: 80,
-  },
-  spotlightTextWrap: {
+  optionTitleText: {
+    fontSize: 14,
+    fontWeight: '700',
     flex: 1,
   },
-  spotlightTitle: {
-    fontSize: 14.5,
-    fontWeight: '800',
-    marginBottom: 4,
+
+  // Modal Bottom Bar & Duolingo 3D Buttons
+  modalBottomBar: {
+    borderTopWidth: 1,
+    padding: 16,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 16,
   },
-  spotlightSub: {
+  bottomBarSuccess: {
+    backgroundColor: '#DCFCE7',
+    borderTopColor: '#86EFAC',
+  },
+  bottomBarError: {
+    backgroundColor: '#FEE2E2',
+    borderTopColor: '#FCA5A5',
+  },
+  resultBannerInner: {
+    gap: 12,
+  },
+  resultTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  resultHeading: {
+    fontSize: 15,
+    fontWeight: '900',
+    marginBottom: 2,
+  },
+  resultExplanation: {
     fontSize: 12,
-    color: '#64748B',
     lineHeight: 16,
   },
+  duoCheckBtn: {
+    backgroundColor: '#58CC02',
+    borderBottomWidth: 5,
+    borderBottomColor: '#46A302',
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  duoCheckBtnDisabled: {
+    backgroundColor: '#E5E7EB',
+    borderBottomColor: '#CBD5E1',
+    opacity: 0.6,
+  },
+  duoActionBtnSuccess: {
+    backgroundColor: '#58CC02',
+    borderBottomWidth: 5,
+    borderBottomColor: '#46A302',
+    borderRadius: 14,
+    paddingVertical: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  duoActionBtnError: {
+    backgroundColor: '#FF4B4B',
+    borderBottomWidth: 5,
+    borderBottomColor: '#DC2626',
+    borderRadius: 14,
+    paddingVertical: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  duoActionBtnText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '900',
+    letterSpacing: 0.8,
+  },
+
+  // 8. Chest Modal
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.65)',
@@ -1581,90 +2451,194 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  modalCard: {
+  chestRewardCard: {
     width: '100%',
-    maxWidth: 340,
+    maxWidth: 320,
     borderRadius: 22,
     padding: 24,
     alignItems: 'center',
+    borderBottomWidth: 5,
+    borderBottomColor: 'rgba(0,0,0,0.2)',
   },
-  modalImage: {
-    width: 140,
-    height: 110,
-    marginBottom: 14,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '900',
-    marginBottom: 8,
-  },
-  modalSub: {
-    fontSize: 13.5,
-    color: '#64748B',
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  modalBtn: {
-    flexDirection: 'row',
+  chestBigIconBadge: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    paddingVertical: 13,
-    borderRadius: 14,
-    marginBottom: 10,
+    marginBottom: 12,
   },
-  modalBtnText: {
-    color: '#FFF',
-    fontSize: 15,
-    fontWeight: '800',
-  },
-  modalCloseBtn: {
-    paddingVertical: 6,
-  },
-  modalCloseBtnText: {
-    color: '#94A3B8',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  tierSection: {
-    paddingHorizontal: 16,
-    marginTop: 14,
-    marginBottom: 4,
-  },
-  tierList: {
-    gap: 10,
-    paddingRight: 16,
-  },
-  tierCard: {
-    width: 175,
-    borderRadius: 16,
-    padding: 12,
-    borderWidth: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  tierBadgeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  chestRewardTitle: {
+    fontSize: 18,
+    fontWeight: '900',
     marginBottom: 6,
   },
-  tierBadgeText: {
-    fontSize: 10,
+  chestRewardSub: {
+    fontSize: 12.5,
+    color: '#64748B',
+    textAlign: 'center',
+    lineHeight: 18,
+    marginBottom: 16,
+  },
+  chestXpPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(28, 176, 246, 0.12)',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 12,
+    marginBottom: 18,
+  },
+  chestXpText: {
+    color: '#1CB0F6',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  chestClaimBtn: {
+    backgroundColor: '#F59E0B',
+    borderBottomWidth: 4,
+    borderBottomColor: '#B45309',
+    borderRadius: 12,
+    paddingVertical: 12,
+    width: '100%',
+    alignItems: 'center',
+  },
+  chestClaimBtnText: {
+    color: '#FFF',
+    fontSize: 13,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
-  tierTitle: {
+
+  // 9. Guidebook Modal
+  guidebookContainer: {
+    flex: 1,
+  },
+  guidebookNavTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  guidebookScroll: {
+    padding: 18,
+    paddingBottom: 40,
+  },
+  guidebookHero: {
+    borderRadius: 18,
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  guidebookHeroTitle: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '900',
+    marginTop: 8,
+  },
+  guidebookHeroSub: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 12.5,
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  guidebookBody: {
+    gap: 14,
+  },
+  guidebookSectionHeader: {
+    fontSize: 16,
+    fontWeight: '800',
+    marginBottom: 4,
+  },
+  syntaxCard: {
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderBottomWidth: 3.5,
+  },
+  syntaxCardTitle: {
+    fontSize: 13.5,
+    fontWeight: '800',
+    color: '#0284C7',
+    marginBottom: 4,
+  },
+  syntaxCardCode: {
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    color: '#EA580C',
+    fontSize: 12.5,
+    backgroundColor: 'rgba(0,0,0,0.04)',
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 6,
+  },
+  syntaxCardDesc: {
+    fontSize: 11.5,
+    color: '#64748B',
+    lineHeight: 16,
+  },
+
+  // 10. Stage Celebration Modal
+  celebrationCard: {
+    width: '100%',
+    maxWidth: 320,
+    borderRadius: 22,
+    padding: 22,
+    alignItems: 'center',
+  },
+  celebrationImg: {
+    width: 140,
+    height: 100,
+    marginBottom: 10,
+  },
+  celebrationTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    marginBottom: 6,
+  },
+  celebrationSub: {
+    fontSize: 12.5,
+    color: '#64748B',
+    textAlign: 'center',
+    lineHeight: 18,
+    marginBottom: 16,
+  },
+  celebrationXpRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    marginBottom: 16,
+  },
+  celebrationXpText: {
+    color: '#D97706',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  celebrationNextBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    width: '100%',
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  celebrationNextBtnText: {
+    color: '#FFF',
     fontSize: 14,
     fontWeight: '800',
-    marginBottom: 2,
   },
-  tierDesc: {
-    fontSize: 11,
-    lineHeight: 14,
+  celebrationCloseBtn: {
+    paddingVertical: 8,
+  },
+  celebrationCloseText: {
+    color: '#94A3B8',
+    fontSize: 12.5,
+    fontWeight: '600',
   },
 });
+
