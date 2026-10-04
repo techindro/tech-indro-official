@@ -93,7 +93,7 @@ const phrases = [
 ];
 
 phrases.forEach(p => {
-  console.log(\`"\${p}" -> \${isPalindrome(p) ? '✅ PALINDROME' : '❌ NOT PALINDROME'}\`);
+  console.log(\`"\${p}" -> \${isPalindrome(p) ? '[TRUE] PALINDROME' : '[FALSE] NOT PALINDROME'}\`);
 });
 `,
   },
@@ -404,9 +404,9 @@ export default function IndroLabsScreen() {
     // If HTML: DOM Parse simulation + live preview
     if (lang === 'html') {
       setOutput([
-        '✓ HTML5 DOM Parsed Successfully',
-        '✓ CSS Styles Computed & Applied',
-        '✓ Live Web Viewport Rendered Below',
+        '[OK] HTML5 DOM Parsed Successfully',
+        '[OK] CSS Styles Computed & Applied',
+        '[OK] Live Web Viewport Rendered Below',
         '---------------------------------------',
         'Status: Ready (Interactive container active)',
       ]);
@@ -417,7 +417,7 @@ export default function IndroLabsScreen() {
 
     // Cloud / Local sandbox execution
     try {
-      setOutput(['⚡ Initiating sandboxed compiler runtime...', 'Executing code safely...']);
+      setOutput(['[INFO] Initiating sandboxed compiler runtime...', 'Executing code safely...']);
       const res = await executeCode(lang, code, stdin.trim() || undefined);
 
       if (res.output) {

@@ -312,7 +312,10 @@ export default function TechIndroWelcomeAuth({
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9★</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+              <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9</Text>
+              <Ionicons name="star" size={13} color="#ffd700" />
+            </View>
             <Text style={styles.statLabel}>Student Rating</Text>
           </View>
         </View>
@@ -336,7 +339,7 @@ export default function TechIndroWelcomeAuth({
                 {/* Clean Phone Input Box */}
                 <View style={styles.phoneInputRow}>
                   <View style={styles.countryPicker}>
-                    <Text style={styles.flagEmoji}>🇮🇳</Text>
+                    <Ionicons name="globe-outline" size={15} color="#ea580c" />
                     <Text style={styles.countryCode}>+91</Text>
                     <Ionicons name="chevron-down" size={14} color="#64748b" style={{ marginLeft: 3 }} />
                   </View>

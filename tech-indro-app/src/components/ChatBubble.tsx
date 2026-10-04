@@ -31,7 +31,7 @@ export default function ChatBubble({ message, isUser: isUserProp, isLoading }: C
     return (
       <View style={[styles.row]}>
         <View style={styles.aiAvatar}>
-          <Text style={{ fontSize: 18 }}>🤖</Text>
+          <Ionicons name="sparkles" size={17} color="#ea580c" />
         </View>
         <View style={[styles.bubble, styles.aiBubble]}>
           <View style={styles.loadingDots}>
@@ -82,7 +82,7 @@ export default function ChatBubble({ message, isUser: isUserProp, isLoading }: C
     <View style={[styles.row, isUser && styles.rowUser]}>
       {!isUser && (
         <View style={styles.aiAvatar}>
-          <Text style={{ fontSize: 18 }}>🤖</Text>
+          <Ionicons name="sparkles" size={17} color="#ea580c" />
         </View>
       )}
       <View style={[styles.bubble, isUser ? styles.userBubble : styles.aiBubble]}>

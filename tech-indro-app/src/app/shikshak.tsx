@@ -338,7 +338,7 @@ export default function ShikshakScreen() {
       >
         {isAi && (
           <View style={styles.aiAvatarCircle}>
-            <Text style={{ fontSize: 18 }}>🤖</Text>
+            <Ionicons name="sparkles" size={17} color="#d97706" />
           </View>
         )}
 
@@ -572,7 +572,7 @@ export default function ShikshakScreen() {
             loading ? (
               <View style={styles.typingIndicator}>
                 <View style={styles.aiAvatarCircle}>
-                  <Text style={{ fontSize: 18 }}>🤖</Text>
+                  <Ionicons name="sparkles" size={17} color="#d97706" />
                 </View>
                 <View
                   style={[

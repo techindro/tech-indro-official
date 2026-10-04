@@ -297,10 +297,16 @@ export default function HomeScreen() {
                 </View>
                 <View style={styles.stat}>
                   <Text style={[styles.statNumber, { color: '#ffd700' }]}>24/7</Text>
-                  <Text style={[styles.statLabel, { color: '#ffd700', fontWeight: '700' }]}>AI Mentors ➔</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                    <Text style={[styles.statLabel, { color: '#ffd700', fontWeight: '700' }]}>AI Mentors</Text>
+                    <Ionicons name="arrow-forward" size={11} color="#ffd700" />
+                  </View>
                 </View>
                 <View style={styles.stat}>
-                  <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9★</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                    <Text style={[styles.statNumber, { color: '#ffd700' }]}>4.9</Text>
+                    <Ionicons name="star" size={14} color="#ffd700" />
+                  </View>
                   <Text style={styles.statLabel}>Student Rating</Text>
                 </View>
               </View>
@@ -488,7 +494,8 @@ export default function HomeScreen() {
                   style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
                 >
                   <Ionicons name="mic-outline" size={12} color="#10b981" />
-                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>AI Interview Prep ➔</Text>
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>AI Interview Prep</Text>
+                  <Ionicons name="arrow-forward" size={10} color={colors.textMuted} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={(e) => {
@@ -498,7 +505,8 @@ export default function HomeScreen() {
                   style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
                 >
                   <Ionicons name="flame-outline" size={12} color="#ea580c" />
-                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>Code Clash 1v1 ➔</Text>
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>Code Clash 1v1</Text>
+                  <Ionicons name="arrow-forward" size={10} color={colors.textMuted} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={(e) => {
@@ -508,7 +516,8 @@ export default function HomeScreen() {
                   style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, gap: 4 }}
                 >
                   <Ionicons name="apps-outline" size={12} color="#ec4899" />
-                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>110+ AI Tools ➔</Text>
+                  <Text style={{ fontSize: 11, fontWeight: '600', color: colors.text }}>110+ AI Tools</Text>
+                  <Ionicons name="arrow-forward" size={10} color={colors.textMuted} />
                 </TouchableOpacity>
               </View>
             </LinearGradient>
@@ -606,7 +615,7 @@ export default function HomeScreen() {
                       position: 'relative',
                     }}
                   >
-                    <Text style={{ fontSize: 24 }}>🤖</Text>
+                    <Ionicons name="sparkles" size={22} color="#ea580c" />
                     <View
                       style={{
                         position: 'absolute',

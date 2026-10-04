@@ -290,7 +290,10 @@ export default function CheckoutScreen() {
           <Ionicons name="shield-checkmark" size={16} color="#10B981" />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.hsTitle}>⚡ Powered by Razorpay Gateway</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Ionicons name="flash" size={14} color="#f59e0b" />
+            <Text style={styles.hsTitle}>Powered by Razorpay Gateway</Text>
+          </View>
           <Text style={styles.hsSubtitle}>
             Key: rzp_test_TjBdLNapXFt0Rw • Instant UPI, 3DS Cards & NetBanking
           </Text>

@@ -287,7 +287,10 @@ export default function CertificateScreen() {
 
                   {/* AI Academic Citation */}
                   <View style={styles.aiCitationBox}>
-                    <Text style={styles.aiCitationTag}>✨ AI ACADEMIC CITATION</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                      <Ionicons name="sparkles" size={12} color="#9333ea" />
+                      <Text style={styles.aiCitationTag}>AI ACADEMIC CITATION</Text>
+                    </View>
                     <Text style={styles.aiCitationText}>
                       Demonstrated exceptional technical rigor in fine-tuning neural models, architecting scalable systems, and delivering production-ready solutions certified by Tech Indro's AI Academic Board.
                     </Text>
