@@ -1042,7 +1042,7 @@ export default function HomeScreen() {
                 </View>
 
                 <Text style={styles.footerBrandDesc}>
-                  India's most loved AI & Robotics learning platform. Empowering students with industry-relevant skills.
+                  India's First AI-Powered Learning Platform. Empowering students with industry-relevant skills.
                 </Text>
 
                 {/* Google Play & App Store Badges */}
