@@ -2276,21 +2276,21 @@ footer {
     box-shadow: 0 4px 18px rgba(0,0,0,0.35);
 }
 .chat-widget-btn {
-    width: 50px;
-    height: 50px;
-    background: #25d366;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, #ff6b35, #ea580c);
     color: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     flex-shrink: 0;
 }
 .floating-chat-widget:hover .chat-widget-btn {
     transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.55);
 }
 @media (max-width: 640px) {
     .floating-chat-widget {
