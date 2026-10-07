@@ -8,16 +8,15 @@ import re
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
-from fastapi import FastAPI, HTTPException, Query, Body
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
-import uvicorn
+# FastAPI & Pydantic Framework Imports
+from fastapi import FastAPI, HTTPException  # type: ignore
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore
+from pydantic import BaseModel  # type: ignore
+import uvicorn  # type: ignore
 
-# LangChain Imports
-from langchain_core.documents import Document
-from langchain_community.retrievers import BM25Retriever
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+# LangChain Core Imports
+from langchain_core.prompts import ChatPromptTemplate  # type: ignore
+from langchain_core.output_parsers import StrOutputParser  # type: ignore
 
 # Environment variables
 BASE_DIR = Path(__file__).resolve().parent
@@ -363,8 +362,8 @@ CRITICAL RULES:
     # Groq Chain
     if GROQ_API_KEY and GROQ_API_KEY != "YOUR_GROQ_API_KEY":
         try:
-            from langchain_groq import ChatGroq
-            llm = ChatGroq(model_name="llama-3.3-70b-versatile", groq_api_key=GROQ_API_KEY, temperature=0.6)
+            from langchain_groq import ChatGroq  # type: ignore
+            llm = ChatGroq(model_name="llama-3.3-70b-versatile", groq_api_key=GROQ_API_KEY, temperature=0.6)  # type: ignore
             prompt = ChatPromptTemplate.from_messages([
                 ("system", sys_inst),
                 ("human", "{question}")
@@ -384,8 +383,8 @@ CRITICAL RULES:
     # Gemini Chain
     if GEMINI_API_KEY and GEMINI_API_KEY != "YOUR_GEMINI_API_KEY":
         try:
-            from langchain_google_genai import ChatGoogleGenerativeAI
-            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GEMINI_API_KEY, temperature=0.6)
+            from langchain_google_genai import ChatGoogleGenerativeAI  # type: ignore
+            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GEMINI_API_KEY, temperature=0.6)  # type: ignore
             prompt = ChatPromptTemplate.from_messages([
                 ("system", sys_inst),
                 ("human", "{question}")
