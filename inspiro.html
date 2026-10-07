@@ -1265,10 +1265,10 @@
 
             <!-- Feed Filter Tabs -->
             <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;">
-                <button class="mode-tab active" onclick="filterFeed('all')">🔥 Trending</button>
-                <button class="mode-tab" onclick="filterFeed('FDE')">🚀 FDE &amp; Cloud</button>
-                <button class="mode-tab" onclick="filterFeed('DataEngineering')">📊 Data Engineering</button>
-                <button class="mode-tab" onclick="filterFeed('MotuPatluCoding')">🎮 Gamified Coding</button>
+                <button class="mode-tab active" onclick="filterFeed('all')"><i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> Trending</button>
+                <button class="mode-tab" onclick="filterFeed('FDE')"><i data-lucide="terminal" style="width: 14px; height: 14px;"></i> FDE &amp; Cloud</button>
+                <button class="mode-tab" onclick="filterFeed('DataEngineering')"><i data-lucide="database" style="width: 14px; height: 14px;"></i> Data Engineering</button>
+                <button class="mode-tab" onclick="filterFeed('MotuPatluCoding')"><i data-lucide="trophy" style="width: 14px; height: 14px;"></i> Gamified Coding</button>
             </div>
 
             <!-- Posts Stream -->
@@ -1344,7 +1344,7 @@
 
                 <!-- Chat Toolbar & Input -->
                 <div class="chat-input-toolbar">
-                    <button class="input-tool-icon-btn" onclick="insertEmoji('🔥')" title="Emoji"><i data-lucide="smile" style="width: 20px; height: 20px;"></i></button>
+                    <button class="input-tool-icon-btn" onclick="insertAttachment()" title="Attach File / Diagram"><i data-lucide="paperclip" style="width: 20px; height: 20px;"></i></button>
                     <button class="input-tool-icon-btn" onclick="insertCodeTemplate()" title="Insert Code Snippet"><i data-lucide="code" style="width: 20px; height: 20px;"></i></button>
                     <button class="input-tool-icon-btn" onclick="sendVoiceNoteSnippet()" title="Voice Note"><i data-lucide="mic" style="width: 20px; height: 20px;"></i></button>
                     
@@ -1767,7 +1767,7 @@
                         ${msg.isCode ? `<div class="msg-code-container"><code>${escapeHtml(msg.codeContent || msg.text)}</code></div>` : ''}
                         <div class="msg-meta-row">
                             <span>${msg.timestamp}</span>
-                            ${isMe ? '<span class="blue-tick">✓✓</span>' : ''}
+                            ${isMe ? '<svg style="width: 14px; height: 14px; color: #38bdf8; display: inline-block; vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 7 17l-5-5"></path><path d="m22 10-7.5 7.5L13 16"></path></svg>' : ''}
                         </div>
                     </div>
                 </div>
@@ -1834,10 +1834,28 @@
             }
         }
 
-        function insertEmoji(em) {
+        function insertAttachment() {
             const input = document.getElementById('chatMessageInput');
-            input.value += ` ${em} `;
+            input.value += "[Attachment: architecture_diagram.png] ";
             input.focus();
+        }
+
+        function filterFeed(category) {
+            document.querySelectorAll('.mode-tab').forEach(b => {
+                const text = b.innerText.toLowerCase();
+                if ((category === 'all' && text.includes('trending')) || (category !== 'all' && text.includes(category.toLowerCase()))) {
+                    b.classList.add('active');
+                } else if (!b.id) {
+                    b.classList.remove('active');
+                }
+            });
+
+            if (category === 'all') {
+                renderFeedPosts(allPosts);
+            } else {
+                const filtered = allPosts.filter(p => (p.tags || []).some(t => t.toLowerCase().includes(category.toLowerCase())) || p.title.toLowerCase().includes(category.toLowerCase()));
+                renderFeedPosts(filtered.length > 0 ? filtered : allPosts);
+            }
         }
 
         function insertCodeTemplate() {
@@ -1848,7 +1866,7 @@
 
         function sendVoiceNoteSnippet() {
             const input = document.getElementById('chatMessageInput');
-            input.value = "🎙️ [Voice Note: 0:18s] Shared audio explanation of the architecture";
+            input.value = "[Audio Note: 0:18s] Shared audio explanation of the architecture";
             sendChatMessage();
         }
 

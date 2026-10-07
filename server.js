@@ -6468,7 +6468,7 @@ let INSPIRO_POSTS = [
             peerId: "peer_priya"
         },
         timestamp: "25 minutes ago",
-        title: "Shipped an automated enterprise VPC deployment pipeline for RAG agents! 🚀",
+        title: "Shipped an automated enterprise VPC deployment pipeline for RAG agents!",
         content: "Just completed Module 3 of the new Forward Deployed Engineer program. Deployed a zero-downtime Helm chart orchestrating Qdrant vector DB and vLLM inside an isolated client VPC. Check out the snippet below for graceful connection retries in Python:",
         codeSnippet: `import asyncio
 import httpx
@@ -6502,7 +6502,7 @@ async def robust_client_ping(service_url: str, retries: int = 5):
             peerId: "peer_rohan"
         },
         timestamp: "2 hours ago",
-        title: "Benchmarked PySpark vs DuckDB for 10M rows local analytics 📊",
+        title: "Benchmarked PySpark vs DuckDB for 10M rows local analytics",
         content: "If you're dealing with single-node datasets under 50GB, DuckDB with Parquet streaming is mind-bogglingly fast! For anything distributed across clusters, PySpark Catalyst optimizer still reigns supreme. Who else is building modern Lakehouses with Iceberg?",
         tags: ["#DataEngineering", "#PySpark", "#DuckDB", "#Snowflake"],
         likes: 68,
@@ -6522,7 +6522,7 @@ async def robust_client_ping(service_url: str, retries: int = 5):
             peerId: "peer_bittu"
         },
         timestamp: "4 hours ago",
-        title: "Motu & Patlu 14-Day Streak Completed!  samosa party! 🥟🔥",
+        title: "Motu & Patlu 14-Day Streak Completed! Samosa celebration session",
         content: "Finished the Binary Search Tree quest and earned 250 IndroGems! Motu said: 'Code hamesha dimaag aur logic se chalta hai, samose se nahi!' Join my study circle if you're preparing for TCS CodeVita or SIH 2026!",
         tags: ["#MotuPatluCoding", "#100DaysOfCode", "#StudentLife"],
         likes: 95,
