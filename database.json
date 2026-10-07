@@ -15066,7 +15066,7 @@
       ],
       "status": "AUTHENTIC_VERIFIED",
       "verifiedLedger": "Tech Indro Academic Ledger Node #1",
-      "updatedAt": "2026-09-28T12:07:01.591Z",
+      "updatedAt": "2026-10-07T16:08:02.970Z",
       "createdAt": "2026-09-28T12:01:52.668Z"
     },
     {
@@ -15164,6 +15164,318 @@
       "verifiedLedger": "Tech Indro Academic Ledger Node #1",
       "updatedAt": "2026-10-02T21:50:21.838Z",
       "createdAt": "2026-10-01T16:32:07.794Z"
+    },
+    {
+      "certId": "TI-CERT-2026-33980",
+      "studentName": "Rahul Sharma",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xE3C8B7850C7AB36709C9B966A58EF0CB671DA4A9",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:39.117Z",
+      "createdAt": "2026-10-07T16:08:12.914Z"
+    },
+    {
+      "certId": "TI-CERT-2026-21455",
+      "studentName": "S",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xAB8B0810219F7AA56F147CB75CC0E8D8DBE940CB",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:40.884Z",
+      "createdAt": "2026-10-07T16:08:40.884Z"
+    },
+    {
+      "certId": "TI-CERT-2026-58211",
+      "studentName": "Sh",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0x2A785FBCBE8B44E17E86331DC555F60F3A93E593",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:41.745Z",
+      "createdAt": "2026-10-07T16:08:41.745Z"
+    },
+    {
+      "certId": "TI-CERT-2026-45456",
+      "studentName": "Shu",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0x5FDB31BF6DF4458394AEFAF8E4805BA7640F5DDA",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:41.964Z",
+      "createdAt": "2026-10-07T16:08:41.964Z"
+    },
+    {
+      "certId": "TI-CERT-2026-83016",
+      "studentName": "Shub",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xD685EAC9CB7EC7434A4C10BCD3B6E6ADBB421810",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:42.225Z",
+      "createdAt": "2026-10-07T16:08:42.225Z"
+    },
+    {
+      "certId": "TI-CERT-2026-13430",
+      "studentName": "Shubh",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0x1F0D327512B5FE753C3432DE7BFDFBD8CCA4BD55",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:42.397Z",
+      "createdAt": "2026-10-07T16:08:42.397Z"
+    },
+    {
+      "certId": "TI-CERT-2026-23301",
+      "studentName": "Shubha",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0x190047BC026F035DF7EA6777AFF14F9F0216D056",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:42.603Z",
+      "createdAt": "2026-10-07T16:08:42.603Z"
+    },
+    {
+      "certId": "TI-CERT-2026-87824",
+      "studentName": "Shubham",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xF40F45A592C84FD5C47C3DAEB319CFCEBD940673",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:43.166Z",
+      "createdAt": "2026-10-07T16:08:42.802Z"
+    },
+    {
+      "certId": "TI-CERT-2026-41304",
+      "studentName": "Shubham P",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xBAD037618FCF25099F48D0C8693818DDFB48D79B",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:44.964Z",
+      "createdAt": "2026-10-07T16:08:44.964Z"
+    },
+    {
+      "certId": "TI-CERT-2026-84975",
+      "studentName": "Shubham Pa",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xF94C3541FEE6D9613132061F823D7D1E8401B991",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:45.180Z",
+      "createdAt": "2026-10-07T16:08:45.180Z"
+    },
+    {
+      "certId": "TI-CERT-2026-39797",
+      "studentName": "Shubham Pat",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xD34B3C1D9224B3EC996FB8619A38C3E509E76BD5",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:45.539Z",
+      "createdAt": "2026-10-07T16:08:45.539Z"
+    },
+    {
+      "certId": "TI-CERT-2026-86230",
+      "studentName": "Shubham Pate",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xC0E0D1840AF09554DEA315EEA46BC5FFF2C3BF16",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:45.718Z",
+      "createdAt": "2026-10-07T16:08:45.718Z"
+    },
+    {
+      "certId": "TI-CERT-2026-23468",
+      "studentName": "Shubham Patel",
+      "courseName": "Complete AI & Machine Learning Bootcamp",
+      "issueDate": "July 2026",
+      "honors": "GRADE A+ HONORS",
+      "ledgerHash": "0xFDA9623ADD1D500EC8077F6D2CFEEC9D6DB61E19",
+      "aiScore": "98.4%",
+      "issuer": "Tech Indro Professional Education",
+      "signatories": [
+        {
+          "name": "Shubham Patel",
+          "title": "Founder & CEO, Tech Indro"
+        },
+        {
+          "name": "Sangharsh Singh",
+          "title": "Dean of Academics, Tech Indro"
+        }
+      ],
+      "status": "AUTHENTIC_VERIFIED",
+      "verifiedLedger": "Tech Indro Academic Ledger Node #1",
+      "updatedAt": "2026-10-07T16:08:47.595Z",
+      "createdAt": "2026-10-07T16:08:46.095Z"
     }
   ]
 }

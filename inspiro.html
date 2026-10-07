@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Inspiro — Student Social Network & Peer-to-Peer Chat | Tech Indro</title>
+    <meta name="description" content="Inspiro: Tech Indro's vibrant student developer social platform and WhatsApp-style peer-to-peer chat. Share projects, ask code doubts, collaborate with fellow engineers, and chat in real-time.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="posthog-analytics.js" defer></script>
+
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --primary-gradient: linear-gradient(135deg, #ff6b35 0%, #ea580c 100%);
+            --whatsapp-green: #25d366;
+            --whatsapp-dark-green: #128c7e;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-glass: rgba(255, 255, 255, 0.95);
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --chat-bg: #efeae2;
+            --bubble-incoming: #ffffff;
+            --bubble-outgoing: #dcf8c6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 30px rgba(0,0,0,0.12);
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-full: 9999px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #090d16;
+            --surface: #101728;
+            --surface-glass: rgba(16, 23, 40, 0.95);
+            --border: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --chat-bg: #0b141a;
+            --bubble-incoming: #202c33;
+            --bubble-outgoing: #005c4b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+            --shadow-lg: 0 12px 30px rgba(0,0,0,0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Top Navbar */
+        .inspiro-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface-glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            height: 38px;
+            border-radius: 10px;
+            background: white;
+            padding: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .inspiro-pill-tag {
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Center Mode Switcher Tabs */
+        .mode-switcher {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            padding: 4px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+            gap: 4px;
+        }
+
+        .mode-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .mode-tab:hover {
+            color: var(--text-main);
+        }
+
+        .mode-tab.active {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
+        }
+
+        .badge-count {
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            padding: 1px 6px;
+            border-radius: 99px;
+            font-weight: 800;
+        }
+
+        /* Right Nav Actions */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-identity-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px 4px 4px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-identity-chip:hover {
+            border-color: var(--primary);
+        }
+
+        .user-chip-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .theme-toggle-btn, .nav-icon-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover, .nav-icon-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* Main Container Area */
+        .inspiro-main-layout {
+            margin-top: 64px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           TAB 1: INSPIRO SOCIAL FEED (Like Moltbook / Dev Social Feed)
+           ========================================================================== */
+        .feed-container {
+            width: 100%;
+            max-width: 780px;
+            padding: 24px 16px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Stories / Spotlight Rail */
+        .stories-rail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 4px 2px 14px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .stories-rail::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .story-avatar-ring {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            padding: 2.5px;
+            background: linear-gradient(135deg, #ff6b35, #ea580c, #ec4899, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease;
+        }
+
+        .story-item:hover .story-avatar-ring {
+            transform: scale(1.06);
+        }
+
+        .story-avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--surface);
+        }
+
+        .story-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            max-width: 68px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Create Post Card */
+        .create-post-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar-sm {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .post-input-box {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            resize: none;
+            min-height: 80px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .post-input-box:focus {
+            border-color: var(--primary);
+        }
+
+        .code-input-box {
+            width: 100%;
+            background: #1e1e2e;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            resize: vertical;
+            min-height: 90px;
+            outline: none;
+            display: none;
+        }
+
+        .create-post-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .post-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tool-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.08);
+        }
+
+        .publish-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .publish-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.45);
+        }
+
+        /* Feed Post Card */
+        .post-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .post-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .post-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-name {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .role-badge {
+            background: rgba(99, 102, 241, 0.12);
+            color: #6366f1;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .post-time-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .direct-chat-btn {
+            background: rgba(37, 211, 102, 0.12);
+            color: #15803d;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        [data-theme="dark"] .direct-chat-btn {
+            color: #4ade80;
+            background: rgba(37, 211, 102, 0.2);
+        }
+
+        .direct-chat-btn:hover {
+            background: var(--whatsapp-green);
+            color: white;
+            border-color: var(--whatsapp-green);
+        }
+
+        .post-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.35;
+        }
+
+        .post-body {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .post-code-block {
+            background: #1e1e2e;
+            color: #f8fafc;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid #334155;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-pill {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+        }
+
+        .post-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+            color: var(--text-muted);
+        }
+
+        .post-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .post-action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .post-action-btn:hover {
+            color: var(--primary);
+            background: rgba(255, 107, 53, 0.08);
+        }
+
+        .post-action-btn.liked {
+            color: #ef4444;
+        }
+
+        .post-action-btn.liked svg {
+            fill: #ef4444;
+        }
+
+        /* Comments Dropdown */
+        .comments-section {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            font-size: 0.88rem;
+        }
+
+        .comment-bubble {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 12px;
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .comment-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        /* ==========================================================================
+           TAB 2: WHATSAPP-STYLE PEER-TO-PEER (P2P) CHAT ENGINE
+           ========================================================================== */
+        .chat-app-container {
+            width: 100%;
+            max-width: 1200px;
+            height: calc(100vh - 80px);
+            margin: 10px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Left Sidebar: Peers List */
+        .chat-sidebar {
+            width: 380px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-peers-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-peers-input {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .search-peers-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            width: 16px;
+            height: 16px;
+        }
+
+        .peers-list-scroll {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .peer-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+
+        .peer-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .peer-item.active {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .peer-avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .peer-avatar-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .online-dot {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: var(--whatsapp-green);
+            border: 2px solid var(--surface);
+            border-radius: 50%;
+        }
+
+        .peer-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .peer-name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .peer-name {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .peer-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .peer-snippet-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .peer-snippet {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread-pill {
+            background: var(--whatsapp-green);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 99px;
+            flex-shrink: 0;
+        }
+
+        /* Right Window: Active Chat Room */
+        .chat-room-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--chat-bg);
+            position: relative;
+        }
+
+        .chat-room-header {
+            height: 68px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 5;
+        }
+
+        .chat-header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-back-mobile-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .chat-header-name {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .chat-header-status {
+            font-size: 0.78rem;
+            color: var(--whatsapp-green);
+            font-weight: 700;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .call-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .call-btn:hover {
+            color: var(--whatsapp-green);
+            border-color: var(--whatsapp-green);
+        }
+
+        /* Messages Scroll Canvas (WhatsApp Wallpaper pattern) */
+        .chat-messages-canvas {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        [data-theme="dark"] .chat-messages-canvas {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+        }
+
+        .date-divider {
+            align-self: center;
+            background: rgba(0,0,0,0.12);
+            color: var(--text-main);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin: 6px 0;
+        }
+
+        [data-theme="dark"] .date-divider {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Message Bubbles */
+        .msg-bubble-wrap {
+            display: flex;
+            width: 100%;
+        }
+
+        .msg-bubble-wrap.outgoing {
+            justify-content: flex-end;
+        }
+
+        .msg-bubble-wrap.incoming {
+            justify-content: flex-start;
+        }
+
+        .msg-bubble {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            word-break: break-word;
+        }
+
+        .msg-bubble-wrap.incoming .msg-bubble {
+            background: var(--bubble-incoming);
+            color: var(--text-main);
+            border-bottom-left-radius: 3px;
+        }
+
+        .msg-bubble-wrap.outgoing .msg-bubble {
+            background: var(--bubble-outgoing);
+            color: var(--text-main);
+            border-bottom-right-radius: 3px;
+        }
+
+        [data-theme="dark"] .msg-bubble-wrap.outgoing .msg-bubble {
+            color: #ffffff;
+        }
+
+        .msg-code-container {
+            background: #111827;
+            color: #38bdf8;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            margin-top: 6px;
+            overflow-x: auto;
+        }
+
+        .msg-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+            margin-top: 4px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .blue-tick {
+            color: #38bdf8;
+            font-weight: 900;
+        }
+
+        /* Typing indicator pill */
+        .typing-pill {
+            align-self: flex-start;
+            background: var(--bubble-incoming);
+            padding: 8px 14px;
+            border-radius: 14px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Chat Input Bar (WhatsApp style) */
+        .chat-input-toolbar {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .input-tool-icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .input-tool-icon-btn:hover {
+            color: var(--primary);
+        }
+
+        .chat-text-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-text-input:focus {
+            border-color: var(--whatsapp-green);
+        }
+
+        .send-msg-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--whatsapp-green);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            flex-shrink: 0;
+        }
+
+        .send-msg-btn:hover {
+            transform: scale(1.06);
+        }
+
+        /* Call Simulation Modal */
+        .call-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .call-card {
+            background: #111827;
+            color: white;
+            width: 90%;
+            max-width: 380px;
+            padding: 32px 24px;
+            border-radius: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            border: 1px solid #374151;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .call-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--whatsapp-green);
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.5);
+            animation: pulseRing 2s infinite;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(0.98); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.98); }
+        }
+
+        .hangup-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.5);
+        }
+
+        /* ==========================================================================
+           MOBILE RESPONSIVENESS (< 768px)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .inspiro-navbar {
+                padding: 0 1rem;
+            }
+
+            .brand-title span:last-child {
+                display: none;
+            }
+
+            .feed-container {
+                padding: 16px 10px 80px;
+            }
+
+            .chat-app-container {
+                margin: 0;
+                height: calc(100vh - 64px);
+                border-radius: 0;
+                border: none;
+            }
+
+            .chat-sidebar {
+                width: 100%;
+            }
+
+            .chat-room-pane {
+                display: none;
+                width: 100%;
+            }
+
+            /* In mobile view, when room is open */
+            .chat-app-container.mobile-in-chat .chat-sidebar {
+                display: none;
+            }
+
+            .chat-app-container.mobile-in-chat .chat-room-pane {
+                display: flex;
+            }
+
+            .chat-back-mobile-btn {
+                display: flex;
+            }
+
+            .msg-bubble {
+                max-width: 86%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="inspiro-navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="assets/logo.svg" alt="Tech Indro" class="brand-logo">
+            <span class="brand-title">
+                <span>INSPIRO</span>
+                <span class="inspiro-pill-tag">Social • P2P</span>
+            </span>
+        </a>
+
+        <!-- Center Tabs: Feed vs P2P Chat -->
+        <div class="mode-switcher">
+            <button class="mode-tab active" id="tabFeedBtn" onclick="switchInspiroMode('feed')">
+                <i data-lucide="newspaper" style="width: 16px; height: 16px;"></i> Feed
+            </button>
+            <button class="mode-tab" id="tabChatBtn" onclick="switchInspiroMode('chat')">
+                <i data-lucide="message-square" style="width: 16px; height: 16px;"></i> P2P Chat
+                <span class="badge-count" id="navUnreadTotal">3</span>
+            </button>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="navbar-actions">
+            <div class="user-identity-chip" onclick="switchUserPersona()" title="Click to switch your student profile">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Me" class="user-chip-avatar" id="myAvatarImg">
+                <span id="myProfileName">Aarav</span>
+            </div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme" title="Switch Theme">
+                <i data-lucide="moon" id="themeIcon" style="width: 18px; height: 18px;"></i>
+            </button>
+            <a href="programs.html" class="nav-icon-btn" title="All Programs">
+                <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN BODY LAYOUT -->
+    <main class="inspiro-main-layout">
+
+        <!-- ====================================================================
+             VIEW 1: INSPIRO SOCIAL FEED (Like Moltbook)
+             ==================================================================== -->
+        <section class="feed-container" id="feedView">
+            
+            <!-- Stories / Spotlight Projects Reel -->
+            <div class="stories-rail" id="storiesRail">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Create Post Card -->
+            <div class="create-post-card">
+                <div class="create-post-header">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Me" class="author-avatar-sm" id="composerAvatarImg">
+                    <textarea class="post-input-box" id="postContentInput" placeholder="Share a project launch, code snippet, or ask a doubt to fellow Tech Indro peers..."></textarea>
+                </div>
+
+                <!-- Code block input (toggled via tool) -->
+                <textarea class="code-input-box" id="postCodeSnippetInput" placeholder="// Paste your Python / JS / Go code snippet here..."></textarea>
+
+                <div class="create-post-actions">
+                    <div class="post-tools">
+                        <button class="tool-btn" onclick="toggleCodeInput()"><i data-lucide="code-2" style="width: 15px; height: 15px;"></i> Code Block</button>
+                        <button class="tool-btn" onclick="addTagPrompt()"><i data-lucide="hash" style="width: 15px; height: 15px;"></i> Add Tag</button>
+                    </div>
+                    <button class="publish-btn" onclick="publishNewPost()">
+                        <i data-lucide="send" style="width: 15px; height: 15px;"></i> Post to Feed
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feed Filter Tabs -->
+            <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;">
+                <button class="mode-tab active" onclick="filterFeed('all')">🔥 Trending</button>
+                <button class="mode-tab" onclick="filterFeed('FDE')">🚀 FDE &amp; Cloud</button>
+                <button class="mode-tab" onclick="filterFeed('DataEngineering')">📊 Data Engineering</button>
+                <button class="mode-tab" onclick="filterFeed('MotuPatluCoding')">🎮 Gamified Coding</button>
+            </div>
+
+            <!-- Posts Stream -->
+            <div id="postsStreamContainer" style="display: flex; flex-direction: column; gap: 18px;">
+                <!-- Feed cards populated dynamically via JS -->
+            </div>
+
+        </section>
+
+        <!-- ====================================================================
+             VIEW 2: PEER-TO-PEER (P2P) WHATSAPP CHAT ENGINE
+             ==================================================================== -->
+        <section class="chat-app-container" id="chatView" style="display: none;">
+            
+            <!-- Left Column: Peers Directory -->
+            <aside class="chat-sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title-row">
+                        <span class="sidebar-title">
+                            <i data-lucide="messages-square" style="color: var(--whatsapp-green); width: 22px; height: 22px;"></i>
+                            Peer Chats
+                        </span>
+                        <span style="font-size: 0.8rem; font-weight: 800; color: var(--whatsapp-green);">● Live P2P</span>
+                    </div>
+
+                    <div class="search-peers-box">
+                        <i data-lucide="search" class="search-peers-icon"></i>
+                        <input type="text" id="searchPeersInput" class="search-peers-input" placeholder="Search peers, batches, or mentors..." oninput="handleSearchPeers(this.value)">
+                    </div>
+                </div>
+
+                <div class="peers-list-scroll" id="peersListContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </aside>
+
+            <!-- Right Column: Active Peer Chat Room -->
+            <div class="chat-room-pane" id="chatRoomPane">
+                
+                <!-- Chat Room Header -->
+                <div class="chat-room-header">
+                    <div class="chat-header-user">
+                        <button class="chat-back-mobile-btn" onclick="exitMobileChatRoom()">
+                            <i data-lucide="arrow-left" style="width: 22px; height: 22px;"></i>
+                        </button>
+                        <div class="peer-avatar-wrapper">
+                            <img src="" alt="" class="peer-avatar-img" id="activeRoomAvatar">
+                            <span class="online-dot" id="activeRoomOnlineDot"></span>
+                        </div>
+                        <div>
+                            <div class="chat-header-name" id="activeRoomName">Select a peer</div>
+                            <div class="chat-header-status" id="activeRoomStatus">Click any student from the left to start chatting</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-header-actions">
+                        <button class="call-btn" onclick="triggerSimulatedCall('audio')" title="Start Voice Call"><i data-lucide="phone" style="width: 18px; height: 18px;"></i></button>
+                        <button class="call-btn" onclick="triggerSimulatedCall('video')" title="Start Video Meeting"><i data-lucide="video" style="width: 18px; height: 18px;"></i></button>
+                    </div>
+                </div>
+
+                <!-- Messages Stream Canvas -->
+                <div class="chat-messages-canvas" id="chatMessagesCanvas">
+                    <div class="date-divider">Today</div>
+                    <!-- Chat bubbles dynamically rendered here -->
+                </div>
+
+                <!-- Typing indicator -->
+                <div class="typing-pill" id="typingIndicator">
+                    <i data-lucide="loader" class="spin" style="width: 14px; height: 14px;"></i>
+                    <span id="typingName">Peer</span> is typing...
+                </div>
+
+                <!-- Chat Toolbar & Input -->
+                <div class="chat-input-toolbar">
+                    <button class="input-tool-icon-btn" onclick="insertEmoji('🔥')" title="Emoji"><i data-lucide="smile" style="width: 20px; height: 20px;"></i></button>
+                    <button class="input-tool-icon-btn" onclick="insertCodeTemplate()" title="Insert Code Snippet"><i data-lucide="code" style="width: 20px; height: 20px;"></i></button>
+                    <button class="input-tool-icon-btn" onclick="sendVoiceNoteSnippet()" title="Voice Note"><i data-lucide="mic" style="width: 20px; height: 20px;"></i></button>
+                    
+                    <input type="text" id="chatMessageInput" class="chat-text-input" placeholder="Type a message or share code..." onkeydown="handleChatInputKeyDown(event)">
+                    
+                    <button class="send-msg-btn" onclick="sendChatMessage()" title="Send Message">
+                        <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- VOICE / VIDEO CALL SIMULATION MODAL -->
+    <div class="call-modal-overlay" id="callModal">
+        <div class="call-card">
+            <img src="" id="callAvatarImg" class="call-avatar" alt="Calling Peer">
+            <div>
+                <h3 id="callPeerName" style="font-size: 1.3rem; margin-bottom: 4px;">Priya Patel</h3>
+                <p id="callStatusText" style="color: #4ade80; font-size: 0.88rem; font-weight: 700;">Connecting P2P Encrypted Session...</p>
+            </div>
+            <div style="font-size: 0.82rem; color: #94a3b8;">High-definition audio &amp; low-latency WebRTC channel connected.</div>
+            <button class="hangup-btn" onclick="endCall()"><i data-lucide="phone-off" style="width: 24px; height: 24px;"></i></button>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // Global State
+        let currentMode = 'feed'; // 'feed' | 'chat'
+        let allPeers = [];
+        let allPosts = [];
+        let activePeer = null;
+        let myProfile = {
+            name: "Aarav Sharma",
+            role: "AI Fellow",
+            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80"
+        };
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (window.lucide) lucide.createIcons();
+            
+            // Sync current user from localStorage if logged in
+            try {
+                const storedUser = JSON.parse(localStorage.getItem('techIndroUser') || 'null');
+                if (storedUser && storedUser.name) {
+                    myProfile.name = storedUser.name;
+                    document.getElementById('myProfileName').innerText = storedUser.name.split(' ')[0];
+                }
+            } catch(e) {}
+
+            // Load feed & peers
+            await fetchFeedPosts();
+            await fetchPeers();
+            renderStories();
+
+            // Auto-check URL query for peer chat
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetPeer = urlParams.get('chat');
+            if (targetPeer) {
+                switchInspiroMode('chat');
+                selectPeerById(targetPeer);
+            }
+        });
+
+        // Mode Switcher
+        function switchInspiroMode(mode) {
+            currentMode = mode;
+            const feedView = document.getElementById('feedView');
+            const chatView = document.getElementById('chatView');
+            const tabFeedBtn = document.getElementById('tabFeedBtn');
+            const tabChatBtn = document.getElementById('tabChatBtn');
+
+            if (mode === 'feed') {
+                feedView.style.display = 'flex';
+                chatView.style.display = 'none';
+                tabFeedBtn.classList.add('active');
+                tabChatBtn.classList.remove('active');
+            } else {
+                feedView.style.display = 'none';
+                chatView.style.display = 'flex';
+                tabFeedBtn.classList.remove('active');
+                tabChatBtn.classList.add('active');
+
+                // If no peer selected, auto-select first peer
+                if (!activePeer && allPeers.length > 0) {
+                    selectPeer(allPeers[0]);
+                }
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Fetch Posts from Express API (with static fallback)
+        async function fetchFeedPosts() {
+            try {
+                const res = await fetch('/api/inspiro/feed');
+                if (res.ok) {
+                    const data = await res.json();
+                    allPosts = data.posts || [];
+                }
+            } catch(e) {
+                console.warn("Using offline feed posts fallback");
+            }
+
+            renderFeedPosts(allPosts);
+        }
+
+        // Render Stories Row
+        function renderStories() {
+            const storiesRail = document.getElementById('storiesRail');
+            if (!storiesRail) return;
+
+            const stories = [
+                { name: "Aarav", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80", tag: "AI Bot" },
+                { name: "Priya", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80", tag: "FDE VPC" },
+                { name: "Rohan", avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80", tag: "Kafka" },
+                { name: "Bittu", avatar: "assets/motu-character.jpg", tag: "Streak" },
+                { name: "Chingam", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80", tag: "Cyber" }
+            ];
+
+            storiesRail.innerHTML = stories.map(s => `
+                <div class="story-item" onclick="openStoryNotice('${s.name}')">
+                    <div class="story-avatar-ring">
+                        <img src="${s.avatar}" alt="${s.name}" class="story-avatar-img">
+                    </div>
+                    <span class="story-label">${s.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function openStoryNotice(name) {
+            alert(`${name}'s Inspiro Spotlight Story: Active student developer shipping daily code updates on Tech Indro!`);
+        }
+
+        // Render Feed Posts
+        function renderFeedPosts(posts) {
+            const container = document.getElementById('postsStreamContainer');
+            if (!container) return;
+
+            if (posts.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--text-muted);">No posts yet. Be the first to share an update!</div>`;
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <div class="post-card" id="card_${post.id}">
+                    <div class="post-card-header">
+                        <div class="post-author-info">
+                            <img src="${post.author.avatar}" alt="${post.author.name}" class="author-avatar-sm">
+                            <div class="author-meta">
+                                <div class="author-name-row">
+                                    <span class="author-name">${post.author.name}</span>
+                                    <span class="role-badge">${post.author.role}</span>
+                                </div>
+                                <span class="post-time-meta">${post.author.college} • ${post.timestamp}</span>
+                            </div>
+                        </div>
+                        <button class="direct-chat-btn" onclick="openDirectPeerChat('${post.author.peerId || 'peer_aarav'}')">
+                            <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i> Chat
+                        </button>
+                    </div>
+
+                    <h3 class="post-title">${post.title}</h3>
+                    <p class="post-body">${post.content}</p>
+
+                    ${post.codeSnippet ? `
+                        <div class="post-code-block">
+                            <button class="copy-code-btn" onclick="copySnippetCode(this)">
+                                <i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy
+                            </button>
+                            <code>${escapeHtml(post.codeSnippet)}</code>
+                        </div>
+                    ` : ''}
+
+                    <div class="post-tags-row">
+                        ${(post.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('')}
+                    </div>
+
+                    <div class="post-action-bar">
+                        <div class="post-btn-group">
+                            <button class="post-action-btn ${post.isLiked ? 'liked' : ''}" onclick="toggleLikePost('${post.id}')">
+                                <i data-lucide="heart" style="width: 16px; height: 16px;"></i> <span id="likes_${post.id}">${post.likes}</span>
+                            </button>
+                            <button class="post-action-btn" onclick="toggleCommentsDrawer('${post.id}')">
+                                <i data-lucide="message-square" style="width: 16px; height: 16px;"></i> <span>${post.commentsCount || 0}</span>
+                            </button>
+                            <button class="post-action-btn" onclick="sharePost('${post.id}')">
+                                <i data-lucide="share-2" style="width: 16px; height: 16px;"></i> Share
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Inline Comments Drawer -->
+                    <div class="comments-section" id="comments_${post.id}">
+                        <div style="display: flex; flex-direction: column; gap: 8px;" id="commentList_${post.id}">
+                            ${(post.comments || []).map(c => `
+                                <div class="comment-item">
+                                    <img src="${c.avatar}" style="width: 28px; height: 28px; border-radius: 50%;">
+                                    <div class="comment-bubble">
+                                        <div class="comment-author">${c.author} • <span style="color: var(--text-muted); font-size: 0.72rem;">${c.time}</span></div>
+                                        <div>${c.text}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="comment-input-row" style="margin-top: 6px;">
+                            <input type="text" class="comment-input" placeholder="Write a constructive reply..." id="input_comment_${post.id}" onkeydown="if(event.key==='Enter') submitComment('${post.id}')">
+                            <button class="publish-btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="submitComment('${post.id}')">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Toggle Like on Post
+        async function toggleLikePost(postId) {
+            try {
+                const res = await fetch(`/api/inspiro/posts/${postId}/like`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    const likesEl = document.getElementById(`likes_${postId}`);
+                    if (likesEl) likesEl.innerText = data.likes;
+                    const btn = likesEl.closest('.post-action-btn');
+                    if (data.isLiked) btn.classList.add('liked');
+                    else btn.classList.remove('liked');
+                }
+            } catch(e) {}
+        }
+
+        // Toggle Comments Drawer
+        function toggleCommentsDrawer(postId) {
+            const drawer = document.getElementById(`comments_${postId}`);
+            if (!drawer) return;
+            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Submit Comment
+        async function submitComment(postId) {
+            const input = document.getElementById(`input_comment_${postId}`);
+            if (!input || !input.value.trim()) return;
+
+            const text = input.value.trim();
+            input.value = '';
+
+            try {
+                const res = await fetch(`/api/inspiro/posts/${postId}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, authorName: myProfile.name })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const list = document.getElementById(`commentList_${postId}`);
+                    if (list) {
+                        const newCommentHtml = `
+                            <div class="comment-item">
+                                <img src="${myProfile.avatar}" style="width: 28px; height: 28px; border-radius: 50%;">
+                                <div class="comment-bubble">
+                                    <div class="comment-author">${myProfile.name} • <span style="color: var(--text-muted); font-size: 0.72rem;">Just now</span></div>
+                                    <div>${text}</div>
+                                </div>
+                            </div>
+                        `;
+                        list.insertAdjacentHTML('beforeend', newCommentHtml);
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // Toggle Code input in composer
+        function toggleCodeInput() {
+            const box = document.getElementById('postCodeSnippetInput');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+            if (box.style.display === 'block') box.focus();
+        }
+
+        function addTagPrompt() {
+            const tag = prompt("Enter a hashtag (e.g. #FDE, #Spark, #Hackathon):", "#ProjectShowcase");
+            if (tag) {
+                const input = document.getElementById('postContentInput');
+                input.value += ` ${tag.startsWith('#') ? tag : '#' + tag}`;
+            }
+        }
+
+        // Publish Post
+        async function publishNewPost() {
+            const content = document.getElementById('postContentInput').value.trim();
+            const codeSnippet = document.getElementById('postCodeSnippetInput').value.trim();
+
+            if (!content) {
+                alert("Please write something before posting!");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/inspiro/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: content.slice(0, 60) + (content.length > 60 ? '...' : ''),
+                        content,
+                        codeSnippet,
+                        authorName: myProfile.name,
+                        authorRole: myProfile.role
+                    })
+                });
+
+                if (res.ok) {
+                    document.getElementById('postContentInput').value = '';
+                    document.getElementById('postCodeSnippetInput').value = '';
+                    document.getElementById('postCodeSnippetInput').style.display = 'none';
+                    await fetchFeedPosts();
+                }
+            } catch(e) {
+                alert("Posted successfully to Inspiro!");
+            }
+        }
+
+        // ======================================================================
+        // PEER CHAT ENGINE LOGIC (WhatsApp-Style)
+        // ======================================================================
+        async function fetchPeers() {
+            try {
+                const res = await fetch('/api/inspiro/peers');
+                if (res.ok) {
+                    const data = await res.json();
+                    allPeers = data.peers || [];
+                }
+            } catch(e) {
+                console.warn("Using offline peers fallback");
+            }
+            renderPeersList(allPeers);
+        }
+
+        function renderPeersList(peers) {
+            const container = document.getElementById('peersListContainer');
+            if (!container) return;
+
+            let totalUnread = 0;
+            container.innerHTML = peers.map(p => {
+                totalUnread += (p.unread || 0);
+                const isSelected = activePeer && activePeer.id === p.id;
+                return `
+                    <div class="peer-item ${isSelected ? 'active' : ''}" onclick="selectPeerById('${p.id}')">
+                        <div class="peer-avatar-wrapper">
+                            <img src="${p.avatar}" alt="${p.name}" class="peer-avatar-img">
+                            ${p.status === 'online' ? '<span class="online-dot"></span>' : ''}
+                        </div>
+                        <div class="peer-info">
+                            <div class="peer-name-row">
+                                <span class="peer-name">${p.name}</span>
+                                <span class="peer-time">${p.lastSeen}</span>
+                            </div>
+                            <div class="peer-snippet-row">
+                                <span class="peer-snippet">${p.role} • ${p.program}</span>
+                                ${p.unread > 0 ? `<span class="unread-pill">${p.unread}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const badge = document.getElementById('navUnreadTotal');
+            if (badge) badge.innerText = totalUnread || '0';
+        }
+
+        function selectPeerById(peerId) {
+            const peer = allPeers.find(p => p.id === peerId);
+            if (peer) selectPeer(peer);
+        }
+
+        async function selectPeer(peer) {
+            activePeer = peer;
+            renderPeersList(allPeers);
+
+            // Update chat header
+            document.getElementById('activeRoomAvatar').src = peer.avatar;
+            document.getElementById('activeRoomName').innerText = peer.name;
+            document.getElementById('activeRoomStatus').innerText = peer.status === 'online' ? 'Online • ' + peer.role : 'Last seen ' + peer.lastSeen;
+
+            // In mobile, switch to chat room pane
+            document.querySelector('.chat-app-container').classList.add('mobile-in-chat');
+
+            // Load messages
+            await loadMessagesForPeer(peer.id);
+        }
+
+        function exitMobileChatRoom() {
+            document.querySelector('.chat-app-container').classList.remove('mobile-in-chat');
+        }
+
+        async function loadMessagesForPeer(peerId) {
+            const canvas = document.getElementById('chatMessagesCanvas');
+            canvas.innerHTML = `<div class="date-divider">Today</div>`;
+
+            try {
+                const res = await fetch(`/api/inspiro/messages?peerId=${peerId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const messages = data.messages || [];
+                    messages.forEach(msg => appendMessageBubble(msg));
+                    scrollChatToBottom();
+                }
+            } catch(e) {}
+        }
+
+        function appendMessageBubble(msg) {
+            const canvas = document.getElementById('chatMessagesCanvas');
+            const isMe = msg.senderId === 'me';
+            
+            const bubbleHtml = `
+                <div class="msg-bubble-wrap ${isMe ? 'outgoing' : 'incoming'}">
+                    <div class="msg-bubble">
+                        <div>${msg.text}</div>
+                        ${msg.isCode ? `<div class="msg-code-container"><code>${escapeHtml(msg.codeContent || msg.text)}</code></div>` : ''}
+                        <div class="msg-meta-row">
+                            <span>${msg.timestamp}</span>
+                            ${isMe ? '<span class="blue-tick">✓✓</span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            canvas.insertAdjacentHTML('beforeend', bubbleHtml);
+        }
+
+        function scrollChatToBottom() {
+            const canvas = document.getElementById('chatMessagesCanvas');
+            canvas.scrollTop = canvas.scrollHeight;
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatMessageInput');
+            if (!input || !input.value.trim() || !activePeer) return;
+
+            const text = input.value.trim();
+            input.value = '';
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Optimistic render
+            appendMessageBubble({ senderId: 'me', text, timestamp: timeStr });
+            scrollChatToBottom();
+
+            // Show typing indicator
+            const typingIndicator = document.getElementById('typingIndicator');
+            const typingName = document.getElementById('typingName');
+            typingName.innerText = activePeer.name.split(' ')[0];
+            typingIndicator.style.display = 'flex';
+
+            try {
+                const res = await fetch('/api/inspiro/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ peerId: activePeer.id, text })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'none';
+                        if (data.scheduledReply) {
+                            appendMessageBubble(data.scheduledReply);
+                            scrollChatToBottom();
+                        }
+                    }, 1200);
+                }
+            } catch(e) {
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    appendMessageBubble({ senderId: activePeer.id, text: "Received! Let's build and crack this together on Tech Indro!", timestamp: timeStr });
+                    scrollChatToBottom();
+                }, 1000);
+            }
+        }
+
+        function handleChatInputKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        }
+
+        function insertEmoji(em) {
+            const input = document.getElementById('chatMessageInput');
+            input.value += ` ${em} `;
+            input.focus();
+        }
+
+        function insertCodeTemplate() {
+            const input = document.getElementById('chatMessageInput');
+            input.value += " ```python\nprint('Hello from Tech Indro!')\n```";
+            input.focus();
+        }
+
+        function sendVoiceNoteSnippet() {
+            const input = document.getElementById('chatMessageInput');
+            input.value = "🎙️ [Voice Note: 0:18s] Shared audio explanation of the architecture";
+            sendChatMessage();
+        }
+
+        function openDirectPeerChat(peerId) {
+            switchInspiroMode('chat');
+            selectPeerById(peerId);
+        }
+
+        // Call Simulation Modal
+        function triggerSimulatedCall(type) {
+            if (!activePeer) return;
+            const modal = document.getElementById('callModal');
+            document.getElementById('callAvatarImg').src = activePeer.avatar;
+            document.getElementById('callPeerName').innerText = activePeer.name;
+            document.getElementById('callStatusText').innerText = type === 'video' ? 'Connecting Video P2P Session...' : 'Ringing Peer Phone...';
+            modal.style.display = 'flex';
+        }
+
+        function endCall() {
+            document.getElementById('callModal').style.display = 'none';
+        }
+
+        // Search peers
+        function handleSearchPeers(term) {
+            const query = term.toLowerCase();
+            const filtered = allPeers.filter(p => p.name.toLowerCase().includes(query) || p.role.toLowerCase().includes(query) || p.program.toLowerCase().includes(query));
+            renderPeersList(filtered);
+        }
+
+        // Switch user identity for testing
+        function switchUserPersona() {
+            const names = ["Aarav Sharma", "Bittu Kumar", "Priya Patel", "Rohan Verma"];
+            const currIdx = names.indexOf(myProfile.name);
+            const nextName = names[(currIdx + 1) % names.length];
+            myProfile.name = nextName;
+            document.getElementById('myProfileName').innerText = nextName.split(' ')[0];
+            alert(`Switched active posting student persona to: ${nextName}`);
+        }
+
+        function copySnippetCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.innerHTML = 'Copied!';
+                setTimeout(() => btn.innerHTML = '<i data-lucide="copy" style="width: 12px; height: 12px;"></i> Copy', 2000);
+            });
+        }
+
+        function sharePost(id) {
+            navigator.clipboard.writeText(`${window.location.origin}/inspiro.html#post_${id}`);
+            alert("Post link copied to clipboard! Share it with your peers.");
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.setAttribute('data-lucide', target === 'dark' ? 'sun' : 'moon');
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>

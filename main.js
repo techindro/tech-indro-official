@@ -126,6 +126,23 @@ function ensureNavDrawer() {
                 <span class="drawer-badge" style="background: linear-gradient(135deg, #ec4899, #f43f5e); font-size: 0.65rem; color: white;">NEW</span>
             </div>
             <div class="drawer-primary-links">
+                <!-- Inspiro: Student Social Network & P2P Chat -->
+                <a href="inspiro.html" class="drawer-card" onclick="closeNavDrawer()" style="border-left: 3px solid #25d366;">
+                    <div class="drawer-card-icon" style="background: linear-gradient(135deg, #25d366, #128c7e);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                    </div>
+                    <div class="drawer-card-info">
+                        <div class="drawer-card-title-row">
+                            <span class="drawer-card-title" style="color: #111827; font-weight: 700;">Inspiro (P2P Chat &amp; Feed)</span>
+                            <span class="drawer-badge" style="background: #25d366; color: white;">WhatsApp &amp; Moltbook</span>
+                        </div>
+                        <span class="drawer-card-desc" style="color: #4b5563; font-weight: 500;">Chat peer-to-peer with fellow students, share code &amp; showcase projects</span>
+                    </div>
+                    <svg class="drawer-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+
                 <!-- 1. Technical Interview Studio -->
                 <a href="interview-prep.html" class="drawer-card" onclick="closeNavDrawer()">
                     <div class="drawer-card-icon" style="background: linear-gradient(135deg, #ff6b35, #ea580c);">

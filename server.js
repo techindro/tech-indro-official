@@ -6354,10 +6354,359 @@ app.get('/api/daily-byte/archive', (req, res) => {
             difficulty: b.difficulty,
             language: b.language,
             points: b.points,
-            isCompleted: USER_STREAK_STATE.completedByteIds.includes(b.id)
         }))
     });
 });
+// ============================================================================
+// INSPIRO SOCIAL & PEER-TO-PEER (P2P) MESSAGING ENGINE (Like Moltbook + WhatsApp)
+// ============================================================================
+
+let INSPIRO_PEERS = [
+    {
+        id: "peer_aarav",
+        name: "Aarav Sharma",
+        role: "AI & LLM Systems Fellow",
+        college: "IIT BHU (Varanasi)",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "Complete AI & ML Bootcamp",
+        badge: "AI Fellow",
+        unread: 1,
+        bio: "Building RAG agents with Qdrant and fine-tuning Llama-3. Open to pair-programming!"
+    },
+    {
+        id: "peer_priya",
+        name: "Priya Patel",
+        role: "Forward Deployed Engineer (FDE)",
+        college: "NIT Surathkal",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "Forward Deployed Engineer (FDE)",
+        badge: "FDE Lead",
+        unread: 2,
+        bio: "Enterprise deployment junkie. Working on VPC air-gapped container rollouts."
+    },
+    {
+        id: "peer_rohan",
+        name: "Rohan Verma",
+        role: "Modern Data Engineer",
+        college: "DTU Delhi",
+        avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "Modern Data Engineering",
+        badge: "PySpark Pro",
+        unread: 0,
+        bio: "Streaming petabytes with Kafka & Spark Structured Streaming. Ping me for data doubts!"
+    },
+    {
+        id: "peer_neha",
+        name: "Neha Singh",
+        role: "Data Analytics & BI Specialist",
+        college: "BITS Pilani",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+        status: "offline",
+        lastSeen: "15m ago",
+        program: "Data Analytics & Power BI",
+        badge: "Analytics Star",
+        unread: 0,
+        bio: "Tableau & Power BI visualizer. Cohort analysis and retention modeling enthusiast."
+    },
+    {
+        id: "peer_bittu",
+        name: "Bittu Kumar",
+        role: "Motu-Patlu Coding Explorer",
+        college: "Tech Indro Academy",
+        avatar: "assets/motu-character.jpg",
+        status: "online",
+        lastSeen: "Online now",
+        program: "Bite-Sized Coding Quest",
+        badge: "Streak Master",
+        unread: 1,
+        bio: "Samosa aur code dono mast chahiye! 14-day daily coding streak going strong."
+    },
+    {
+        id: "peer_chingam",
+        name: "Inspector Chingam",
+        role: "Cyber & Security Guardian",
+        college: "Furfuri Nagar Cyber Cell",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "Ethical Hacking & Defense",
+        badge: "Security Officer",
+        unread: 0,
+        bio: "Chingam ke chungal se koi bug nahi bach sakta! Network security & buffer overflow mentor."
+    }
+];
+
+let INSPIRO_MESSAGES = {
+    "peer_aarav": [
+        { id: "m_1", senderId: "peer_aarav", text: "Hey! Did you check out the new Forward Deployed Engineer curriculum? The VPC deployment module looks incredible.", timestamp: "10:14 AM", isRead: true },
+        { id: "m_2", senderId: "me", text: "Haan bhai! I was just exploring it. They also added Modern Data Engineering with Spark & Kafka.", timestamp: "10:15 AM", isRead: true },
+        { id: "m_3", senderId: "peer_aarav", text: "Awesome! Let's do a collaborative project together this weekend on Inspiro.", timestamp: "10:16 AM", isRead: false }
+    ],
+    "peer_priya": [
+        { id: "m_4", senderId: "peer_priya", text: "Namaste! If you need help understanding client mission architecture or Palantir-style FDE deployment playbooks, feel free to ask me.", timestamp: "09:30 AM", isRead: true },
+        { id: "m_5", senderId: "peer_priya", text: "I have shared my enterprise Helm chart template on the Inspiro feed!", timestamp: "09:31 AM", isRead: false }
+    ],
+    "peer_bittu": [
+        { id: "m_6", senderId: "peer_bittu", text: "Bhai aaj ka Daily Byte bug squash kiya kya? 50 IndroCoins mile mujhe!", timestamp: "11:20 AM", isRead: false }
+    ]
+};
+
+let INSPIRO_POSTS = [
+    {
+        id: "post_1",
+        author: {
+            name: "Priya Patel",
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+            role: "Forward Deployed Engineer (FDE) Fellow",
+            college: "NIT Surathkal",
+            peerId: "peer_priya"
+        },
+        timestamp: "25 minutes ago",
+        title: "Shipped an automated enterprise VPC deployment pipeline for RAG agents! 🚀",
+        content: "Just completed Module 3 of the new Forward Deployed Engineer program. Deployed a zero-downtime Helm chart orchestrating Qdrant vector DB and vLLM inside an isolated client VPC. Check out the snippet below for graceful connection retries in Python:",
+        codeSnippet: `import asyncio
+import httpx
+
+async def robust_client_ping(service_url: str, retries: int = 5):
+    async with httpx.AsyncClient(timeout=3.0) as client:
+        for attempt in range(1, retries + 1):
+            try:
+                res = await client.get(f"{service_url}/healthz")
+                if res.status_code == 200:
+                    return {"status": "healthy", "attempt": attempt}
+            except Exception as e:
+                await asyncio.sleep(2 ** attempt)
+    return {"status": "failed", "retries_exhausted": True}`,
+        tags: ["#FDE", "#EnterpriseAI", "#Kubernetes", "#Python"],
+        likes: 42,
+        isLiked: false,
+        commentsCount: 9,
+        comments: [
+            { author: "Aarav Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80", text: "Super clean exponential backoff! Starred your repo.", time: "18m ago" },
+            { author: "Rohan Verma", avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80", text: "Are you running this with ArgoCD or custom GitHub Actions?", time: "12m ago" }
+        ]
+    },
+    {
+        id: "post_2",
+        author: {
+            name: "Rohan Verma",
+            avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80",
+            role: "Modern Data Engineer",
+            college: "DTU Delhi",
+            peerId: "peer_rohan"
+        },
+        timestamp: "2 hours ago",
+        title: "Benchmarked PySpark vs DuckDB for 10M rows local analytics 📊",
+        content: "If you're dealing with single-node datasets under 50GB, DuckDB with Parquet streaming is mind-bogglingly fast! For anything distributed across clusters, PySpark Catalyst optimizer still reigns supreme. Who else is building modern Lakehouses with Iceberg?",
+        tags: ["#DataEngineering", "#PySpark", "#DuckDB", "#Snowflake"],
+        likes: 68,
+        isLiked: false,
+        commentsCount: 14,
+        comments: [
+            { author: "Neha Singh", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80", text: "Totally agree! Power BI DirectQuery with DuckDB ODBC makes real-time dashboards so snappy.", time: "1h ago" }
+        ]
+    },
+    {
+        id: "post_3",
+        author: {
+            name: "Bittu Kumar",
+            avatar: "assets/motu-character.jpg",
+            role: "Gamified Coding Champ",
+            college: "Tech Indro Academy",
+            peerId: "peer_bittu"
+        },
+        timestamp: "4 hours ago",
+        title: "Motu & Patlu 14-Day Streak Completed!  samosa party! 🥟🔥",
+        content: "Finished the Binary Search Tree quest and earned 250 IndroGems! Motu said: 'Code hamesha dimaag aur logic se chalta hai, samose se nahi!' Join my study circle if you're preparing for TCS CodeVita or SIH 2026!",
+        tags: ["#MotuPatluCoding", "#100DaysOfCode", "#StudentLife"],
+        likes: 95,
+        isLiked: true,
+        commentsCount: 22,
+        comments: [
+            { author: "Inspector Chingam", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80", text: "Shabash Bittu! Yahi discipline rahegi toh top company crack hogi!", time: "3h ago" }
+        ]
+    }
+];
+
+// 1. GET Inspiro Feed Posts
+app.get('/api/inspiro/feed', (req, res) => {
+    res.json({
+        success: true,
+        posts: INSPIRO_POSTS,
+        totalPosts: INSPIRO_POSTS.length
+    });
+});
+
+// 2. POST New Inspiro Feed Post
+app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
+    try {
+        const { title, content, codeSnippet = '', tags = [], authorName, authorRole } = req.body;
+        if (!content || !content.trim()) {
+            return res.status(400).json({ error: "Post content cannot be empty." });
+        }
+
+        const newPost = {
+            id: `post_${Date.now()}`,
+            author: {
+                name: authorName || "Tech Indro Student",
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+                role: authorRole || "Student Developer",
+                college: "Tech Indro Campus",
+                peerId: `peer_student_${Date.now().toString().slice(-4)}`
+            },
+            timestamp: "Just now",
+            title: title || "New Community Update",
+            content: content.trim(),
+            codeSnippet: codeSnippet ? codeSnippet.trim() : '',
+            tags: tags.length ? tags : ["#TechIndro", "#StudentCommunity"],
+            likes: 1,
+            isLiked: true,
+            commentsCount: 0,
+            comments: []
+        };
+
+        INSPIRO_POSTS.unshift(newPost);
+        res.json({ success: true, post: newPost });
+    } catch (e) {
+        res.status(500).json({ error: "Failed to publish post." });
+    }
+});
+
+// 3. POST Like/Upvote Post
+app.post('/api/inspiro/posts/:id/like', (req, res) => {
+    const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found." });
+
+    post.isLiked = !post.isLiked;
+    post.likes += post.isLiked ? 1 : -1;
+
+    res.json({ success: true, likes: post.likes, isLiked: post.isLiked });
+});
+
+// 4. POST Comment on Post
+app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
+    const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found." });
+
+    const { text, authorName } = req.body;
+    if (!text || !text.trim()) return res.status(400).json({ error: "Comment text required." });
+
+    const newComment = {
+        author: authorName || "Student Peer",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+        text: text.trim(),
+        time: "Just now"
+    };
+
+    post.comments.push(newComment);
+    post.commentsCount = post.comments.length;
+
+    res.json({ success: true, comment: newComment, commentsCount: post.commentsCount });
+});
+
+// 5. GET All Active Student Peers (for WhatsApp-style P2P Chat)
+app.get('/api/inspiro/peers', (req, res) => {
+    res.json({
+        success: true,
+        peers: INSPIRO_PEERS
+    });
+});
+
+// 6. GET Messages for a specific peer
+app.get('/api/inspiro/messages', (req, res) => {
+    const peerId = req.query.peerId;
+    if (!peerId) return res.status(400).json({ error: "peerId is required." });
+
+    const history = INSPIRO_MESSAGES[peerId] || [];
+    
+    // Mark peer's unread messages as read
+    const peer = INSPIRO_PEERS.find(p => p.id === peerId);
+    if (peer) peer.unread = 0;
+
+    res.json({
+        success: true,
+        peerId,
+        messages: history
+    });
+});
+
+// 7. POST Send P2P Message (with intelligent simulated peer reply)
+app.post('/api/inspiro/messages', chatLimiter, (req, res) => {
+    const { peerId, text, isCode = false } = req.body;
+    if (!peerId || !text || !text.trim()) {
+        return res.status(400).json({ error: "peerId and text are required." });
+    }
+
+    if (!INSPIRO_MESSAGES[peerId]) {
+        INSPIRO_MESSAGES[peerId] = [];
+    }
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const userMsg = {
+        id: `msg_${Date.now()}`,
+        senderId: "me",
+        text: text.trim(),
+        isCode: Boolean(isCode),
+        timestamp: timeStr,
+        isRead: true
+    };
+
+    INSPIRO_MESSAGES[peerId].push(userMsg);
+
+    // Realistic smart response simulation tailored to the peer persona
+    let simulatedReplyText = "";
+    const lower = text.toLowerCase();
+
+    if (peerId === "peer_priya") {
+        if (lower.includes("fde") || lower.includes("job") || lower.includes("palantir") || lower.includes("interview")) {
+            simulatedReplyText = "FDE interviews test your ability to dive into ambiguous production systems and client VPCs! Focus on real-time debugging and Docker/K8s networking.";
+        } else if (lower.includes("code") || lower.includes("helm") || lower.includes("yaml")) {
+            simulatedReplyText = "Looks good! Make sure to set resource limits (`requests` and `limits`) on your container pods so Kubernetes does not trigger OOMKilled.";
+        } else {
+            simulatedReplyText = "Awesome! Let's connect over Google Meet or collaborate directly on GitHub. I'm finishing up an enterprise rollout right now.";
+        }
+    } else if (peerId === "peer_rohan") {
+        if (lower.includes("spark") || lower.includes("kafka") || lower.includes("data") || lower.includes("sql")) {
+            simulatedReplyText = "For big data joins, always check for data skew! Using salted keys or broadcast joins for small dimension tables speeds up Spark by 10x.";
+        } else {
+            simulatedReplyText = "Hey! Sahi baat hai. Data engineering me consistency and idempotent DAGs are key. Let's build a streaming pipeline together!";
+        }
+    } else if (peerId === "peer_bittu") {
+        simulatedReplyText = "Wah bhai! Samosa khao aur code likho! Aaj ka challenge complete karke streak maintain rakhna!";
+    } else {
+        simulatedReplyText = "Thanks for the message! I am reviewing this right now. Let's solve this together on Tech Indro!";
+    }
+
+    const replyMsg = {
+        id: `msg_reply_${Date.now() + 100}`,
+        senderId: peerId,
+        text: simulatedReplyText,
+        timestamp: timeStr,
+        isRead: false
+    };
+
+    // Push simulated reply shortly
+    setTimeout(() => {
+        if (INSPIRO_MESSAGES[peerId]) {
+            INSPIRO_MESSAGES[peerId].push(replyMsg);
+        }
+    }, 900);
+
+    res.json({
+        success: true,
+        sentMessage: userMsg,
+        scheduledReply: replyMsg
+    });
+});
+
 
 // Global Express Error-Handling Middleware (Prevents Crashes & Leaking Internal Stacks)
 app.use((err, req, res, next) => {
