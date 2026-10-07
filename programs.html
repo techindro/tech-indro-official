@@ -94,13 +94,15 @@
             <!-- Search & Filters -->
             <div class="search-container">
                 <i data-lucide="search"></i>
-                <input type="text" id="searchInput" placeholder="Search for programs (e.g. Machine Learning, Marketing...)">
+                <input type="text" id="searchInput" placeholder="Search for programs (e.g. FDE, Data Analytics, Data Engineer, SRE, Python...)">
             </div>
 
             <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="hackathons">Hackathon Winner 🏆</button>
+                <button class="filter-btn" data-filter="hackathons"><i data-lucide="trophy" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Hackathon Winner</button>
                 <button class="filter-btn" data-filter="coding">Coding & AI</button>
+                <button class="filter-btn" data-filter="data"><i data-lucide="database" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Data & Analytics</button>
+                <button class="filter-btn" data-filter="engineering"><i data-lucide="server" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Cloud, SRE & FDE</button>
                 <button class="filter-btn" data-filter="business">Business & Startup</button>
                 <button class="filter-btn" data-filter="life">Life Skills</button>
             </div>
@@ -149,7 +151,7 @@
                         <h3 style="color: white; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.5px;">Company</h3>
                         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem;">
                             <li><a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">About Us</a></li>
-                            <li><a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Careers <span style="background: #ff6b35; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-left: 5px;">Hiring</span></a></li>
+                            <li><a href="hiring.html" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Careers <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-left: 5px; font-weight: 700;">Hiring • JIVA AI</span></a></li>
                             <li><a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Success Stories</a></li>
                             <li><a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Become a Mentor</a></li>
                             <li><a href="#" style="color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">Contact Us</a></li>
@@ -291,6 +293,13 @@
 
             const imageMap = {
                 'coding-ai': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80',
+                'forward-deployed-engineer': 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80',
+                'data-analytics': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+                'data-engineering': 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80',
+                'sre-cloud-infra': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80',
+                'mlops-engineer': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
+                'distributed-systems-golang': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80',
+                'web3-blockchain': 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80',
                 'sih-hackathon': 'https://h2svision.github.io/publicAssets/SIH_Sr/eventPageNewBannerSIH.png',
                 'microsoft-imagine-cup': 'https://imaginestorageprod.blob.core.windows.net/public/images/How_It_Works_Builder_Series_717x365_v2_1.png',
                 'amazon-hackon': 'https://d8it4huxumps7.cloudfront.net/uploads/competition-sharable/6644829d87f67_SEO.jpg',
@@ -388,14 +397,29 @@
                 renderCourses(baseList.filter(c => hackathonIds.includes(c.id)));
             } else if (filter === 'coding') {
                 const codingIds = [
-                    'coding-ai', 'software-engineering', 'data-science', 'devops', 
-                    'vlsi-engineer', 'dsa-cracking', 'sql-mastery', 'cybersecurity', 
-                    'ethical-hacking', 'app-development', 'agentic-ai', 'advanced-robotics',
-                    'research-papers', 'sih-hackathon', 'microsoft-imagine-cup', 
-                    'amazon-hackon', 'tcs-codevita', 'flipkart-grid', 'google-gsoc', 
-                    'isro-antariksh-hackathon', 'nasa-space-apps'
+                    'coding-ai', 'software-engineering', 'forward-deployed-engineer', 
+                    'data-analytics', 'data-engineering', 'data-science', 'devops', 
+                    'sre-cloud-infra', 'mlops-engineer', 'distributed-systems-golang', 
+                    'web3-blockchain', 'vlsi-engineer', 'dsa-cracking', 'sql-mastery', 
+                    'cybersecurity', 'ethical-hacking', 'app-development', 'agentic-ai', 
+                    'advanced-robotics', 'research-papers', 'sih-hackathon', 
+                    'microsoft-imagine-cup', 'amazon-hackon', 'tcs-codevita', 
+                    'flipkart-grid', 'google-gsoc', 'isro-antariksh-hackathon', 'nasa-space-apps'
                 ];
                 renderCourses(baseList.filter(c => codingIds.includes(c.id)));
+            } else if (filter === 'data') {
+                const dataIds = [
+                    'data-analytics', 'data-engineering', 'data-science', 
+                    'sql-mastery', 'coding-ai', 'agentic-ai'
+                ];
+                renderCourses(baseList.filter(c => dataIds.includes(c.id)));
+            } else if (filter === 'engineering') {
+                const engIds = [
+                    'forward-deployed-engineer', 'data-engineering', 'sre-cloud-infra', 
+                    'devops', 'mlops-engineer', 'distributed-systems-golang', 
+                    'software-engineering', 'web3-blockchain', 'cybersecurity'
+                ];
+                renderCourses(baseList.filter(c => engIds.includes(c.id)));
             } else if (filter === 'business') {
                 renderCourses(baseList.filter(c => ['marketing-sales', 'freelancing'].includes(c.id)));
             } else if (filter === 'life') {

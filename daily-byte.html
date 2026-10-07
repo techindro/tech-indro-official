@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Tech Byte & Streaks: 1-Minute Bug Hunt | Tech Indro</title>
+    <meta name="description" content="Build consistent engineering habits with Tech Indro Daily Tech Byte. Squash real-world production bugs in 60 seconds, protect your streak, and earn IndroCoins.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets & Icons -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --byte-bg: #f8fafc;
+            --byte-card: #ffffff;
+            --byte-border: #e2e8f0;
+            --byte-primary: #ff6b35;
+            --byte-primary-dark: #ea580c;
+            --byte-orange-light: #fff7ed;
+            --byte-flame: #f97316;
+            --byte-flame-glow: rgba(249, 115, 22, 0.35);
+            --byte-freeze: #0284c7;
+            --byte-freeze-light: #f0f9ff;
+            --byte-text-main: #0f172a;
+            --byte-text-muted: #64748b;
+            --byte-code-bg: #0d1117;
+            --byte-code-text: #c9d1d9;
+            --byte-success: #10b981;
+            --byte-danger: #ef4444;
+            --byte-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+        }
+
+        [data-theme="dark"], body.dark-mode {
+            --byte-bg: #0b0f19;
+            --byte-card: #151d2f;
+            --byte-border: #1e293b;
+            --byte-orange-light: rgba(249, 115, 22, 0.12);
+            --byte-freeze-light: rgba(2, 132, 199, 0.12);
+            --byte-text-main: #f8fafc;
+            --byte-text-muted: #94a3b8;
+            --byte-code-bg: #090d16;
+            --byte-code-text: #e2e8f0;
+            --byte-shadow: 0 4px 25px -2px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--byte-bg);
+            color: var(--byte-text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding-top: 80px;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Fixed Navigation Header */
+        header#header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--byte-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        [data-theme="dark"] header#header, body.dark-mode header#header {
+            background: rgba(11, 15, 25, 0.94);
+            border-bottom-color: #1e293b;
+        }
+
+        .header-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 42px;
+            width: auto;
+            border-radius: 10px;
+        }
+
+        .logo-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--byte-text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .header-badges {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pill-flame {
+            background: var(--byte-orange-light);
+            color: var(--byte-flame);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 15px var(--byte-flame-glow);
+        }
+
+        .pill-coins {
+            background: rgba(245, 158, 11, 0.12);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .pill-freeze {
+            background: var(--byte-freeze-light);
+            color: var(--byte-freeze);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            cursor: pointer;
+        }
+
+        .pill-badge:hover {
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--byte-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--byte-text-main);
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--byte-border);
+        }
+
+        /* Main Container */
+        .byte-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px 80px;
+        }
+
+        /* Streak & Weekly Calendar Hero */
+        .streak-card {
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+            border-radius: 24px;
+            padding: 24px 30px;
+            box-shadow: var(--byte-shadow);
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .streak-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .streak-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .streak-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .flame-icon-box {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff7849 0%, #ea580c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 10px 25px -4px rgba(234, 88, 12, 0.4);
+            animation: flameBob 2s infinite ease-in-out;
+        }
+
+        @keyframes flameBob {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+
+        .streak-title-wrap h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .streak-title-wrap p {
+            font-size: 0.9rem;
+            color: var(--byte-text-muted);
+            font-weight: 500;
+        }
+
+        .streak-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-freeze-buy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--byte-freeze-light);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            color: var(--byte-freeze);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-freeze-buy:hover {
+            background: rgba(2, 132, 199, 0.18);
+            transform: translateY(-1px);
+        }
+
+        /* 7-Day Calendar Strip */
+        .calendar-strip {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        @media (max-width: 680px) {
+            .calendar-strip {
+                gap: 6px;
+            }
+        }
+
+        .day-bubble {
+            background: var(--byte-bg);
+            border: 1.5px solid var(--byte-border);
+            border-radius: 16px;
+            padding: 12px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .day-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--byte-text-muted);
+        }
+
+        .day-indicator {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+            color: var(--byte-text-muted);
+        }
+
+        .day-bubble.completed {
+            border-color: rgba(249, 115, 22, 0.4);
+            background: var(--byte-orange-light);
+        }
+
+        .day-bubble.completed .day-indicator {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+        }
+
+        .day-bubble.today {
+            border-color: var(--byte-flame);
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .day-bubble.today .day-indicator {
+            border: 2px dashed var(--byte-flame);
+            color: var(--byte-flame);
+            animation: pulseGlow 1.8s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Challenge Arena Grid */
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 990px) {
+            .challenge-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left: Code Workspace & Bug Hunter */
+        .workspace-card {
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: var(--byte-shadow);
+        }
+
+        .challenge-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-hunt {
+            background: rgba(234, 88, 12, 0.1);
+            color: var(--byte-primary-dark);
+            border: 1px solid rgba(234, 88, 12, 0.2);
+        }
+
+        .tag-diff {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .tag-pts {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .challenge-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+
+        .challenge-scenario {
+            color: var(--byte-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.55;
+            background: var(--byte-bg);
+            border-radius: 12px;
+            padding: 14px 18px;
+            border-left: 4px solid var(--byte-flame);
+            margin-bottom: 20px;
+        }
+
+        /* 60s Countdown Bar */
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--byte-bg);
+            border: 1px solid var(--byte-border);
+            border-radius: 14px;
+            padding: 10px 18px;
+            margin-bottom: 20px;
+        }
+
+        .timer-clock {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--byte-flame);
+            min-width: 75px;
+        }
+
+        .timer-track {
+            flex: 1;
+            height: 8px;
+            background: var(--byte-border);
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .timer-progress {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #f97316 70%, #ef4444 100%);
+            border-radius: 999px;
+            transition: width 1s linear;
+        }
+
+        .timer-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--byte-text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            white-space: nowrap;
+        }
+
+        /* Code Viewer & Interactive Lines */
+        .code-container {
+            background: var(--byte-code-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 24px;
+        }
+
+        .code-topbar {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.82rem;
+            color: #8b949e;
+        }
+
+        .code-dots {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .code-body {
+            padding: 14px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .code-line {
+            display: flex;
+            align-items: center;
+            padding: 2px 16px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+
+        .code-line:hover {
+            background: rgba(249, 115, 22, 0.15);
+        }
+
+        .code-line.selected {
+            background: rgba(249, 115, 22, 0.28);
+            border-left: 3px solid var(--byte-flame);
+        }
+
+        .code-line.correct-line {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-left: 3px solid var(--byte-success) !important;
+        }
+
+        .line-num {
+            width: 36px;
+            color: #6e7681;
+            user-select: none;
+            font-size: 0.82rem;
+            text-align: right;
+            padding-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .line-text {
+            color: var(--byte-code-text);
+            white-space: pre;
+            flex: 1;
+        }
+
+        /* Solver Option Cards */
+        .option-section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .opt-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--byte-bg);
+            border: 1.5px solid var(--byte-border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .opt-card:hover {
+            border-color: rgba(249, 115, 22, 0.4);
+            transform: translateX(3px);
+        }
+
+        .opt-card.active {
+            border-color: var(--byte-flame);
+            background: var(--byte-orange-light);
+        }
+
+        .opt-radio {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--byte-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .opt-card.active .opt-radio {
+            border-color: var(--byte-flame);
+            background: var(--byte-flame);
+        }
+
+        .opt-card.active .opt-radio::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .opt-text {
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: var(--byte-text-main);
+            font-weight: 500;
+        }
+
+        .opt-text code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(15, 23, 42, 0.08);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 0.85em;
+        }
+
+        /* Action Buttons */
+        .workspace-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #ff7849 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 25px -4px rgba(234, 88, 12, 0.4);
+            transition: all 0.25s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px -4px rgba(234, 88, 12, 0.5);
+        }
+
+        .btn-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 20px;
+            background: var(--byte-bg);
+            border: 1px solid var(--byte-border);
+            border-radius: 14px;
+            color: var(--byte-text-muted);
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-hint:hover {
+            background: var(--byte-border);
+            color: var(--byte-text-main);
+        }
+
+        /* Right Column: Milestones & Stats */
+        .sidebar-card {
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--byte-shadow);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .milestone-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: var(--byte-bg);
+            margin-bottom: 10px;
+            border: 1px solid var(--byte-border);
+        }
+
+        .milestone-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+        }
+
+        .milestone-info {
+            flex: 1;
+        }
+
+        .milestone-name {
+            font-size: 0.88rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .milestone-desc {
+            font-size: 0.78rem;
+            color: var(--byte-text-muted);
+        }
+
+        .milestone-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .mb-unlocked {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .mb-locked {
+            background: rgba(100, 116, 139, 0.15);
+            color: var(--byte-text-muted);
+        }
+
+        /* Success & Debrief Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--byte-card);
+            border: 1px solid var(--byte-border);
+            border-radius: 24px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header-hero {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .success-flame-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 12px 30px rgba(234, 88, 12, 0.5);
+            margin-bottom: 16px;
+        }
+
+        .modal-reward-pills {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .debrief-box {
+            background: var(--byte-bg);
+            border: 1px solid var(--byte-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .debrief-section-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--byte-flame);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .share-card-preview {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 16px;
+            padding: 18px 22px;
+            color: white;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .share-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .share-text {
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #f8fafc;
+        }
+
+        .modal-btn-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-copy-share {
+            flex: 1;
+            padding: 12px 20px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy-share:hover {
+            background: #0369a1;
+        }
+
+        .btn-close-modal {
+            padding: 12px 24px;
+            background: var(--byte-bg);
+            border: 1px solid var(--byte-border);
+            color: var(--byte-text-main);
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Toast notification */
+        .toast-banner {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f172a;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast-banner.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo-wrap">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" class="logo-img">
+                <span class="logo-title">TECH INDRO</span>
+            </a>
+
+            <div class="header-badges">
+                <div class="pill-badge pill-flame" id="navStreakPill" title="Your Daily Streak">
+                    <i data-lucide="flame" style="width: 17px; height: 17px;"></i>
+                    <span id="navStreakVal">4 Days</span>
+                </div>
+
+                <div class="pill-badge pill-coins" id="navCoinsPill" title="IndroCoins Balance">
+                    <i data-lucide="coins" style="width: 17px; height: 17px;"></i>
+                    <span id="navCoinsVal">450</span>
+                </div>
+
+                <button class="pill-badge pill-freeze" onclick="openFreezeModal()" title="Streak Freeze Protection">
+                    <i data-lucide="snowflake" style="width: 16px; height: 16px;"></i>
+                    <span id="navFreezeVal">1 Freeze</span>
+                </button>
+
+                <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode">
+                    <i data-lucide="moon" id="themeIcon" style="width: 18px; height: 18px;"></i>
+                </button>
+
+                <a href="index.html" style="text-decoration: none; color: var(--byte-text-muted); font-size: 0.88rem; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-left: 6px;">
+                    <i data-lucide="arrow-left" style="width: 15px; height: 15px;"></i>
+                    <span>Home</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="byte-container">
+
+        <!-- Top Streak Hero & Duolingo-style Calendar -->
+        <section class="streak-card">
+            <div class="streak-top-row">
+                <div class="streak-meta">
+                    <div class="flame-icon-box">
+                        <i data-lucide="flame" style="width: 32px; height: 32px;"></i>
+                    </div>
+                    <div class="streak-title-wrap">
+                        <h2>
+                            <span id="heroStreakCount">4</span>-Day Engineering Streak
+                            <i data-lucide="flame" style="width: 24px; height: 24px; color: var(--byte-flame); display: inline-block;"></i>
+                        </h2>
+                        <p id="heroStreakSubtitle">Squash today's 1-minute production bug to extend your streak to 5 days!</p>
+                    </div>
+                </div>
+
+                <div class="streak-actions">
+                    <button class="btn-freeze-buy" onclick="buyStreakFreeze()">
+                        <i data-lucide="snowflake" style="width: 15px; height: 15px;"></i>
+                        <span>Get Streak Freeze (50 Coins)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 7-Day Calendar Strip -->
+            <div class="calendar-strip" id="calendarStrip">
+                <!-- Dynamically populated by JS with SVG icons -->
+            </div>
+        </section>
+
+        <!-- Main Challenge Arena -->
+        <div class="challenge-grid">
+
+            <!-- Left: Bug Workspace -->
+            <section class="workspace-card">
+                
+                <div class="challenge-header">
+                    <div>
+                        <div class="badge-row">
+                            <span class="tag-pill tag-hunt">
+                                <i data-lucide="bug" style="width: 13px; height: 13px;"></i>
+                                <span id="challengeDayTag">BYTE #48 • SPOT THE BUG</span>
+                            </span>
+                            <span class="tag-pill tag-diff" id="challengeDiffTag">MEDIUM</span>
+                            <span class="tag-pill tag-pts" id="challengePointsTag">+25 COINS</span>
+                        </div>
+                        <h1 class="challenge-title" id="challengeTitle">Loading Today's Challenge...</h1>
+                    </div>
+                </div>
+
+                <!-- Scenario -->
+                <div class="challenge-scenario" id="challengeScenario">
+                    Loading scenario details...
+                </div>
+
+                <!-- 60s Countdown Timer -->
+                <div class="timer-box">
+                    <div class="timer-clock">
+                        <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+                        <span id="countdownDisplay">00:60</span>
+                    </div>
+                    <div class="timer-track">
+                        <div class="timer-progress" id="timerBar"></div>
+                    </div>
+                    <button class="timer-toggle-btn" id="chillModeBtn" onclick="toggleChillMode()">Chill Mode (No Timer)</button>
+                </div>
+
+                <!-- Interactive Code Snippet Box -->
+                <div class="code-container">
+                    <div class="code-topbar">
+                        <div class="code-dots">
+                            <span class="code-dot dot-red"></span>
+                            <span class="code-dot dot-yellow"></span>
+                            <span class="code-dot dot-green"></span>
+                        </div>
+                        <span id="codeLangLabel" style="font-family: 'Fira Code', monospace; font-size: 0.8rem;">src/LiveCounter.jsx</span>
+                        <span style="font-size: 0.75rem; color: #f97316; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="info" style="width: 13px; height: 13px;"></i>
+                            Tip: Click the buggy line directly
+                        </span>
+                    </div>
+                    <div class="code-body" id="codeEditorBody">
+                        <!-- Code lines injected here -->
+                    </div>
+                </div>
+
+                <!-- Solution Options -->
+                <div class="option-section-title">
+                    <i data-lucide="wrench" style="width: 17px; height: 17px; color: var(--byte-flame);"></i>
+                    <span>Select the Production-Grade Fix:</span>
+                </div>
+
+                <div class="options-list" id="optionsContainer">
+                    <!-- Option cards rendered here -->
+                </div>
+
+                <!-- Action Controls -->
+                <div class="workspace-actions">
+                    <button class="btn-hint" onclick="revealHint()">
+                        <i data-lucide="lightbulb" style="width: 16px; height: 16px; color: #f59e0b;"></i>
+                        <span>AI Shikshak Hint</span>
+                    </button>
+                    <button class="btn-submit" id="submitBtn" onclick="submitSolution()">
+                        <i data-lucide="zap" style="width: 18px; height: 18px;"></i>
+                        <span>Verify & Fix Bug</span>
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Right: Streak Badges & Milestones -->
+            <aside>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i data-lucide="award" style="width: 20px; height: 20px; color: var(--byte-flame);"></i>
+                        <span>Streak Milestones</span>
+                    </h3>
+
+                    <div class="milestone-item">
+                        <div class="milestone-icon">
+                            <i data-lucide="shield" style="width: 22px; height: 22px; color: #cd7f32;"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <div class="milestone-name">Bronze Warrior</div>
+                            <div class="milestone-desc">3-Day Daily Bug Streak</div>
+                        </div>
+                        <span class="milestone-badge mb-unlocked" id="badge3d">UNLOCKED</span>
+                    </div>
+
+                    <div class="milestone-item">
+                        <div class="milestone-icon">
+                            <i data-lucide="award" style="width: 22px; height: 22px; color: #94a3b8;"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <div class="milestone-name">Silver Master</div>
+                            <div class="milestone-desc">7-Day Streak &bull; +50 Coins</div>
+                        </div>
+                        <span class="milestone-badge mb-locked" id="badge7d">3 DAYS TO GO</span>
+                    </div>
+
+                    <div class="milestone-item">
+                        <div class="milestone-icon">
+                            <i data-lucide="trophy" style="width: 22px; height: 22px; color: #f59e0b;"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <div class="milestone-name">Gold Champion</div>
+                            <div class="milestone-desc">14-Day Streak &bull; +150 Coins</div>
+                        </div>
+                        <span class="milestone-badge mb-locked" id="badge14d">LOCKED</span>
+                    </div>
+
+                    <div class="milestone-item">
+                        <div class="milestone-icon">
+                            <i data-lucide="gem" style="width: 22px; height: 22px; color: #0284c7;"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <div class="milestone-name">Grandmaster</div>
+                            <div class="milestone-desc">30-Day Streak &bull; Verified ID</div>
+                        </div>
+                        <span class="milestone-badge mb-locked" id="badge30d">LOCKED</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-card" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(2, 132, 199, 0.02) 100%);">
+                    <h3 class="sidebar-title" style="color: var(--byte-freeze);">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                        <span>Streak Freeze Shield</span>
+                    </h3>
+                    <p style="font-size: 0.88rem; color: var(--byte-text-muted); line-height: 1.5; margin-bottom: 14px;">
+                        Life happens! Keep a Streak Freeze in your inventory. If you miss a day, it auto-activates so your streak doesn't reset to zero.
+                    </p>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-weight: 800; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;" id="sideFreezeCount">
+                            <i data-lucide="snowflake" style="width: 16px; height: 16px; color: var(--byte-freeze);"></i>
+                            <span>1 in Inventory</span>
+                        </span>
+                        <button class="btn-freeze-buy" onclick="buyStreakFreeze()">
+                            <i data-lucide="coins" style="width: 14px; height: 14px;"></i>
+                            <span>Buy (50 Coins)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i data-lucide="archive" style="width: 20px; height: 20px; color: var(--byte-text-muted);"></i>
+                        <span>Past Archive Bytes</span>
+                    </h3>
+                    <div id="pastArchiveList" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- Success Celebration Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header-hero">
+                <div class="success-flame-circle">
+                    <i data-lucide="flame" style="width: 40px; height: 40px; color: white;"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 6px;">BUG SQUASHED!</h2>
+                <p style="color: var(--byte-text-muted); font-size: 0.95rem;">
+                    Daily streak extended! You solved today's bug in <strong id="solvedTimeVal">24 seconds</strong>.
+                </p>
+                <div class="modal-reward-pills">
+                    <div class="pill-badge pill-flame" id="modalStreakGain">
+                        <i data-lucide="flame" style="width: 15px; height: 15px;"></i>
+                        <span id="modalStreakGainText">+1 Day Streak</span>
+                    </div>
+                    <div class="pill-badge pill-coins" id="modalCoinsGain">
+                        <i data-lucide="coins" style="width: 15px; height: 15px;"></i>
+                        <span id="modalCoinsGainText">+25 IndroCoins</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Senior Engineering Debrief -->
+            <div class="debrief-box">
+                <div class="debrief-section-title">
+                    <i data-lucide="cpu" style="width: 14px; height: 14px; display: inline;"></i>
+                    AI Shikshak Senior Engineer Breakdown
+                </div>
+                <p id="debriefExplanation" style="margin-bottom: 12px;"></p>
+                <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 8px;">
+                    <strong style="color: #059669; font-size: 0.85rem;">PRODUCTION BEST PRACTICE:</strong>
+                    <p id="debriefSeniorAdvice" style="font-size: 0.85rem; margin-top: 4px;"></p>
+                </div>
+            </div>
+
+            <!-- Shareable Achievement Card -->
+            <div class="share-card-preview">
+                <div class="share-header">
+                    <span style="display: inline-flex; align-items: center; gap: 4px;">
+                        <i data-lucide="zap" style="width: 14px; height: 14px; color: #ff6b35;"></i>
+                        TECH INDRO DAILY BYTE
+                    </span>
+                    <span id="shareDate">OCTOBER 2026</span>
+                </div>
+                <div class="share-text" id="shareTextPreview">
+                    "I just squashed today's production concurrency bug in 24s on Tech Indro! 5-Day Streak reached."
+                </div>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="btn-copy-share" onclick="copyShareText()">
+                    <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
+                    <span>Share on LinkedIn / X</span>
+                </button>
+                <button class="btn-close-modal" onclick="closeSuccessModal()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Banner -->
+    <div class="toast-banner" id="toastBanner">
+        <i data-lucide="info" style="width: 18px; height: 18px; color: #38bdf8;"></i>
+        <span id="toastMsg">Notification message</span>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // State
+        let currentChallenge = null;
+        let selectedOptionId = null;
+        let selectedLineNumber = null;
+        let timerSeconds = 60;
+        let elapsedSeconds = 0;
+        let timerInterval = null;
+        let isChillMode = false;
+        let userStreakData = {
+            currentStreak: 4,
+            bestStreak: 14,
+            streakFreezeCount: 1,
+            totalCoinsEarned: 450,
+            isCompletedToday: false
+        };
+
+        // Sound Synthesis (Web Audio API)
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            playSuccess() {
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                
+                // Arpeggio chord (C5 -> E5 -> G5 -> C6)
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                    gain.gain.setValueAtTime(0.15, now + i * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.35);
+                });
+            },
+            playError() {
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(160, now);
+                osc.frequency.exponentialRampToValueAtTime(80, now + 0.25);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            }
+        };
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initTheme();
+            loadDailyByte();
+            loadArchive();
+        });
+
+        // Theme Toggle
+        function initTheme() {
+            const savedTheme = localStorage.getItem('tech_indro_theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('tech_indro_theme', 'light');
+                updateThemeIcon(false);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('tech_indro_theme', 'dark');
+                updateThemeIcon(true);
+            }
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                lucide.createIcons();
+            }
+        }
+
+        // Fetch Today's Daily Byte
+        async function loadDailyByte() {
+            try {
+                const res = await fetch('/api/daily-byte/today');
+                const data = await res.json();
+                if (data.success) {
+                    currentChallenge = data.challenge;
+                    userStreakData = data.streak;
+                    renderStreakUI(data.streak);
+                    renderChallengeUI(data.challenge);
+                    startTimer();
+                }
+            } catch (err) {
+                console.warn('Backend unavailable, using fallback mock challenge:', err);
+                loadFallbackChallenge();
+            }
+        }
+
+        function renderStreakUI(streak) {
+            document.getElementById('navStreakVal').innerText = `${streak.currentStreak} Days`;
+            document.getElementById('heroStreakCount').innerText = streak.currentStreak;
+            document.getElementById('navCoinsVal').innerText = streak.totalCoinsEarned;
+            document.getElementById('navFreezeVal').innerText = `${streak.streakFreezeCount} Freeze`;
+            
+            const sideFreeze = document.getElementById('sideFreezeCount');
+            sideFreeze.innerHTML = `<i data-lucide="snowflake" style="width: 16px; height: 16px; color: var(--byte-freeze);"></i> <span>${streak.streakFreezeCount} in Inventory</span>`;
+
+            // Milestone tags
+            if (streak.currentStreak >= 7) {
+                document.getElementById('badge7d').className = 'milestone-badge mb-unlocked';
+                document.getElementById('badge7d').innerText = 'UNLOCKED';
+            } else {
+                const diff = 7 - streak.currentStreak;
+                document.getElementById('badge7d').innerText = `${diff} DAYS TO GO`;
+            }
+
+            // Render calendar strip with clean SVG icons
+            const cal = document.getElementById('calendarStrip');
+            cal.innerHTML = '';
+            (streak.weekProgress || []).forEach(item => {
+                const div = document.createElement('div');
+                div.className = `day-bubble ${item.status} ${item.isToday ? 'today' : ''}`;
+                
+                let iconHtml = '<i data-lucide="lock" style="width: 15px; height: 15px;"></i>';
+                if (item.status === 'completed') {
+                    iconHtml = '<i data-lucide="flame" style="width: 16px; height: 16px;"></i>';
+                } else if (item.isToday) {
+                    iconHtml = '<i data-lucide="bug" style="width: 16px; height: 16px;"></i>';
+                }
+
+                div.innerHTML = `
+                    <span class="day-name">${item.day}</span>
+                    <div class="day-indicator">${iconHtml}</div>
+                `;
+                cal.appendChild(div);
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderChallengeUI(c) {
+            document.getElementById('challengeDayTag').innerText = `BYTE #${c.dayNumber} • 1-MINUTE BUG HUNT`;
+            document.getElementById('challengeDiffTag').innerText = c.difficulty;
+            document.getElementById('challengePointsTag').innerText = `+${c.points} COINS`;
+            document.getElementById('challengeTitle').innerText = c.title;
+            document.getElementById('challengeScenario').innerText = c.scenario;
+
+            // Render Code snippet
+            const codeBody = document.getElementById('codeEditorBody');
+            codeBody.innerHTML = '';
+            c.codeSnippet.forEach((line, idx) => {
+                const lineNum = idx + 1;
+                const row = document.createElement('div');
+                row.className = 'code-line';
+                row.id = `line-${lineNum}`;
+                row.onclick = () => selectCodeLine(lineNum);
+                row.innerHTML = `
+                    <span class="line-num">${lineNum}</span>
+                    <span class="line-text">${escapeHtml(line)}</span>
+                `;
+                codeBody.appendChild(row);
+            });
+
+            // Render Options
+            const optBox = document.getElementById('optionsContainer');
+            optBox.innerHTML = '';
+            c.options.forEach(opt => {
+                const optCard = document.createElement('div');
+                optCard.className = 'opt-card';
+                optCard.id = `opt-${opt.id}`;
+                optCard.onclick = () => selectOption(opt.id);
+                optCard.innerHTML = `
+                    <div class="opt-radio"></div>
+                    <div class="opt-text">${opt.text}</div>
+                `;
+                optBox.appendChild(optCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        function selectCodeLine(lineNum) {
+            selectedLineNumber = lineNum;
+            document.querySelectorAll('.code-line').forEach(el => el.classList.remove('selected'));
+            const el = document.getElementById(`line-${lineNum}`);
+            if (el) el.classList.add('selected');
+            showToast(`Selected Line ${lineNum} as the suspected bug. Click "Verify & Fix Bug".`);
+        }
+
+        function selectOption(optId) {
+            selectedOptionId = optId;
+            document.querySelectorAll('.opt-card').forEach(el => el.classList.remove('active'));
+            const el = document.getElementById(`opt-${optId}`);
+            if (el) el.classList.add('active');
+        }
+
+        // Timer
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerSeconds = 60;
+            elapsedSeconds = 0;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                if (isChillMode) return;
+                timerSeconds--;
+                elapsedSeconds++;
+                updateTimerDisplay();
+
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    showToast("Time is up! Submit your best solution now.");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const display = document.getElementById('countdownDisplay');
+            const bar = document.getElementById('timerBar');
+            const mm = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const ss = String(timerSeconds % 60).padStart(2, '0');
+            display.innerText = `${mm}:${ss}`;
+            
+            const pct = Math.max(0, (timerSeconds / 60) * 100);
+            bar.style.width = `${pct}%`;
+        }
+
+        function toggleChillMode() {
+            isChillMode = !isChillMode;
+            const btn = document.getElementById('chillModeBtn');
+            const display = document.getElementById('countdownDisplay');
+            if (isChillMode) {
+                btn.innerText = "Timer Mode";
+                display.innerText = "RELAXED";
+            } else {
+                btn.innerText = "Chill Mode (No Timer)";
+                updateTimerDisplay();
+            }
+        }
+
+        // Submit Solution
+        async function submitSolution() {
+            if (!selectedOptionId && !selectedLineNumber) {
+                showToast("Please click the buggy line in the code or choose a fix option.");
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = `<i data-lucide="loader-2" class="spin"></i> Verifying...`;
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/daily-byte/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        challengeId: currentChallenge.id,
+                        selectedOptionId,
+                        clickedLineNumber: selectedLineNumber,
+                        elapsedSeconds
+                    })
+                });
+
+                const data = await res.json();
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="zap"></i> Verify & Fix Bug`;
+
+                if (data.isCorrect) {
+                    clearInterval(timerInterval);
+                    AudioFX.playSuccess();
+                    
+                    // Highlight correct line
+                    if (data.correctLine) {
+                        const targetLine = document.getElementById(`line-${data.correctLine}`);
+                        if (targetLine) targetLine.classList.add('correct-line');
+                    }
+
+                    // Confetti explosion
+                    if (window.confetti) {
+                        confetti({
+                            particleCount: 80,
+                            spread: 70,
+                            origin: { y: 0.6 }
+                        });
+                    }
+
+                    // Show success modal
+                    showSuccessModal(data);
+                } else {
+                    AudioFX.playError();
+                    showToast(data.message || "Incorrect! Try reviewing the closure scope.");
+                }
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="zap"></i> Verify & Fix Bug`;
+                showToast("Submitted! Great job catching the race condition.");
+            }
+            lucide.createIcons();
+        }
+
+        function showSuccessModal(data) {
+            document.getElementById('solvedTimeVal').innerText = `${data.elapsedSeconds || elapsedSeconds || 24} seconds`;
+            document.getElementById('modalStreakGainText').innerText = `+1 Day Streak (${data.currentStreak} Days)`;
+            document.getElementById('modalCoinsGainText').innerText = `+${data.coinsEarned} IndroCoins`;
+            document.getElementById('debriefExplanation').innerText = data.explanation || currentChallenge.explanation;
+            document.getElementById('debriefSeniorAdvice').innerText = data.seniorAdvice || currentChallenge.seniorAdvice;
+            
+            const shareMsg = `I just squashed today's production bug in ${data.elapsedSeconds || 24}s on Tech Indro! ${data.currentStreak}-Day Streak reached. #TechIndro #DailyByte`;
+            document.getElementById('shareTextPreview').innerText = `"${shareMsg}"`;
+
+            // Update header UI
+            document.getElementById('navStreakVal').innerText = `${data.currentStreak} Days`;
+            document.getElementById('heroStreakCount').innerText = data.currentStreak;
+            document.getElementById('navCoinsVal').innerText = data.totalCoins;
+
+            document.getElementById('successModal').style.display = 'flex';
+            lucide.createIcons();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        function copyShareText() {
+            const text = document.getElementById('shareTextPreview').innerText.replace(/^"|"$/g, '');
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Copied to clipboard! Share on LinkedIn or X.");
+            });
+        }
+
+        function revealHint() {
+            if (currentChallenge && currentChallenge.hint) {
+                showToast(`Hint: ${currentChallenge.hint}`);
+            } else {
+                showToast("Look closely at the dependencies and closure scope.");
+            }
+        }
+
+        async function buyStreakFreeze() {
+            try {
+                const res = await fetch('/api/daily-byte/freeze', { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message);
+                    document.getElementById('navFreezeVal').innerText = `${data.streakFreezeCount} Freeze`;
+                    document.getElementById('sideFreezeCount').innerHTML = `<i data-lucide="snowflake" style="width: 16px; height: 16px; color: var(--byte-freeze);"></i> <span>${data.streakFreezeCount} in Inventory</span>`;
+                    document.getElementById('navCoinsVal').innerText = data.remainingCoins;
+                    lucide.createIcons();
+                } else {
+                    showToast(data.message || "Not enough IndroCoins!");
+                }
+            } catch (err) {
+                showToast("Streak Freeze acquired!");
+            }
+        }
+
+        function openFreezeModal() {
+            buyStreakFreeze();
+        }
+
+        async function loadArchive() {
+            try {
+                const res = await fetch('/api/daily-byte/archive');
+                const data = await res.json();
+                if (data.success && data.bytes) {
+                    const box = document.getElementById('pastArchiveList');
+                    box.innerHTML = '';
+                    data.bytes.slice(0, 4).forEach(b => {
+                        const item = document.createElement('div');
+                        item.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--byte-bg); border-radius: 10px; font-size: 0.85rem; border: 1px solid var(--byte-border);';
+                        
+                        const statusBadge = b.isCompleted 
+                            ? `<span style="font-size: 0.75rem; font-weight: 700; color: #10b981; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Completed</span>`
+                            : `<span style="font-size: 0.75rem; font-weight: 700; color: #f97316; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="coins" style="width: 14px; height: 14px;"></i> +${b.points}</span>`;
+
+                        item.innerHTML = `
+                            <div>
+                                <span style="font-weight: 700;">#${b.dayNumber} ${b.title.substring(0, 24)}...</span>
+                                <div style="font-size: 0.75rem; color: var(--byte-text-muted);">${b.category}</div>
+                            </div>
+                            ${statusBadge}
+                        `;
+                        box.appendChild(item);
+                    });
+                    lucide.createIcons();
+                }
+            } catch (e) {}
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastBanner');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3800);
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Fallback challenge in case offline
+        function loadFallbackChallenge() {
+            const mock = {
+                id: "byte_1",
+                dayNumber: 48,
+                title: "Stale Closure in React useEffect Timer",
+                category: "React / State Management",
+                difficulty: "Medium",
+                language: "javascript",
+                points: 25,
+                scenario: "This live counter timer is supposed to increment every second. However, after 1 second, the displayed number never increases past 1. Find and fix the bug!",
+                codeSnippet: [
+                    "function LiveCounter() {",
+                    "  const [count, setCount] = useState(0);",
+                    "",
+                    "  useEffect(() => {",
+                    "    const timer = setInterval(() => {",
+                    "      setCount(count + 1); // Line 6",
+                    "    }, 1000);",
+                    "    return () => clearInterval(timer);",
+                    "  }, []);",
+                    "",
+                    "  return <div>Active Users: {count}</div>;",
+                    "}"
+                ],
+                buggyLineNumber: 6,
+                options: [
+                    { id: "opt_a", text: "Change `setCount(count + 1)` to functional update: `setCount(prev => prev + 1)`" },
+                    { id: "opt_b", text: "Remove `clearInterval(timer)` from the cleanup return function" },
+                    { id: "opt_c", text: "Change `setInterval` interval from `1000` to `500`" },
+                    { id: "opt_d", text: "Convert `const [count, setCount]` to a global `let count = 0` variable" }
+                ],
+                hint: "Because the dependency array [] is empty, the effect closure only captured the initial value of count.",
+                explanation: "Due to JavaScript closures, `setInterval` captured the initial count variable (0). Functional update `setCount(prev => prev + 1)` fixes this cleanly.",
+                seniorAdvice: "Always use functional state updates inside async callbacks or intervals in React."
+            };
+            currentChallenge = mock;
+            renderChallengeUI(mock);
+            renderStreakUI({
+                currentStreak: 4,
+                bestStreak: 14,
+                streakFreezeCount: 1,
+                totalCoinsEarned: 450,
+                weekProgress: [
+                    { day: "Mon", status: "completed" },
+                    { day: "Tue", status: "completed" },
+                    { day: "Wed", status: "completed" },
+                    { day: "Thu", status: "completed" },
+                    { day: "Fri", status: "today", isToday: true },
+                    { day: "Sat", status: "upcoming" },
+                    { day: "Sun", status: "upcoming" }
+                ]
+            });
+            startTimer();
+        }
+    </script>
+</body>
+</html>

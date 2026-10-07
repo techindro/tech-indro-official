@@ -288,7 +288,7 @@
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 0.5rem;">
         <img id="dashUserAvatar" src="assets/motu-character.jpg" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 3px solid #ff6b35; box-shadow: 0 4px 15px rgba(255,107,53,0.3);">
         <div>
-            <h1 id="dashboardWelcomeHeading" style="font-size: 2.2rem; margin: 0;">Welcome back, Student! 👋</h1>
+            <h1 id="dashboardWelcomeHeading" style="font-size: 2.2rem; margin: 0; display: inline-flex; align-items: center; gap: 8px;">Welcome back, Student! <i data-lucide="sparkles" style="color: #ff6b35; width: 28px; height: 28px;"></i></h1>
             <a href="profile.html" style="font-size: 0.85rem; color: #ff6b35; font-weight: 700; text-decoration: none;"><i data-lucide="edit-3" style="width:13px;height:13px;vertical-align:middle;"></i> Edit Profile &amp; Change Photo</a>
         </div>
     </div>
@@ -300,7 +300,7 @@
             </div>
             
             <div class="gyan-streak fade-in" style="animation-delay: 0.2s;">
-                <div class="streak-fire">🪔</div>
+                <div class="streak-fire" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="flame" style="width: 26px; height: 26px; color: #ff6b35;"></i></div>
                 <div class="streak-details">
                     <h3>7 Day Gyan Streak!</h3>
                     <p>You're on fire! Keep lighting the lamp of knowledge.</p>
@@ -586,7 +586,7 @@
                                     <div class="ti-cert-seal-middle">
                                         <div class="ti-cert-seal-inner">
                                             <div class="ti-cert-seal-top">TECH INDRO</div>
-                                            <div class="ti-cert-seal-emblem">🏛️</div>
+                                            <div class="ti-cert-seal-emblem" style="display: flex; align-items: center; justify-content: center; margin: 1px 0; color: #8B1E2D;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="20" x2="22" y2="20"></line><line x1="6" y1="20" x2="6" y2="10"></line><line x1="10" y1="20" x2="10" y2="10"></line><line x1="14" y1="20" x2="14" y2="10"></line><line x1="18" y1="20" x2="18" y2="10"></line><polygon points="12 2 2 8 22 8"></polygon></svg></div>
                                             <div class="ti-cert-seal-bot">OFFICIAL SEAL • VERIFIED</div>
                                         </div>
                                     </div>
@@ -850,7 +850,10 @@
                     const u = JSON.parse(rawUser);
                     if (u.name) {
                         const heading = document.getElementById('dashboardWelcomeHeading');
-                        if (heading) heading.innerText = `Welcome back, ${u.name}! 👋`;
+                        if (heading) {
+                            heading.innerHTML = `Welcome back, ${u.name}! <i data-lucide="sparkles" style="color: #ff6b35; width: 28px; height: 28px;"></i>`;
+                            if (window.lucide) lucide.createIcons();
+                        }
                     }
                     if (u.avatar || u.photo) {
                         const av = document.getElementById('dashUserAvatar');
