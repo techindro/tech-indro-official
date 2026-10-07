@@ -23,5 +23,9 @@
   "html.validate.scripts": false,
   "html.validate.styles": false,
   "css.validate": false,
-  "javascript.suggestionActions.enabled": false
+  "javascript.suggestionActions.enabled": false,
+  "python.defaultInterpreterPath": "C:\\Users\\LENOVO\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none"
+  }
 }

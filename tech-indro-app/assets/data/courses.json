@@ -1426,5 +1426,453 @@
             }
         ],
         "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "forward-deployed-engineer",
+        "title": "Forward Deployed Engineer (FDE) - Enterprise AI & Client Solutions",
+        "description": "Become an industry-grade Forward Deployed Engineer (Palantir, Databricks, Scale AI style). Bridge complex enterprise missions with deep software systems, custom AI agents, production data pipelines, and on-premise/VPC deployments.",
+        "instructor": "Enterprise FDE Lead & Multilingual AI Agent",
+        "duration": "6 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & 10+ regional languages",
+            "Palantir & Scale AI Mission Deployment Playbooks",
+            "Client VPC & Air-Gapped Deployment Architectures",
+            "Real-World Enterprise Systems Integration",
+            "High-Stakes Live Production Debugging Simulations"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Enterprise Problem Discovery & Mission Architecture",
+                "desc": "Translating complex executive business problems into deterministic software specs, threat models, and cloud/edge architectures."
+            },
+            {
+                "title": "Module 2: Custom Enterprise Data & API Pipelines",
+                "desc": "Integrating legacy SAP/Salesforce/SQL databases with real-time streaming event buses, GraphQL, and modern microservices."
+            },
+            {
+                "title": "Module 3: Production LLMs & Agentic Deployment",
+                "desc": "Deploying fine-tuned models, RAG pipelines with Qdrant/pgvector, guardrails (NeMo), and deterministic tool invocation in client VPCs."
+            },
+            {
+                "title": "Module 4: Air-Gapped & High-Security Infrastructure",
+                "desc": "Kubernetes operators, Helm, Terraform, SOC2 compliance, IAM role delegation, and air-gapped system upgrades."
+            },
+            {
+                "title": "Module 5: Client Empathy, Live Troubleshooting & Incident Response",
+                "desc": "Handling high-stakes P0 production escalations, root-cause analysis (RCA), and executive stakeholder presentations."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Palantir Forward Deployed Engineering Architecture",
+                "url": "https://www.palantir.com/careers/forward-deployed-software-engineer/",
+                "type": "website"
+            },
+            {
+                "title": "Production Kubernetes & Helm Enterprise Deployments",
+                "url": "https://kubernetes.io/docs/home/",
+                "type": "website"
+            },
+            {
+                "title": "Enterprise RAG & Agentic Systems Starter Kit",
+                "url": "https://github.com/langchain-ai/langchain",
+                "type": "github"
+            },
+            {
+                "title": "Enterprise Cloud Architecture - AWS / GCP Solutions Architect",
+                "url": "https://aws.amazon.com/architecture/",
+                "type": "certificate"
+            },
+            {
+                "title": "Building Reliable Systems: Google SRE & Deployment Book",
+                "url": "https://sre.google/sre-book/table-of-contents/",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "data-analytics",
+        "title": "Data Analytics & Business Intelligence (Power BI, SQL, Python)",
+        "description": "Transform raw business data into actionable growth strategies. Master Advanced SQL, Power BI, Tableau, Python for Analytics, statistical A/B testing, cohort retention, and executive dashboard storytelling.",
+        "instructor": "Senior Analytics Lead & Multilingual AI Agent",
+        "duration": "5 Months",
+        "perks": [
+            "Taught in all Indian languages (Hindi, English, Tamil, etc.)",
+            "12+ Industry Business Analytics Case Studies (Fintech, E-commerce, EdTech)",
+            "Advanced SQL Window Functions & CTEs",
+            "Executive Power BI & Tableau Portfolios",
+            "A/B Testing & Product Metrics Mastery"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Advanced SQL for Data Analysis",
+                "desc": "Complex joins, CTEs, Window Functions (ROW_NUMBER, DENSE_RANK, LEAD/LAG), query optimization, and aggregations."
+            },
+            {
+                "title": "Module 2: Business Intelligence with Power BI & Tableau",
+                "desc": "DAX formulas, dimensional modeling (Star & Snowflake schema), drill-down reports, interactive KPI dashboards, and automated scheduled refreshes."
+            },
+            {
+                "title": "Module 3: Python for Exploratory Data Analysis (EDA)",
+                "desc": "Pandas, NumPy, Seaborn, Matplotlib, handling dirty data, outliers, distributions, and correlation matrices."
+            },
+            {
+                "title": "Module 4: Business Metrics, A/B Testing & Statistics",
+                "desc": "Hypothesis testing, p-values, confidence intervals, cohort retention, churn modeling, CLV (Customer Lifetime Value), and CAC analysis."
+            },
+            {
+                "title": "Module 5: Executive Data Storytelling & Presentation",
+                "desc": "Pitching analytics findings to C-suite leaders, actionable product roadmaps, and stakeholder alignment."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Alex The Analyst - Complete Data Analytics Bootcamp",
+                "url": "https://www.youtube.com/c/AlexTheAnalyst",
+                "type": "youtube"
+            },
+            {
+                "title": "Kaggle Exploratory Data Analysis & Analytics Projects",
+                "url": "https://www.kaggle.com/datasets",
+                "type": "website"
+            },
+            {
+                "title": "Awesome Data Analytics Portfolio & Projects",
+                "url": "https://github.com/mGalarnyk/datasciencecoursera",
+                "type": "github"
+            },
+            {
+                "title": "Microsoft Certified: Power BI Data Analyst Associate (PL-300)",
+                "url": "https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/",
+                "type": "certificate"
+            },
+            {
+                "title": "Statistical Methods for Business & Product A/B Testing",
+                "url": "https://arxiv.org/abs/2103.01188",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "data-engineering",
+        "title": "Modern Data Engineering (PySpark, Kafka, Airflow & Snowflake)",
+        "description": "Build petabyte-scale data infrastructure. Master distributed compute with Apache Spark, real-time event streaming with Kafka, orchestration with Apache Airflow, Lakehouse architecture with Databricks & Snowflake, and transformation with dbt.",
+        "instructor": "Principal Data Architect & Multilingual AI Agent",
+        "duration": "6 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & regional languages",
+            "Hands-on Petabyte Scale Spark & Kafka Clusters",
+            "Modern Data Stack (dbt, Snowflake, Databricks, Iceberg)",
+            "Production Airflow DAG Orchestration",
+            "Cloud Data Warehouse & Lakehouse Blueprints"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Data Architecture, Storage & File Formats",
+                "desc": "OLTP vs OLAP, columnar storage (Parquet, ORC, Avro), data lakes (S3/GCS), and Lakehouse formats (Apache Iceberg, Delta Lake)."
+            },
+            {
+                "title": "Module 2: Distributed Processing with Apache Spark & PySpark",
+                "desc": "Spark Core, DataFrames, RDD internals, Catalyst Optimizer, memory management, shuffle partitioning, and big data joins."
+            },
+            {
+                "title": "Module 3: Real-Time Event Streaming with Apache Kafka",
+                "desc": "Topics, Partitions, Producers, Consumers, Kafka Connect, Schema Registry, and Spark Structured Streaming for real-time telemetry."
+            },
+            {
+                "title": "Module 4: Workflow Orchestration with Apache Airflow",
+                "desc": "Designing resilient DAGs, task sensors, backfilling, operators, XComs, alerting, and CI/CD for data pipelines."
+            },
+            {
+                "title": "Module 5: Modern Lakehouse with Snowflake, Databricks & dbt",
+                "desc": "Data modeling, dimensional layers (Bronze, Silver, Gold), dbt testing & documentation, data quality frameworks (Great Expectations), and cost optimization."
+            }
+        ],
+        "resources": [
+            {
+                "title": "DataTalks.Club - Data Engineering Zoomcamp",
+                "url": "https://github.com/DataTalksClub/data-engineering-zoomcamp",
+                "type": "github"
+            },
+            {
+                "title": "Apache Spark Official Documentation & Guides",
+                "url": "https://spark.apache.org/docs/latest/",
+                "type": "website"
+            },
+            {
+                "title": "Apache Kafka Quickstart & Streaming Architecture",
+                "url": "https://kafka.apache.org/quickstart",
+                "type": "website"
+            },
+            {
+                "title": "Databricks Certified Data Engineer Associate",
+                "url": "https://www.databricks.com/learn/certification/data-engineer-associate",
+                "type": "certificate"
+            },
+            {
+                "title": "The Lambda and Kappa Architectures for Real-Time Analytics",
+                "url": "https://arxiv.org/abs/1908.08182",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "sre-cloud-infra",
+        "title": "Site Reliability Engineering (SRE) & Cloud Infrastructure",
+        "description": "Ensure 99.999% uptime for planet-scale systems. Master Linux internals, Kubernetes orchestration, Terraform Infrastructure as Code (IaC), Observability (Prometheus, Grafana, OpenTelemetry), Chaos Engineering, and incident management.",
+        "instructor": "Cloud SRE Architect & Multilingual AI Agent",
+        "duration": "5 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & 10+ languages",
+            "Production Chaos Engineering Labs",
+            "Kubernetes Production Cluster Management (EKS/GKE)",
+            "Terraform Multi-Cloud Automation",
+            "SLO/SLI Error Budget Engineering"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Linux Internals, Networking & Systems Programming",
+                "desc": "Kernel namespaces, cgroups, systemd, TCP/IP handshake, DNS resolution, socket programming, and performance tuning."
+            },
+            {
+                "title": "Module 2: Infrastructure as Code (IaC) with Terraform & Ansible",
+                "desc": "State management, modular Terraform, automated cloud provisioning across AWS/GCP/Azure, and configuration drift detection."
+            },
+            {
+                "title": "Module 3: Production Kubernetes (K8s) Cluster Operations",
+                "desc": "Pods, Deployments, StatefulSets, Ingress controllers, CNI, CSI, auto-scaling (HPA/KEDA), and GitOps with ArgoCD."
+            },
+            {
+                "title": "Module 4: Full-Stack Observability & Telemetry",
+                "desc": "Prometheus metric scraping, PromQL, Grafana visualization dashboards, distributed tracing with OpenTelemetry & Jaeger, and centralized log aggregation."
+            },
+            {
+                "title": "Module 5: SRE Culture, Incident Command & Chaos Engineering",
+                "desc": "Defining SLOs, SLIs, SLAs, managing error budgets, Chaos Mesh fault injections, and post-mortem blameless reviews."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Google SRE Books (Free Complete Library)",
+                "url": "https://sre.google/books/",
+                "type": "website"
+            },
+            {
+                "title": "KodeKloud DevOps & Kubernetes Hands-On Labs",
+                "url": "https://www.youtube.com/c/KodeKloud",
+                "type": "youtube"
+            },
+            {
+                "title": "Awesome Site Reliability Engineering (SRE)",
+                "url": "https://github.com/dastergon/awesome-sre",
+                "type": "github"
+            },
+            {
+                "title": "Certified Kubernetes Administrator (CKA)",
+                "url": "https://www.cncf.io/certification/cka/",
+                "type": "certificate"
+            },
+            {
+                "title": "Principles of Chaos Engineering (Netflix)",
+                "url": "https://principlesofchaos.org/",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "mlops-engineer",
+        "title": "MLOps & Production AI Engineering (MLflow, Triton, vLLM)",
+        "description": "Bridge data science models into production at scale. Master automated CI/CD for AI, MLflow experiment tracking, Feature Stores, low-latency inference serving with vLLM & NVIDIA Triton, model quantization, and drift monitoring.",
+        "instructor": "AI Infrastructure Lead & Multilingual AI Agent",
+        "duration": "5 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & regional languages",
+            "LLM Fine-tuning & High-Throughput Serving (vLLM)",
+            "NVIDIA Triton GPU Acceleration",
+            "Production Model CI/CD & Drift Monitoring",
+            "Enterprise Feature Store Integration"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: ML Lifecycle & Experiment Tracking",
+                "desc": "Packaging models, reproducible training pipelines, MLflow tracking, model registry, artifact storage, and versioning with DVC."
+            },
+            {
+                "title": "Module 2: High-Performance Inference & Serving",
+                "desc": "Optimizing latency/throughput with ONNX Runtime, TensorRT, vLLM for LLMs, and multi-model hosting on NVIDIA Triton Inference Server."
+            },
+            {
+                "title": "Module 3: Feature Stores & Data Validation",
+                "desc": "Online vs offline feature stores using Feast/Hopsworks, data validation with Great Expectations, and preventing data leakage."
+            },
+            {
+                "title": "Module 4: CI/CD for ML & Automated Retraining",
+                "desc": "GitHub Actions for ML testing, model evaluation gates, canary deployments, shadow deployments, and A/B rollout of models."
+            },
+            {
+                "title": "Module 5: Continuous Monitoring, Drift & Guardrails",
+                "desc": "Detecting concept drift, data drift with Evidently AI, token latency tracking, cost tracking for LLMs, and guardrails."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Made With ML - MLOps Course",
+                "url": "https://madewithml.com/",
+                "type": "website"
+            },
+            {
+                "title": "vLLM: Easy, Fast, and Cheap LLM Serving",
+                "url": "https://github.com/vllm-project/vllm",
+                "type": "github"
+            },
+            {
+                "title": "Full Stack LLM Bootcamp",
+                "url": "https://fullstackdeeplearning.com/",
+                "type": "youtube"
+            },
+            {
+                "title": "AWS Certified Machine Learning - Specialty",
+                "url": "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
+                "type": "certificate"
+            },
+            {
+                "title": "Hidden Technical Debt in Machine Learning Systems (Google)",
+                "url": "https://papers.nips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "distributed-systems-golang",
+        "title": "Distributed Systems & Backend Engineering with Go (Golang, gRPC)",
+        "description": "Build ultra high-concurrency, low-latency distributed backends powering millions of requests per second. Master Go goroutines, gRPC & Protobufs, Raft consensus algorithm, Redis caching architectures, and event-driven microservices.",
+        "instructor": "Principal Systems Architect & Multilingual AI Agent",
+        "duration": "5 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & 10+ languages",
+            "Million RPS Concurrency Architectures",
+            "gRPC & Protobuf High-Speed Microservices",
+            "Raft Consensus & Distributed Key-Value Store Project",
+            "Database Sharding & Connection Pool Tuning"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Go Systems Fundamentals & Concurrency",
+                "desc": "Goroutines, channels, sync primitives (Mutex, WaitGroups, atomic operations), memory allocation, and Go runtime scheduler."
+            },
+            {
+                "title": "Module 2: High-Performance Networking & gRPC",
+                "desc": "Protocol Buffers (Protobuf v3), bidirectional streaming with gRPC, HTTP/2 internals, connection multiplexing, and custom middleware."
+            },
+            {
+                "title": "Module 3: Distributed Consensus & Fault Tolerance",
+                "desc": "CAP theorem, PACELC theorem, implementing the Raft consensus algorithm from scratch, leader election, and distributed log replication."
+            },
+            {
+                "title": "Module 4: Scalable Caching, Message Queues & Distributed Locks",
+                "desc": "Redis caching strategies (Cache-Aside, Write-Through), Redlock distributed locking, RabbitMQ/NATS messaging, and idempotent APIs."
+            },
+            {
+                "title": "Module 5: Distributed Databases, Sharding & Transactions",
+                "desc": "Consistent hashing, database sharding, two-phase commit (2PC), Saga pattern for microservices, and CockroachDB/PostgreSQL distributed queries."
+            }
+        ],
+        "resources": [
+            {
+                "title": "MIT 6.824: Distributed Systems Course",
+                "url": "https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2xeclNVdCe_gkGYqm74m",
+                "type": "youtube"
+            },
+            {
+                "title": "Awesome Go Distributed Systems & Tooling",
+                "url": "https://github.com/avelino/awesome-go",
+                "type": "github"
+            },
+            {
+                "title": "Designing Data-Intensive Applications (DDIA)",
+                "url": "https://dataintensive.net/",
+                "type": "website"
+            },
+            {
+                "title": "Linux Foundation Certified System Administrator / Go Cert",
+                "url": "https://training.linuxfoundation.org/",
+                "type": "certificate"
+            },
+            {
+                "title": "In Search of an Understandable Consensus Algorithm (Raft Paper)",
+                "url": "https://raft.github.io/raft.pdf",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": "web3-blockchain",
+        "title": "Web3 & Blockchain Systems Engineering (Solidity, Rust & EVM)",
+        "description": "Build battle-tested decentralized applications and cryptographic protocols. Master Ethereum Virtual Machine (EVM) internals, Solidity smart contract security auditing, DeFi protocols, Rust programming on Solana, and Zero-Knowledge (ZK) proofs.",
+        "instructor": "Lead Web3 Protocol Engineer & Multilingual AI Agent",
+        "duration": "5 Months",
+        "perks": [
+            "Taught in Hindi, English, Tamil & regional languages",
+            "Solidity & Rust Smart Contract Development",
+            "Real-World Smart Contract Security Audits (Slither, Foundry)",
+            "DeFi Primitives (Automated Market Makers & Lending Protocols)",
+            "Solana Program Development (Anchor Framework)"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Cryptography & Blockchain Fundamentals",
+                "desc": "Public-key cryptography, elliptic curves, cryptographic hashing (Keccak-256), Merkle trees, and proof-of-stake consensus mechanics."
+            },
+            {
+                "title": "Module 2: Advanced Solidity & EVM Internals",
+                "desc": "Memory, storage slots, calldata layout, bytecode disassembly, gas optimization techniques, and ERC standards (ERC-20, ERC-721, ERC-1155, ERC-4337 Account Abstraction)."
+            },
+            {
+                "title": "Module 3: Smart Contract Security & Formal Verification",
+                "desc": "Preventing reentrancy, flash loan attacks, front-running, integer overflows, testing with Foundry and automated fuzzing with Echidna/Slither."
+            },
+            {
+                "title": "Module 4: High-Performance Blockchain with Rust & Solana",
+                "desc": "Solana account architecture, Rust programming, Anchor framework, parallel transaction execution with Sealevel, and high-throughput dApps."
+            },
+            {
+                "title": "Module 5: DeFi Protocols, Oracles & Layer 2 Rollups",
+                "desc": "Uniswap V2/V3 AMM math, Chainlink decentralized oracles, Optimistic & ZK-Rollups (Arbitrum, zkSync), and cross-chain bridging."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Patrick Collins - Full Stack Web3 & Solidity Course",
+                "url": "https://www.youtube.com/c/PatrickCollins",
+                "type": "youtube"
+            },
+            {
+                "title": "Ethereum Developer Documentation",
+                "url": "https://ethereum.org/en/developers/docs/",
+                "type": "website"
+            },
+            {
+                "title": "Damn Vulnerable DeFi (CTF Security Challenges)",
+                "url": "https://github.com/tinchoabbate/damn-vulnerable-defi",
+                "type": "github"
+            },
+            {
+                "title": "Solana Developer Certification & Resources",
+                "url": "https://solana.com/developers",
+                "type": "certificate"
+            },
+            {
+                "title": "Bitcoin: A Peer-to-Peer Electronic Cash System (Satoshi Nakamoto)",
+                "url": "https://bitcoin.org/bitcoin.pdf",
+                "type": "research"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80"
     }
 ]
