@@ -11,9 +11,16 @@
     <style>
         .programs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+        @media (max-width: 640px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                margin-top: 1.5rem;
+            }
         }
         .filter-btn {
             background: var(--surface);
@@ -97,7 +104,7 @@
                 <input type="text" id="searchInput" placeholder="Search for programs (e.g. FDE, Data Analytics, Data Engineer, SRE, Python...)">
             </div>
 
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
+            <div class="filters-wrapper" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="hackathons"><i data-lucide="trophy" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Hackathon Winner</button>
                 <button class="filter-btn" data-filter="coding">Coding & AI</button>
