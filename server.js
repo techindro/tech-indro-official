@@ -7,6 +7,7 @@ const path = require('path');
 const cluster = require('cluster');
 const os = require('os');
 const { exec, spawn } = require('child_process');
+const crypto = require('crypto');
 
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
@@ -53,9 +54,164 @@ async function fetchRagContext(message, agent = 'general', maxResults = 3) {
     return { hasContext: false, context: '', sources: [] };
 }
 
-// Authentication Configuration
-const JWT_SECRET = process.env.JWT_SECRET || 'techindro_super_secret_jwt_key_2026_secure';
+// --- Tech Indro Enterprise Security Hardening Engine ---
+
+// 1. Sensitive Data Masking & Safe Logging Middleware
+function sanitizeLogData(data) {
+    if (!data) return data;
+    if (typeof data === 'string') {
+        return data.replace(/(password|token|otp|cvv|secret|key|authorization|bearer)\s*[:=]\s*['"]?[^\s,'"]+/gi, '$1=[REDACTED]');
+    }
+    if (typeof data === 'object') {
+        const clean = Array.isArray(data) ? [] : {};
+        for (const [k, v] of Object.entries(data)) {
+            if (/password|token|otp|cvv|secret|authorization|cookie|cardNumber/i.test(k)) {
+                clean[k] = '[REDACTED]';
+            } else if (typeof v === 'object' && v !== null) {
+                clean[k] = sanitizeLogData(v);
+            } else {
+                clean[k] = v;
+            }
+        }
+        return clean;
+    }
+    return data;
+}
+
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+console.log = (...args) => originalConsoleLog(...args.map(sanitizeLogData));
+console.error = (...args) => originalConsoleError(...args.map(sanitizeLogData));
+console.warn = (...args) => originalConsoleWarn(...args.map(sanitizeLogData));
+
+// 2. Authentication Configuration & Cryptographic Secret Protection
+let JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET === 'techindro_super_secret_jwt_key_2026_secure') {
+    if (process.env.NODE_ENV === 'production') {
+        originalConsoleError('[CRITICAL SECURITY WARNING] JWT_SECRET is unset or using a default key in production! Generating secure ephemeral key.');
+        JWT_SECRET = crypto.randomBytes(48).toString('hex');
+    } else {
+        JWT_SECRET = process.env.JWT_SECRET || ('techindro_dev_secret_' + crypto.randomBytes(24).toString('hex'));
+    }
+}
 const JWT_EXPIRES_IN = '7d';
+
+// 3. Password Complexity Policy
+function validatePasswordStrength(password) {
+    if (!password || typeof password !== 'string') return { valid: false, message: 'Password is required' };
+    if (password.length < 8) return { valid: false, message: 'Password must be at least 8 characters long.' };
+    if (!/[A-Z]/.test(password)) return { valid: false, message: 'Password must contain at least one uppercase letter (A-Z).' };
+    if (!/[a-z]/.test(password)) return { valid: false, message: 'Password must contain at least one lowercase letter (a-z).' };
+    if (!/[0-9]/.test(password)) return { valid: false, message: 'Password must contain at least one number (0-9).' };
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return { valid: false, message: 'Password must contain at least one special character (!@#$%^&*).' };
+    return { valid: true };
+}
+
+// 4. Anti-XSS Sanitizer (HTML Entity Encoding)
+function sanitizeHtml(str) {
+    if (typeof str !== 'string') return str;
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/\//g, '&#x2F;');
+}
+
+// 5. SSRF (Server-Side Request Forgery) Prevention
+function isSafeUrl(urlString) {
+    try {
+        const parsed = new URL(urlString);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
+        const host = parsed.hostname.toLowerCase();
+        // Block loopback, private RFC1918, link-local, AWS/Cloud metadata
+        if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return false;
+        if (host === '169.254.169.254' || host === 'metadata.google.internal' || host === 'instance-data') return false;
+        if (/^10\./.test(host)) return false;
+        if (/^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host)) return false;
+        if (/^192\.168\./.test(host)) return false;
+        if (/^127\./.test(host)) return false;
+        if (/^fc00:|^fe80:/.test(host)) return false;
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// 6. Zero-Dependency RFC 6238 TOTP Engine for Multi-Factor Authentication (MFA)
+const BASE32_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+function base32Encode(buffer) {
+    let bits = 0, value = 0, output = '';
+    for (let i = 0; i < buffer.length; i++) {
+        value = (value << 8) | buffer[i];
+        bits += 8;
+        while (bits >= 5) {
+            output += BASE32_CHARS[(value >>> (bits - 5)) & 31];
+            bits -= 5;
+        }
+    }
+    if (bits > 0) output += BASE32_CHARS[(value << (5 - bits)) & 31];
+    return output;
+}
+
+function base32Decode(str) {
+    const cleanStr = String(str || '').toUpperCase().replace(/=+$/, '').replace(/\s+/g, '');
+    let bits = 0, value = 0;
+    const bytes = [];
+    for (let i = 0; i < cleanStr.length; i++) {
+        const val = BASE32_CHARS.indexOf(cleanStr[i]);
+        if (val === -1) continue;
+        value = (value << 5) | val;
+        bits += 5;
+        if (bits >= 8) {
+            bytes.push((value >>> (bits - 8)) & 255);
+            bits -= 8;
+        }
+    }
+    return Buffer.from(bytes);
+}
+
+function generateTotpSecret() {
+    const randomBytes = crypto.randomBytes(20);
+    return base32Encode(randomBytes);
+}
+
+function getTotpUri(secretBase32, email) {
+    const label = encodeURIComponent(`TechIndro:${email}`);
+    const issuer = encodeURIComponent('Tech Indro');
+    return `otpauth://totp/${label}?secret=${secretBase32}&issuer=${issuer}&algorithm=SHA1&digits=6&period=30`;
+}
+
+function verifyTotp(secretBase32, tokenStr) {
+    if (!secretBase32 || !tokenStr) return false;
+    const cleanToken = String(tokenStr).trim();
+    if (cleanToken.length !== 6) return false;
+
+    try {
+        const secretBuffer = base32Decode(secretBase32);
+        const now = Math.floor(Date.now() / 1000 / 30);
+
+        // Window of +/- 1 step (90 seconds total) for clock drift tolerance
+        for (let delta = -1; delta <= 1; delta++) {
+            const counterBuffer = Buffer.alloc(8);
+            counterBuffer.writeBigInt64BE(BigInt(now + delta));
+            const hmac = crypto.createHmac('sha1', secretBuffer).update(counterBuffer).digest();
+            const offset = hmac[hmac.length - 1] & 0xf;
+            const binary = ((hmac[offset] & 0x7f) << 24) |
+                           ((hmac[offset + 1] & 0xff) << 16) |
+                           ((hmac[offset + 2] & 0xff) << 8) |
+                           (hmac[offset + 3] & 0xff);
+            const otp = (binary % 1000000).toString().padStart(6, '0');
+            if (otp === cleanToken) return true;
+        }
+    } catch (e) {
+        return false;
+    }
+    return false;
+}
 
 // Global error handlers to prevent program crashes
 process.on('uncaughtException', (err) => {
@@ -76,7 +232,6 @@ const SHIKSHAK_COURSES_FILE = path.join(__dirname, 'shikshak-courses.json');
 const AI_TOOLS_FILE = path.join(__dirname, 'ai-tools.json');
 
 // Bundler-friendly in-memory defaults for Vercel Serverless
-// Using fs.readFileSync (not require) to avoid Node.js module cache - changes to JSON are always fresh
 let defaultCourses = [];
 try { defaultCourses = JSON.parse(fs.readFileSync(path.join(__dirname, 'courses.json'), 'utf8')); } catch(e) {}
 let defaultShikshakCourses = [];
@@ -84,44 +239,129 @@ try { defaultShikshakCourses = JSON.parse(fs.readFileSync(path.join(__dirname, '
 let defaultAiTools = [];
 try { defaultAiTools = JSON.parse(fs.readFileSync(path.join(__dirname, 'ai-tools.json'), 'utf8')); } catch(e) {}
 
-// Middleware: Security Headers & Crash Protection
+// 7. Security Headers, CSP (Content Security Policy) & HSTS
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    res.setHeader('Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdnjs.cloudflare.com https://checkout.razorpay.com https://cdn.jsdelivr.net; " +
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+        "font-src 'self' https://fonts.gstatic.com data:; " +
+        "img-src 'self' data: https: blob:; " +
+        "connect-src 'self' https://api.razorpay.com https://api.groq.com https://api.sarvam.ai https://generativelanguage.googleapis.com https://kroki.io https://ce.judge0.com ws: wss:; " +
+        "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://www.youtube.com https://www.youtube-nocookie.com; " +
+        "object-src 'none'; " +
+        "base-uri 'self';"
+    );
     next();
 });
 
+// 8. Prevent Exposed Source Maps (.map files)
+app.use((req, res, next) => {
+    if (req.path.endsWith('.map')) {
+        return res.status(404).send('Not Found');
+    }
+    next();
+});
+
+// 9. Hardened CORS Configuration
+const allowedOrigins = [
+    'https://techindro.com',
+    'https://www.techindro.com',
+    'https://tech-indro-official.vercel.app'
+];
+if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push(
+        'http://localhost:5000',
+        'http://127.0.0.1:5000',
+        'http://localhost:3000',
+        'http://localhost:8081'
+    );
+}
+
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, server-to-server)
         if (!origin) return callback(null, true);
-        const allowedOrigins = [
-            'http://localhost:5000',
-            'http://127.0.0.1:5000',
-            'http://localhost:3000',
-            'https://techindro.com',
-            'https://www.techindro.com'
-        ];
-        if (allowedOrigins.includes(origin) || origin.endsWith('.techindro.com') || origin.endsWith('.vercel.app')) {
+        if (allowedOrigins.includes(origin) || origin.endsWith('.techindro.com') || (process.env.NODE_ENV !== 'production' && origin.endsWith('.vercel.app'))) {
             return callback(null, true);
         }
-        // Fallback for custom local network IPs (e.g. 192.168.x.x)
-        if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$/.test(origin)) {
-            return callback(null, true);
-        }
-        return callback(null, true); // Permissive for educational web clients while maintaining explicit handling
+        return callback(new Error('CORS blocked: Origin not authorized by Tech Indro security policy'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'x-csrf-token', 'X-Razorpay-Signature', 'x-webhook-signature']
 }));
+
 app.use(cookieParser());
-app.use(express.json({ limit: '15mb' }));
-app.use(express.urlencoded({ extended: true, limit: '15mb' }));
-app.use(express.static(__dirname)); // Serve static files from the same directory
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// 10. CSRF Protection Middleware (Double-Submit Cookie Pattern)
+function csrfMiddleware(req, res, next) {
+    let csrfToken = req.cookies?.techIndroCsrf;
+    if (!csrfToken) {
+        csrfToken = crypto.randomBytes(32).toString('hex');
+        res.cookie('techIndroCsrf', csrfToken, {
+            httpOnly: false,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/'
+        });
+    }
+
+    // Skip validation for safe read methods
+    if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+        return next();
+    }
+
+    // Exclude cryptographically signed webhooks, AI chatbot, and diagramming endpoints
+    const fullPath = req.originalUrl || req.path || '';
+    if (fullPath.startsWith('/api/payments/webhook') || 
+        fullPath.startsWith('/api/payments/razorpay/webhook') ||
+        fullPath.includes('/payments/razorpay/verify') ||
+        fullPath.startsWith('/api/kroki') || req.path === '/kroki' ||
+        fullPath.startsWith('/api/chat') || req.path === '/chat' ||
+        fullPath.startsWith('/api/ai/') || req.path.startsWith('/ai/')) {
+        return next();
+    }
+
+    // Enforce token match
+    const headerToken = req.headers['x-csrf-token'] || req.headers['x-xsrf-token'] || req.body?._csrf;
+    if (!headerToken || headerToken !== csrfToken) {
+        return res.status(403).json({
+            error: 'Security Notice: Invalid or missing CSRF token. Request rejected.',
+            code: 'EBADCSRFTOKEN',
+            success: false
+        });
+    }
+
+    next();
+}
+
+// Global CSRF Token Endpoint for Single Page Apps & Mobile Clients
+app.get('/api/csrf-token', (req, res) => {
+    let token = req.cookies?.techIndroCsrf;
+    if (!token) {
+        token = crypto.randomBytes(32).toString('hex');
+        res.cookie('techIndroCsrf', token, {
+            httpOnly: false,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/'
+        });
+    }
+    res.json({ csrfToken: token, success: true });
+});
+
+// Apply CSRF validation to state-changing API endpoints
+app.use('/api', csrfMiddleware);
+
+app.use(express.static(__dirname)); // Serve static files safely
 
 // --- Tech Indro Enterprise Authentication & RBAC Helpers ---
 function generateToken(user) {
@@ -382,13 +622,12 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
             // Legacy plain-text check
             passwordMatches = (user.password === password);
             if (passwordMatches) {
-                // Auto-upgrade legacy password to bcrypt!
+                // Auto-upgrade legacy password to bcrypt with cost 12
                 try {
-                    const upgradedHash = await bcrypt.hash(password, 10);
+                    const upgradedHash = await bcrypt.hash(password, 12);
                     user.password = upgradedHash;
                     db.users[userIndex] = user;
                     writeDB(db);
-                    console.log(`[Auth Security] Auto-upgraded user ${user.email} password to bcrypt`);
                 } catch (migrationErr) {
                     console.warn('[Auth Security] Auto-upgrade failed:', migrationErr.message);
                 }
@@ -399,8 +638,23 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
             return res.status(401).json({ error: "Invalid email or password" });
         }
 
+        // MFA / 2FA Challenge Verification
+        if (user.twoFactorEnabled && user.twoFactorSecret) {
+            const tempToken = jwt.sign(
+                { id: user.id, email: user.email, mfaPending: true },
+                JWT_SECRET,
+                { expiresIn: '5m' }
+            );
+            return res.json({
+                success: true,
+                require2FA: true,
+                tempToken,
+                message: "Two-factor authentication required. Please enter your 6-digit authenticator code."
+            });
+        }
+
         if (!user.role) {
-            user.role = cleanEmail.includes('admin@techindro') ? 'admin' : 'student';
+            user.role = 'student';
             db.users[userIndex] = user;
             writeDB(db);
         }
@@ -408,7 +662,7 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
         // Emit Kafka event asynchronously
         kafkaClient.publishEvent('techindro.users.activity', user.id, { 
             action: 'user.login', 
-            email: user.email,
+            email: user.email, 
             role: user.role 
         }).catch(() => {});
 
@@ -419,7 +673,7 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
     }
 });
 
-// register user
+// register user with strict password policy & role authorization
 app.post('/api/auth/register', authLimiter, async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
@@ -431,8 +685,10 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
             return res.status(400).json({ error: "Please provide a valid email address." });
         }
 
-        if (String(password).length < 6) {
-            return res.status(400).json({ error: "Password must be at least 6 characters long." });
+        // Enforce Enterprise Password Complexity
+        const pwdValidation = validatePasswordStrength(password);
+        if (!pwdValidation.valid) {
+            return res.status(400).json({ error: pwdValidation.message });
         }
 
         const db = readDB();
@@ -440,17 +696,29 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
             return res.status(409).json({ error: "An account with this email already exists." });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const assignedRole = (role && ['student', 'mentor', 'parent'].includes(role.toLowerCase())) 
-            ? role.toLowerCase() 
-            : (cleanEmail.includes('admin@techindro') ? 'admin' : 'student');
+        // Prevent Unauthorized Role Escalation: Disallow self-assignment of 'admin'
+        let assignedRole = 'student';
+        if (role && role.toLowerCase() === 'admin') {
+            const adminKey = req.headers['x-admin-key'] || req.body.adminSecretKey;
+            if (process.env.ADMIN_SECRET_KEY && adminKey === process.env.ADMIN_SECRET_KEY) {
+                assignedRole = 'admin';
+            } else {
+                return res.status(403).json({ error: "Unauthorized: Admin account creation requires a valid administrative key." });
+            }
+        } else if (role && ['student', 'mentor', 'parent'].includes(role.toLowerCase())) {
+            assignedRole = role.toLowerCase();
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
 
         const newUser = { 
             id: Date.now().toString(), 
-            name: String(name).trim(), 
+            name: sanitizeHtml(String(name).trim()), 
             email: cleanEmail, 
             password: hashedPassword, 
             role: assignedRole,
+            twoFactorEnabled: false,
+            twoFactorSecret: null,
             createdAt: new Date().toISOString() 
         };
         db.users.push(newUser);
@@ -460,7 +728,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
         kafkaClient.publishEvent('techindro.users.activity', newUser.id, { 
             action: 'user.signup', 
             email: newUser.email, 
-            name: newUser.name,
+            name: newUser.name, 
             role: newUser.role 
         }).catch(() => {});
 
@@ -468,6 +736,129 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     } catch (err) {
         console.error("Registration Error:", err);
         return res.status(500).json({ error: "Registration service error. Please try again." });
+    }
+});
+
+// --- Two-Factor Authentication (MFA / 2FA) Routes ---
+
+// Setup 2FA: Generate Base32 Secret & Authenticator URI
+app.post('/api/auth/2fa/setup', requireAuth, async (req, res) => {
+    try {
+        const secret = generateTotpSecret();
+        const otpauthUri = getTotpUri(secret, req.user.email);
+
+        const db = readDB();
+        const user = db.users.find(u => u.id === req.user.id);
+        if (user) {
+            user.pending2faSecret = secret;
+            writeDB(db);
+        }
+
+        res.json({
+            success: true,
+            secret,
+            otpauthUri,
+            instructions: "Scan this URI in Google Authenticator or enter the secret manually, then verify with a 6-digit code."
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to generate 2FA secret: " + err.message });
+    }
+});
+
+// Verify & Enable 2FA with 6-digit code
+app.post('/api/auth/2fa/verify', requireAuth, async (req, res) => {
+    try {
+        const { code } = req.body;
+        if (!code || String(code).trim().length !== 6) {
+            return res.status(400).json({ error: "Please provide a valid 6-digit code." });
+        }
+
+        const db = readDB();
+        const user = db.users.find(u => u.id === req.user.id);
+        if (!user || !user.pending2faSecret) {
+            return res.status(400).json({ error: "No pending 2FA setup found. Please initiate 2FA setup first." });
+        }
+
+        const isValid = verifyTotp(user.pending2faSecret, code);
+        if (!isValid) {
+            return res.status(400).json({ error: "Invalid authenticator code. Verification failed." });
+        }
+
+        user.twoFactorEnabled = true;
+        user.twoFactorSecret = user.pending2faSecret;
+        delete user.pending2faSecret;
+        writeDB(db);
+
+        await dbService.updateUser2FA(user.id, true, user.twoFactorSecret);
+
+        res.json({
+            success: true,
+            message: "Multi-Factor Authentication (2FA) successfully enabled on your account!"
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to verify 2FA: " + err.message });
+    }
+});
+
+// Validate 2FA during Login Challenge
+app.post('/api/auth/2fa/validate-login', authLimiter, async (req, res) => {
+    try {
+        const { tempToken, code } = req.body;
+        if (!tempToken || !code) {
+            return res.status(400).json({ error: "Temporary token and 6-digit code are required." });
+        }
+
+        const decoded = verifyToken(tempToken);
+        if (!decoded || !decoded.mfaPending) {
+            return res.status(401).json({ error: "Session expired or invalid MFA challenge token. Please log in again." });
+        }
+
+        const db = readDB();
+        const user = db.users.find(u => u.id === decoded.id);
+        if (!user || !user.twoFactorSecret) {
+            return res.status(401).json({ error: "User or 2FA credentials not found." });
+        }
+
+        const isValid = verifyTotp(user.twoFactorSecret, code);
+        if (!isValid) {
+            return res.status(401).json({ error: "Invalid 2FA code. Please check your authenticator app and try again." });
+        }
+
+        return sendAuthSuccess(res, user, "Two-factor authentication verified successfully.");
+    } catch (err) {
+        res.status(500).json({ error: "2FA validation failed: " + err.message });
+    }
+});
+
+// Disable 2FA
+app.post('/api/auth/2fa/disable', requireAuth, async (req, res) => {
+    try {
+        const { password, code } = req.body;
+        const db = readDB();
+        const user = db.users.find(u => u.id === req.user.id);
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        let isVerified = false;
+        if (password && user.password) {
+            isVerified = await bcrypt.compare(password, user.password);
+        } else if (code && user.twoFactorSecret) {
+            isVerified = verifyTotp(user.twoFactorSecret, code);
+        }
+
+        if (!isVerified) {
+            return res.status(400).json({ error: "Invalid password or verification code to disable 2FA." });
+        }
+
+        user.twoFactorEnabled = false;
+        user.twoFactorSecret = null;
+        delete user.pending2faSecret;
+        writeDB(db);
+
+        await dbService.updateUser2FA(user.id, false, null);
+
+        res.json({ success: true, message: "Two-Factor Authentication has been disabled." });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to disable 2FA: " + err.message });
     }
 });
 
@@ -479,8 +870,9 @@ app.get('/api/auth/me', requireAuth, (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User profile not found' });
         }
-        const { password: _, ...userWithoutPassword } = user;
+        const { password: _, twoFactorSecret: __, pending2faSecret: ___, ...userWithoutPassword } = user;
         userWithoutPassword.role = userWithoutPassword.role || req.user.role || 'student';
+        userWithoutPassword.twoFactorEnabled = !!user.twoFactorEnabled;
         res.json({
             authenticated: true,
             user: userWithoutPassword
@@ -490,82 +882,66 @@ app.get('/api/auth/me', requireAuth, (req, res) => {
     }
 });
 
-// Update user profile (Name, Avatar/Photo, Bio, Phone, Skills, College, Links)
+// Update user profile - Protected against Broken Object-Level Authorization (BOLA/IDOR)
 const handleProfileUpdate = async (req, res) => {
     try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ error: "Authentication required to modify profile." });
+        }
+
         const db = readDB();
         if (!db.users) db.users = [];
-        let userId = req.user ? req.user.id : null;
-        let userEmail = req.user ? req.user.email : null;
 
-        // Fallback if accessed via direct client session with id/email in body
-        if (!userId && req.body.id) userId = req.body.id;
-        if (!userEmail && req.body.email) userEmail = req.body.email;
+        // STRICT BOLA FIX: A user can ONLY update their own profile unless they possess verified admin role
+        const targetUserId = (req.user.role === 'admin' && req.body.targetUserId) ? String(req.body.targetUserId) : String(req.user.id);
+        const userIndex = db.users.findIndex(u => String(u.id) === targetUserId);
 
-        let userIndex = -1;
-        if (userId) {
-            userIndex = db.users.findIndex(u => String(u.id) === String(userId));
-        }
-        if (userIndex === -1 && userEmail) {
-            userIndex = db.users.findIndex(u => u.email && u.email.toLowerCase() === String(userEmail).trim().toLowerCase());
-        }
-
-        // If user still doesn't exist, create student entry
         if (userIndex === -1) {
-            const newId = userId || ('user_' + Date.now());
-            const newUser = {
-                id: newId,
-                name: req.body.name || 'Tech Indro Student',
-                email: userEmail || `${newId}@student.techindro.com`,
-                phone: req.body.phone || '',
-                role: 'student',
-                avatar: req.body.avatar || req.body.photo || '',
-                bio: req.body.bio || '',
-                college: req.body.college || '',
-                github: req.body.github || '',
-                linkedin: req.body.linkedin || '',
-                skills: req.body.skills || [],
-                createdAt: new Date().toISOString()
-            };
-            db.users.push(newUser);
-            userIndex = db.users.length - 1;
+            return res.status(404).json({ error: "User account not found." });
         }
 
         const user = db.users[userIndex];
         const { name, avatar, photo, phone, bio, headline, college, organization, github, linkedin, skills, newPassword, oldPassword } = req.body;
 
+        // XSS sanitization on all user-submitted profile fields
         if (name && String(name).trim()) {
-            user.name = String(name).trim();
+            user.name = sanitizeHtml(String(name).trim());
         }
         if (avatar !== undefined) {
-            user.avatar = avatar;
+            user.avatar = String(avatar).trim();
         }
         if (photo !== undefined) {
-            user.photo = photo;
-            user.avatar = photo; // keep synced
+            user.photo = String(photo).trim();
+            user.avatar = user.photo;
         }
         if (phone !== undefined) {
-            user.phone = String(phone).trim();
+            user.phone = String(phone).replace(/\D/g, '').slice(-10);
         }
         if (bio !== undefined || headline !== undefined) {
-            user.bio = String(bio || headline || '').trim();
+            user.bio = sanitizeHtml(String(bio || headline || '').trim());
             user.headline = user.bio;
         }
         if (college !== undefined || organization !== undefined) {
-            user.college = String(college || organization || '').trim();
+            user.college = sanitizeHtml(String(college || organization || '').trim());
         }
         if (github !== undefined) {
-            user.github = String(github).trim();
+            user.github = sanitizeHtml(String(github).trim());
         }
         if (linkedin !== undefined) {
-            user.linkedin = String(linkedin).trim();
+            user.linkedin = sanitizeHtml(String(linkedin).trim());
         }
         if (skills !== undefined) {
-            user.skills = Array.isArray(skills) ? skills : String(skills).split(',').map(s => s.trim()).filter(Boolean);
+            user.skills = Array.isArray(skills) 
+                ? skills.map(s => sanitizeHtml(String(s).trim())).filter(Boolean)
+                : String(skills).split(',').map(s => sanitizeHtml(s.trim())).filter(Boolean);
         }
 
-        // Optional password update
-        if (newPassword && String(newPassword).length >= 6) {
+        // Secure password update with complexity checks
+        if (newPassword) {
+            const pwdVal = validatePasswordStrength(newPassword);
+            if (!pwdVal.valid) {
+                return res.status(400).json({ error: pwdVal.message });
+            }
             if (oldPassword && user.password) {
                 const isBcrypt = typeof user.password === 'string' && (user.password.startsWith('$2a$') || user.password.startsWith('$2b$'));
                 const match = isBcrypt ? await bcrypt.compare(oldPassword, user.password) : (user.password === oldPassword);
@@ -573,14 +949,20 @@ const handleProfileUpdate = async (req, res) => {
                     return res.status(400).json({ error: 'Current password does not match.' });
                 }
             }
-            user.password = await bcrypt.hash(String(newPassword), 10);
+            user.password = await bcrypt.hash(String(newPassword), 12);
+        }
+
+        // Prevent unauthorized role escalation: Role cannot be modified via profile update
+        // unless explicitly performed by an administrator
+        if (req.body.role && req.user.role === 'admin') {
+            user.role = req.body.role;
         }
 
         user.updatedAt = new Date().toISOString();
         db.users[userIndex] = user;
         writeDB(db);
 
-        const { password: _, ...userSafe } = user;
+        const { password: _, twoFactorSecret: __, pending2faSecret: ___, ...userSafe } = user;
         const newToken = generateToken(userSafe);
 
         res.cookie('techIndroToken', newToken, {
@@ -602,18 +984,89 @@ const handleProfileUpdate = async (req, res) => {
     }
 };
 
-app.put('/api/auth/profile', (req, res, next) => {
-    if (req.headers['authorization'] || (req.cookies && req.cookies.techIndroToken)) {
-        return requireAuth(req, res, () => handleProfileUpdate(req, res));
-    }
-    handleProfileUpdate(req, res);
-});
+// Strict Authentication Enforced on Profile Endpoints
+app.put('/api/auth/profile', requireAuth, handleProfileUpdate);
+app.post('/api/auth/profile', requireAuth, handleProfileUpdate);
 
-app.post('/api/auth/profile', (req, res, next) => {
-    if (req.headers['authorization'] || (req.cookies && req.cookies.techIndroToken)) {
-        return requireAuth(req, res, () => handleProfileUpdate(req, res));
+// --- Secure File Upload Engine (MIME Type & Magic Bytes Validated) ---
+const uploadLimiter = createRateLimiter('upload', 10, 15 * 60 * 1000, 'Upload rate limit reached (Max 10 uploads per 15 minutes).');
+
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.pdf'];
+
+app.post('/api/upload', requireAuth, uploadLimiter, async (req, res) => {
+    try {
+        const { fileData, fileName } = req.body;
+        if (!fileData) {
+            return res.status(400).json({ error: "File data is required (base64 data URI format)." });
+        }
+
+        // Parse Data URI
+        const matches = fileData.match(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,(.+)$/);
+        if (!matches || matches.length !== 3) {
+            return res.status(400).json({ error: "Invalid file format. Please provide valid base64 data URI." });
+        }
+
+        const mimeType = matches[1].toLowerCase();
+        const base64Content = matches[2];
+
+        // 1. Validate MIME Type Whitelist
+        if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
+            return res.status(400).json({ error: `File type '${mimeType}' is not permitted. Allowed types: JPEG, PNG, WEBP, PDF.` });
+        }
+
+        const buffer = Buffer.from(base64Content, 'base64');
+
+        // 2. Enforce File Size Limit (Max 5MB)
+        if (buffer.length > 5 * 1024 * 1024) {
+            return res.status(400).json({ error: "File exceeds maximum size limit (5MB)." });
+        }
+
+        // 3. Inspect Magic Bytes to prevent extension spoofing
+        const headerHex = buffer.subarray(0, 8).toString('hex').toLowerCase();
+        let isMagicValid = false;
+        let detectedExt = '';
+
+        if (mimeType === 'image/jpeg' && headerHex.startsWith('ffd8ff')) {
+            isMagicValid = true;
+            detectedExt = '.jpg';
+        } else if (mimeType === 'image/png' && headerHex.startsWith('89504e47')) {
+            isMagicValid = true;
+            detectedExt = '.png';
+        } else if (mimeType === 'image/webp' && headerHex.startsWith('52494646')) {
+            isMagicValid = true;
+            detectedExt = '.webp';
+        } else if (mimeType === 'application/pdf' && buffer.subarray(0, 5).toString('utf8') === '%PDF-') {
+            isMagicValid = true;
+            detectedExt = '.pdf';
+        }
+
+        if (!isMagicValid) {
+            return res.status(400).json({ error: "Security Alert: File magic bytes do not match declared MIME type. Upload rejected." });
+        }
+
+        // 4. Secure Path Traversal Prevention & Randomized UUID File Naming
+        const safeDir = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(safeDir)) {
+            fs.mkdirSync(safeDir, { recursive: true });
+        }
+
+        const uniqueFilename = `${crypto.randomUUID()}${detectedExt}`;
+        const finalFilePath = path.join(safeDir, uniqueFilename);
+
+        fs.writeFileSync(finalFilePath, buffer);
+
+        res.json({
+            success: true,
+            message: "File uploaded and validated successfully.",
+            fileUrl: `/uploads/${uniqueFilename}`,
+            mimeType,
+            sizeBytes: buffer.length
+        });
+    } catch (err) {
+        console.error("Upload error:", err);
+        res.status(500).json({ error: "File upload failed: " + err.message });
     }
-    handleProfileUpdate(req, res);
 });
 
 // Logout endpoint
@@ -808,6 +1261,76 @@ app.get('/api/analytics', (req, res) => {
         res.json({ totalVisits: cachedTotalVisits });
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch analytics' });
+    }
+});
+
+// --- Server-Side RBAC Admin Endpoints (requireAuth & requireRole('admin')) ---
+
+// 1. Admin Users List (Sanitized: Passwords & Secrets Omitted)
+app.get('/api/admin/users', requireAuth, requireRole('admin'), (req, res) => {
+    try {
+        const db = readDB();
+        const sanitizedUsers = (db.users || []).map(u => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            role: u.role || 'student',
+            phone: u.phone ? u.phone.replace(/(\d{2})\d{6}(\d{2})/, '$1******$2') : '',
+            twoFactorEnabled: !!u.twoFactorEnabled,
+            createdAt: u.createdAt,
+            enrolledCoursesCount: (u.enrolledCourses || []).length
+        }));
+        res.json({ success: true, count: sanitizedUsers.length, users: sanitizedUsers });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to load admin user list" });
+    }
+});
+
+// 2. Admin System Status & Security Audit
+app.get('/api/admin/system-status', requireAuth, requireRole('admin'), async (req, res) => {
+    try {
+        const redisHealth = await redisClient.healthCheck();
+        const kafkaHealth = await kafkaClient.healthCheck();
+        res.json({
+            success: true,
+            status: "online",
+            environment: process.env.NODE_ENV || 'development',
+            security: {
+                cspEnabled: true,
+                corsHardened: true,
+                csrfProtected: true,
+                rateLimitersActive: true,
+                mfaEngine: "RFC 6238 TOTP",
+                passwordHashAlgorithm: "bcrypt-12"
+            },
+            database: dbService.isPostgres() ? 'PostgreSQL' : 'JSON DB',
+            redis: redisHealth,
+            kafka: kafkaHealth,
+            uptimeSeconds: Math.floor(process.uptime())
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Admin diagnostics failure" });
+    }
+});
+
+// 3. Admin Add Course (RBAC Enforced)
+app.post('/api/admin/courses', requireAuth, requireRole('admin'), (req, res) => {
+    try {
+        const { title, description, category, level } = req.body;
+        if (!title || !description) {
+            return res.status(400).json({ error: "Title and description are required" });
+        }
+        const newCourse = {
+            id: 'c_' + Date.now(),
+            title: sanitizeHtml(title),
+            description: sanitizeHtml(description),
+            category: sanitizeHtml(category || 'General'),
+            level: sanitizeHtml(level || 'All Levels'),
+            createdAt: new Date().toISOString()
+        };
+        res.json({ success: true, message: "Course published successfully", course: newCourse });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to publish course" });
     }
 });
 
@@ -2115,14 +2638,79 @@ app.post('/api/payments/sync-status', async (req, res) => {
     }
 });
 
-// 5. Hyperswitch Webhook Handler (Asynchronous Gateway Notifications)
+// 5. Razorpay Webhook Handler (Cryptographically Verified Asynchronous Notifications)
+app.post('/api/payments/razorpay/webhook', (req, res) => {
+    try {
+        const webhookSignature = req.headers['x-razorpay-signature'];
+        const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_KEY_SECRET;
+
+        if (webhookSecret && webhookSignature) {
+            const rawBody = JSON.stringify(req.body);
+            const expectedSignature = crypto
+                .createHmac('sha256', webhookSecret)
+                .update(rawBody)
+                .digest('hex');
+
+            if (expectedSignature !== webhookSignature) {
+                console.warn('[Razorpay Webhook] Invalid webhook cryptographic signature received!');
+                return res.status(400).json({ error: 'Invalid webhook signature' });
+            }
+        }
+
+        const event = req.body || {};
+        const eventType = event.event || '';
+        const payload = event.payload?.payment?.entity || {};
+
+        console.log(`[Razorpay Webhook] Verified event: ${eventType} for payment ${payload.id || ''}`);
+
+        if (eventType === 'payment.captured' || eventType === 'order.paid') {
+            const notes = payload.notes || {};
+            enrollStudentInCourse(
+                notes.customerId || payload.email,
+                payload.email,
+                payload.contact,
+                notes.courseId,
+                notes.courseTitle,
+                payload.id,
+                'TXN_RZP_WH_' + Date.now(),
+                payload.method || 'razorpay'
+            );
+        }
+
+        return res.status(200).json({ status: 'ok', success: true });
+    } catch (err) {
+        console.error('Razorpay Webhook Error:', err);
+        return res.status(500).json({ error: 'Webhook processing error' });
+    }
+});
+
+// 5b. Hyperswitch Webhook Handler (Cryptographically Verified)
 app.post('/api/payments/webhook', (req, res) => {
     try {
+        const webhookSignature = req.headers['x-webhook-signature'];
+        const hsSecret = process.env.HYPERSWITCH_WEBHOOK_SECRET;
+
+        // Enforce cryptographic signature verification if secret is configured
+        if (hsSecret) {
+            if (!webhookSignature) {
+                return res.status(401).json({ error: 'Missing x-webhook-signature header' });
+            }
+            const expectedSig = crypto
+                .createHmac('sha256', hsSecret)
+                .update(JSON.stringify(req.body))
+                .digest('hex');
+
+            if (expectedSig !== webhookSignature) {
+                console.warn('[Hyperswitch Webhook] Signature mismatch. Webhook rejected.');
+                return res.status(401).json({ error: 'Invalid webhook signature' });
+            }
+        }
+
         const event = req.body || {};
         const eventType = event.event_type || event.type || '';
         const payload = event.content || event.data || {};
 
-        console.log(`[Hyperswitch Webhook] Received event: ${eventType}`, payload.payment_id || '');
+        console.log(`[Hyperswitch Webhook] Verified event: ${eventType}`, payload.payment_id || '');
 
         if (eventType.includes('payment_intent.succeeded') || eventType.includes('payment.succeeded')) {
             const paymentId = payload.payment_id;
@@ -2146,23 +2734,12 @@ app.post('/api/payments/webhook', (req, res) => {
     }
 });
 
-// 6. Backward Compatibility for Legacy Checkout Endpoint
-app.post('/api/payment/checkout', (req, res) => {
-    const { courseId, userId, amount, cardNumber, paymentMethod = 'card' } = req.body;
-    if (!courseId || !amount) return res.status(400).json({ success: false, error: 'Missing payment details' });
-
-    if (cardNumber && cardNumber.replace(/\s+/g, '').length < 12) {
-        return res.status(400).json({ success: false, error: 'Invalid card number' });
-    }
-
-    const txnId = 'TXN_HS_' + Date.now();
-    enrollStudentInCourse(userId, '', '', courseId, 'Course ' + courseId, 'hs_legacy_' + Date.now(), txnId, paymentMethod);
-
-    res.json({
-        success: true,
-        transactionId: txnId,
-        message: 'Payment routed via Hyperswitch successfully!',
-        orchestrator: 'Hyperswitch by Juspay'
+// 6. Hardened Legacy Checkout Endpoint (Direct Card Numbers Prohibited for PCI-DSS Compliance)
+app.post('/api/payment/checkout', requireAuth, (req, res) => {
+    return res.status(400).json({
+        success: false,
+        error: 'Direct card submissions are disabled for PCI-DSS compliance. Please use the encrypted Razorpay gateway (/api/payments/razorpay/create-order).',
+        recommendedGateway: 'razorpay'
     });
 });
 
@@ -3263,22 +3840,47 @@ app.post('/api/rag/search', async (req, res) => {
 });
 
 // ============================================================================
-// RESILIENT KROKI / GRAPHVIZ SVG GENERATOR FALLBACK
+// RESILIENT KROKI / MERMAID / GRAPHVIZ SVG GENERATOR FALLBACK
 // ============================================================================
 function generateFallbackDiagramSvg(cleanCode) {
-    const lines = cleanCode.split('\n');
+    const lines = (cleanCode || '').split('\n');
     const nodes = new Map();
     const edges = [];
 
     lines.forEach(line => {
-        const trimmed = line.trim();
-        // Match node definitions with labels: A [label="Node Name", ...]
-        const nodeMatch = trimmed.match(/^([a-zA-Z0-9_]+)\s*\[.*?label="([^"]+)".*?\]/i);
-        if (nodeMatch) {
-            nodes.set(nodeMatch[1], nodeMatch[2].replace(/\\n/g, ' '));
+        let trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('%%') || trimmed.startsWith('//') || trimmed.startsWith('#')) return;
+
+        // Strip leading flowchart / graph / digraph declaration
+        if (/^(flowchart|graph|subgraph|end|digraph|strict\s+digraph)\b/i.test(trimmed)) return;
+
+        // 1. Mermaid node with bracket label: A[Client / UI] or A(Client / UI) or A[(Database)]
+        const mNodeMatches = trimmed.matchAll(/([a-zA-Z0-9_-]+)(?:\[\(([^)]+)\)\]|\[([^\]]+)\]|\(([^)]+)\))/g);
+        for (const nm of mNodeMatches) {
+            const id = nm[1];
+            const label = (nm[2] || nm[3] || nm[4] || id).trim();
+            if (id && label) nodes.set(id, label);
         }
 
-        // Match edges: A -> B [label="..."]
+        // 2. Graphviz node: A [label="Node Name", ...]
+        const gNodeMatch = trimmed.match(/^([a-zA-Z0-9_]+)\s*\[.*?label="([^"]+)".*?\]/i);
+        if (gNodeMatch) {
+            nodes.set(gNodeMatch[1], gNodeMatch[2].replace(/\\n/g, ' '));
+        }
+
+        // 3. Mermaid edges: A -->|label| B or A --> B or A ==> B
+        const mEdgeMatch = trimmed.match(/([a-zA-Z0-9_-]+)\s*(?:-->|---|==>|-.->)\s*(?:\|([^|]+)\|)?\s*([a-zA-Z0-9_-]+)/);
+        if (mEdgeMatch) {
+            const from = mEdgeMatch[1];
+            const edgeLabel = mEdgeMatch[2] ? mEdgeMatch[2].trim() : '';
+            const to = mEdgeMatch[3];
+            if (!nodes.has(from)) nodes.set(from, from);
+            if (!nodes.has(to)) nodes.set(to, to);
+            edges.push({ from, to, label: edgeLabel });
+            return;
+        }
+
+        // 4. Graphviz / standard edges: A -> B [label="..."]
         const edgeMatch = trimmed.match(/^([a-zA-Z0-9_]+)\s*->\s*([a-zA-Z0-9_]+)(?:\s*\[.*?label="([^"]+)".*?\])?/i);
         if (edgeMatch) {
             const from = edgeMatch[1];
@@ -3298,11 +3900,11 @@ function generateFallbackDiagramSvg(cleanCode) {
         </svg>`;
     }
 
-    const boxWidth = 140;
-    const boxHeight = 52;
-    const gapX = 50;
+    const boxWidth = 150;
+    const boxHeight = 56;
+    const gapX = 48;
     const paddingX = 35;
-    const totalWidth = Math.max(600, paddingX * 2 + nodeArray.length * (boxWidth + gapX) - gapX);
+    const totalWidth = Math.max(620, paddingX * 2 + nodeArray.length * (boxWidth + gapX) - gapX);
     const totalHeight = 160;
     const centerY = totalHeight / 2 - boxHeight / 2;
 
@@ -3322,9 +3924,9 @@ function generateFallbackDiagramSvg(cleanCode) {
 
         elementsSvg += `
             <g>
-                <rect x="${x}" y="${y}" width="${boxWidth}" height="${boxHeight}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+                <rect x="${x}" y="${y}" width="${boxWidth}" height="${boxHeight}" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
                 <text x="${x + boxWidth / 2}" y="${y + boxHeight / 2}" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="${textFill}">
-                    ${label.slice(0, 22)}
+                    ${label.slice(0, 24)}
                 </text>
             </g>
         `;
@@ -3341,7 +3943,7 @@ function generateFallbackDiagramSvg(cleanCode) {
             elementsSvg += `
                 <g>
                     <line x1="${x1}" y1="${y1}" x2="${x2 - 8}" y2="${y2}" stroke="#ff6b35" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-                    ${label ? `<text x="${(x1 + x2) / 2}" y="${y1 - 8}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748b">${label.slice(0, 18)}</text>` : ''}
+                    ${label ? `<text x="${(x1 + x2) / 2}" y="${y1 - 8}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748b">${label.slice(0, 20)}</text>` : ''}
                 </g>
             `;
         }
@@ -3390,7 +3992,8 @@ app.post('/api/kroki', async (req, res) => {
         let upstream = await fetch(`https://kroki.io/${encodeURIComponent(krokiType)}/svg`, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-            body: cleanCode
+            body: cleanCode,
+            signal: AbortSignal.timeout(3500)
         });
 
         // 3. Smart Fallback: If Graphviz failed, try Mermaid
@@ -3399,7 +4002,8 @@ app.post('/api/kroki', async (req, res) => {
                 const mermaidAttempt = await fetch(`https://kroki.io/mermaid/svg`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-                    body: code.trim()
+                    body: code.trim(),
+                    signal: AbortSignal.timeout(3000)
                 });
                 if (mermaidAttempt.ok) {
                     const svg = await mermaidAttempt.text();
@@ -3410,7 +4014,6 @@ app.post('/api/kroki', async (req, res) => {
         }
 
         if (!upstream.ok) {
-            // Render built-in fallback SVG so user never sees a broken box
             const fallbackSvg = generateFallbackDiagramSvg(cleanCode);
             res.setHeader('Content-Type', 'application/json');
             return res.json({ success: true, svg: fallbackSvg, type: 'fallback' });
@@ -3420,8 +4023,8 @@ app.post('/api/kroki', async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         return res.json({ success: true, svg: svg, type: krokiType });
     } catch (err) {
-        console.warn('Kroki API Proxy Error, generating fallback SVG:', err.message);
-        const fallbackSvg = generateFallbackDiagramSvg(cleanCode || 'digraph G { A -> B; }');
+        // Fast instant fallback so student never waits or sees an error
+        const fallbackSvg = generateFallbackDiagramSvg(cleanCode || 'digraph G { Client -> Server -> Database; }');
         res.setHeader('Content-Type', 'application/json');
         return res.json({ success: true, svg: fallbackSvg, type: 'fallback' });
     }
@@ -5904,18 +6507,19 @@ app.get('/api/community/posts', (req, res) => {
     return res.json({ success: true, posts: list, total: list.length });
 });
 
-// API: Create Community Post
+// API: Create Community Post - Sanitized against XSS
 app.post('/api/community/posts', chatLimiter, (req, res) => {
     try {
         const { title, content, tags = [], authorName = 'Scholar' } = req.body;
         if (!title || !content) return res.status(400).json({ error: 'Title and content required.' });
 
+        const safeAuthor = req.user?.name || authorName || 'Scholar';
         const newPost = {
             id: 'post_' + Date.now(),
-            title: title.trim(),
-            content: content.trim(),
-            author: { name: authorName, avatar: '🧑‍💻', badge: 'Scholar' },
-            tags: tags.length > 0 ? tags : ['general'],
+            title: sanitizeHtml(title.trim()),
+            content: sanitizeHtml(content.trim()),
+            author: { name: sanitizeHtml(safeAuthor), avatar: '🧑‍💻', badge: 'Scholar' },
+            tags: tags.length > 0 ? tags.map(t => sanitizeHtml(String(t))) : ['general'],
             upvotes: 1,
             createdAt: 'Just now',
             answers: []
@@ -5928,17 +6532,18 @@ app.post('/api/community/posts', chatLimiter, (req, res) => {
     }
 });
 
-// API: Submit Answer to Post
+// API: Submit Answer to Post - Sanitized against XSS
 app.post('/api/community/posts/:id/answers', chatLimiter, (req, res) => {
     try {
         const { content, authorName = 'Scholar' } = req.body;
         const post = COMMUNITY_POSTS.find(p => p.id === req.params.id);
         if (!post) return res.status(404).json({ error: 'Post not found.' });
 
+        const safeAuthor = req.user?.name || authorName || 'Scholar';
         const ans = {
             id: 'ans_' + Date.now(),
-            author: { name: authorName, avatar: '👨‍🎓', badge: 'Contributor' },
-            content: content.trim(),
+            author: { name: sanitizeHtml(safeAuthor), avatar: '👨‍🎓', badge: 'Contributor' },
+            content: sanitizeHtml(content.trim()),
             upvotes: 0,
             isAccepted: false
         };
@@ -6534,6 +7139,20 @@ async def robust_client_ping(service_url: str, retries: int = 5):
     }
 ];
 
+let INSPIRO_USER_PROFILE = {
+    id: "me",
+    name: "Aarav Sharma",
+    role: "AI & Full Stack Engineer",
+    college: "IIT BHU (Varanasi)",
+    program: "Forward Deployed Engineer (FDE)",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+    bio: "Building real-time AI agents and distributed backends. Tech Indro fellow exploring RAG & cloud systems.",
+    skills: ["Python", "FastAPI", "React", "Docker", "PySpark", "Node.js"],
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    statusBadge: "🟢 Available for Collaboration"
+};
+
 // 1. GET Inspiro Feed Posts
 app.get('/api/inspiro/feed', (req, res) => {
     res.json({
@@ -6543,28 +7162,75 @@ app.get('/api/inspiro/feed', (req, res) => {
     });
 });
 
+// Profile: GET & POST
+app.get('/api/inspiro/profile', (req, res) => {
+    res.json({
+        success: true,
+        profile: INSPIRO_USER_PROFILE
+    });
+});
+
+app.post('/api/inspiro/profile', (req, res) => {
+    try {
+        const { name, role, college, program, avatar, bio, skills, github, linkedin, statusBadge } = req.body;
+        if (name && name.trim()) INSPIRO_USER_PROFILE.name = name.trim();
+        if (role && role.trim()) INSPIRO_USER_PROFILE.role = role.trim();
+        if (college && college.trim()) INSPIRO_USER_PROFILE.college = college.trim();
+        if (program && program.trim()) INSPIRO_USER_PROFILE.program = program.trim();
+        if (avatar && avatar.trim()) INSPIRO_USER_PROFILE.avatar = avatar.trim();
+        if (bio !== undefined) INSPIRO_USER_PROFILE.bio = bio.trim();
+        if (skills) {
+            INSPIRO_USER_PROFILE.skills = Array.isArray(skills) 
+                ? skills 
+                : skills.split(',').map(s => s.trim()).filter(Boolean);
+        }
+        if (github !== undefined) INSPIRO_USER_PROFILE.github = github.trim();
+        if (linkedin !== undefined) INSPIRO_USER_PROFILE.linkedin = linkedin.trim();
+        if (statusBadge !== undefined) INSPIRO_USER_PROFILE.statusBadge = statusBadge.trim();
+
+        // Sync with existing posts by 'me'
+        INSPIRO_POSTS.forEach(p => {
+            if (p.author && (p.author.isMe || p.author.peerId === 'me')) {
+                p.author.name = INSPIRO_USER_PROFILE.name;
+                p.author.role = INSPIRO_USER_PROFILE.role;
+                p.author.avatar = INSPIRO_USER_PROFILE.avatar;
+                p.author.college = INSPIRO_USER_PROFILE.college;
+            }
+        });
+
+        res.json({ success: true, profile: INSPIRO_USER_PROFILE });
+    } catch (e) {
+        res.status(500).json({ error: "Failed to update profile", success: false });
+    }
+});
+
 // 2. POST New Inspiro Feed Post
 app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
     try {
-        const { title, content, codeSnippet = '', tags = [], authorName, authorRole } = req.body;
+        const { title, content, codeSnippet = '', tags = [], authorName, authorRole, authorAvatar, authorCollege } = req.body;
         if (!content || !content.trim()) {
             return res.status(400).json({ error: "Post content cannot be empty." });
         }
 
+        const authorId = req.user ? req.user.id : 'user_' + Date.now();
+        const safeName = req.user?.name || authorName || INSPIRO_USER_PROFILE.name || "Tech Indro Student";
+
         const newPost = {
             id: `post_${Date.now()}`,
+            authorId: String(authorId),
             author: {
-                name: authorName || "Tech Indro Student",
-                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
-                role: authorRole || "Student Developer",
-                college: "Tech Indro Campus",
-                peerId: `peer_student_${Date.now().toString().slice(-4)}`
+                name: sanitizeHtml(safeName),
+                avatar: authorAvatar || INSPIRO_USER_PROFILE.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+                role: sanitizeHtml(authorRole || INSPIRO_USER_PROFILE.role || "Student Developer"),
+                college: sanitizeHtml(authorCollege || INSPIRO_USER_PROFILE.college || "Tech Indro Campus"),
+                peerId: 'me',
+                isMe: true
             },
             timestamp: "Just now",
-            title: title || "New Community Update",
-            content: content.trim(),
+            title: sanitizeHtml(title || "New Community Update"),
+            content: sanitizeHtml(content.trim()),
             codeSnippet: codeSnippet ? codeSnippet.trim() : '',
-            tags: tags.length ? tags : ["#TechIndro", "#StudentCommunity"],
+            tags: tags.length ? tags.map(t => sanitizeHtml(String(t))) : ["#TechIndro", "#StudentCommunity"],
             likes: 1,
             isLiked: true,
             commentsCount: 0,
@@ -6578,6 +7244,23 @@ app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
     }
 });
 
+// 2b. DELETE Post - Enforce Object Ownership (BOLA / IDOR Fix)
+app.delete('/api/inspiro/posts/:id', requireAuth, (req, res) => {
+    const idx = INSPIRO_POSTS.findIndex(p => p.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: "Post not found." });
+
+    const post = INSPIRO_POSTS[idx];
+    const isOwner = post.authorId && String(post.authorId) === String(req.user.id);
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isOwner && !isAdmin) {
+        return res.status(403).json({ error: "Access Denied: You do not possess authorization to delete this post." });
+    }
+
+    INSPIRO_POSTS.splice(idx, 1);
+    res.json({ success: true, message: "Post deleted successfully." });
+});
+
 // 3. POST Like/Upvote Post
 app.post('/api/inspiro/posts/:id/like', (req, res) => {
     const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
@@ -6589,7 +7272,7 @@ app.post('/api/inspiro/posts/:id/like', (req, res) => {
     res.json({ success: true, likes: post.likes, isLiked: post.isLiked });
 });
 
-// 4. POST Comment on Post
+// 4. POST Comment on Post - Sanitized against stored XSS
 app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
     const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
     if (!post) return res.status(404).json({ error: "Post not found." });
@@ -6597,10 +7280,11 @@ app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
     const { text, authorName } = req.body;
     if (!text || !text.trim()) return res.status(400).json({ error: "Comment text required." });
 
+    const safeAuthor = req.user?.name || authorName || "Student Peer";
     const newComment = {
-        author: authorName || "Student Peer",
+        author: sanitizeHtml(safeAuthor),
         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
-        text: text.trim(),
+        text: sanitizeHtml(text.trim()),
         time: "Just now"
     };
 

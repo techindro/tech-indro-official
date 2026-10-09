@@ -60,9 +60,15 @@ async function initializeTables() {
                 referral_code VARCHAR(100),
                 provider VARCHAR(50),
                 enrolled_courses JSONB DEFAULT '[]'::jsonb,
+                two_factor_enabled BOOLEAN DEFAULT FALSE,
+                two_factor_secret VARCHAR(255),
                 created_at TIMESTAMPTZ DEFAULT NOW(),
                 updated_at TIMESTAMPTZ DEFAULT NOW()
             );
+
+            -- Ensure columns exist in case table was created earlier
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT FALSE;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_secret VARCHAR(255);
 
             CREATE TABLE IF NOT EXISTS certificates (
                 id VARCHAR(100) PRIMARY KEY,
@@ -175,6 +181,8 @@ const dbService = {
                         referralCode: row.referral_code,
                         provider: row.provider,
                         enrolledCourses: row.enrolled_courses || [],
+                        twoFactorEnabled: !!row.two_factor_enabled,
+                        twoFactorSecret: row.two_factor_secret || null,
                         createdAt: row.created_at
                     };
                 }
@@ -208,6 +216,8 @@ const dbService = {
                         referralCode: row.referral_code,
                         provider: row.provider,
                         enrolledCourses: row.enrolled_courses || [],
+                        twoFactorEnabled: !!row.two_factor_enabled,
+                        twoFactorSecret: row.two_factor_secret || null,
                         createdAt: row.created_at
                     };
                 }
@@ -218,6 +228,30 @@ const dbService = {
         }
         const db = readJsonDB();
         return (db.users || []).find(u => String(u.id) === String(id)) || null;
+    },
+
+    async updateUser2FA(userId, enabled, secret) {
+        if (!userId) return false;
+        if (isPostgresAvailable && pool) {
+            try {
+                await pool.query(
+                    'UPDATE users SET two_factor_enabled = $1, two_factor_secret = $2, updated_at = NOW() WHERE id = $3',
+                    [enabled, secret, userId]
+                );
+                return true;
+            } catch (err) {
+                console.error('[PostgreSQL] updateUser2FA error:', err.message);
+            }
+        }
+        const db = readJsonDB();
+        const user = (db.users || []).find(u => String(u.id) === String(userId));
+        if (user) {
+            user.twoFactorEnabled = enabled;
+            user.twoFactorSecret = secret;
+            writeJsonDB(db);
+            return true;
+        }
+        return false;
     },
 
     async createUser(user) {

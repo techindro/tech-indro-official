@@ -1,12 +1,35 @@
-// Tech Indro - Enterprise Client SDK & Authentication Layer
-// Handles JWT sessions, secure cookie credentials, and RBAC utilities
+// Tech Indro - Enterprise Hardened Client SDK & Authentication Layer
+// Security: Zero localStorage token storage (XSS Mitigation), HttpOnly Cookie Sessions, CSRF & 2FA Protection
 
 const API_URL = "/api";
 
+// Auto-purge any legacy sensitive tokens from localStorage to mitigate XSS risks
+try {
+    localStorage.removeItem("techIndroToken");
+    localStorage.removeItem("token");
+} catch (e) {}
+
 // --- Global Auth Namespace ---
 window.TechIndroAuth = {
+    // CSRF Protection: Read Double-Submit CSRF cookie
+    getCsrfToken() {
+        const match = document.cookie.match(/(^|;\s*)techIndroCsrf=([^;]+)/);
+        return match ? decodeURIComponent(match[2]) : "";
+    },
+    async ensureCsrfToken() {
+        let token = this.getCsrfToken();
+        if (!token) {
+            try {
+                const res = await fetch(`${API_URL}/csrf-token`, { credentials: 'include' });
+                const data = await res.json();
+                token = data.csrfToken || this.getCsrfToken();
+            } catch (e) {}
+        }
+        return token;
+    },
+    // Tokens are strictly maintained in HttpOnly, SameSite cookies by the server
     getToken() {
-        return localStorage.getItem("techIndroToken") || "";
+        return ""; // Deprecated: token is held in secure HttpOnly cookie
     },
     getUser() {
         try {
@@ -17,42 +40,66 @@ window.TechIndroAuth = {
         }
     },
     isAuthenticated() {
-        return !!this.getToken() || !!this.getUser();
+        return !!this.getUser();
     },
     getRole() {
         const user = this.getUser();
         return (user && user.role) ? user.role : 'guest';
     },
-    setSession(user, token) {
-        if (user) localStorage.setItem("techIndroUser", JSON.stringify(user));
-        if (token) localStorage.setItem("techIndroToken", token);
-        window.dispatchEvent(new CustomEvent("techIndroAuthChange", { detail: { user, token } }));
+    setSession(user) {
+        if (user) {
+            // Only store non-sensitive profile information for client rendering
+            const safeDisplay = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role || 'student',
+                avatar: user.avatar || user.photo || '',
+                twoFactorEnabled: !!user.twoFactorEnabled
+            };
+            localStorage.setItem("techIndroUser", JSON.stringify(safeDisplay));
+        }
+        window.dispatchEvent(new CustomEvent("techIndroAuthChange", { detail: { user } }));
     },
     clearSession() {
         localStorage.removeItem("techIndroUser");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("user");
         localStorage.removeItem("techIndroToken");
-        window.dispatchEvent(new CustomEvent("techIndroAuthChange", { detail: { user: null, token: null } }));
+        window.dispatchEvent(new CustomEvent("techIndroAuthChange", { detail: { user: null } }));
     },
     async logout() {
         try {
-            await fetch(`${API_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
+            const csrf = await this.ensureCsrfToken();
+            await fetch(`${API_URL}/auth/logout`, { 
+                method: 'POST', 
+                headers: { 'X-CSRF-Token': csrf },
+                credentials: 'include' 
+            });
         } catch (e) {}
         this.clearSession();
         window.location.href = "login.html";
     },
     async fetchWithAuth(endpoint, options = {}) {
-        const token = this.getToken();
         const headers = Object.assign({}, options.headers || {});
-        if (token && !headers['Authorization']) {
-            headers['Authorization'] = `Bearer ${token}`;
+        const method = (options.method || 'GET').toUpperCase();
+
+        // Enforce CSRF token header on all mutating requests
+        if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
+            const csrf = await this.ensureCsrfToken();
+            if (csrf && !headers['X-CSRF-Token'] && !headers['x-csrf-token']) {
+                headers['X-CSRF-Token'] = csrf;
+            }
         }
+
         if (!headers['Content-Type'] && !(options.body instanceof FormData)) {
             headers['Content-Type'] = 'application/json';
         }
+
         return fetch(endpoint.startsWith('http') ? endpoint : `${API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`, {
             ...options,
             headers,
-            credentials: 'include'
+            credentials: 'include' // Transmit HttpOnly secure authentication cookie
         });
     },
     async verifySession() {
@@ -61,11 +108,10 @@ window.TechIndroAuth = {
             if (res.ok) {
                 const data = await res.json();
                 if (data && data.user) {
-                    localStorage.setItem("techIndroUser", JSON.stringify(data.user));
+                    this.setSession(data.user);
                     return data.user;
                 }
             } else if (res.status === 401) {
-                // Session expired
                 this.clearSession();
             }
         } catch (e) {
@@ -74,40 +120,31 @@ window.TechIndroAuth = {
         return this.getUser();
     },
     async updateProfile(profileData) {
-        const user = this.getUser();
-        const payload = { ...profileData };
-        if (user && user.id && !payload.id) payload.id = user.id;
-        if (user && user.email && !payload.email) payload.email = user.email;
-
         try {
             const res = await this.fetchWithAuth('/auth/profile', {
                 method: 'POST',
-                body: JSON.stringify(payload)
+                body: JSON.stringify(profileData)
             });
 
             const data = await res.json();
             if (res.ok && data.user) {
-                this.setSession(data.user, data.token || this.getToken());
-                localStorage.setItem('currentUser', JSON.stringify(data.user));
-                localStorage.setItem('user', JSON.stringify(data.user));
+                this.setSession(data.user);
                 return { success: true, user: data.user, message: data.message };
             } else {
                 throw new Error(data.error || 'Failed to update profile on server');
             }
         } catch (err) {
-            // Local fallback if offline or standalone
-            console.warn('[TechIndroAuth] Offline profile update fallback:', err.message);
-            const mergedUser = Object.assign({}, user || {}, payload, { updatedAt: new Date().toISOString() });
-            this.setSession(mergedUser, this.getToken());
-            localStorage.setItem('currentUser', JSON.stringify(mergedUser));
-            localStorage.setItem('user', JSON.stringify(mergedUser));
-            return { success: true, user: mergedUser, message: 'Profile saved locally!' };
+            console.warn('[TechIndroAuth] Profile update error:', err.message);
+            throw err;
         }
     }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    // --- Verify Session in Background ---
+    // Ensure CSRF token cookie is synchronized
+    TechIndroAuth.ensureCsrfToken();
+
+    // Verify Session in Background
     if (TechIndroAuth.isAuthenticated()) {
         TechIndroAuth.verifySession();
     }
@@ -130,17 +167,55 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             
             try {
+                const csrf = await TechIndroAuth.ensureCsrfToken();
                 const response = await fetch(`${API_URL}/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrf
+                    },
                     credentials: 'include',
                     body: JSON.stringify({ email, password })
                 });
 
                 const data = await response.json();
 
+                // Multi-Factor Authentication Challenge
+                if (response.ok && data.require2FA) {
+                    const code = prompt("Two-Factor Authentication Required.\nPlease enter your 6-digit Authenticator code:");
+                    if (!code) {
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        return;
+                    }
+
+                    const mfaRes = await fetch(`${API_URL}/auth/2fa/validate-login`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrf
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({ tempToken: data.tempToken, code: code.trim() })
+                    });
+                    const mfaData = await mfaRes.json();
+
+                    if (mfaRes.ok && mfaData.user) {
+                        TechIndroAuth.setSession(mfaData.user);
+                        submitBtn.innerText = "Login Successful!";
+                        submitBtn.style.backgroundColor = "#10b981";
+                        setTimeout(() => { window.location.href = "dashboard.html"; }, 400);
+                        return;
+                    } else {
+                        alert(mfaData.error || "Invalid 2FA verification code.");
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                        return;
+                    }
+                }
+
                 if (response.ok && data.user) {
-                    TechIndroAuth.setSession(data.user, data.token);
+                    TechIndroAuth.setSession(data.user);
                     submitBtn.innerText = "Login Successful!";
                     submitBtn.style.backgroundColor = "#10b981";
                     setTimeout(() => {
@@ -177,9 +252,13 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             
             try {
+                const csrf = await TechIndroAuth.ensureCsrfToken();
                 const response = await fetch(`${API_URL}/auth/register`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrf
+                    },
                     credentials: 'include',
                     body: JSON.stringify({ name, email, password, role: 'student' })
                 });
@@ -187,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
 
                 if (response.ok && data.user) {
-                    TechIndroAuth.setSession(data.user, data.token);
+                    TechIndroAuth.setSession(data.user);
                     submitBtn.innerText = "Account Created!";
                     submitBtn.style.backgroundColor = "#10b981";
                     alert("Account Created! Welcome to Tech Indro.");
@@ -220,9 +299,13 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.innerText = "Sending to Database...";
             
             try {
+                const csrf = await TechIndroAuth.ensureCsrfToken();
                 const response = await fetch(`${API_URL}/contact`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrf
+                    },
                     credentials: 'include',
                     body: JSON.stringify({ name, email, message })
                 });

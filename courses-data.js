@@ -1,10 +1,9 @@
-// Standalone Courses data fallback
-window.TECH_INDRO_COURSES = [
+const coursesData = [
     {
         "id": "coding-ai",
         "title": "Complete AI & Machine Learning Bootcamp",
         "description": "Master Python, Machine Learning, Deep Learning, and AI. Taught by our AI Agent in English, Hindi, Tamil, French, and Bhojpuri. Build real-world tools from zero to one.",
-        "instructor": "Multilingual AI Agent",
+        "instructor": "Prof. Andrew Ng (Stanford / DeepLearning.AI)",
         "duration": "6 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -32,8 +31,8 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
-                "title": "Stanford CS229 Machine Learning",
-                "url": "https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU",
+                "title": "Machine Learning Masterclass by Prof. Andrew Ng",
+                "url": "https://www.youtube.com/watch?v=vStJoetOxJg",
                 "type": "youtube"
             },
             {
@@ -77,7 +76,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "game"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/vStJoetOxJg/maxresdefault.jpg"
     },
     {
         "id": "sih-hackathon",
@@ -552,7 +551,7 @@ window.TECH_INDRO_COURSES = [
         "resources": [
             {
                 "title": "Y Combinator Startup School",
-                "url": "https://www.youtube.com/c/ycombinator",
+                "url": "https://www.youtube.com/watch?v=C27RVio2rOs",
                 "type": "youtube"
             },
             {
@@ -576,13 +575,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/C27RVio2rOs/maxresdefault.jpg"
     },
     {
         "id": "communication",
         "title": "Master Communication & Newspaper Analysis",
         "description": "Develop world-class communication skills. Learn how to read and analyze The Hindu and Indian Express like a UPSC topper to stay ahead in the corporate world.",
-        "instructor": "Multilingual AI Agent",
+        "instructor": "BBC Learning English & AI Mentor",
         "duration": "2 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -615,8 +614,8 @@ window.TECH_INDRO_COURSES = [
                 "type": "newspaper"
             },
             {
-                "title": "TED Talks",
-                "url": "https://www.youtube.com/c/TED",
+                "title": "BBC News Review — Newspaper & Vocabulary Analysis",
+                "url": "https://www.youtube.com/watch?v=eRqYUTA5JJo",
                 "type": "youtube"
             },
             {
@@ -635,13 +634,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/eRqYUTA5JJo/maxresdefault.jpg"
     },
     {
         "id": "freelancing",
         "title": "Freelancing, Social Media & Open Source",
         "description": "Start earning while learning. Master freelancing platforms, grow your social media presence, and contribute to Open Source projects.",
-        "instructor": "Multilingual AI Agent",
+        "instructor": "Ishan Sharma & AI Mentor",
         "duration": "3 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -669,8 +668,8 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
-                "title": "GitHub Free Code Camp",
-                "url": "https://www.youtube.com/c/Freecodecamp",
+                "title": "Complete Freelancing Roadmap & Masterclass - Ishan Sharma",
+                "url": "https://www.youtube.com/watch?v=_ocOgmT1GTo",
                 "type": "youtube"
             },
             {
@@ -694,7 +693,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/_ocOgmT1GTo/maxresdefault.jpg"
     },
     {
         "id": "life-skills",
@@ -729,7 +728,7 @@ window.TECH_INDRO_COURSES = [
         "resources": [
             {
                 "title": "Huberman Lab",
-                "url": "https://www.youtube.com/@hubermanlab",
+                "url": "https://www.youtube.com/watch?v=gXDMoiEkyuQ",
                 "type": "youtube"
             },
             {
@@ -753,13 +752,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/gXDMoiEkyuQ/maxresdefault.jpg"
     },
     {
         "id": "research-papers",
         "title": "Research Papers & Tool Building",
         "description": "Go beyond generic projects. Learn how to conduct deep research, publish research papers, and build highly specialized software tools.",
-        "instructor": "Multilingual AI Agent",
+        "instructor": "Dr. Andy Stapleton (Papers) & Andrej Karpathy (Tool Building)",
         "duration": "5 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -787,22 +786,32 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
-                "title": "AlphaFold (DeepMind Research)",
-                "url": "https://github.com/google-deepmind/alphafold",
+                "title": "How to Read Research Papers Effectively — Dr. Andy Stapleton",
+                "url": "https://www.youtube.com/watch?v=g8qatelVS7c",
+                "type": "youtube"
+            },
+            {
+                "title": "nanoGPT: Build Generative AI Tools from Scratch — Andrej Karpathy",
+                "url": "https://github.com/karpathy/nanoGPT",
                 "type": "github"
             },
             {
-                "title": "Elsevier Researcher Academy (Free)",
-                "url": "https://researcheracademy.elsevier.com/",
-                "type": "certificate"
+                "title": "Build Tools & GPT from Scratch (Code Walkthrough) — Andrej Karpathy",
+                "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+                "type": "youtube"
             },
             {
-                "title": "AlphaFold: Protein Structure Prediction",
-                "url": "https://www.nature.com/articles/s41586-021-03819-2",
-                "type": "research"
+                "title": "micrograd: Autograd Engine & Neural Net Tool — Andrej Karpathy",
+                "url": "https://github.com/karpathy/micrograd",
+                "type": "github"
+            },
+            {
+                "title": "Elsevier Researcher Academy (Free Academic Certificate)",
+                "url": "https://researcheracademy.elsevier.com/",
+                "type": "certificate"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/g8qatelVS7c/maxresdefault.jpg"
     },
     {
         "id": "software-engineering",
@@ -842,7 +851,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "FreeCodeCamp Full Course",
-                "url": "https://www.youtube.com/c/Freecodecamp",
+                "url": "https://www.youtube.com/watch?v=nu_pCVPKzTk",
                 "type": "youtube"
             },
             {
@@ -861,7 +870,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/nu_pCVPKzTk/maxresdefault.jpg"
     },
     {
         "id": "data-science",
@@ -901,7 +910,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "StatQuest with Josh Starmer",
-                "url": "https://www.youtube.com/c/joshstarmer",
+                "url": "https://www.youtube.com/watch?v=ua-CiDNNj30",
                 "type": "youtube"
             },
             {
@@ -920,7 +929,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/ua-CiDNNj30/maxresdefault.jpg"
     },
     {
         "id": "devops",
@@ -1039,7 +1048,7 @@ window.TECH_INDRO_COURSES = [
         "id": "dsa-cracking",
         "title": "Cracking DSA for Top MNCs",
         "description": "Master Data Structures and Algorithms in C++/Java/Python. Solve 500+ Leetcode style questions and crack coding interviews.",
-        "instructor": "AI Mentor",
+        "instructor": "Striver (take U forward)",
         "duration": "4 Months",
         "perks": [
             "500+ Coding Problems",
@@ -1067,13 +1076,18 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
+                "title": "Strivers A2Z DSA Course Sheet (takeuforward.org)",
+                "url": "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/",
+                "type": "website"
+            },
+            {
                 "title": "LeetCode",
                 "url": "https://leetcode.com/",
                 "type": "website"
             },
             {
-                "title": "NeetCode",
-                "url": "https://www.youtube.com/c/NeetCode",
+                "title": "Striver A2Z DSA Sheet - Arrays & Masterclass (take U forward)",
+                "url": "https://www.youtube.com/watch?v=37E9ckMDdTk",
                 "type": "youtube"
             },
             {
@@ -1092,7 +1106,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/37E9ckMDdTk/maxresdefault.jpg"
     },
     {
         "id": "sql-mastery",
@@ -1132,7 +1146,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "Corey Schafer SQL",
-                "url": "https://www.youtube.com/user/schafer5",
+                "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY",
                 "type": "youtube"
             },
             {
@@ -1151,7 +1165,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg"
     },
     {
         "id": "cybersecurity",
@@ -1191,7 +1205,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "NetworkChuck",
-                "url": "https://www.youtube.com/c/NetworkChuck",
+                "url": "https://www.youtube.com/watch?v=3Kq1MIfTWCE",
                 "type": "youtube"
             },
             {
@@ -1210,7 +1224,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/3Kq1MIfTWCE/maxresdefault.jpg"
     },
     {
         "id": "ethical-hacking",
@@ -1250,7 +1264,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "David Bombal",
-                "url": "https://www.youtube.com/c/DavidBombal",
+                "url": "https://www.youtube.com/watch?v=3Kq1MIfTWCE",
                 "type": "youtube"
             },
             {
@@ -1269,7 +1283,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/3Kq1MIfTWCE/maxresdefault.jpg"
     },
     {
         "id": "app-development",
@@ -1309,7 +1323,7 @@ window.TECH_INDRO_COURSES = [
             },
             {
                 "title": "Fireship",
-                "url": "https://www.youtube.com/c/Fireship",
+                "url": "https://www.youtube.com/watch?v=VPvVD8t02U8",
                 "type": "youtube"
             },
             {
@@ -1328,13 +1342,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/VPvVD8t02U8/maxresdefault.jpg"
     },
     {
         "id": "agentic-ai",
         "title": "Agentic AI & LLMs",
         "description": "Learn to build autonomous AI agents using large language models, LangChain, and advanced prompt engineering.",
-        "instructor": "AI Architect",
+        "instructor": "Greg Kamradt (Lectures) & Andrej Karpathy (LLM Tools)",
         "duration": "3 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -1362,6 +1376,26 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
+                "title": "AI Engineer & Agents Roadmap Masterclass — Greg Kamradt",
+                "url": "https://www.youtube.com/watch?v=PSWUr5E_OKY",
+                "type": "youtube"
+            },
+            {
+                "title": "llm.c: LLM Training in Raw C/CUDA — Andrej Karpathy",
+                "url": "https://github.com/karpathy/llm.c",
+                "type": "github"
+            },
+            {
+                "title": "nanoGPT: Train & Fine-Tune LLMs from Scratch — Andrej Karpathy",
+                "url": "https://github.com/karpathy/nanoGPT",
+                "type": "github"
+            },
+            {
+                "title": "Build GPT & LLM Tools from Scratch — Andrej Karpathy",
+                "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+                "type": "youtube"
+            },
+            {
                 "title": "LangChain Docs",
                 "url": "https://python.langchain.com/",
                 "type": "website"
@@ -1387,13 +1421,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "assets/agentic_ai_thumbnail_169_full169.png"
+        "image": "https://img.youtube.com/vi/PSWUr5E_OKY/maxresdefault.jpg"
     },
     {
         "id": "advanced-robotics",
         "title": "Advanced Robotics & ROS",
         "description": "Master Robot Operating System (ROS), kinematics, computer vision, and deploy code to physical robots.",
-        "instructor": "Hardware AI Agent",
+        "instructor": "Articulated Robotics & Hardware AI Agent",
         "duration": "4 Months",
         "perks": [
             "Taught in any language (Hindi, Bhojpuri, Tamil, etc.)",
@@ -1421,6 +1455,11 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
+                "title": "Building Robots with ROS & ROS 2 Masterclass — Articulated Robotics",
+                "url": "https://www.youtube.com/watch?v=2lIV3dRvHmQ",
+                "type": "youtube"
+            },
+            {
                 "title": "ROS Wiki",
                 "url": "http://wiki.ros.org/",
                 "type": "website"
@@ -1446,13 +1485,13 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "assets/robotics_thumbnail_169_full169.png"
+        "image": "https://img.youtube.com/vi/2lIV3dRvHmQ/maxresdefault.jpg"
     },
     {
         "id": "forward-deployed-engineer",
         "title": "Forward Deployed Engineer (FDE) - Enterprise AI & Client Solutions",
         "description": "Become an industry-grade Forward Deployed Engineer (Palantir, Databricks, Scale AI style). Bridge complex enterprise missions with deep software systems, custom AI agents, production data pipelines, and on-premise/VPC deployments.",
-        "instructor": "Enterprise FDE Lead & Multilingual AI Agent",
+        "instructor": "Coder Army (Rohit Negi) & Enterprise FDE Lead",
         "duration": "6 Months",
         "perks": [
             "Taught in Hindi, English, Tamil & 10+ regional languages",
@@ -1485,6 +1524,11 @@ window.TECH_INDRO_COURSES = [
         ],
         "resources": [
             {
+                "title": "Forward Deployed Engineering Full Course | GENAI & FDE #1 — Coder Army",
+                "url": "https://www.youtube.com/watch?v=kBM5UXRbo3U",
+                "type": "youtube"
+            },
+            {
                 "title": "Palantir Forward Deployed Engineering Architecture",
                 "url": "https://www.palantir.com/careers/forward-deployed-software-engineer/",
                 "type": "website"
@@ -1510,7 +1554,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/kBM5UXRbo3U/maxresdefault.jpg"
     },
     {
         "id": "data-analytics",
@@ -1550,7 +1594,7 @@ window.TECH_INDRO_COURSES = [
         "resources": [
             {
                 "title": "Alex The Analyst - Complete Data Analytics Bootcamp",
-                "url": "https://www.youtube.com/c/AlexTheAnalyst",
+                "url": "https://www.youtube.com/watch?v=ua-CiDNNj30",
                 "type": "youtube"
             },
             {
@@ -1574,7 +1618,7 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/ua-CiDNNj30/maxresdefault.jpg"
     },
     {
         "id": "data-engineering",
@@ -1870,7 +1914,7 @@ window.TECH_INDRO_COURSES = [
         "resources": [
             {
                 "title": "Patrick Collins - Full Stack Web3 & Solidity Course",
-                "url": "https://www.youtube.com/c/PatrickCollins",
+                "url": "https://www.youtube.com/watch?v=gyMwXuJrbJQ",
                 "type": "youtube"
             },
             {
@@ -1894,6 +1938,6 @@ window.TECH_INDRO_COURSES = [
                 "type": "research"
             }
         ],
-        "image": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80"
+        "image": "https://img.youtube.com/vi/gyMwXuJrbJQ/maxresdefault.jpg"
     }
 ];

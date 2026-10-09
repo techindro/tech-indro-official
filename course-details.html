@@ -11,10 +11,57 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="posthog-analytics.js" defer></script>
     <style>
+        :root {
+            --primary: #ff6b35;
+            --primary-hover: #e85a28;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --background: #ffffff;
+            --surface: #ffffff;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.08);
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            backdrop-filter: blur(10px);
+        }
+
+        header .logo span {
+            color: #0f172a !important;
+        }
+
+        header .nav-links a {
+            color: #334155 !important;
+            font-weight: 500;
+        }
+
+        header .nav-links a:hover {
+            color: #ff6b35 !important;
+        }
+
         .course-hero {
             padding: 8rem 0 4rem;
-            background: linear-gradient(to right, var(--background), #1e1e24);
-            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #fff7ed 100%);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .course-header {
@@ -33,43 +80,55 @@
 
         .course-badge-large {
             display: inline-block;
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: #4f46e5;
+            padding: 0.5rem 1.1rem;
             border-radius: 50px;
             font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            border: 1px solid rgba(99, 102, 241, 0.25);
         }
 
         .course-title-large {
             font-size: 3rem;
             margin-bottom: 1rem;
             line-height: 1.2;
+            color: #0f172a !important;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            color: #475569 !important;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         .course-meta-large {
             display: flex;
             align-items: center;
             gap: 1.5rem;
+            margin-top: 1.5rem;
             margin-bottom: 2rem;
-            color: var(--text-muted);
+            color: #64748b !important;
             flex-wrap: wrap;
+            font-size: 0.95rem;
         }
 
-        .course-meta-large>div {
+        .course-meta-large > div {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .course-preview {
-            border-radius: var(--radius-lg);
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
             position: relative;
+            background: #f8fafc;
         }
 
         .course-preview img {
@@ -84,20 +143,32 @@
             transform: translate(-50%, -50%);
             width: 80px;
             height: 80px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(4px);
             cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .play-button-overlay i {
+            color: var(--primary) !important;
+            fill: var(--primary) !important;
         }
 
         .play-button-overlay:hover {
             background: var(--primary);
             transform: translate(-50%, -50%) scale(1.1);
+            border-color: #fff;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .play-button-overlay:hover i {
+            color: #ffffff !important;
+            fill: #ffffff !important;
         }
 
         .course-content-grid {
@@ -105,6 +176,7 @@
             grid-template-columns: 2fr 1fr;
             gap: 4rem;
             padding: 4rem 0;
+            background: #ffffff;
         }
 
         @media (max-width: 1024px) {
@@ -116,16 +188,25 @@
         .curriculum-section h3 {
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
-            border-bottom: 1px solid var(--border-color);
+            color: #0f172a !important;
+            border-bottom: 1px solid #e2e8f0;
             padding-bottom: 1rem;
+            font-weight: 700;
         }
 
         .module {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px;
             margin-bottom: 1rem;
             overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .module:hover {
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
         }
 
         .module-header {
@@ -134,40 +215,54 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            background: rgba(255, 255, 255, 0.03);
+            background: #f8fafc !important;
             font-weight: 600;
+            color: #0f172a !important;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .module-header:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: #f1f5f9 !important;
+        }
+
+        .module-content {
+            background: #ffffff !important;
+            border-top: 1px solid #f1f5f9 !important;
         }
 
         .pricing-card {
-            background: rgba(30, 30, 36, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 18px;
             padding: 2rem;
             position: sticky;
             top: 100px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .pricing-card h3 {
+            color: #0f172a !important;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .price-huge {
             font-size: 3rem;
             font-weight: 800;
-            color: var(--text);
-            margin: 1rem 0;
+            color: #0f172a !important;
+            margin: 0.5rem 0;
+            letter-spacing: -0.02em;
         }
 
         .original-price-huge {
             text-decoration: line-through;
-            color: var(--text-muted);
-            font-size: 1.5rem;
+            color: #94a3b8 !important;
+            font-size: 1.4rem;
         }
 
         .perks-list {
             list-style: none;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
         }
 
         .perks-list li {
@@ -175,11 +270,199 @@
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 1rem;
-            color: var(--text-muted);
+            color: #334155 !important;
+            font-size: 0.95rem;
         }
 
         .perks-list li i {
             color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        /* Tech Indro YouTube Lecture Cinema Modal */
+        .lecture-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+            animation: fadeInModal 0.25s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lecture-modal-container {
+            width: 100%;
+            max-width: 860px;
+            max-height: calc(100vh - 32px);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+
+        .lecture-modal-header {
+            padding: 0.85rem 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .modal-close-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .lecture-video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 48vh;
+            max-height: 420px;
+            min-height: 240px;
+            background: #000;
+            flex-shrink: 1;
+        }
+
+        .lecture-video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .lecture-attribution-bar {
+            padding: 0.7rem 1.4rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .creator-channel-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 0.35rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .creator-channel-btn:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .lecture-action-dock {
+            padding: 0.85rem 1.4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .dock-btn {
+            padding: 0.65rem 0.9rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dock-btn-code {
+            background: rgba(99, 102, 241, 0.08);
+            color: #4f46e5;
+            border-color: rgba(99, 102, 241, 0.25);
+        }
+        .dock-btn-code:hover {
+            background: #4f46e5;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .dock-btn-ai {
+            background: rgba(6, 182, 212, 0.08);
+            color: #0891b2;
+            border-color: rgba(6, 182, 212, 0.25);
+        }
+        .dock-btn-ai:hover {
+            background: #0891b2;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .dock-btn-quiz {
+            background: rgba(245, 158, 11, 0.08);
+            color: #d97706;
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+        .dock-btn-quiz:hover {
+            background: #d97706;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .dock-btn-cert {
+            background: rgba(16, 185, 129, 0.08);
+            color: #059669;
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        .dock-btn-cert:hover {
+            background: #059669;
+            color: #fff;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -230,8 +513,8 @@
                     </div>
 
                     <div class="course-preview fade-in">
-                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
-                            alt="Course Banner" id="courseBannerImg">
+                        <img src="https://img.youtube.com/vi/37E9ckMDdTk/maxresdefault.jpg"
+                            alt="Course Masterclass Thumbnail" id="courseBannerImg">
                         <div class="play-button-overlay">
                             <i data-lucide="play"
                                 style="width: 32px; height: 32px; fill: white; color: white; margin-left: 4px;"></i>
@@ -245,7 +528,53 @@
         <section class="container course-content-grid">
             <div class="course-left-column">
                 <div class="curriculum-section fade-in">
-                    <h3>Course Curriculum</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                        <h3 style="margin-bottom: 0;">Course Curriculum</h3>
+                        <button id="heroPlayLectureBtn" class="btn-primary" style="padding: 0.5rem 1.1rem; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; border-radius: 50px;">
+                            <i data-lucide="play-circle" style="width: 17px; height: 17px;"></i> Watch Masterclass
+                        </button>
+                    </div>
+
+                    <!-- Curated Open Education Attribution Banner -->
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i data-lucide="youtube" style="color: #ef4444; width: 24px; height: 24px;"></i>
+                            </div>
+                            <div>
+                                <strong style="color: #0f172a; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 2px;">Curated Open Education Track (Cursa Model)</strong>
+                                <p style="margin: 0; font-size: 0.85rem; color: #475569; line-height: 1.4;">100% Free YouTube masterclasses + Track your progress + Free Verified Certificate on completion.</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.82rem; background: rgba(16, 185, 129, 0.12); color: #059669; padding: 0.4rem 0.9rem; border-radius: 50px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.25);">
+                            100% Free Lectures
+                        </span>
+                    </div>
+
+                    <!-- Cursa-Style Course Completion Tracker -->
+                    <div class="cursa-progress-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="check-circle-2" style="color: #10b981; width: 20px; height: 20px;"></i>
+                                <span style="font-weight: 700; font-size: 1rem; color: #0f172a;">Your Learning Progress</span>
+                            </div>
+                            <span id="progressPercentBadge" style="font-size: 0.85rem; font-weight: 700; color: #0284c7; background: rgba(2, 132, 199, 0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(2, 132, 199, 0.25);">0% Completed</span>
+                        </div>
+                        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden;">
+                            <div id="courseProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #6366f1, #10b981); transition: width 0.4s ease;"></div>
+                        </div>
+                        <!-- Certificate Unlock Card -->
+                        <div id="certUnlockedNotice" style="display: none; margin-top: 1rem; padding: 1rem 1.2rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 10px; color: #065f46; font-size: 0.92rem; font-weight: 700;">
+                                <i data-lucide="award" style="width: 22px; height: 22px; color: #d97706;"></i>
+                                <span>🎉 All modules finished! Verified Certificate unlocked.</span>
+                            </div>
+                            <a id="claimCertBtn" href="certificate.html" style="padding: 0.5rem 1.2rem; font-size: 0.88rem; background: #10b981; border: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: 700; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">
+                                Claim Certificate <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="curriculum-list" id="courseModules">
                         <!-- Modules dynamically loaded -->
                     </div>
@@ -282,14 +611,71 @@
                         <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Razorpay Verified (rzp_test_TjBdLNapXFt0Rw)
                     </div>
                     <a href="ai-mentor.html" class="btn-secondary"
-                        style="width: 100%; text-align: center; justify-content: center; font-size: 0.95rem; padding: 0.8rem; margin-top: 0.8rem; border-color: #6366f1; color: #818cf8; background: rgba(99, 102, 241, 0.08); display: inline-flex; align-items: center; gap: 6px;">
-                        <i data-lucide="bot" style="width: 16px; height: 16px;"></i> Launch AI Mentor Lab
+                        style="width: 100%; text-align: center; justify-content: center; font-size: 0.95rem; padding: 0.85rem; margin-top: 0.85rem; border: 1px solid rgba(99, 102, 241, 0.25); color: #4f46e5; background: rgba(99, 102, 241, 0.08); display: inline-flex; align-items: center; gap: 8px; font-weight: 700; border-radius: 10px;">
+                        <i data-lucide="bot" style="width: 18px; height: 18px; color: #4f46e5;"></i> Launch AI Mentor Lab
                     </a>
                     <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem;">14-Day
                         Money-Back Guarantee</p>
                 </div>
             </div>
         </section>
+
+        <!-- Tech Indro Distraction-Free YouTube Lecture Modal -->
+        <div id="lectureModal" class="lecture-modal-backdrop" style="display: none;">
+            <div class="lecture-modal-container">
+                <!-- Header -->
+                <div class="lecture-modal-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="play" style="color: #ef4444; width: 20px; height: 20px; fill: #ef4444;"></i>
+                        </div>
+                        <div>
+                            <h3 id="lectureModalTitle" style="margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 700;">Lecture Masterclass</h3>
+                            <span id="lectureModalSubtitle" style="font-size: 0.85rem; color: #64748b;">Distraction-Free Video Player with Live IndroLabs Sandbox</span>
+                        </div>
+                    </div>
+                    <button id="closeLectureModal" class="modal-close-btn" aria-label="Close Player">
+                        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+
+                <!-- 16:9 Video Player -->
+                <div class="lecture-video-wrapper">
+                    <iframe id="lectureIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+
+                <!-- Attribution Bar -->
+                <div class="lecture-attribution-bar">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="shield-check" style="color: #10b981; width: 18px; height: 18px;"></i>
+                        <span style="font-size: 0.85rem; color: #475569; font-weight: 500;">Official YouTube Creator Stream • Views & ad support go directly to the creator.</span>
+                    </div>
+                    <a id="lectureChannelLink" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="creator-channel-btn">
+                        <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Open on YouTube
+                    </a>
+                </div>
+
+                <!-- Action Dock -->
+                <div class="lecture-action-dock">
+                    <a href="playground.html" target="_blank" class="dock-btn dock-btn-code">
+                        <i data-lucide="terminal" style="width: 18px; height: 18px;"></i>
+                        <span>Open IndroLabs (Code Now)</span>
+                    </a>
+                    <a href="shikshak.html" target="_blank" class="dock-btn dock-btn-ai">
+                        <i data-lucide="bot" style="width: 18px; height: 18px;"></i>
+                        <span>Ask AI Shikshak (Doubt)</span>
+                    </a>
+                    <a href="quiz.html" class="dock-btn dock-btn-quiz">
+                        <i data-lucide="help-circle" style="width: 18px; height: 18px;"></i>
+                        <span>Take Quiz</span>
+                    </a>
+                    <a href="certificate.html" class="dock-btn dock-btn-cert">
+                        <i data-lucide="award" style="width: 18px; height: 18px;"></i>
+                        <span>Get Certificate</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Modern Tech Indro Footer -->
@@ -464,12 +850,9 @@
 
         document.addEventListener("DOMContentLoaded", async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const courseId = urlParams.get('id');
-
+            let courseId = urlParams.get('id');
             if (!courseId) {
-                document.getElementById('courseTitle').innerText = "Course Not Found";
-                document.getElementById('courseDesc').innerText = "Please go back to the programs page.";
-                return;
+                courseId = 'coding-ai'; // Graceful default fallback
             }
 
             let course;
@@ -513,13 +896,127 @@
                 document.getElementById('courseDesc').innerText = course.description;
                 document.getElementById('courseDuration').innerText = course.duration;
                 document.getElementById('courseInstructor').innerHTML = `<i data-lucide="bot"></i> Taught by ${course.instructor}`;
-                if (course.image) {
-                    const bannerImg = document.getElementById('courseBannerImg');
-                    bannerImg.src = course.image;
-                    bannerImg.onerror = function() {
-                        this.onerror = null;
-                        this.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80';
-                    };
+                // YouTube Masterclass Video Resolver & Thumbnail Extractor
+                function extractYouTubeId(rawUrl) {
+                    if (!rawUrl) return '';
+                    if (rawUrl.includes('v=')) return rawUrl.split('v=')[1]?.split('&')[0] || '';
+                    if (rawUrl.includes('youtu.be/')) return rawUrl.split('youtu.be/')[1]?.split('?')[0] || '';
+                    if (rawUrl.includes('embed/')) return rawUrl.split('embed/')[1]?.split('?')[0] || '';
+                    return '';
+                }
+
+                function resolveCourseVideo(targetCourse) {
+                    const ytRes = targetCourse?.resources?.find(r => r.type === 'youtube');
+                    let url = ytRes?.url || '';
+                    let creator = ytRes?.title || (targetCourse?.instructor || 'Tech Indro Educational Curators');
+                    const originalChannelUrl = url || 'https://youtube.com';
+
+                    // Check if URL is a channel page or missing video ID
+                    const isChannelOnly = !url || url.includes('/c/') || url.includes('/@') || url.includes('/channel/') || url.includes('/user/') || (!url.includes('v=') && !url.includes('youtu.be') && !url.includes('list='));
+
+                    if (isChannelOnly) {
+                        const t = (targetCourse?.title || targetCourse?.id || '').toLowerCase();
+                        if (t.includes('dsa') || t.includes('algorithm') || t.includes('data structure') || t.includes('cracking') || t.includes('leetcode')) {
+                            url = 'https://www.youtube.com/watch?v=37E9ckMDdTk';
+                            creator = "Striver (take U forward) - A2Z DSA Sheet";
+                        } else if (t.includes('ai') || t.includes('machine learning') || t.includes('deep learning')) {
+                            url = 'https://www.youtube.com/watch?v=vStJoetOxJg';
+                            creator = 'Prof. Andrew Ng (Machine Learning Specialization)';
+                        } else if (t.includes('sih') || t.includes('hackathon')) {
+                            url = 'https://www.youtube.com/watch?v=F3z8P96B80M';
+                            creator = 'Smart India Hackathon Blueprint';
+                        } else if (t.includes('web') || t.includes('full-stack') || t.includes('full stack') || t.includes('software')) {
+                            url = 'https://www.youtube.com/watch?v=nu_pCVPKzTk';
+                            creator = 'freeCodeCamp Full Stack';
+                        } else if (t.includes('cyber') || t.includes('network') || t.includes('defense')) {
+                            url = 'https://www.youtube.com/watch?v=3Kq1MIfTWCE';
+                            creator = 'NetworkChuck / freeCodeCamp';
+                        } else if (t.includes('ethical') || t.includes('hacking') || t.includes('penetration')) {
+                            url = 'https://www.youtube.com/watch?v=3Kq1MIfTWCE';
+                            creator = 'freeCodeCamp Ethical Hacking';
+                        } else if (t.includes('sql') || t.includes('database')) {
+                            url = 'https://www.youtube.com/watch?v=HXV3zeQKqGY';
+                            creator = 'freeCodeCamp Database Systems';
+                        } else if (t.includes('app') || t.includes('android') || t.includes('ios') || t.includes('flutter')) {
+                            url = 'https://www.youtube.com/watch?v=VPvVD8t02U8';
+                            creator = 'Fireship / Mobile App Dev';
+                        } else if (t.includes('science') || t.includes('analytics')) {
+                            url = 'https://www.youtube.com/watch?v=ua-CiDNNj30';
+                            creator = 'freeCodeCamp Data Science';
+                        } else if (t.includes('web3') || t.includes('blockchain') || t.includes('solidity')) {
+                            url = 'https://www.youtube.com/watch?v=gyMwXuJrbJQ';
+                            creator = 'Patrick Collins Web3';
+                        } else if (t.includes('marketing') || t.includes('sales') || t.includes('startup')) {
+                            url = 'https://www.youtube.com/watch?v=C27RVio2rOs';
+                            creator = 'Y Combinator Startup School';
+                        } else if (t.includes('communication') || t.includes('newspaper') || t.includes('english')) {
+                            url = 'https://www.youtube.com/watch?v=eRqYUTA5JJo';
+                            creator = 'BBC Learning English (News Review)';
+                        } else if (t.includes('freelancing') || t.includes('freelance') || t.includes('remote work') || t.includes('social media')) {
+                            url = 'https://www.youtube.com/watch?v=_ocOgmT1GTo';
+                            creator = 'Ishan Sharma (Freelancing Masterclass)';
+                        } else if (t.includes('research') || t.includes('paper') || t.includes('stapleton')) {
+                            url = 'https://www.youtube.com/watch?v=g8qatelVS7c';
+                            creator = 'Dr. Andy Stapleton (Research Papers)';
+                        } else if (t.includes('agentic') || t.includes('agent') || t.includes('kamradt') || t.includes('langchain')) {
+                            url = 'https://www.youtube.com/watch?v=PSWUr5E_OKY';
+                            creator = 'Greg Kamradt (AI Engineer & Agents)';
+                        } else if (t.includes('robotics') || t.includes('ros') || t.includes('articulated')) {
+                            url = 'https://www.youtube.com/watch?v=2lIV3dRvHmQ';
+                            creator = 'Articulated Robotics (ROS & ROS 2)';
+                        } else if (t.includes('forward') || t.includes('fde') || t.includes('deployed') || t.includes('coder army')) {
+                            url = 'https://www.youtube.com/watch?v=kBM5UXRbo3U';
+                            creator = 'Coder Army (Rohit Negi) - Forward Deployed Engineering';
+                        } else if (t.includes('life') || t.includes('discipline') || t.includes('health')) {
+                            url = 'https://www.youtube.com/watch?v=gXDMoiEkyuQ';
+                            creator = 'Andrew Huberman Lab';
+                        } else {
+                            url = 'https://www.youtube.com/watch?v=0IAPZzGSbME';
+                            creator = 'Tech Indro Curated Masterclass';
+                        }
+                    }
+                    const vidId = extractYouTubeId(url);
+                    return { url, creator, channelUrl: originalChannelUrl, videoId: vidId };
+                }
+
+                function formatYouTubeEmbed(rawUrl) {
+                    if (!rawUrl) return 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0';
+                    if (rawUrl.includes('list=')) {
+                        const listId = rawUrl.split('list=')[1]?.split('&')[0];
+                        return `https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0`;
+                    }
+                    const videoId = extractYouTubeId(rawUrl);
+                    return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0` : 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0';
+                }
+
+                const resolvedMedia = resolveCourseVideo(course);
+
+                // Set course banner to official YouTube Thumbnail
+                const bannerImg = document.getElementById('courseBannerImg');
+                if (bannerImg) {
+                    const ytThumbId = resolvedMedia.videoId || extractYouTubeId(course.image);
+                    if (ytThumbId) {
+                        bannerImg.src = `https://img.youtube.com/vi/${ytThumbId}/maxresdefault.jpg`;
+                        bannerImg.onload = function() {
+                            // If YouTube returned the 120x90 empty camera placeholder, fallback to hqdefault
+                            if (this.naturalWidth === 120 && this.naturalHeight === 90) {
+                                this.src = `https://img.youtube.com/vi/${ytThumbId}/hqdefault.jpg`;
+                            }
+                        };
+                        bannerImg.onerror = function() {
+                            this.onerror = function() {
+                                this.onerror = null;
+                                this.src = course.image || 'https://img.youtube.com/vi/0IAPZzGSbME/hqdefault.jpg';
+                            };
+                            this.src = `https://img.youtube.com/vi/${ytThumbId}/hqdefault.jpg`;
+                        };
+                    } else if (course.image) {
+                        bannerImg.src = course.image;
+                        bannerImg.onerror = function() {
+                            this.onerror = null;
+                            this.src = 'https://img.youtube.com/vi/0IAPZzGSbME/hqdefault.jpg';
+                        };
+                    }
                 }
 
                 // Update perks
@@ -537,28 +1034,214 @@
                         else if (r.type === 'game') { icon = 'gamepad-2'; color = '#6366f1'; }
 
                         return `
-                        <a href="${r.url}" target="_blank" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); text-decoration: none; color: var(--text); transition: all 0.2s;">
-                            <i data-lucide="${icon}" style="color: ${color};"></i>
-                            <span style="font-weight: 500;">${r.title}</span>
-                            <i data-lucide="arrow-right" style="margin-left: auto; width: 16px; opacity: 0.5;"></i>
+                        <a href="${r.url}" target="_blank" style="display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; text-decoration: none; color: #0f172a; transition: all 0.2s; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <i data-lucide="${icon}" style="color: ${color}; width: 20px; height: 20px; flex-shrink: 0;"></i>
+                            <span style="font-weight: 600; font-size: 0.95rem; color: #0f172a;">${r.title}</span>
+                            <i data-lucide="arrow-right" style="margin-left: auto; width: 16px; opacity: 0.7; color: #64748b;"></i>
                         </a>`;
                     }).join('');
                     document.getElementById('courseResources').innerHTML = resHtml;
                 }
 
-                // Update modules
-                const modulesHtml = course.modules.map(m => `
-                    <div class="module">
-                        <div class="module-header">
-                            <h4>${m.title}</h4>
-                            <i data-lucide="chevron-down"></i>
+                function openLectureModal(modTitle) {
+                    const modal = document.getElementById('lectureModal');
+                    const iframe = document.getElementById('lectureIframe');
+                    const titleEl = document.getElementById('lectureModalTitle');
+                    const subEl = document.getElementById('lectureModalSubtitle');
+                    const linkEl = document.getElementById('lectureChannelLink');
+
+                    if (!modal || !iframe) return;
+
+                    titleEl.innerText = modTitle ? `${course.title}: ${modTitle}` : course.title;
+                    subEl.innerText = `Curated Open Education Track • Powered by ${resolvedMedia.creator}`;
+                    linkEl.href = resolvedMedia.channelUrl || resolvedMedia.url;
+                    iframe.src = formatYouTubeEmbed(resolvedMedia.url);
+
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    if (window.lucide) lucide.createIcons();
+                }
+
+                function closeLectureModal() {
+                    const modal = document.getElementById('lectureModal');
+                    const iframe = document.getElementById('lectureIframe');
+                    if (iframe) iframe.src = '';
+                    if (modal) modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+
+                // Modal close button and backdrop handler
+                const closeBtn = document.getElementById('closeLectureModal');
+                if (closeBtn) closeBtn.onclick = closeLectureModal;
+                const modalEl = document.getElementById('lectureModal');
+                if (modalEl) {
+                    modalEl.onclick = (e) => {
+                        if (e.target === modalEl) closeLectureModal();
+                    };
+                }
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeLectureModal();
+                });
+
+                // Hero & banner play buttons
+                const heroPlayBtn = document.getElementById('heroPlayLectureBtn');
+                if (heroPlayBtn) heroPlayBtn.onclick = () => openLectureModal(course.modules?.[0]?.title);
+
+                const heroOverlayPlay = document.querySelector('.play-button-overlay');
+                if (heroOverlayPlay) heroOverlayPlay.onclick = () => openLectureModal(course.modules?.[0]?.title);
+                // --- Cursa Strategy: Progress & Module Completion Engine ---
+                const progressStorageKey = `cursa_progress_${courseId}`;
+                let completedModules = [];
+                try {
+                    completedModules = JSON.parse(localStorage.getItem(progressStorageKey) || '[]');
+                } catch(e) { completedModules = []; }
+
+                function updateProgressUI() {
+                    const total = (course.modules || []).length || 1;
+                    const count = completedModules.length;
+                    const percent = Math.min(100, Math.round((count / total) * 100));
+
+                    const bar = document.getElementById('courseProgressBar');
+                    const badge = document.getElementById('progressPercentBadge');
+                    const certNotice = document.getElementById('certUnlockedNotice');
+                    const claimBtn = document.getElementById('claimCertBtn');
+
+                    if (bar) bar.style.width = `${percent}%`;
+                    if (badge) badge.innerText = `${percent}% Completed (${count}/${total})`;
+
+                    if (certNotice) {
+                        if (percent === 100) {
+                            certNotice.style.display = 'flex';
+                            if (claimBtn) {
+                                claimBtn.href = `certificate.html?course=${encodeURIComponent(course.title)}&status=verified`;
+                            }
+                        } else {
+                            certNotice.style.display = 'none';
+                        }
+                    }
+
+                    // Sync enrolled courses list
+                    try {
+                        let enrolled = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+                        if (!enrolled.includes(courseId)) {
+                            enrolled.push(courseId);
+                            localStorage.setItem('enrolledCourses', JSON.stringify(enrolled));
+                        }
+                    } catch(e) {}
+                }
+
+                // Update modules with interactive watch buttons & completion checkboxes
+                const modulesHtml = (course.modules || []).map((m, idx) => {
+                    const isDone = completedModules.includes(idx);
+                    return `
+                    <div class="module" id="module-card-${idx}" style="background: #ffffff; border: 1px solid ${isDone ? 'rgba(16, 185, 129, 0.6)' : '#e2e8f0'}; border-radius: 14px; margin-bottom: 0.95rem; overflow: hidden; transition: all 0.25s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);">
+                        <div class="module-header" data-mod-idx="${idx}" style="padding: 1.1rem 1.4rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span id="mod-num-${idx}" style="background: ${isDone ? '#10b981' : 'rgba(99, 102, 241, 0.1)'}; color: ${isDone ? '#ffffff' : '#4f46e5'}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; border: 1px solid ${isDone ? '#10b981' : 'rgba(99, 102, 241, 0.25)'};">
+                                    ${isDone ? '✓' : (idx + 1)}
+                                </span>
+                                <h4 style="margin: 0; font-size: 1.05rem; color: #0f172a; font-weight: 600;">${m.title}</h4>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <button type="button" class="btn-toggle-complete" data-mod-idx="${idx}" style="background: ${isDone ? 'rgba(16, 185, 129, 0.12)' : '#f1f5f9'}; color: ${isDone ? '#059669' : '#475569'}; border: 1px solid ${isDone ? 'rgba(16, 185, 129, 0.35)' : '#e2e8f0'}; border-radius: 20px; padding: 0.4rem 0.95rem; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                                    <i data-lucide="${isDone ? 'check-circle' : 'circle'}" style="width: 14px; height: 14px;"></i>
+                                    <span class="complete-text">${isDone ? 'Completed' : 'Mark Done'}</span>
+                                </button>
+                                <button type="button" class="btn-watch-lecture" data-mod-title="${encodeURIComponent(m.title)}" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 20px; padding: 0.4rem 0.95rem; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                                    <i data-lucide="play" style="width: 13px; height: 13px; fill: currentColor;"></i> Watch
+                                </button>
+                                <i data-lucide="chevron-down" style="color: #64748b;"></i>
+                            </div>
                         </div>
-                        <div class="module-content" style="padding: 1.25rem 1.5rem;">
-                            <p style="margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">${m.desc}</p>
+                        <div class="module-content" id="mod-content-${idx}" style="padding: 1.35rem 1.6rem; display: none; border-top: 1px solid #f1f5f9; background: #ffffff;">
+                            <p style="margin: 0 0 1.2rem; color: #475569; font-size: 0.96rem; line-height: 1.65;">${m.desc}</p>
+                            <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                                <button type="button" class="btn-watch-lecture" data-mod-title="${encodeURIComponent(m.title)}" style="background: #ef4444; color: #ffffff; border: none; border-radius: 8px; padding: 0.55rem 1.1rem; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">
+                                    <i data-lucide="play-circle" style="width: 16px; height: 16px;"></i> Launch Masterclass Video
+                                </button>
+                                <a href="playground.html" target="_blank" style="background: rgba(99, 102, 241, 0.08); color: #4f46e5; border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 7px;">
+                                    <i data-lucide="terminal" style="width: 16px; height: 16px;"></i> Open In IndroLabs
+                                </a>
+                                <a href="quiz.html" style="background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 0.55rem 1.1rem; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 7px;">
+                                    <i data-lucide="help-circle" style="width: 16px; height: 16px;"></i> Practice Quiz
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    </div>`;
+                }).join('');
                 document.getElementById('courseModules').innerHTML = modulesHtml;
+
+                // Wire up accordion toggle, watch buttons, and completion toggles
+                document.querySelectorAll('.module-header').forEach(hdr => {
+                    hdr.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn-watch-lecture') || e.target.closest('.btn-toggle-complete')) return;
+                        const idx = hdr.getAttribute('data-mod-idx');
+                        const content = document.getElementById(`mod-content-${idx}`);
+                        if (content) {
+                            const isHidden = content.style.display === 'none';
+                            content.style.display = isHidden ? 'block' : 'none';
+                            const icon = hdr.querySelector('[data-lucide="chevron-down"], [data-lucide="chevron-up"]');
+                            if (icon) {
+                                icon.setAttribute('data-lucide', isHidden ? 'chevron-up' : 'chevron-down');
+                                if (window.lucide) lucide.createIcons();
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.btn-watch-lecture').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const modTitle = decodeURIComponent(btn.getAttribute('data-mod-title') || '');
+                        openLectureModal(modTitle);
+                    });
+                });
+
+                document.querySelectorAll('.btn-toggle-complete').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const idx = parseInt(btn.getAttribute('data-mod-idx'));
+                        const alreadyDone = completedModules.includes(idx);
+
+                        if (alreadyDone) {
+                            completedModules = completedModules.filter(i => i !== idx);
+                        } else {
+                            completedModules.push(idx);
+                        }
+                        localStorage.setItem(progressStorageKey, JSON.stringify(completedModules));
+
+                        // Update current button appearance
+                        const nowDone = completedModules.includes(idx);
+                        btn.style.background = nowDone ? 'rgba(16, 185, 129, 0.12)' : '#f1f5f9';
+                        btn.style.color = nowDone ? '#059669' : '#475569';
+                        btn.style.borderColor = nowDone ? 'rgba(16, 185, 129, 0.35)' : '#e2e8f0';
+                        btn.querySelector('.complete-text').innerText = nowDone ? 'Completed' : 'Mark Done';
+                        const numBadge = document.getElementById(`mod-num-${idx}`);
+                        if (numBadge) {
+                            numBadge.style.background = nowDone ? '#10b981' : 'rgba(99, 102, 241, 0.1)';
+                            numBadge.style.color = nowDone ? '#ffffff' : '#4f46e5';
+                            numBadge.style.borderColor = nowDone ? '#10b981' : 'rgba(99, 102, 241, 0.25)';
+                            numBadge.innerText = nowDone ? '✓' : (idx + 1);
+                        }
+                        const card = document.getElementById(`module-card-${idx}`);
+                        if (card) {
+                            card.style.borderColor = nowDone ? 'rgba(16, 185, 129, 0.6)' : '#e2e8f0';
+                        }
+
+                        updateProgressUI();
+                        if (window.lucide) lucide.createIcons();
+                    });
+                });
+
+                // Initial Progress Update
+                updateProgressUI();
+
+                // Auto-open modal if URL contains ?play=true
+                if (urlParams.get('play') === 'true') {
+                    setTimeout(() => {
+                        openLectureModal(course.modules?.[0]?.title);
+                    }, 400);
+                }
 
                 lucide.createIcons();
 

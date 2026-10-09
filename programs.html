@@ -299,14 +299,24 @@
             }
 
             const imageMap = {
-                'coding-ai': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80',
-                'forward-deployed-engineer': 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80',
-                'data-analytics': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
-                'data-engineering': 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80',
-                'sre-cloud-infra': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80',
-                'mlops-engineer': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
-                'distributed-systems-golang': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80',
-                'web3-blockchain': 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80',
+                'coding-ai': 'https://img.youtube.com/vi/vStJoetOxJg/maxresdefault.jpg',
+                'software-engineering': 'https://img.youtube.com/vi/nu_pCVPKzTk/maxresdefault.jpg',
+                'dsa-cracking': 'https://img.youtube.com/vi/37E9ckMDdTk/maxresdefault.jpg',
+                'sql-mastery': 'https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg',
+                'cybersecurity': 'https://img.youtube.com/vi/3Kq1MIfTWCE/maxresdefault.jpg',
+                'ethical-hacking': 'https://img.youtube.com/vi/3Kq1MIfTWCE/maxresdefault.jpg',
+                'app-development': 'https://img.youtube.com/vi/VPvVD8t02U8/maxresdefault.jpg',
+                'data-science': 'https://img.youtube.com/vi/ua-CiDNNj30/maxresdefault.jpg',
+                'data-analytics': 'https://img.youtube.com/vi/ua-CiDNNj30/maxresdefault.jpg',
+                'web3-blockchain': 'https://img.youtube.com/vi/gyMwXuJrbJQ/maxresdefault.jpg',
+                'marketing-sales': 'https://img.youtube.com/vi/C27RVio2rOs/maxresdefault.jpg',
+                'communication': 'https://img.youtube.com/vi/eRqYUTA5JJo/maxresdefault.jpg',
+                'freelancing': 'https://img.youtube.com/vi/_ocOgmT1GTo/maxresdefault.jpg',
+                'research-papers': 'https://img.youtube.com/vi/g8qatelVS7c/maxresdefault.jpg',
+                'agentic-ai': 'https://img.youtube.com/vi/PSWUr5E_OKY/maxresdefault.jpg',
+                'advanced-robotics': 'https://img.youtube.com/vi/2lIV3dRvHmQ/maxresdefault.jpg',
+                'life-skills': 'https://img.youtube.com/vi/gXDMoiEkyuQ/maxresdefault.jpg',
+                'forward-deployed-engineer': 'https://img.youtube.com/vi/kBM5UXRbo3U/maxresdefault.jpg',
                 'sih-hackathon': 'https://h2svision.github.io/publicAssets/SIH_Sr/eventPageNewBannerSIH.png',
                 'microsoft-imagine-cup': 'https://imaginestorageprod.blob.core.windows.net/public/images/How_It_Works_Builder_Series_717x365_v2_1.png',
                 'amazon-hackon': 'https://d8it4huxumps7.cloudfront.net/uploads/competition-sharable/6644829d87f67_SEO.jpg',
@@ -314,24 +324,39 @@
                 'flipkart-grid': 'https://d8it4huxumps7.cloudfront.net/uploads/images/opportunity/mobile_banner/6687c45cc1232_flipkart-grid-60-software-development-track.png',
                 'google-gsoc': 'assets/gsoc_banner.jpg',
                 'isro-antariksh-hackathon': 'https://res.cloudinary.com/dpfi3rnqf/image/upload/v1781249588/bah_2026_bgbpja.webp',
-                'nasa-space-apps': 'https://assets.spaceappschallenge.org/media/original_images/Space_Apps_2026_Logo_OG.jpg',
-                'marketing-sales': 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80',
-                'communication': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80',
-                'freelancing': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80',
-                'life-skills': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80',
-                'research-papers': 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80'
+                'nasa-space-apps': 'https://assets.spaceappschallenge.org/media/original_images/Space_Apps_2026_Logo_OG.jpg'
             };
+
+            function getCourseThumbnail(course) {
+                if (imageMap[course.id]) return imageMap[course.id];
+                if (course.image && !course.image.includes('unsplash.com')) return course.image;
+                if (course.resources && Array.isArray(course.resources)) {
+                    const yt = course.resources.find(r => r.type === 'youtube');
+                    if (yt && yt.url) {
+                        let vid = '';
+                        if (yt.url.includes('v=')) vid = yt.url.split('v=')[1]?.split('&')[0];
+                        else if (yt.url.includes('youtu.be/')) vid = yt.url.split('youtu.be/')[1]?.split('?')[0];
+                        if (vid) return `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
+                    }
+                }
+                return course.image || 'https://img.youtube.com/vi/0IAPZzGSbME/maxresdefault.jpg';
+            }
 
             coursesToRender.forEach(course => {
                 const card = document.createElement("div");
                 card.className = "course-card";
-                const imageUrl = course.image || imageMap[course.id] || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80';
-                const fallbackUrl = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80';
+                const imageUrl = getCourseThumbnail(course);
                 
                 card.innerHTML = `
-                    <div class="course-thumbnail">
-                        <img src="${imageUrl}" alt="${course.title}" onerror="this.onerror=null;this.src='${fallbackUrl}';" loading="lazy">
+                    <div class="course-thumbnail" style="position: relative; overflow: hidden;">
+                        <img src="${imageUrl}" alt="${course.title}" onerror="this.onerror=null; if(this.src.includes('maxresdefault.jpg')){ this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg'); } else { this.src='https://img.youtube.com/vi/0IAPZzGSbME/hqdefault.jpg'; }" loading="lazy">
                         <span class="course-badge">${course.duration}</span>
+                        <a href="course-details.html?id=${course.id}&play=true" title="Watch Masterclass" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 50%; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; color: white; border: 1.5px solid rgba(255, 255, 255, 0.4); text-decoration: none; transition: all 0.25s;" onmouseover="this.style.background='#ef4444'; this.style.transform='translate(-50%, -50%) scale(1.15)';" onmouseout="this.style.background='rgba(0,0,0,0.65)'; this.style.transform='translate(-50%, -50%) scale(1)';">
+                            <i data-lucide="play" style="width: 20px; height: 20px; fill: white; margin-left: 3px;"></i>
+                        </a>
+                        <span style="position: absolute; bottom: 8px; left: 8px; font-size: 0.72rem; background: rgba(239, 68, 68, 0.9); color: #fff; padding: 2px 7px; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="youtube" style="width: 11px; height: 11px;"></i> Free Lecture
+                        </span>
                     </div>
                     <div class="course-content">
                         <h3 class="course-title">${course.title}</h3>
