@@ -40,3 +40,4 @@ yarn-error.log*
 
 # Nested redundant folder
 tech-indro-website/
+.env

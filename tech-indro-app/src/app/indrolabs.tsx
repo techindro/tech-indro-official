@@ -731,6 +731,7 @@ Please provide:
                     Build responsive UI layouts directly inside your mobile playground.
                   </Text>
                 </View>
+              
               </View>
             )}
           </View>

@@ -11,14 +11,12 @@
     "java.autobuild.enabled": false,
     "java.import.exclusions": [
       "**/node_modules/**",
-      "**/.git/**",
-      "**/tech-indro-website/**"
+      "**/.git/**"
     ],
     "gradle.autoDetect": "off",
     "gradle.nestedProjects": false,
     "files.exclude": {
-      "**/node_modules": true,
-      "tech-indro-website/tech-indro-website": true
+      "**/node_modules": true
     },
     "files.watcherExclude": {
       "**/node_modules/**": true,
