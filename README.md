@@ -3,6 +3,7 @@
 # TECHINDRO
 
 ### India's 1st LLM-Based Adaptive Learning Platform  
+### LET'S CODE CREATE AND INNOVATE  
 **EK SAPNA EK SOCH EK FUTURE VISION .**
 
 [![Live](https://img.shields.io/badge/Live-tech--indro--official.vercel.app-6366f1?style=for-the-badge&logo=vercel)](https://tech-indro-official.vercel.app)

@@ -3,240 +3,1594 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Indro - Global Rankings</title>
+    <title>Tech Indro | Global Engineering Leaderboard & Hall of Fame</title>
+    <meta name="description" content="Official global engineering leaderboard for Tech Indro. Real-time competitive rankings across DSA Test Series, TSOC Open Source Sprints, and IndroLabs CTF.">
+    
+    <!-- Design System & Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Icons & Core Dependencies -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
     <style>
+        /* ==========================================================================
+           ENTERPRISE LEADERBOARD ARCHITECTURE - DESIGN SYSTEM TOKENS & OVERRIDES
+           ========================================================================== */
+        :root {
+            --lb-gold: #f59e0b;
+            --lb-gold-glow: rgba(245, 158, 11, 0.28);
+            --lb-gold-bg: rgba(245, 158, 11, 0.08);
+            --lb-silver: #94a3b8;
+            --lb-silver-glow: rgba(148, 163, 184, 0.28);
+            --lb-silver-bg: rgba(148, 163, 184, 0.08);
+            --lb-bronze: #d97706;
+            --lb-bronze-glow: rgba(217, 119, 6, 0.28);
+            --lb-bronze-bg: rgba(217, 119, 6, 0.08);
+            --lb-surface: #ffffff;
+            --lb-surface-hover: #f8fafc;
+            --lb-surface-elevated: #ffffff;
+            --lb-border-subtle: #e2e8f0;
+            --lb-font-mono: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="dark"] {
+            --lb-surface: #0f172a;
+            --lb-surface-hover: #1e293b;
+            --lb-surface-elevated: #151f34;
+            --lb-border-subtle: #1e293b;
+            --lb-gold-glow: rgba(245, 158, 11, 0.45);
+            --lb-gold-bg: rgba(245, 158, 11, 0.12);
+            --lb-silver-glow: rgba(148, 163, 184, 0.35);
+            --lb-silver-bg: rgba(148, 163, 184, 0.12);
+            --lb-bronze-glow: rgba(217, 119, 6, 0.4);
+            --lb-bronze-bg: rgba(217, 119, 6, 0.12);
+        }
+
         body {
             background-color: var(--bg);
-            padding-top: 80px; /* For fixed header */
-        }
-        .leaderboard-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .section-header h1 {
-            font-size: 2.5rem;
             color: var(--text-main);
-            margin-bottom: 10px;
+            font-family: var(--font-primary);
+            padding-top: 86px;
+            margin: 0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
-        .section-header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-        .board {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-        .board-header {
-            display: grid;
-            grid-template-columns: 80px 1fr 150px 150px;
-            padding: 15px 25px;
-            background: #f8fafc;
+
+        /* ---------------- Header & Brand Identity ---------------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--surface-glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border);
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-        .board-row {
-            display: grid;
-            grid-template-columns: 80px 1fr 150px 150px;
-            padding: 15px 25px;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
+            padding: 0.85rem 0;
             transition: var(--transition);
         }
-        .board-row:last-child {
-            border-bottom: none;
-        }
-        .board-row:hover {
-            background: #f8fafc;
-            transform: translateX(4px);
-        }
-        .rank {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-muted);
-        }
-        /* Top 3 colors */
-        .rank-1 { color: #FFD700; font-size: 1.75rem; text-shadow: 0 2px 4px rgba(255,215,0,0.3); }
-        .rank-2 { color: #C0C0C0; font-size: 1.5rem; text-shadow: 0 2px 4px rgba(192,192,192,0.3); }
-        .rank-3 { color: #CD7F32; font-size: 1.35rem; text-shadow: 0 2px 4px rgba(205,127,50,0.3); }
 
-        .player-info {
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: space-between;
         }
-        .avatar {
-            width: 45px;
-            height: 45px;
-            background: #f1f5f9;
+
+        .brand-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            height: 48px;
+        }
+
+        .brand-logo-img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            background: white;
+            padding: 3px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-logo-text {
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links-desktop a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links-desktop a:hover,
+        .nav-links-desktop a.active-link {
+            color: var(--primary);
+        }
+
+        .nav-btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+        }
+
+        .nav-btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 900px) {
+            .nav-links-desktop { display: none; }
+        }
+
+        /* ---------------- Page Layout & Hero ---------------- */
+        .page-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 6rem;
+        }
+
+        .hero-banner {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .hero-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.85rem;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            max-width: 680px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* ---------------- KPI Strip / Metrics Bar ---------------- */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .kpi-card {
+            background: var(--lb-surface);
+            border: 1px solid var(--lb-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.35rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .kpi-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .kpi-val {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text-main);
+            font-family: var(--lb-font-mono);
+            line-height: 1.2;
+        }
+
+        .kpi-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 992px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2rem; }
+        }
+
+        /* ---------------- Podium (Top 3 Elite Pedestal) ---------------- */
+        .podium-section {
+            margin-bottom: 3.5rem;
+        }
+
+        .podium-container {
+            display: grid;
+            grid-template-columns: 1fr 1.12fr 1fr;
+            align-items: flex-end;
+            gap: 1.5rem;
+            max-width: 940px;
+            margin: 0 auto;
+        }
+
+        .podium-card {
+            background: var(--lb-surface);
+            border: 1px solid var(--lb-border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .podium-card.rank-1 {
+            border: 2px solid var(--lb-gold);
+            background: linear-gradient(180deg, var(--lb-gold-bg) 0%, var(--lb-surface) 65%);
+            box-shadow: 0 12px 30px var(--lb-gold-glow);
+            order: 2;
+            padding-top: 2.75rem;
+        }
+
+        .podium-card.rank-2 {
+            border: 2px solid var(--lb-silver);
+            background: linear-gradient(180deg, var(--lb-silver-bg) 0%, var(--lb-surface) 65%);
+            order: 1;
+        }
+
+        .podium-card.rank-3 {
+            border: 2px solid var(--lb-bronze);
+            background: linear-gradient(180deg, var(--lb-bronze-bg) 0%, var(--lb-surface) 65%);
+            order: 3;
+        }
+
+        .crown-icon {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 48px;
+            background: var(--lb-gold);
+            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 14px var(--lb-gold-glow);
+            animation: pulseCrown 2s infinite ease-in-out;
         }
-        .rank-1-row .avatar { border-color: #FFD700; background: rgba(255,215,0,0.1); }
-        .rank-2-row .avatar { border-color: #C0C0C0; background: rgba(192,192,192,0.1); }
-        .rank-3-row .avatar { border-color: #CD7F32; background: rgba(205,127,50,0.1); }
 
-        .player-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
+        @keyframes pulseCrown {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
         }
-        .player-badge {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 12px;
+
+        .podium-avatar-wrap {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .podium-avatar {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            border: 4px solid var(--lb-border-subtle);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .podium-card.rank-1 .podium-avatar {
+            width: 98px;
+            height: 98px;
+            border-color: var(--lb-gold);
+            font-size: 2.2rem;
+        }
+
+        .podium-card.rank-2 .podium-avatar { border-color: var(--lb-silver); }
+        .podium-card.rank-3 .podium-avatar { border-color: var(--lb-bronze); }
+
+        .rank-medal-badge {
+            position: absolute;
+            bottom: -6px;
+            right: -6px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: white;
+            border: 2px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .medal-gold { background: var(--lb-gold); }
+        .medal-silver { background: var(--lb-silver); }
+        .medal-bronze { background: var(--lb-bronze); }
+
+        .podium-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 4px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .podium-card.rank-1 .podium-name { font-size: 1.35rem; }
+
+        .podium-badge {
+            display: inline-block;
+            font-size: 0.76rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
             background: rgba(255, 107, 53, 0.1);
             color: var(--primary);
-            font-weight: 600;
-            margin-top: 4px;
-            display: inline-block;
+            margin-bottom: 0.85rem;
         }
-        .score {
-            font-size: 1.25rem;
+
+        .podium-score {
+            font-family: var(--lb-font-mono);
+            font-size: 1.7rem;
+            font-weight: 800;
             color: var(--text-main);
-            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
         }
-        .status {
-            color: #10b981;
+
+        .podium-score-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .podium-container {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            .podium-card.rank-1 { order: 1; }
+            .podium-card.rank-2 { order: 2; }
+            .podium-card.rank-3 { order: 3; }
+        }
+
+        /* ---------------- Control Panel (Filters, Search, Sorting) ---------------- */
+        .controls-card {
+            background: var(--lb-surface);
+            border: 1px solid var(--lb-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.75rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box-wrap {
+            position: relative;
+            flex: 1 1 320px;
+            min-width: 260px;
+        }
+
+        .search-icon-inside {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+        }
+
+        .search-input-field {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.65rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--lb-border-subtle);
+            background: var(--bg);
+            color: var(--text-main);
+            font-size: 0.92rem;
+            font-family: inherit;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .search-input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        .filter-groups-wrap {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .category-tab-btn {
+            background: transparent;
+            border: 1px solid var(--lb-border-subtle);
+            color: var(--text-muted);
+            padding: 0.55rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-tab-btn:hover {
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        .category-tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+        }
+
+        .select-sort {
+            background: var(--bg);
+            border: 1px solid var(--lb-border-subtle);
+            color: var(--text-main);
+            padding: 0.6rem 2rem 0.6rem 0.85rem;
+            border-radius: var(--radius-md);
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        /* ---------------- Enterprise Data Table ---------------- */
+        .table-card {
+            background: var(--lb-surface);
+            border: 1px solid var(--lb-border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .enterprise-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .enterprise-table thead th {
+            background: var(--bg);
+            padding: 1rem 1.25rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-bottom: 1px solid var(--lb-border-subtle);
+            white-space: nowrap;
+        }
+
+        .enterprise-table tbody tr {
+            border-bottom: 1px solid var(--lb-border-subtle);
+            transition: background 0.18s ease;
+            cursor: pointer;
+        }
+
+        .enterprise-table tbody tr:hover {
+            background: var(--lb-surface-hover);
+        }
+
+        .enterprise-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .enterprise-table td {
+            padding: 1.1rem 1.25rem;
+            vertical-align: middle;
+            font-size: 0.92rem;
+        }
+
+        /* Rank Badge Inside Table */
+        .rank-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            font-family: var(--lb-font-mono);
+            font-weight: 800;
+            font-size: 0.95rem;
+            background: var(--bg);
+            color: var(--text-muted);
+            border: 1px solid var(--lb-border-subtle);
+        }
+
+        .rank-1-row .rank-indicator {
+            background: var(--lb-gold-bg);
+            color: var(--lb-gold);
+            border-color: var(--lb-gold);
+        }
+        .rank-2-row .rank-indicator {
+            background: var(--lb-silver-bg);
+            color: var(--lb-silver);
+            border-color: var(--lb-silver);
+        }
+        .rank-3-row .rank-indicator {
+            background: var(--lb-bronze-bg);
+            color: var(--lb-bronze);
+            border-color: var(--lb-bronze);
+        }
+
+        /* Profile Block */
+        .user-cell-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-table-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+            border: 2px solid var(--lb-border-subtle);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .online-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 2px solid var(--lb-surface);
+        }
+
+        .user-name-title {
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .user-tagline {
+            font-size: 0.76rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 6px;
-            font-weight: 500;
-            font-size: 0.9rem;
+            margin-top: 2px;
         }
-        .status.offline {
+
+        /* Tier Pill */
+        .tier-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .tier-grandmaster { background: rgba(168, 85, 247, 0.12); color: #9333ea; }
+        .tier-master { background: rgba(255, 107, 53, 0.12); color: var(--primary); }
+        .tier-expert { background: rgba(16, 185, 129, 0.12); color: #059669; }
+        .tier-scholar { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+
+        /* Score Display */
+        .score-val-wrap {
+            font-family: var(--lb-font-mono);
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--text-main);
+        }
+
+        .score-sub-pct {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .mini-progress-bar {
+            width: 100px;
+            height: 6px;
+            background: var(--lb-border-subtle);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .mini-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #10b981 100%);
+            border-radius: var(--radius-full);
+        }
+
+        /* Row Action Button */
+        .view-profile-btn {
+            background: transparent;
+            border: 1px solid var(--lb-border-subtle);
+            color: var(--text-muted);
+            border-radius: var(--radius-md);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .view-profile-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        /* ---------------- Sticky "Your Current Standing" Banner ---------------- */
+        .user-standing-sticky {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 900px;
+            background: var(--lb-surface-elevated);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-xl);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-xl), 0 0 24px rgba(255, 107, 53, 0.2);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            backdrop-filter: blur(16px);
+        }
+
+        .standing-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .standing-rank-badge {
+            background: var(--primary);
+            color: white;
+            font-family: var(--lb-font-mono);
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+        }
+
+        .standing-info-title {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .standing-info-desc {
+            font-size: 0.82rem;
             color: var(--text-muted);
         }
-        
-        .current-user-row {
-            background: rgba(255, 107, 53, 0.05);
-            border: 2px solid var(--primary);
-            border-radius: var(--radius-md);
-            margin-top: 20px;
+
+        .standing-action-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.4rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            white-space: nowrap;
         }
-        .current-user-row:hover {
-            background: rgba(255, 107, 53, 0.08);
-            transform: translateY(-2px);
+
+        .standing-action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* ---------------- Modal Dialog (User Detail Card) ---------------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: var(--lb-surface);
+            border: 1px solid var(--lb-border-subtle);
+            border-radius: var(--radius-xl);
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .modal-close-btn:hover {
+            background: var(--lb-surface-hover);
+            color: var(--text-main);
+        }
+
+        /* Empty state styling */
+        .empty-state-wrap {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1rem;
+            color: var(--lb-silver);
         }
     </style>
 </head>
 <body>
+
+    <!-- ==========================================================================
+         TOP BRAND NAVIGATION (SYNCHRONIZED WITH TECH INDRO DESIGN SYSTEM)
+         ========================================================================== -->
     <header>
-        <nav class="container">
-            <a href="index.html" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 15px; height: 55px;">
-                <img src="assets/logo.svg" alt="Tech Indro Logo" style="height: 100%; width: auto; object-fit: contain; border-radius: 15px; box-shadow: 0 4px 12px rgba(255,255,255,0.1); background: white;">
-                <span style="font-family: 'Calibri', sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 1px; color: black;">TECH INDRO</span>
+        <div class="nav-container">
+            <a href="index.html" class="brand-logo-link" aria-label="Tech Indro Homepage">
+                <img src="assets/logo.svg" alt="Tech Indro Logo" class="brand-logo-img">
+                <span class="brand-logo-text">TECH INDRO</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="programs.html">Programs</a></li>
-                <li><a href="tsoc.html">TSOC</a></li>
-                <li><a href="cyber-playground.html">IndroLabs</a></li>
-                <li><a href="index.html#features">Features</a></li>
-                <li><a href="quiz.html">Test Series</a></li>
-                <li><a href="login.html" class="login-btn">Login / Sign Up</a></li>
-            </ul>
-        </nav>
+
+            <div class="nav-actions">
+                <ul class="nav-links-desktop">
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="tsoc.html">TSOC</a></li>
+                    <li><a href="cyber-playground.html">IndroLabs</a></li>
+                    <li><a href="quiz.html">Test Series</a></li>
+                    <li><a href="leaderboard.html" class="active-link">Hall of Fame</a></li>
+                    <li><a href="community.html">Community</a></li>
+                </ul>
+
+                <a href="quiz.html" class="nav-btn-primary">
+                    <i data-lucide="play-circle" style="width: 16px; height: 16px;"></i>
+                    <span>Take Test</span>
+                </a>
+
+                <button class="hamburger-btn" id="hamburgerBtn" onclick="window.toggleNavDrawer && window.toggleNavDrawer(event)" aria-label="Toggle Navigation Menu" title="Open Navigation Menu">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <main class="leaderboard-container">
-        <div class="section-header">
-            <h1><i data-lucide="trophy" style="width: 32px; height: 32px; color: var(--primary); vertical-align: text-bottom; margin-right: 10px;"></i>Hall of Fame</h1>
-            <p>Top learners and coders across the Tech Indro platform.</p>
-        </div>
-        
-        <div class="board" id="leaderboardBody">
-            <div class="board-header">
-                <div>Rank</div>
-                <div>User</div>
-                <div>Score (XP)</div>
-                <div>Status</div>
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="page-wrapper">
+
+        <!-- Hero Header -->
+        <section class="hero-banner">
+            <div class="hero-tag">
+                <i data-lucide="shield-check" style="width: 15px; height: 15px;"></i>
+                <span>Verified Global Rankings</span>
             </div>
-            <!-- Dynamic content injected via JS -->
-        </div>
+            <h1 class="hero-title">Engineering <span class="gradient-text">Hall of Fame</span></h1>
+            <p class="hero-description">
+                Real-time competitive standings benchmarked against 120,000+ engineers nationwide across algorithm challenges, systems design tests, and TSOC production sprints.
+            </p>
+        </section>
+
+        <!-- KPI Metrics Strip -->
+        <section class="kpi-grid" aria-label="Platform Highlights">
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: var(--lb-gold);">
+                    <i data-lucide="trophy" style="width: 24px; height: 24px;"></i>
+                </div>
+                <div>
+                    <div class="kpi-val" id="metricTopScore">100 / 100</div>
+                    <div class="kpi-label">Highest Score</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap" style="background: rgba(255, 107, 53, 0.12); color: var(--primary);">
+                    <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                </div>
+                <div>
+                    <div class="kpi-val" id="metricTotalCoders">4,820+</div>
+                    <div class="kpi-label">Ranked Coders</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+                    <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                </div>
+                <div>
+                    <div class="kpi-val" id="metricAverageScore">74.6%</div>
+                    <div class="kpi-label">Platform Average</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">
+                    <i data-lucide="flame" style="width: 24px; height: 24px;"></i>
+                </div>
+                <div>
+                    <div class="kpi-val">28 Days</div>
+                    <div class="kpi-label">Longest Active Streak</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top 3 Elite Pedestal / Podium -->
+        <section class="podium-section" aria-label="Top 3 Performers Podium">
+            <div class="podium-container" id="podiumContainer">
+                <!-- Dynamically rendered via LeaderboardEngine -->
+            </div>
+        </section>
+
+        <!-- Controls: Filters, Live Search & Sorters -->
+        <section class="controls-card" aria-label="Leaderboard Filters">
+            <div class="search-box-wrap">
+                <i data-lucide="search" class="search-icon-inside"></i>
+                <input 
+                    type="search" 
+                    id="leaderboardSearch" 
+                    class="search-input-field" 
+                    placeholder="Search candidate name, tier, or badge..."
+                    autocomplete="off"
+                    aria-label="Search rankings by name or badge"
+                >
+            </div>
+
+            <div class="filter-groups-wrap">
+                <div class="category-tabs" role="tablist" aria-label="Category Selection">
+                    <button class="category-tab-btn active" data-category="all" role="tab" aria-selected="true">All Tracks</button>
+                    <button class="category-tab-btn" data-category="dsa" role="tab" aria-selected="false">MNC DSA Series</button>
+                    <button class="category-tab-btn" data-category="tsoc" role="tab" aria-selected="false">TSOC Sprints</button>
+                    <button class="category-tab-btn" data-category="labs" role="tab" aria-selected="false">IndroLabs</button>
+                </div>
+
+                <select id="sortSelector" class="select-sort" aria-label="Sort rankings">
+                    <option value="score_desc">Sort: Highest Marks</option>
+                    <option value="score_asc">Sort: Lowest Marks</option>
+                    <option value="name_asc">Sort: Candidate Name (A-Z)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Enterprise Data Table -->
+        <section class="table-card" aria-label="Global Roster">
+            <div class="table-responsive-wrapper">
+                <table class="enterprise-table" role="table" aria-label="Learner Performance Table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Rank</th>
+                            <th>Candidate Profile</th>
+                            <th>Primary Specialization</th>
+                            <th>Score & Percentile</th>
+                            <th>Platform Status</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardTableBody">
+                        <!-- Dynamically populated via LeaderboardEngine -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
     </main>
 
-    <script>
-        // Default base users if no one has played yet
-        const defaultUsers = [
-            { name: "Rahul Sharma", score: 90, badge: "Pro Coder", status: "Online" },
-            { name: "Priya Singh", score: 80, badge: "System Admin", status: "Online" },
-            { name: "Amit Kumar", score: 60, badge: "Student", status: "Offline" },
-            { name: "Neha Gupta", score: 40, badge: "Beginner", status: "Online" }
-        ];
+    <!-- ==========================================================================
+         STICKY FOOTER: LOGGED-IN / GUEST CANDIDATE STANDING BAR
+         ========================================================================== -->
+    <div class="user-standing-sticky" id="userStandingBar">
+        <div class="standing-left">
+            <div class="standing-rank-badge" id="standingUserRank">#--</div>
+            <div>
+                <div class="standing-info-title" id="standingUserName">Guest Engineer</div>
+                <div class="standing-info-desc" id="standingUserDesc">Take a live assessment test to claim your official rank on the Hall of Fame.</div>
+            </div>
+        </div>
+        <a href="quiz.html" class="standing-action-btn">
+            <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+            <span>Boost My Score</span>
+        </a>
+    </div>
 
-        function renderLeaderboard() {
-            let leaderboard = JSON.parse(localStorage.getItem('techIndro_leaderboard'));
-            
-            // If empty, initialize with default
-            if (!leaderboard || leaderboard.length === 0) {
-                leaderboard = defaultUsers;
-                localStorage.setItem('techIndro_leaderboard', JSON.stringify(leaderboard));
+    <!-- ==========================================================================
+         USER DETAIL MODAL (INSPECT PROFILE / ACHIEVEMENTS)
+         ========================================================================== -->
+    <div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="modalCandidateName">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close Profile Dialog">
+                <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+            </button>
+            <div id="modalContentBody">
+                <!-- Injected on user row click -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         PRODUCTION-GRADE JAVASCRIPT ENGINE (ENTERPRISE STANDARDS)
+         ========================================================================== -->
+    <script>
+        /**
+         * @typedef {Object} LeaderboardUser
+         * @property {string} name - Candidate full name
+         * @property {number} score - Achieved score marks (0-100)
+         * @property {string} badge - Role title or tier achievement
+         * @property {string} status - Online/Offline status
+         * @property {string} [category] - Specialization track
+         * @property {string} [streak] - Day streak
+         * @property {string} [solvedCount] - Total problems solved
+         */
+
+        class LeaderboardEngine {
+            constructor() {
+                /** @type {string} */
+                this.STORAGE_KEY = 'techIndro_leaderboard';
+                
+                /** @type {LeaderboardUser[]} */
+                this.users = [];
+
+                /** State filter variables */
+                this.searchQuery = '';
+                this.activeCategory = 'all';
+                this.sortBy = 'score_desc';
+
+                this.dom = {
+                    podiumContainer: document.getElementById('podiumContainer'),
+                    tableBody: document.getElementById('leaderboardTableBody'),
+                    searchInput: document.getElementById('leaderboardSearch'),
+                    categoryButtons: document.querySelectorAll('.category-tab-btn'),
+                    sortSelector: document.getElementById('sortSelector'),
+                    metricTopScore: document.getElementById('metricTopScore'),
+                    metricTotalCoders: document.getElementById('metricTotalCoders'),
+                    metricAverageScore: document.getElementById('metricAverageScore'),
+                    standingUserRank: document.getElementById('standingUserRank'),
+                    standingUserName: document.getElementById('standingUserName'),
+                    standingUserDesc: document.getElementById('standingUserDesc'),
+                    profileModal: document.getElementById('profileModal'),
+                    modalCloseBtn: document.getElementById('modalCloseBtn'),
+                    modalContentBody: document.getElementById('modalContentBody')
+                };
+
+                this.init();
             }
 
-            // Sort by score descending
-            leaderboard.sort((a, b) => b.score - a.score);
+            /**
+             * Initialize application lifecycle
+             */
+            init() {
+                this.loadData();
+                this.bindEvents();
+                this.render();
+                this.triggerCelebration();
+            }
 
-            const board = document.getElementById('leaderboardBody');
-            
-            // Keep header
-            let html = `
-            <div class="board-header">
-                <div>Rank</div>
-                <div>User</div>
-                <div>Score (Marks)</div>
-                <div>Status</div>
-            </div>`;
+            /**
+             * Standard baseline seed users if database is empty
+             * @returns {LeaderboardUser[]}
+             */
+            getSeedUsers() {
+                return [
+                    { name: "Rahul Sharma", score: 98, badge: "Grandmaster", status: "Online", category: "dsa", streak: "28 Days", solvedCount: "142 Solved" },
+                    { name: "Priya Singh", score: 94, badge: "Systems Architect", status: "Online", category: "tsoc", streak: "21 Days", solvedCount: "119 Solved" },
+                    { name: "Amit Kumar", score: 88, badge: "Security Analyst", status: "Offline", category: "labs", streak: "14 Days", solvedCount: "96 Solved" },
+                    { name: "Ananya Roy", score: 84, badge: "Full Stack Engineer", status: "Online", category: "dsa", streak: "18 Days", solvedCount: "89 Solved" },
+                    { name: "Vikram Malhotra", score: 80, badge: "Cloud Native Pro", status: "Online", category: "tsoc", streak: "12 Days", solvedCount: "74 Solved" },
+                    { name: "Neha Gupta", score: 76, badge: "DSA Specialist", status: "Offline", category: "dsa", streak: "9 Days", solvedCount: "62 Solved" },
+                    { name: "Kavita Pillai", score: 72, badge: "Kernel Explorer", status: "Online", category: "labs", streak: "7 Days", solvedCount: "58 Solved" },
+                    { name: "Rohan Patel", score: 68, badge: "Frontend Scholar", status: "Online", category: "tsoc", streak: "5 Days", solvedCount: "44 Solved" },
+                    { name: "Sneha Reddy", score: 62, badge: "Backend Apprentice", status: "Offline", category: "dsa", streak: "3 Days", solvedCount: "38 Solved" },
+                    { name: "Aditya Verma", score: 58, badge: "Junior Developer", status: "Online", category: "tsoc", streak: "2 Days", solvedCount: "29 Solved" }
+                ];
+            }
 
-            leaderboard.forEach((user, index) => {
-                let rankClass = "";
-                let rankStyle = "";
-                if (index === 0) { rankClass = "rank-1-row"; rankStyle = "rank-1"; }
-                else if (index === 1) { rankClass = "rank-2-row"; rankStyle = "rank-2"; }
-                else if (index === 2) { rankClass = "rank-3-row"; rankStyle = "rank-3"; }
+            /**
+             * Safely load and validate records from LocalStorage
+             */
+            loadData() {
+                try {
+                    const rawData = localStorage.getItem(this.STORAGE_KEY);
+                    if (!rawData) {
+                        this.users = this.getSeedUsers();
+                        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.users));
+                        return;
+                    }
 
-                let badgeHtml = user.badge ? `<span class="player-badge">${user.badge}</span>` : "";
-                
-                let statusHtml = user.status === "Offline" 
-                    ? `<div class="status offline"><i data-lucide="moon" style="width:16px;"></i> Offline</div>`
-                    : `<div class="status"><i data-lucide="zap" style="width:16px;"></i> Online</div>`;
+                    const parsed = JSON.parse(rawData);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        // Hydrate missing modern metadata properties if needed
+                        this.users = parsed.map((item, index) => ({
+                            name: item.name || "Anonymous",
+                            score: typeof item.score === 'number' ? item.score : 0,
+                            badge: item.badge || (item.score >= 90 ? "Grandmaster" : item.score >= 75 ? "Pro Coder" : "Student"),
+                            status: item.status || (index % 2 === 0 ? "Online" : "Offline"),
+                            category: item.category || (index % 3 === 0 ? "dsa" : index % 3 === 1 ? "tsoc" : "labs"),
+                            streak: item.streak || `${Math.max(1, Math.floor(item.score / 4))} Days`,
+                            solvedCount: item.solvedCount || `${Math.floor(item.score * 1.3)} Solved`
+                        }));
+                    } else {
+                        this.users = this.getSeedUsers();
+                    }
+                } catch (err) {
+                    console.error("[LeaderboardEngine] Failed to parse stored state. Fallback to seed dataset.", err);
+                    this.users = this.getSeedUsers();
+                }
+            }
 
-                html += `
-                <div class="board-row ${rankClass}">
-                    <div class="rank ${rankStyle}">#${index + 1}</div>
-                    <div class="player-info">
-                        <div class="avatar"><i data-lucide="user"></i></div>
+            /**
+             * Attach UI event listeners with debounce
+             */
+            bindEvents() {
+                // Live Search Input with Input debouncing
+                let searchTimeout;
+                this.dom.searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        this.searchQuery = e.target.value.trim().toLowerCase();
+                        this.render();
+                    }, 120);
+                });
+
+                // Category Tabs Switching
+                this.dom.categoryButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.dom.categoryButtons.forEach(b => {
+                            b.classList.remove('active');
+                            b.setAttribute('aria-selected', 'false');
+                        });
+                        btn.classList.add('active');
+                        btn.setAttribute('aria-selected', 'true');
+                        this.activeCategory = btn.dataset.category;
+                        this.render();
+                    });
+                });
+
+                // Sorter Select Change
+                this.dom.sortSelector.addEventListener('change', (e) => {
+                    this.sortBy = e.target.value;
+                    this.render();
+                });
+
+                // Modal Close Event Listeners
+                this.dom.modalCloseBtn.addEventListener('click', () => this.closeProfileModal());
+                this.dom.profileModal.addEventListener('click', (e) => {
+                    if (e.target === this.dom.profileModal) this.closeProfileModal();
+                });
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') this.closeProfileModal();
+                });
+            }
+
+            /**
+             * Sanitize untrusted strings to mitigate XSS risks
+             * @param {string} str
+             * @returns {string}
+             */
+            escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            /**
+             * Extract candidate initials for aesthetic avatar circles
+             * @param {string} name
+             * @returns {string}
+             */
+            getInitials(name) {
+                if (!name) return 'TI';
+                const parts = name.trim().split(/\s+/);
+                if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+
+            /**
+             * Resolve proper tier class for badge styling
+             * @param {number} score
+             * @returns {{ label: string, cssClass: string }}
+             */
+            getTierMetadata(score) {
+                if (score >= 90) return { label: 'Grandmaster', cssClass: 'tier-grandmaster' };
+                if (score >= 80) return { label: 'Master', cssClass: 'tier-master' };
+                if (score >= 65) return { label: 'Expert', cssClass: 'tier-expert' };
+                return { label: 'Scholar', cssClass: 'tier-scholar' };
+            }
+
+            /**
+             * Filter and sort records according to current state
+             * @returns {LeaderboardUser[]}
+             */
+            getFilteredUsers() {
+                return this.users
+                    .filter(user => {
+                        // Category Match
+                        if (this.activeCategory !== 'all' && user.category !== this.activeCategory) {
+                            return false;
+                        }
+                        // Search Match
+                        if (this.searchQuery) {
+                            const nameMatch = user.name.toLowerCase().includes(this.searchQuery);
+                            const badgeMatch = (user.badge || '').toLowerCase().includes(this.searchQuery);
+                            if (!nameMatch && !badgeMatch) return false;
+                        }
+                        return true;
+                    })
+                    .sort((a, b) => {
+                        if (this.sortBy === 'score_desc') return b.score - a.score;
+                        if (this.sortBy === 'score_asc') return a.score - b.score;
+                        if (this.sortBy === 'name_asc') return a.name.localeCompare(b.name);
+                        return 0;
+                    });
+            }
+
+            /**
+             * Update platform overview metrics
+             */
+            updateMetrics(filtered) {
+                if (this.users.length > 0) {
+                    const maxScore = Math.max(...this.users.map(u => u.score));
+                    const avgScore = (this.users.reduce((sum, u) => sum + u.score, 0) / this.users.length).toFixed(1);
+                    this.dom.metricTopScore.innerText = `${maxScore} / 100`;
+                    this.dom.metricAverageScore.innerText = `${avgScore}%`;
+                    this.dom.metricTotalCoders.innerText = `${this.users.length.toLocaleString()}+`;
+                }
+            }
+
+            /**
+             * Render Top 3 Podium Cards
+             * @param {LeaderboardUser[]} sortedList
+             */
+            renderPodium(sortedList) {
+                if (sortedList.length < 3) {
+                    this.dom.podiumContainer.innerHTML = '';
+                    return;
+                }
+
+                const top1 = sortedList[0];
+                const top2 = sortedList[1];
+                const top3 = sortedList[2];
+
+                const renderCard = (user, rank, medalClass, label, medalName) => {
+                    const initials = this.getInitials(user.name);
+                    const safeName = this.escapeHtml(user.name);
+                    const safeBadge = this.escapeHtml(user.badge || 'Ace Developer');
+
+                    return `
+                        <article class="podium-card rank-${rank}" onclick="window.leaderboardApp.openProfileModal('${encodeURIComponent(user.name)}')">
+                            ${rank === 1 ? `
+                                <div class="crown-icon" title="First Place Champion">
+                                    <i data-lucide="crown" style="width: 24px; height: 24px;"></i>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="podium-avatar-wrap">
+                                <div class="podium-avatar">${initials}</div>
+                                <div class="rank-medal-badge ${medalClass}">${rank}</div>
+                            </div>
+
+                            <h3 class="podium-name" title="${safeName}">${safeName}</h3>
+                            <span class="podium-badge">${safeBadge}</span>
+
+                            <div class="podium-score">${user.score}</div>
+                            <div class="podium-score-sub">Score Marks</div>
+                        </article>
+                    `;
+                };
+
+                this.dom.podiumContainer.innerHTML = `
+                    ${renderCard(top2, 2, 'medal-silver', '2nd Place', 'Silver')}
+                    ${renderCard(top1, 1, 'medal-gold', '1st Place', 'Gold')}
+                    ${renderCard(top3, 3, 'medal-bronze', '3rd Place', 'Bronze')}
+                `;
+            }
+
+            /**
+             * Render Full Enterprise Table Rows
+             * @param {LeaderboardUser[]} list
+             */
+            renderTable(list) {
+                if (list.length === 0) {
+                    this.dom.tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state-wrap">
+                                    <i data-lucide="user-x" class="empty-state-icon"></i>
+                                    <h4 style="margin: 0 0 6px; font-weight: 700;">No Candidates Found</h4>
+                                    <p style="margin: 0; font-size: 0.88rem;">Try adjusting your search criteria or category filter to inspect rankings.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                list.forEach((user, index) => {
+                    const rankNum = index + 1;
+                    const safeName = this.escapeHtml(user.name);
+                    const initials = this.getInitials(user.name);
+                    const tier = this.getTierMetadata(user.score);
+                    const safeBadge = this.escapeHtml(user.badge || tier.label);
+                    const isOnline = user.status === 'Online';
+                    const categoryLabel = user.category === 'dsa' ? 'Top MNC DSA Series' : user.category === 'tsoc' ? 'TSOC Open Source' : 'IndroLabs Playground';
+
+                    let rowRankClass = '';
+                    if (rankNum === 1) rowRankClass = 'rank-1-row';
+                    else if (rankNum === 2) rowRankClass = 'rank-2-row';
+                    else if (rankNum === 3) rowRankClass = 'rank-3-row';
+
+                    html += `
+                        <tr class="${rowRankClass}" onclick="window.leaderboardApp.openProfileModal('${encodeURIComponent(user.name)}')">
+                            <td>
+                                <span class="rank-indicator">#${rankNum}</span>
+                            </td>
+                            <td>
+                                <div class="user-cell-wrap">
+                                    <div class="user-table-avatar">
+                                        <span>${initials}</span>
+                                        ${isOnline ? '<span class="online-dot" title="Active Now"></span>' : ''}
+                                    </div>
+                                    <div>
+                                        <div class="user-name-title">${safeName}</div>
+                                        <div class="user-tagline">
+                                            <span>${user.streak || 'Active'}</span> • <span>${user.solvedCount || 'Verified'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="tier-pill ${tier.cssClass}">
+                                    <i data-lucide="award" style="width: 12px; height: 12px;"></i>
+                                    ${safeBadge}
+                                </span>
+                                <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 4px;">${categoryLabel}</div>
+                            </td>
+                            <td>
+                                <div class="score-val-wrap">${user.score} / 100</div>
+                                <div class="mini-progress-bar">
+                                    <div class="mini-progress-fill" style="width: ${Math.min(100, Math.max(10, user.score))}%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.82rem; color: ${isOnline ? '#10b981' : 'var(--text-muted)'};">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: ${isOnline ? '#10b981' : 'var(--text-muted)'};"></span>
+                                    ${isOnline ? 'Online' : 'Offline'}
+                                </span>
+                            </td>
+                            <td style="text-align: right;">
+                                <button class="view-profile-btn" onclick="event.stopPropagation(); window.leaderboardApp.openProfileModal('${encodeURIComponent(user.name)}')">
+                                    <span>Profile</span>
+                                    <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                this.dom.tableBody.innerHTML = html;
+            }
+
+            /**
+             * Update the Sticky Standing Bar with current user rank if stored
+             */
+            updateUserStanding() {
+                // If a user name was recorded in session or prompt
+                const lastAssessedName = localStorage.getItem('techIndro_lastUser');
+                if (lastAssessedName) {
+                    const index = this.users.findIndex(u => u.name.toLowerCase() === lastAssessedName.toLowerCase());
+                    if (index > -1) {
+                        const candidate = this.users[index];
+                        this.dom.standingUserRank.innerText = `#${index + 1}`;
+                        this.dom.standingUserName.innerText = `${candidate.name} (${candidate.score} Marks)`;
+                        this.dom.standingUserDesc.innerText = `You are currently in the Top ${Math.max(1, Math.round(((index + 1) / this.users.length) * 100))}% of engineering participants.`;
+                        return;
+                    }
+                }
+
+                // Default status for visitor
+                this.dom.standingUserRank.innerText = '#--';
+                this.dom.standingUserName.innerText = 'Take Your Official Assessment';
+                this.dom.standingUserDesc.innerText = 'Test your DSA & Systems knowledge to claim your place on the Global Hall of Fame.';
+            }
+
+            /**
+             * Main Render Coordinator
+             */
+            render() {
+                const filtered = this.getFilteredUsers();
+                this.updateMetrics(filtered);
+                this.renderPodium(this.users); // Keep podium anchored to true global top 3
+                this.renderTable(filtered);
+                this.updateUserStanding();
+
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
+            }
+
+            /**
+             * Open Profile Modal with Candidate In-Depth Stats
+             * @param {string} encodedName
+             */
+            openProfileModal(encodedName) {
+                const candidateName = decodeURIComponent(encodedName);
+                const user = this.users.find(u => u.name === candidateName);
+                if (!user) return;
+
+                const initials = this.getInitials(user.name);
+                const safeName = this.escapeHtml(user.name);
+                const tier = this.getTierMetadata(user.score);
+                const globalRank = this.users.findIndex(u => u.name === user.name) + 1;
+
+                this.dom.modalContentBody.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem;">
+                        <div class="user-table-avatar" style="width: 58px; height: 58px; font-size: 1.35rem;">
+                            <span>${initials}</span>
+                        </div>
                         <div>
-                            <div class="player-name">${user.name}</div>
-                            ${badgeHtml}
+                            <h3 id="modalCandidateName" style="margin: 0 0 4px; font-size: 1.35rem; font-weight: 800; color: var(--text-main);">${safeName}</h3>
+                            <span class="tier-pill ${tier.cssClass}">${this.escapeHtml(user.badge || tier.label)}</span>
                         </div>
                     </div>
-                    <div class="score">${user.score} / 100</div>
-                    ${statusHtml}
-                </div>`;
-            });
 
-            board.innerHTML = html;
-            lucide.createIcons();
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: var(--bg); border: 1px solid var(--lb-border-subtle); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Global Standing</div>
+                            <div style="font-family: var(--lb-font-mono); font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-top: 2px;">#${globalRank}</div>
+                        </div>
+                        <div style="background: var(--bg); border: 1px solid var(--lb-border-subtle); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Assessment Mark</div>
+                            <div style="font-family: var(--lb-font-mono); font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 2px;">${user.score} / 100</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">
+                            <span>Mastery Benchmark</span>
+                            <span style="color: var(--primary);">${user.score}%</span>
+                        </div>
+                        <div class="mini-progress-bar" style="width: 100%; height: 8px;">
+                            <div class="mini-progress-fill" style="width: ${user.score}%;"></div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg); border: 1px solid var(--lb-border-subtle); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+                        <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Verified Platform Badges</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            <span style="font-size: 0.74rem; background: rgba(255,107,53,0.1); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-weight: 600;">⚡ Streak: ${user.streak || '7 Days'}</span>
+                            <span style="font-size: 0.74rem; background: rgba(16,185,129,0.1); color: #059669; padding: 3px 8px; border-radius: 6px; font-weight: 600;">✓ ${user.solvedCount || 'Solved'}</span>
+                            <span style="font-size: 0.74rem; background: rgba(168,85,247,0.1); color: #9333ea; padding: 3px 8px; border-radius: 6px; font-weight: 600;">★ High Accuracy</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="window.leaderboardApp.shareRank('${encodeURIComponent(user.name)}', ${globalRank})" style="flex: 1; background: var(--primary); color: white; border: none; padding: 10px 16px; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
+                            <span>Share Certificate</span>
+                        </button>
+                    </div>
+                `;
+
+                this.dom.profileModal.classList.add('active');
+                if (window.lucide) lucide.createIcons();
+            }
+
+            /**
+             * Close Modal
+             */
+            closeProfileModal() {
+                this.dom.profileModal.classList.remove('active');
+            }
+
+            /**
+             * Trigger celebratory confetti on visit
+             */
+            triggerCelebration() {
+                if (typeof confetti === 'function') {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 40,
+                            spread: 60,
+                            origin: { y: 0.75 },
+                            colors: ['#ff6b35', '#f59e0b', '#10b981']
+                        });
+                    }, 500);
+                }
+            }
+
+            /**
+             * Share achievement
+             */
+            shareRank(encodedName, rank) {
+                const name = decodeURIComponent(encodedName);
+                const shareText = `Check out ${name}'s #${rank} standing on the Tech Indro Global Engineering Hall of Fame!`;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert("Achievement copied to clipboard!");
+                    });
+                } else {
+                    alert(shareText);
+                }
+            }
         }
 
-        renderLeaderboard();
+        // Initialize application on DOM readiness
+        document.addEventListener('DOMContentLoaded', () => {
+            window.leaderboardApp = new LeaderboardEngine();
+        });
     </script>
+    <script src="main.js"></script>
 </body>
 </html>

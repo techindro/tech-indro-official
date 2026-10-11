@@ -101,7 +101,7 @@
             <!-- Search & Filters -->
             <div class="search-container">
                 <i data-lucide="search"></i>
-                <input type="text" id="searchInput" placeholder="Search for programs (e.g. FDE, Data Analytics, Data Engineer, SRE, Python...)">
+                <input type="text" id="searchInput" placeholder="Search for programs (e.g. PyTorch, TensorFlow, Pandas, Scikit-Learn, Java, SQL, FDE, Python...)">
             </div>
 
             <div class="filters-wrapper" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
@@ -324,7 +324,11 @@
                 'flipkart-grid': 'https://d8it4huxumps7.cloudfront.net/uploads/images/opportunity/mobile_banner/6687c45cc1232_flipkart-grid-60-software-development-track.png',
                 'google-gsoc': 'assets/gsoc_banner.jpg',
                 'isro-antariksh-hackathon': 'https://res.cloudinary.com/dpfi3rnqf/image/upload/v1781249588/bah_2026_bgbpja.webp',
-                'nasa-space-apps': 'https://assets.spaceappschallenge.org/media/original_images/Space_Apps_2026_Logo_OG.jpg'
+                'nasa-space-apps': 'https://assets.spaceappschallenge.org/media/original_images/Space_Apps_2026_Logo_OG.jpg',
+                'pytorch-tensorflow': 'https://img.youtube.com/vi/V_xro1bcAuA/maxresdefault.jpg',
+                'pandas-scikit-learn': 'https://img.youtube.com/vi/ZyhVh-qRZPA/maxresdefault.jpg',
+                'java-mastery': 'https://img.youtube.com/vi/A74TOX803D0/maxresdefault.jpg',
+                'sql-engineering': 'https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg'
             };
 
             function getCourseThumbnail(course) {
@@ -436,20 +440,23 @@
                     'cybersecurity', 'ethical-hacking', 'app-development', 'agentic-ai', 
                     'advanced-robotics', 'research-papers', 'sih-hackathon', 
                     'microsoft-imagine-cup', 'amazon-hackon', 'tcs-codevita', 
-                    'flipkart-grid', 'google-gsoc', 'isro-antariksh-hackathon', 'nasa-space-apps'
+                    'flipkart-grid', 'google-gsoc', 'isro-antariksh-hackathon', 'nasa-space-apps',
+                    'pytorch-tensorflow', 'pandas-scikit-learn', 'java-mastery', 'sql-engineering'
                 ];
                 renderCourses(baseList.filter(c => codingIds.includes(c.id)));
             } else if (filter === 'data') {
                 const dataIds = [
                     'data-analytics', 'data-engineering', 'data-science', 
-                    'sql-mastery', 'coding-ai', 'agentic-ai'
+                    'sql-mastery', 'coding-ai', 'agentic-ai',
+                    'pytorch-tensorflow', 'pandas-scikit-learn', 'sql-engineering'
                 ];
                 renderCourses(baseList.filter(c => dataIds.includes(c.id)));
             } else if (filter === 'engineering') {
                 const engIds = [
                     'forward-deployed-engineer', 'data-engineering', 'sre-cloud-infra', 
                     'devops', 'mlops-engineer', 'distributed-systems-golang', 
-                    'software-engineering', 'web3-blockchain', 'cybersecurity'
+                    'software-engineering', 'web3-blockchain', 'cybersecurity',
+                    'java-mastery', 'sql-engineering'
                 ];
                 renderCourses(baseList.filter(c => engIds.includes(c.id)));
             } else if (filter === 'business') {

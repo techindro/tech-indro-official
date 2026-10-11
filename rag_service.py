@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # Tech Indro - Enterprise RAG Microservice
 # Powered by FastAPI + LangChain Core & Community
 # Handles Ingestion, Vector/BM25 Retrieval, Prompt Augmentation, and Generation
@@ -5,48 +7,133 @@
 import os
 import json
 import re
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Optional, Dict, Any
+from uuid import uuid4
 
 # FastAPI & Pydantic Framework Imports
-from fastapi import FastAPI, HTTPException  # type: ignore
+from fastapi import FastAPI, HTTPException, Request  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
-from pydantic import BaseModel  # type: ignore
+from fastapi.responses import JSONResponse  # type: ignore
+from pydantic import BaseModel, Field  # type: ignore
+from starlette.datastructures import Headers
 import uvicorn  # type: ignore
 
-# LangChain Core Imports
+# LangChain Core & Community Imports
+from langchain_core.documents import Document  # type: ignore
 from langchain_core.prompts import ChatPromptTemplate  # type: ignore
 from langchain_core.output_parsers import StrOutputParser  # type: ignore
+from langchain_community.retrievers import BM25Retriever  # type: ignore
+
+from posthog import identify_context, new_context, set_context_session
+from posthog.ai.langchain import CallbackHandler
+from posthog_client import (
+    flush_posthog,
+    get_posthog_client,
+    initialize_posthog,
+    shutdown_posthog,
+)
+from posthog_logs import (
+    get_posthog_logger,
+    initialize_posthog_logs,
+    shutdown_posthog_logs,
+)
 
 # Environment variables
 BASE_DIR = Path(__file__).resolve().parent
 PORT = int(os.environ.get("RAG_PORT", 8000))
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+RAG_API_KEY = os.environ.get("RAG_API_KEY", "")
+RAG_AI_SESSION_ID = str(uuid4())
 
 # Load .env if present
 try:
-    from dotenv import load_dotenv
+    from dotenv import load_dotenv  # type: ignore
     load_dotenv(BASE_DIR / ".env")
     if not GEMINI_API_KEY:
         GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
     if not GROQ_API_KEY:
         GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+    if not RAG_API_KEY:
+        RAG_API_KEY = os.environ.get("RAG_API_KEY", "")
 except Exception:
     pass
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize and flush the process-wide PostHog client."""
+    app.state.posthog_client = initialize_posthog()
+    initialize_posthog_logs()
+    yield
+    shutdown_posthog_logs()
+    flush_posthog()
+    shutdown_posthog()
+
 
 app = FastAPI(
     title="Tech Indro RAG Service",
     description="Enterprise Knowledge Retrieval & Augmented Generation powered by FastAPI and LangChain",
-    version="2.0.0"
+    version="2.0.0",
+    lifespan=lifespan,
 )
 
-# Enable CORS for Express backend and web clients
+
+@app.exception_handler(Exception)
+async def capture_unhandled_exception(request: Request, exc: Exception) -> JSONResponse:
+    """Send unhandled request exceptions to PostHog before returning a 500 response."""
+    posthog_client = get_posthog_client()
+    if posthog_client is not None:
+        posthog_client.capture_exception(exc)
+
+    return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+
+
+class PostHogContextMiddleware:
+    """Bind browser analytics identity to the lifetime of each HTTP request."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http" or get_posthog_client() is None:
+            await self.app(scope, receive, send)
+            return
+
+        headers = Headers(scope=scope)
+        distinct_id = headers.get("x-posthog-distinct-id")
+        session_id = headers.get("x-posthog-session-id")
+
+        with new_context():
+            if distinct_id:
+                identify_context(distinct_id)
+            if session_id:
+                set_context_session(session_id)
+            await self.app(scope, receive, send)
+
+
+app.add_middleware(PostHogContextMiddleware)
+
+# CORS Policy: Standards-compliant origin resolution
+allowed_origins_env = os.environ.get("ALLOWED_ORIGINS", "")
+if allowed_origins_env:
+    origins = [o.strip() for o in allowed_origins_env.split(",") if o.strip()]
+else:
+    origins = [
+        "http://localhost:3000",
+        "http://localhost:5000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5000",
+        "https://techindro.com",
+        "https://www.techindro.com"
+    ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -289,6 +376,50 @@ class ChatRequest(BaseModel):
     system_instruction: Optional[str] = Field(default=None, alias="systemInstruction")
     rag: Optional[bool] = True
 
+
+def create_langchain_ai_observability_config(request: Request) -> Optional[Dict[str, Any]]:
+    """Create one AI Observability trace callback for a RAG chat turn."""
+    posthog_client = get_posthog_client()
+    if posthog_client is None:
+        return None
+
+    handler_options: Dict[str, Any] = {
+        "client": posthog_client,
+        "properties": {"$ai_session_id": RAG_AI_SESSION_ID},
+        "trace_id": str(uuid4()),
+        "privacy_mode": False,
+    }
+    distinct_id = request.headers.get("x-posthog-distinct-id")
+    if distinct_id:
+        handler_options["distinct_id"] = distinct_id
+
+    return {"callbacks": [CallbackHandler(**handler_options)]}
+
+
+def capture_rag_chat_completed(rag_data: Dict[str, Any], provider: str) -> None:
+    """Record successful chat completions without retaining message content."""
+    source_count = len(rag_data["sources"])
+    posthog_client = get_posthog_client()
+    if posthog_client is not None:
+        posthog_client.capture(
+            "rag_chat_completed",
+            properties={
+                "provider": provider,
+                "rag_context_used": bool(rag_data["has_context"]),
+                "source_count": source_count,
+            },
+        )
+    get_posthog_logger().info(
+        "rag_chat_completed",
+        extra={
+            "event": "rag_chat_completed",
+            "provider": provider,
+            "rag_context_used": bool(rag_data["has_context"]),
+            "source_count": source_count,
+        },
+    )
+
+
 # ============================================================================
 # FASTAPI ROUTES
 # ============================================================================
@@ -316,6 +447,27 @@ def search_knowledge(payload: SearchRequest):
         collection=payload.collection,
         agent=payload.agent or "general"
     )
+    posthog_client = get_posthog_client()
+    collection_filter_applied = bool(payload.collection)
+    result_count = len(results)
+    if posthog_client is not None:
+        posthog_client.capture(
+            "rag_search_completed",
+            properties={
+                "collection_filter_applied": collection_filter_applied,
+                "requested_max_results": payload.max_results,
+                "result_count": result_count,
+            },
+        )
+    get_posthog_logger().info(
+        "rag_search_completed",
+        extra={
+            "event": "rag_search_completed",
+            "collection_filter_applied": collection_filter_applied,
+            "requested_max_results": payload.max_results,
+            "result_count": result_count,
+        },
+    )
     return {
         "query": payload.query,
         "total_matches": len(results),
@@ -323,9 +475,11 @@ def search_knowledge(payload: SearchRequest):
     }
 
 @app.post("/api/rag/chat")
-async def rag_chat(payload: ChatRequest):
+async def rag_chat(payload: ChatRequest, request: Request):
     if not payload.message or not payload.message.strip():
         raise HTTPException(status_code=400, detail="Message is required")
+
+    ai_observability_config = create_langchain_ai_observability_config(request)
 
     # 1. Retrieve RAG Context using LangChain
     rag_data = {"has_context": False, "context": "", "sources": []}
@@ -369,8 +523,11 @@ CRITICAL RULES:
                 ("human", "{question}")
             ])
             chain = prompt | llm | StrOutputParser()
-            response_text = await chain.ainvoke({"question": payload.message})
+            response_text = await chain.ainvoke(
+                {"question": payload.message}, config=ai_observability_config
+            )
             clean_output = re.sub(r'[\U00010000-\U0010ffff]', '', response_text).replace('**', '').strip()
+            capture_rag_chat_completed(rag_data, "langchain_groq")
             return {
                 "response": clean_output,
                 "reply": clean_output,
@@ -390,8 +547,11 @@ CRITICAL RULES:
                 ("human", "{question}")
             ])
             chain = prompt | llm | StrOutputParser()
-            response_text = await chain.ainvoke({"question": payload.message})
+            response_text = await chain.ainvoke(
+                {"question": payload.message}, config=ai_observability_config
+            )
             clean_output = re.sub(r'[\U00010000-\U0010ffff]', '', response_text).replace('**', '').strip()
+            capture_rag_chat_completed(rag_data, "langchain_gemini")
             return {
                 "response": clean_output,
                 "reply": clean_output,
@@ -410,6 +570,7 @@ CRITICAL RULES:
         fallback_lines.append("Tech Indro RAG Knowledge Engine:")
 
     fallback_lines.append(f"Aapke sawal '{payload.message}' ke context me Tech Indro official curriculum aur knowledge bank se real facts retrieve kiye gaye hain.")
+    capture_rag_chat_completed(rag_data, "langchain_fastapi_local")
     return {
         "response": "\n\n".join(fallback_lines),
         "reply": "\n\n".join(fallback_lines),

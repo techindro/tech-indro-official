@@ -37,6 +37,7 @@
     "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "kafkajs": "^2.2.4",
+    "mongoose": "^9.11.1",
     "pg": "^8.23.1"
   }
 }

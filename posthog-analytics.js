@@ -4,13 +4,40 @@
  */
 
 (function () {
-    // Check for PostHog API Key from window config, localStorage, or meta tag
     const metaKey = document.querySelector('meta[name="posthog-api-key"]')?.getAttribute('content');
-    const POSTHOG_KEY = window.POSTHOG_API_KEY || metaKey || 'phc_techindro_free_telemetry_key';
-    const POSTHOG_HOST = window.POSTHOG_HOST || 'https://us.i.posthog.com';
+    const POSTHOG_KEY = window.POSTHOG_API_KEY || metaKey;
+    const POSTHOG_HOST = window.POSTHOG_HOST;
 
-    // Standard PostHog Official Modern Loader
+    if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}var c=e;for("undefined"!=typeof a?c=e[a]=[]:a="posthog",c.people=c.people||[],c.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},c.people.toString=function(){return c.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(c,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+
+    const posthogScript = document.createElement('script');
+    posthogScript.async = true;
+    posthogScript.src = `${POSTHOG_HOST.replace(/\/$/, '')}/static/array.js`;
+    document.head.appendChild(posthogScript);
+
+    window.identifyTechIndroUser = function (user) {
+        if (!user || !user.id || !window.posthog) return;
+
+        const distinctId = String(user.id);
+        if (typeof window.posthog.get_distinct_id === 'function' &&
+            window.posthog.get_distinct_id() === distinctId) {
+            return;
+        }
+
+        window.posthog.identify(distinctId, {
+            email: user.email,
+            name: user.name,
+            role: user.role || 'student'
+        });
+    };
+
+    window.resetTechIndroIdentity = function () {
+        if (window.posthog && typeof window.posthog.reset === 'function') {
+            window.posthog.reset();
+        }
+    };
 
     // Initialize PostHog
     try {
@@ -20,6 +47,7 @@
             capture_pageview: true,
             capture_pageleave: true,
             autocapture: true,
+            tracing_headers: [window.location.hostname],
             session_recording: {
                 recordCrossOriginIframes: true,
                 maskAllInputs: false,
@@ -31,18 +59,12 @@
             loaded: function(ph) {
                 console.log('📊 [Telemetry] PostHog Analytics initialized successfully.');
                 
-                // Track user identity if logged in
+                // Restore a persisted authenticated identity only when the SDK is not
+                // already using the user's stable account id.
                 try {
                     const savedUser = localStorage.getItem('techIndroUser');
                     if (savedUser) {
-                        const user = JSON.parse(savedUser);
-                        if (user && user.id) {
-                            ph.identify(user.id, {
-                                email: user.email,
-                                name: user.name,
-                                role: user.role || 'student'
-                            });
-                        }
+                        window.identifyTechIndroUser(JSON.parse(savedUser));
                     }
                 } catch (e) {}
             }

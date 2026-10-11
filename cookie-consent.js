@@ -482,6 +482,7 @@
             transform: translateY(-50%) translateX(4px);
         }
 
+
         @media (max-width: 768px) {
             .ti-cookie-banner {
                 bottom: 14px;
@@ -508,6 +509,12 @@
                 left: 18px;
                 width: 42px;
                 height: 42px;
+            }
+            body:has(#floatingInspiroWidget) .ti-cookie-trigger-btn,
+            body.has-p2p-widget .ti-cookie-trigger-btn,
+            .ti-cookie-stacked-p2p {
+                bottom: 78px !important;
+                left: 18px !important;
             }
             .ti-cookie-trigger-btn .ti-cookie-tooltip {
                 display: none;
@@ -577,6 +584,18 @@
     let modalEl = null;
     let triggerBtnEl = null;
 
+    function updateTriggerOffset(btn) {
+        if (!btn) return;
+        const p2pWidget = document.getElementById('floatingInspiroWidget') || document.querySelector('.floating-inspiro-widget');
+        if (p2pWidget) {
+            document.body.classList.add('has-p2p-widget');
+            btn.classList.add('ti-cookie-stacked-p2p');
+            const isMobile = window.innerWidth <= 768;
+            btn.style.bottom = isMobile ? '78px' : '86px';
+            btn.style.left = isMobile ? '18px' : '24px';
+        }
+    }
+
     function buildFloatingTrigger() {
         if (document.getElementById('techIndroCookieTriggerBtn')) return;
 
@@ -601,6 +620,9 @@
         btn.addEventListener('click', () => {
             window.TechIndroCookies.openPreferences();
         });
+
+        updateTriggerOffset(btn);
+        window.addEventListener('resize', () => updateTriggerOffset(btn));
 
         document.body.appendChild(btn);
         triggerBtnEl = btn;
@@ -806,6 +828,7 @@
     }
 
     function showBanner() {
+        document.body.classList.add('ti-cookie-banner-active');
         hideFloatingTrigger();
         if (!bannerEl) buildBanner();
         requestAnimationFrame(() => {
@@ -816,6 +839,7 @@
     }
 
     function hideBanner() {
+        document.body.classList.remove('ti-cookie-banner-active');
         if (bannerEl) {
             bannerEl.classList.remove('ti-cookie-show');
         }

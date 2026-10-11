@@ -286,16 +286,17 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.82);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 99999;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 16px;
+            padding: 20px 16px;
             overflow-y: auto;
             animation: fadeInModal 0.25s ease-out;
+            box-sizing: border-box;
         }
 
         @keyframes fadeInModal {
@@ -305,16 +306,20 @@
 
         .lecture-modal-container {
             width: 100%;
-            max-width: 860px;
-            max-height: calc(100vh - 32px);
+            max-width: 920px;
+            max-height: calc(100vh - 40px);
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            border-radius: 18px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
             display: flex;
             flex-direction: column;
             margin: auto;
+            position: relative;
+            padding-bottom: 2.5rem;
+            box-sizing: border-box;
         }
 
         .lecture-modal-header {
@@ -325,6 +330,9 @@
             background: #ffffff;
             border-bottom: 1px solid #e2e8f0;
             flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 30;
         }
 
         .modal-close-btn {
@@ -351,14 +359,19 @@
         .lecture-video-wrapper {
             position: relative;
             width: 100%;
-            height: 48vh;
-            max-height: 420px;
-            min-height: 240px;
+            max-height: 48vh;
+            aspect-ratio: 16 / 9;
+            max-width: calc(48vh * 16 / 9);
+            margin: 0 auto;
             background: #000;
-            flex-shrink: 1;
+            flex-shrink: 0;
+            overflow: hidden;
         }
 
         .lecture-video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
@@ -463,6 +476,628 @@
             background: #059669;
             color: #fff;
             transform: translateY(-2px);
+        }
+
+        /* Feature 2: In-Video Interactive Checkpoint Overlay */
+        .in-video-checkpoint-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            animation: fadeInCheckpoint 0.25s ease-out;
+        }
+
+        @keyframes fadeInCheckpoint {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .checkpoint-card {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 1.25rem 1.4rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            color: #f8fafc;
+        }
+
+        .checkpoint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .checkpoint-badge {
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .checkpoint-time {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .checkpoint-title {
+            margin: 0 0 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            line-height: 1.45;
+        }
+
+        .checkpoint-options {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .checkpoint-opt-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
+            padding: 0.65rem 0.95rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+
+        .checkpoint-opt-btn:hover:not(:disabled) {
+            background: rgba(255, 107, 53, 0.15);
+            border-color: #ff6b35;
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .checkpoint-opt-btn .opt-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .checkpoint-opt-btn.opt-correct {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: #10b981 !important;
+            color: #34d399 !important;
+        }
+
+        .checkpoint-opt-btn.opt-wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: #ef4444 !important;
+            color: #f87171 !important;
+        }
+
+        .checkpoint-feedback {
+            padding: 0.7rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .checkpoint-feedback.feedback-success {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+        }
+
+        .checkpoint-feedback.feedback-error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .checkpoint-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-checkpoint-rewind {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #cbd5e1;
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-checkpoint-rewind:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .btn-checkpoint-continue {
+            background: #ff6b35;
+            border: none;
+            color: #ffffff;
+            padding: 0.55rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-checkpoint-continue:hover {
+            background: #e5531d;
+            transform: translateY(-1px);
+        }
+
+        .video-checkpoint-pill {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #f8fafc;
+            font-size: 0.78rem;
+            font-weight: 600;
+            pointer-events: auto;
+        }
+
+        .pill-open-btn {
+            background: #ff6b35;
+            color: #fff;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .pill-open-btn:hover {
+            background: #ea580c;
+        }
+
+        /* Feature 7: Timestamped Q&A / Lecture Discussion Forum */
+        .lecture-qa-section {
+            padding: 1.4rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+        }
+
+        .qa-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .qa-icon-bubble {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .qa-title {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .qa-subtitle {
+            margin: 2px 0 0;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .qa-stats-badge {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .qa-ask-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .qa-ask-top {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .qa-avatar-me {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .qa-input-wrap {
+            flex: 1;
+        }
+
+        .qa-input-wrap textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0.65rem 0.85rem;
+            font-size: 0.88rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 52px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .qa-input-wrap textarea:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        .qa-ask-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 4px;
+        }
+
+        .qa-stamp-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .qa-stamp-current-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qa-stamp-current-btn:hover {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: #ff6b35;
+            color: #ea580c;
+        }
+
+        .qa-ai-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .qa-ai-toggle input {
+            cursor: pointer;
+            accent-color: #ff6b35;
+        }
+
+        .qa-submit-btn {
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .qa-submit-btn:hover {
+            background: #ff6b35;
+            transform: translateY(-1px);
+        }
+
+        .qa-filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .qa-tab {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qa-tab:hover {
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        .qa-tab.active {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
+        .qa-threads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .qa-thread-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .qa-thread-item:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .qa-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .qa-author-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qa-author-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-author-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .qa-learner-tag {
+            font-size: 0.7rem;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .qa-timestamp-chip {
+            background: rgba(255, 107, 53, 0.1);
+            color: #ea580c;
+            border: 1px solid rgba(255, 107, 53, 0.25);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .qa-timestamp-chip:hover {
+            background: #ff6b35;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .qa-question-content {
+            font-size: 0.92rem;
+            color: #1e293b;
+            line-height: 1.45;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .qa-ai-response-card {
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(241, 245, 249, 0.95));
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #ff6b35;
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            margin-top: 4px;
+        }
+
+        .qa-ai-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .qa-ai-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #ea580c;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .qa-ai-body {
+            font-size: 0.86rem;
+            color: #334155;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre-line;
+        }
+
+        .qa-footer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 4px;
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+
+        .qa-upvote-btn {
+            background: none;
+            border: 1px solid #e2e8f0;
+            padding: 3px 8px;
+            border-radius: 6px;
+            color: #64748b;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .qa-upvote-btn:hover {
+            border-color: #ff6b35;
+            color: #ea580c;
+        }
+
+        .qa-jump-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #ff6b35;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            z-index: 10005;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInToast 0.2s ease-out;
+        }
+
+        @keyframes fadeInToast {
+            from { opacity: 0; transform: translate(-50%, -10px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
     </style>
 </head>
@@ -640,8 +1275,40 @@
                 </div>
 
                 <!-- 16:9 Video Player -->
-                <div class="lecture-video-wrapper">
+                <div class="lecture-video-wrapper" id="lectureVideoWrapper">
                     <iframe id="lectureIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    
+                    <!-- Feature 2: In-Video Interactive Checkpoint Overlay -->
+                    <div id="videoCheckpointOverlay" class="in-video-checkpoint-overlay" style="display: none;">
+                        <div class="checkpoint-card">
+                            <div class="checkpoint-header">
+                                <span class="checkpoint-badge">
+                                    <i data-lucide="zap" style="width: 14px; height: 14px;"></i> In-Video Checkpoint
+                                </span>
+                                <span class="checkpoint-time" id="checkpointTimeLabel"><i data-lucide="clock" style="width: 13px; height: 13px; vertical-align: middle;"></i> 00:45 Concept Check</span>
+                            </div>
+                            <h4 class="checkpoint-title" id="checkpointQuestionText">Concept Check: What is the primary role of this step?</h4>
+                            <div class="checkpoint-options" id="checkpointOptionsContainer">
+                                <!-- Dynamic Options rendered via JS -->
+                            </div>
+                            <div class="checkpoint-feedback" id="checkpointFeedback" style="display: none;"></div>
+                            <div class="checkpoint-actions">
+                                <button type="button" class="btn-checkpoint-rewind" id="checkpointRewindBtn">
+                                    <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i> Rewind 15s
+                                </button>
+                                <button type="button" class="btn-checkpoint-continue" id="checkpointContinueBtn">
+                                    <span>Continue Lecture</span> <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick In-Video Checkpoint trigger pill -->
+                    <div class="video-checkpoint-pill" id="checkpointTriggerPill">
+                        <i data-lucide="help-circle" style="width: 13px; height: 13px; color: #ff6b35;"></i>
+                        <span>Interactive Quiz Checkpoint</span>
+                        <button type="button" id="manualCheckpointTriggerBtn" class="pill-open-btn">Test Quiz</button>
+                    </div>
                 </div>
 
                 <!-- Attribution Bar -->
@@ -673,6 +1340,62 @@
                         <i data-lucide="award" style="width: 18px; height: 18px;"></i>
                         <span>Get Certificate</span>
                     </a>
+                </div>
+
+                <!-- Feature 7: Timestamped Q&A / Lecture Discussion Forum -->
+                <div class="lecture-qa-section" id="lectureQaSection">
+                    <div class="qa-section-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="qa-icon-bubble">
+                                <i data-lucide="message-square" style="width: 18px; height: 18px; color: #ff6b35;"></i>
+                            </div>
+                            <div>
+                                <h4 class="qa-title">Lecture Discussion & Doubts (Q&A)</h4>
+                                <p class="qa-subtitle">Ask doubts tagged with video timestamps • Answered by AI Shikshak & Community</p>
+                            </div>
+                        </div>
+                        <div class="qa-stats-badge" id="qaDoubtCountBadge">
+                            <i data-lucide="users" style="width: 13px; height: 13px;"></i> <span id="qaCountNumber">3</span> Doubts
+                        </div>
+                    </div>
+
+                    <!-- Ask a Doubt Box -->
+                    <div class="qa-ask-card">
+                        <div class="qa-ask-top">
+                            <span class="qa-avatar-me">YOU</span>
+                            <div class="qa-input-wrap">
+                                <textarea id="qaQuestionInput" rows="2" placeholder="Got a doubt at this timestamp? (e.g. 'Why is this loss function preferred over MSE?')..."></textarea>
+                            </div>
+                        </div>
+                        <div class="qa-ask-toolbar">
+                            <div class="qa-stamp-group">
+                                <button type="button" class="qa-stamp-current-btn" id="qaTagCurrentTimeBtn" title="Capture current video playback time">
+                                    <i data-lucide="clock" style="width: 14px; height: 14px; color: #ff6b35;"></i>
+                                    <span id="qaCurrentTimeTagText">Tag Time: 00:45</span>
+                                </button>
+                                <label class="qa-ai-toggle">
+                                    <input type="checkbox" id="qaAskAiCheckbox" checked>
+                                    <span style="display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="bot" style="width: 14px; height: 14px; color: #ff6b35;"></i> Answer with AI Shikshak</span>
+                                </label>
+                            </div>
+                            <button type="button" class="qa-submit-btn" id="qaSubmitBtn">
+                                <span>Post Question</span>
+                                <i data-lucide="send" style="width: 14px; height: 14px;"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Doubt Filter Tabs -->
+                    <div class="qa-filter-tabs">
+                        <button type="button" class="qa-tab active" data-filter="all">All Questions</button>
+                        <button type="button" class="qa-tab" data-filter="ai"><i data-lucide="bot" style="width: 13px; height: 13px; vertical-align: -1px; margin-right: 4px;"></i>AI Shikshak Answered</button>
+                        <button type="button" class="qa-tab" data-filter="timestamps"><i data-lucide="clock" style="width: 13px; height: 13px; vertical-align: -1px; margin-right: 4px;"></i>Has Timestamps</button>
+                    </div>
+
+                    <!-- Doubts Thread List -->
+                    <div class="qa-threads-list" id="qaThreadsContainer">
+                        <!-- Populated dynamically via JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -906,6 +1629,16 @@
                 }
 
                 function resolveCourseVideo(targetCourse) {
+                    if (targetCourse?.video) {
+                        const vidId = extractYouTubeId(targetCourse.video);
+                        return {
+                            url: targetCourse.video,
+                            creator: targetCourse.videoCreator || 'Edureka (edureka!)',
+                            channelUrl: targetCourse.channelUrl || 'https://www.youtube.com/@edurekaIN',
+                            videoId: vidId
+                        };
+                    }
+
                     const ytRes = targetCourse?.resources?.find(r => r.type === 'youtube');
                     let url = ytRes?.url || '';
                     let creator = ytRes?.title || (targetCourse?.instructor || 'Tech Indro Educational Curators');
@@ -916,7 +1649,10 @@
 
                     if (isChannelOnly) {
                         const t = (targetCourse?.title || targetCourse?.id || '').toLowerCase();
-                        if (t.includes('dsa') || t.includes('algorithm') || t.includes('data structure') || t.includes('cracking') || t.includes('leetcode')) {
+                        if (t.includes('mlops') || t.includes('ml-ops') || t.includes('triton') || t.includes('mlflow')) {
+                            url = 'https://www.youtube.com/watch?v=DDoK3bvi7lw';
+                            creator = 'Edureka (edureka!) - MLOps Full Course';
+                        } else if (t.includes('dsa') || t.includes('algorithm') || t.includes('data structure') || t.includes('cracking') || t.includes('leetcode')) {
                             url = 'https://www.youtube.com/watch?v=37E9ckMDdTk';
                             creator = "Striver (take U forward) - A2Z DSA Sheet";
                         } else if (t.includes('ai') || t.includes('machine learning') || t.includes('deep learning')) {
@@ -980,13 +1716,13 @@
                 }
 
                 function formatYouTubeEmbed(rawUrl) {
-                    if (!rawUrl) return 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0';
+                    if (!rawUrl) return 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0&enablejsapi=1';
                     if (rawUrl.includes('list=')) {
                         const listId = rawUrl.split('list=')[1]?.split('&')[0];
-                        return `https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0`;
+                        return `https://www.youtube-nocookie.com/embed/videoseries?list=${listId}&autoplay=1&rel=0&enablejsapi=1`;
                     }
                     const videoId = extractYouTubeId(rawUrl);
-                    return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0` : 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0';
+                    return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1` : 'https://www.youtube-nocookie.com/embed/0IAPZzGSbME?autoplay=1&rel=0&enablejsapi=1';
                 }
 
                 const resolvedMedia = resolveCourseVideo(course);
@@ -998,7 +1734,6 @@
                     if (ytThumbId) {
                         bannerImg.src = `https://img.youtube.com/vi/${ytThumbId}/maxresdefault.jpg`;
                         bannerImg.onload = function() {
-                            // If YouTube returned the 120x90 empty camera placeholder, fallback to hqdefault
                             if (this.naturalWidth === 120 && this.naturalHeight === 90) {
                                 this.src = `https://img.youtube.com/vi/${ytThumbId}/hqdefault.jpg`;
                             }
@@ -1043,6 +1778,472 @@
                     document.getElementById('courseResources').innerHTML = resHtml;
                 }
 
+                // --- Coursera-Style Feature 2 & 7: Checkpoint Quiz & Timestamped Doubts Engine ---
+                let currentVideoPlaybackSeconds = 0;
+                let playbackTimerInterval = null;
+                let isVideoPaused = false;
+                let checkpointTriggeredThisSession = false;
+                let currentTagSeconds = 45;
+                let activeQaFilter = 'all';
+
+                const courseCheckpoints = {
+                    'ai-ml': {
+                        time: 45,
+                        question: "In Deep Learning, why are non-linear activation functions (like ReLU) essential in hidden layers?",
+                        options: [
+                            { text: "They allow the network to learn and approximate complex non-linear decision boundaries", correct: true },
+                            { text: "They convert image pixels directly into binary machine code", correct: false },
+                            { text: "They eliminate the need for backpropagation and gradient descent", correct: false },
+                            { text: "They strictly prevent the GPU memory from overflowing", correct: false }
+                        ],
+                        explanation: "Correct! Without non-linear activation functions, stacking multiple layers would simply collapse into a single linear matrix transformation, making deep networks incapable of learning complex patterns."
+                    },
+                    'web-dev': {
+                        time: 45,
+                        question: "Why does modern frontend development rely on the Virtual DOM and component reconciliation?",
+                        options: [
+                            { text: "To compute minimal diffs and avoid expensive layout recalculations on the real DOM", correct: true },
+                            { text: "Because standard browser DOM is deprecated in HTML5", correct: false },
+                            { text: "To force all network requests to execute synchronously", correct: false },
+                            { text: "To automatically encrypt all JavaScript client variables", correct: false }
+                        ],
+                        explanation: "Correct! Manipulating the real browser DOM triggers costly reflows and repaints. The Virtual DOM computes diffs in memory and applies only minimal mutations efficiently."
+                    },
+                    'cybersecurity': {
+                        time: 45,
+                        question: "What is the primary role of a Public Key Infrastructure (PKI) Certificate Authority (CA) in HTTPS?",
+                        options: [
+                            { text: "To cryptographically vouch for the authenticity of the server's public key", correct: true },
+                            { text: "To store student passwords in a single central server", correct: false },
+                            { text: "To speed up DNS resolution across international servers", correct: false },
+                            { text: "To block all incoming JavaScript scripts from downloading", correct: false }
+                        ],
+                        explanation: "Correct! A trusted CA signs digital certificates to prevent Man-in-the-Middle (MITM) attacks and ensure you are genuinely connecting to the authentic server."
+                    },
+                    'default': {
+                        time: 45,
+                        question: "Concept Check: What is the primary objective of this lecture segment?",
+                        options: [
+                            { text: "Master the foundational architecture, modular design, and live execution workflow", correct: true },
+                            { text: "Memorize code syntax without understanding underlying principles", correct: false },
+                            { text: "Bypass validation steps and run untested code in production", correct: false },
+                            { text: "Hardcode private API secrets directly in public client files", correct: false }
+                        ],
+                        explanation: "Correct! Tech Indro masterclasses prioritize deep architectural comprehension, clean modular structure, and live sandbox execution."
+                    },
+                    'mlops': {
+                        time: 45,
+                        question: "In Production MLOps, what is the primary role of MLflow and Model Registries?",
+                        options: [
+                            { text: "Track hyperparameters, log experiment metrics, and manage model lifecycle promotion (Staging, Production)", correct: true },
+                            { text: "Convert machine learning models into static HTML CSS code", correct: false },
+                            { text: "Replace GPUs with traditional CPUs to save compute costs", correct: false },
+                            { text: "Disable automated testing before deployment", correct: false }
+                        ],
+                        explanation: "Spot on! MLflow tracks metrics and artifacts across experiments, while the Model Registry manages staging-to-production governance and deployment."
+                    }
+                };
+
+                function getActiveCheckpoint() {
+                    const cKey = (courseId || '').toLowerCase();
+                    if (cKey.includes('mlops') || cKey.includes('ml-ops')) return courseCheckpoints['mlops'];
+                    if (cKey.includes('ai') || cKey.includes('ml') || cKey.includes('deep-learning')) return courseCheckpoints['ai-ml'];
+                    if (cKey.includes('web') || cKey.includes('frontend') || cKey.includes('fullstack') || cKey.includes('react')) return courseCheckpoints['web-dev'];
+                    if (cKey.includes('cyber') || cKey.includes('security') || cKey.includes('ethical')) return courseCheckpoints['cybersecurity'];
+                    return courseCheckpoints['default'];
+                }
+
+                function sendYouTubeCommand(command, args = []) {
+                    const iframe = document.getElementById('lectureIframe');
+                    if (!iframe || !iframe.contentWindow) return;
+                    iframe.contentWindow.postMessage(JSON.stringify({
+                        event: 'command',
+                        func: command,
+                        args: args
+                    }), '*');
+                }
+
+                function pauseLectureVideo() {
+                    sendYouTubeCommand('pauseVideo');
+                    isVideoPaused = true;
+                }
+
+                function playLectureVideo() {
+                    sendYouTubeCommand('playVideo');
+                    isVideoPaused = false;
+                }
+
+                function seekLectureVideo(seconds) {
+                    sendYouTubeCommand('seekTo', [seconds, true]);
+                    playLectureVideo();
+                    currentVideoPlaybackSeconds = seconds;
+                    updateTagTimeDisplay(seconds);
+                }
+
+                function formatTime(sec) {
+                    const m = Math.floor(sec / 60);
+                    const s = Math.floor(sec % 60);
+                    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                }
+
+                function updateTagTimeDisplay(sec) {
+                    currentTagSeconds = sec;
+                    const tagEl = document.getElementById('qaCurrentTimeTagText');
+                    if (tagEl) {
+                        tagEl.innerText = `Tag Time: ${formatTime(sec)}`;
+                    }
+                }
+
+                function showJumpToast(text) {
+                    const old = document.querySelector('.qa-jump-toast');
+                    if (old) old.remove();
+                    const toast = document.createElement('div');
+                    toast.className = 'qa-jump-toast';
+                    toast.innerHTML = `<i data-lucide="play" style="width: 14px; height: 14px; color: #ff6b35; fill: #ff6b35;"></i> ${text}`;
+                    document.body.appendChild(toast);
+                    if (window.lucide) lucide.createIcons();
+                    setTimeout(() => {
+                        toast.style.transition = 'opacity 0.3s';
+                        toast.style.opacity = '0';
+                        setTimeout(() => toast.remove(), 300);
+                    }, 2200);
+                }
+
+                window.seekVideoAndScroll = function(seconds) {
+                    seekLectureVideo(seconds);
+                    const container = document.querySelector('.lecture-modal-container');
+                    if (container) {
+                        container.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                    showJumpToast(`Jumped to ${formatTime(seconds)}`);
+                };
+
+                // Trigger in-video checkpoint overlay
+                function triggerCheckpointQuiz() {
+                    pauseLectureVideo();
+                    const overlay = document.getElementById('videoCheckpointOverlay');
+                    if (!overlay) return;
+
+                    const cp = getActiveCheckpoint();
+                    const timeLabel = document.getElementById('checkpointTimeLabel');
+                    const qText = document.getElementById('checkpointQuestionText');
+                    const optContainer = document.getElementById('checkpointOptionsContainer');
+                    const feedback = document.getElementById('checkpointFeedback');
+                    const contBtn = document.getElementById('checkpointContinueBtn');
+
+                    if (timeLabel) timeLabel.innerHTML = `<i data-lucide="clock" style="width: 13px; height: 13px; vertical-align: middle;"></i> ${formatTime(currentVideoPlaybackSeconds)} Concept Check`;
+                    if (qText) qText.innerText = cp.question;
+                    if (feedback) { feedback.style.display = 'none'; feedback.className = 'checkpoint-feedback'; }
+                    if (contBtn) {
+                        contBtn.innerHTML = `<span>Continue Lecture</span> <i data-lucide="play" style="width: 14px; height: 14px;"></i>`;
+                    }
+
+                    if (optContainer) {
+                        const letters = ['A', 'B', 'C', 'D'];
+                        optContainer.innerHTML = cp.options.map((opt, idx) => `
+                            <button type="button" class="checkpoint-opt-btn" onclick="handleCheckpointAnswer(${idx})">
+                                <span class="opt-letter">${letters[idx]}</span>
+                                <span>${opt.text}</span>
+                            </button>
+                        `).join('');
+                    }
+
+                    overlay.style.display = 'flex';
+                    if (window.lucide) lucide.createIcons();
+                }
+
+                window.handleCheckpointAnswer = function(chosenIdx) {
+                    const cp = getActiveCheckpoint();
+                    const option = cp.options[chosenIdx];
+                    const optBtns = document.querySelectorAll('.checkpoint-opt-btn');
+                    const feedback = document.getElementById('checkpointFeedback');
+                    const contBtn = document.getElementById('checkpointContinueBtn');
+
+                    optBtns.forEach((btn, idx) => {
+                        btn.disabled = true;
+                        if (cp.options[idx].correct) {
+                            btn.classList.add('opt-correct');
+                        } else if (idx === chosenIdx && !option.correct) {
+                            btn.classList.add('opt-wrong');
+                        }
+                    });
+
+                    if (feedback) {
+                        feedback.style.display = 'flex';
+                        if (option.correct) {
+                            feedback.className = 'checkpoint-feedback feedback-success';
+                            feedback.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px; flex-shrink: 0; color: #10b981;"></i> <div><strong>Spot on!</strong> ${cp.explanation}</div>`;
+                            if (contBtn) contBtn.innerHTML = `<span>Resume Video</span> <i data-lucide="play" style="width: 14px; height: 14px; vertical-align: middle;"></i>`;
+                        } else {
+                            feedback.className = 'checkpoint-feedback feedback-error';
+                            feedback.innerHTML = `<i data-lucide="alert-circle" style="width: 16px; height: 16px; flex-shrink: 0; color: #ef4444;"></i> <div><strong>Not quite right.</strong> Review the explanation above and resume lecture.</div>`;
+                        }
+                        if (window.lucide) lucide.createIcons();
+                    }
+                };
+
+                function dismissCheckpoint(resumePlay = true) {
+                    const overlay = document.getElementById('videoCheckpointOverlay');
+                    if (overlay) overlay.style.display = 'none';
+                    checkpointTriggeredThisSession = true;
+                    if (resumePlay) playLectureVideo();
+                }
+
+                // Checkpoint button listeners
+                const continueBtn = document.getElementById('checkpointContinueBtn');
+                if (continueBtn) continueBtn.onclick = () => dismissCheckpoint(true);
+
+                const rewindBtn = document.getElementById('checkpointRewindBtn');
+                if (rewindBtn) {
+                    rewindBtn.onclick = () => {
+                        const targetSec = Math.max(0, currentVideoPlaybackSeconds - 15);
+                        dismissCheckpoint(false);
+                        seekLectureVideo(targetSec);
+                        showJumpToast(`Rewound to ${formatTime(targetSec)}`);
+                    };
+                }
+
+                const manualTriggerBtn = document.getElementById('manualCheckpointTriggerBtn');
+                if (manualTriggerBtn) manualTriggerBtn.onclick = () => triggerCheckpointQuiz();
+
+                // YouTube postMessage event listener
+                window.addEventListener('message', (event) => {
+                    try {
+                        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+                        if (data && data.event === 'infoDelivery' && data.info) {
+                            if (typeof data.info.currentTime === 'number') {
+                                currentVideoPlaybackSeconds = Math.floor(data.info.currentTime);
+                                updateTagTimeDisplay(currentVideoPlaybackSeconds);
+                                if (!checkpointTriggeredThisSession && currentVideoPlaybackSeconds >= 45 && currentVideoPlaybackSeconds < 50) {
+                                    checkpointTriggeredThisSession = true;
+                                    triggerCheckpointQuiz();
+                                }
+                            }
+                            if (typeof data.info.playerState === 'number') {
+                                isVideoPaused = (data.info.playerState !== 1);
+                            }
+                        }
+                    } catch(e) {}
+                });
+
+                // --- Q&A Doubts Discussion Forum Logic ---
+                const qaStorageKey = `ti_qa_doubts_${courseId || 'general'}`;
+                function loadDoubts() {
+                    try {
+                        const stored = localStorage.getItem(qaStorageKey);
+                        if (stored) return JSON.parse(stored);
+                    } catch(e) {}
+                    const defaults = [
+                        {
+                            id: 'doubt-1',
+                            author: 'Aarav Sharma',
+                            role: 'Verified Learner',
+                            timestamp: 45,
+                            timestampStr: '00:45',
+                            timeAgo: '2 hours ago',
+                            question: `In this segment (${course.title}), how do we ensure stability and prevent degradation when scaling up?`,
+                            aiAnswer: `Great doubt! In production workflows, isolate state mutations, employ strict typing/validation, and monitor gradient/resource metrics. Breaking monolithic steps into modular pipelines guarantees resilience.`,
+                            upvotes: 14,
+                            hasUpvoted: false
+                        },
+                        {
+                            id: 'doubt-2',
+                            author: 'Pooja Verma',
+                            role: 'IIT BHU Alum',
+                            timestamp: 135,
+                            timestampStr: '02:15',
+                            timeAgo: 'Yesterday',
+                            question: 'Can we apply these patterns directly inside a cloud microservices or containerized pipeline?',
+                            aiAnswer: `Yes, absolutely! Containerize your service using Docker and expose standard REST / gRPC endpoints. Decoupling the compute layer from the client enables seamless auto-scaling.`,
+                            upvotes: 9,
+                            hasUpvoted: false
+                        },
+                        {
+                            id: 'doubt-3',
+                            author: 'Vikram Joshi',
+                            role: 'Student',
+                            timestamp: 270,
+                            timestampStr: '04:30',
+                            timeAgo: '3 days ago',
+                            question: 'Where can we access the playground sandbox code to practice this live?',
+                            aiAnswer: `Click the "Open IndroLabs (Code Now)" button in the action dock directly above! It launches the live IDE sandbox with sample datasets ready to execute.`,
+                            upvotes: 21,
+                            hasUpvoted: false
+                        }
+                    ];
+                    localStorage.setItem(qaStorageKey, JSON.stringify(defaults));
+                    return defaults;
+                }
+
+                function saveDoubts(list) {
+                    try {
+                        localStorage.setItem(qaStorageKey, JSON.stringify(list));
+                    } catch(e) {}
+                }
+
+                function renderDoubts() {
+                    const list = loadDoubts();
+                    const container = document.getElementById('qaThreadsContainer');
+                    const badge = document.getElementById('qaCountNumber');
+                    if (!container) return;
+
+                    let filtered = list;
+                    if (activeQaFilter === 'ai') {
+                        filtered = list.filter(d => Boolean(d.aiAnswer));
+                    } else if (activeQaFilter === 'timestamps') {
+                        filtered = list.filter(d => typeof d.timestamp === 'number');
+                    }
+
+                    if (badge) badge.innerText = list.length;
+
+                    if (filtered.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 2rem; color: #64748b; font-size: 0.9rem;">
+                                <i data-lucide="help-circle" style="width: 28px; height: 28px; margin-bottom: 8px; opacity: 0.5;"></i>
+                                <p>No questions found in this category. Be the first to ask!</p>
+                            </div>
+                        `;
+                        if (window.lucide) lucide.createIcons();
+                        return;
+                    }
+
+                    container.innerHTML = filtered.map(d => `
+                        <div class="qa-thread-item" id="item-${d.id}">
+                            <div class="qa-item-header">
+                                <div class="qa-author-box">
+                                    <div class="qa-author-avatar">${d.author.substring(0, 2).toUpperCase()}</div>
+                                    <span class="qa-author-name">${d.author}</span>
+                                    <span class="qa-learner-tag">${d.role || 'Learner'}</span>
+                                    <span style="font-size: 0.75rem; color: #94a3b8;">• ${d.timeAgo || 'Just now'}</span>
+                                </div>
+                                ${d.timestampStr ? `
+                                    <button type="button" class="qa-timestamp-chip" onclick="seekVideoAndScroll(${d.timestamp})" title="Seek video to ${d.timestampStr}">
+                                        <i data-lucide="play" style="width: 12px; height: 12px; fill: currentColor;"></i>
+                                        <span>${d.timestampStr}</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <p class="qa-question-content">${d.question}</p>
+                            ${d.aiAnswer ? `
+                                <div class="qa-ai-response-card">
+                                    <div class="qa-ai-header">
+                                        <span class="qa-ai-title">
+                                            <i data-lucide="bot" style="width: 14px; height: 14px;"></i> AI Shikshak Verified Response
+                                        </span>
+                                        <span style="font-size: 0.7rem; color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                            <i data-lucide="check-check" style="width: 12px; height: 12px;"></i> Verified
+                                        </span>
+                                    </div>
+                                    <p class="qa-ai-body">${d.aiAnswer}</p>
+                                </div>
+                            ` : ''}
+                            <div class="qa-footer-actions">
+                                <button type="button" class="qa-upvote-btn" onclick="toggleUpvote('${d.id}')">
+                                    <i data-lucide="thumbs-up" style="width: 13px; height: 13px;"></i>
+                                    <span>${d.hasUpvoted ? 'Upvoted' : 'Helpful'} (${d.upvotes || 0})</span>
+                                </button>
+                                <span style="font-size: 0.74rem; color: #94a3b8;">Lecture Discussion</span>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    if (window.lucide) lucide.createIcons();
+                }
+
+                window.toggleUpvote = function(doubtId) {
+                    const list = loadDoubts();
+                    const item = list.find(d => d.id === doubtId);
+                    if (item) {
+                        if (!item.hasUpvoted) {
+                            item.upvotes = (item.upvotes || 0) + 1;
+                            item.hasUpvoted = true;
+                        } else {
+                            item.upvotes = Math.max(0, (item.upvotes || 1) - 1);
+                            item.hasUpvoted = false;
+                        }
+                        saveDoubts(list);
+                        renderDoubts();
+                    }
+                };
+
+                // Tag current time button
+                const tagBtn = document.getElementById('qaTagCurrentTimeBtn');
+                if (tagBtn) {
+                    tagBtn.onclick = () => {
+                        updateTagTimeDisplay(currentVideoPlaybackSeconds);
+                        showJumpToast(`Tagged ${formatTime(currentVideoPlaybackSeconds)}`);
+                    };
+                }
+
+                // Filter tabs
+                document.querySelectorAll('.qa-tab').forEach(tab => {
+                    tab.onclick = () => {
+                        document.querySelectorAll('.qa-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        activeQaFilter = tab.getAttribute('data-filter') || 'all';
+                        renderDoubts();
+                    };
+                });
+
+                // Submit new doubt
+                const submitDoubtBtn = document.getElementById('qaSubmitBtn');
+                if (submitDoubtBtn) {
+                    submitDoubtBtn.onclick = async () => {
+                        const input = document.getElementById('qaQuestionInput');
+                        const askAi = document.getElementById('qaAskAiCheckbox')?.checked;
+                        const text = (input?.value || '').trim();
+                        if (!text) {
+                            input.focus();
+                            return;
+                        }
+
+                        const newId = 'doubt-' + Date.now();
+                        const newDoubt = {
+                            id: newId,
+                            author: 'You',
+                            role: 'Active Student',
+                            timestamp: currentTagSeconds,
+                            timestampStr: formatTime(currentTagSeconds),
+                            timeAgo: 'Just now',
+                            question: text,
+                            aiAnswer: askAi ? 'AI Shikshak is analyzing the question...' : null,
+                            upvotes: 0,
+                            hasUpvoted: false
+                        };
+
+                        const list = loadDoubts();
+                        list.unshift(newDoubt);
+                        saveDoubts(list);
+                        input.value = '';
+                        renderDoubts();
+
+                        if (askAi) {
+                            try {
+                                const res = await fetch('/api/chat', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        message: `Lecture: ${course.title} (Timestamp ${newDoubt.timestampStr}). Student Doubt: ${text}. Provide a concise, clear conceptual explanation and key takeaway.`,
+                                        agent: 'tutor',
+                                        lang: 'auto'
+                                    })
+                                });
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    const reply = data.response || data.reply || 'Great question! Focus on breaking the problem into discrete modules and test each component in the sandbox.';
+                                    newDoubt.aiAnswer = reply;
+                                } else {
+                                    newDoubt.aiAnswer = 'Focus on checking variable dimensions, validating assumptions in the IndroLabs sandbox, and reviewing the previous segment.';
+                                }
+                            } catch (e) {
+                                newDoubt.aiAnswer = 'To resolve this concept, isolate each step and experiment with different parameters in the IndroLabs Sandbox.';
+                            }
+                            saveDoubts(list);
+                            renderDoubts();
+                        }
+                    };
+                }
+
                 function openLectureModal(modTitle) {
                     const modal = document.getElementById('lectureModal');
                     const iframe = document.getElementById('lectureIframe');
@@ -1059,6 +2260,27 @@
 
                     modal.style.display = 'flex';
                     document.body.style.overflow = 'hidden';
+
+                    // Reset session playback state
+                    currentVideoPlaybackSeconds = 0;
+                    checkpointTriggeredThisSession = false;
+                    isVideoPaused = false;
+                    updateTagTimeDisplay(0);
+
+                    // Start backup 1-second playback ticker
+                    if (playbackTimerInterval) clearInterval(playbackTimerInterval);
+                    playbackTimerInterval = setInterval(() => {
+                        if (!isVideoPaused) {
+                            currentVideoPlaybackSeconds++;
+                            updateTagTimeDisplay(currentVideoPlaybackSeconds);
+                            if (!checkpointTriggeredThisSession && currentVideoPlaybackSeconds >= 45) {
+                                checkpointTriggeredThisSession = true;
+                                triggerCheckpointQuiz();
+                            }
+                        }
+                    }, 1000);
+
+                    renderDoubts();
                     if (window.lucide) lucide.createIcons();
                 }
 
@@ -1068,6 +2290,11 @@
                     if (iframe) iframe.src = '';
                     if (modal) modal.style.display = 'none';
                     document.body.style.overflow = '';
+                    if (playbackTimerInterval) {
+                        clearInterval(playbackTimerInterval);
+                        playbackTimerInterval = null;
+                    }
+                    dismissCheckpoint(false);
                 }
 
                 // Modal close button and backdrop handler

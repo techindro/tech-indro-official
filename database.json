@@ -64,6 +64,18 @@
         }
       ],
       "createdAt": "2026-09-07T16:10:14.971Z"
+    },
+    {
+      "id": "1791744076470",
+      "name": "Shubham Kumar",
+      "phone": "",
+      "email": "shubhamkumarpatel45@gmail.com",
+      "goal": "MNC Placements 2026",
+      "academicLevel": "College Student",
+      "state": "Delhi NCR",
+      "referralCode": "",
+      "provider": "email_otp",
+      "createdAt": "2026-10-11T18:41:16.470Z"
     }
   ],
   "contacts": [],
@@ -71,6 +83,204 @@
     "totalVisits": 6
   },
   "jobs": [
+    {
+      "id": "adzuna_1791672463725_6sn9gm",
+      "title": "AI Developer",
+      "company": "Hitachi Solutions",
+      "location": "Chennai, Tamil Nadu",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5921252110?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description Develop AI/LLM components — prompt engineering with schema-constrained output, LLM API integration (Anthropic/OpenAI/Azure OpenAI), and RAG or classification pipelines that map legacy",
+      "type": "Full-time",
+      "postedAt": "2026-10-10T04:25:07Z",
+      "fetchedAt": "2026-10-10T22:47:43.725Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=hitachisolutions.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1791672465640_q9a4m5",
+      "title": "Data Scientist",
+      "company": "Coface",
+      "location": "Bangalore, Karnataka",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5914293550?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description MISSION : You join Coface's Data Lab team and work mostly in pairs or in small teams on innovative projects. You design and fully develop solutions that can implement AI technologies.",
+      "type": "Full-time",
+      "postedAt": "2026-10-07T04:24:17Z",
+      "fetchedAt": "2026-10-10T22:47:45.640Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=coface.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1791672467368_9qpz9w",
+      "title": "Cloud Engineer",
+      "company": "EXL",
+      "location": "Noida, Ghaziabad",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5922379026?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Description Cloud Engineers design, deploy, and manage cloud infrastructure solutions. Responsibilities include configuring cloud services, optimizing performance, and ensuring security. You will coll",
+      "type": "Full-time",
+      "postedAt": "2026-10-10T21:43:58Z",
+      "fetchedAt": "2026-10-10T22:47:47.368Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=exl.com&sz=128",
+      "companyTier": "mnc-it",
+      "companyTierLabel": "MNCs & IT Services",
+      "companyTierBadge": "MNC / IT Services",
+      "companyTierIcon": "building",
+      "companyTierColor": "#475569",
+      "companyTierBg": "rgba(71, 85, 105, 0.1)",
+      "companyTierBorder": "rgba(71, 85, 105, 0.3)",
+      "educationTags": [
+        "iits-iisc"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc"
+      ]
+    },
+    {
+      "id": "adzuna_1791672467370_0rmle6",
+      "title": "Cloud Engineer",
+      "company": "Nyteco",
+      "location": "Pune, Maharashtra",
+      "salary": "₹500K – ₹750K",
+      "url": "https://www.adzuna.in/details/5018136925?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Company Overview: Davis Index is a leading market intelligence platform and publication that specializes in providing accurate and up-to-date price benchmarks for ferrous and non-ferrous scrap, as wel",
+      "type": "Full-time",
+      "postedAt": "2025-01-21T12:07:07Z",
+      "fetchedAt": "2026-10-10T22:47:47.370Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=nyteco.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1791579729851_ip4itf",
+      "title": "AI Developer",
+      "company": "Barclays",
+      "location": "India",
+      "salary": null,
+      "url": "https://www.adzuna.in/details/5920931225?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "Job Description Purpose of the role To build and maintain infrastructure platforms and products that support applications and data systems, using hardware, software, networks, and cloud computing plat",
+      "type": "Full-time",
+      "postedAt": "2026-10-09T21:36:26Z",
+      "fetchedAt": "2026-10-09T21:02:09.851Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=barclays.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
+    {
+      "id": "adzuna_1791579733752_f52tay",
+      "title": "Data Scientist",
+      "company": "ALTRAIZE",
+      "location": "India",
+      "salary": "₹3000K – ₹3500K",
+      "url": "https://www.adzuna.in/details/5904502854?utm_medium=api&utm_source=440a82d2",
+      "source": "adzuna",
+      "snippet": "The Data Scientist will be responsible for designing, developing, and maintaining data pipelines, performing data analysis, building predictive models, and ensuring data quality across platforms and o",
+      "type": "Full-time",
+      "postedAt": "2026-10-01T08:19:01Z",
+      "fetchedAt": "2026-10-09T21:02:13.752Z",
+      "opportunityType": "job",
+      "companyLogo": "https://www.google.com/s2/favicons?domain=altraize.com&sz=128",
+      "companyTier": "tier-1-product",
+      "companyTierLabel": "Tier-1 Product",
+      "companyTierBadge": "Tier-1 Product",
+      "companyTierIcon": "gem",
+      "companyTierColor": "#2563eb",
+      "companyTierBg": "rgba(37, 99, 235, 0.1)",
+      "companyTierBorder": "rgba(37, 99, 235, 0.3)",
+      "educationTags": [
+        "iits-iisc",
+        "global-elite"
+      ],
+      "educationTagLabels": [
+        "IITs / IISc",
+        "Global Elite"
+      ],
+      "educationTagBadges": [
+        "IITs / IISc",
+        "Global Elite (MIT/Stanford/ETH)"
+      ]
+    },
     {
       "id": "adzuna_1791471898653_vg4ldc",
       "title": "Software Engineer",
@@ -14947,11 +15157,11 @@
     }
   ],
   "jobsMeta": {
-    "lastFetchedAt": "2026-10-08T15:05:10.517Z",
-    "totalFetched": 413,
+    "lastFetchedAt": "2026-10-10T22:47:52.805Z",
+    "totalFetched": 419,
     "providers": {
-      "adzuna": 1599,
-      "remotive": 918
+      "adzuna": 1819,
+      "remotive": 1058
     }
   },
   "certificates": [

@@ -1939,5 +1939,289 @@ const coursesData = [
             }
         ],
         "image": "https://img.youtube.com/vi/gyMwXuJrbJQ/maxresdefault.jpg"
+    },
+    {
+        "id": "pytorch-tensorflow",
+        "title": "Deep Learning & Neural Networks with PyTorch & TensorFlow",
+        "description": "Master modern Deep Learning and Neural Network architectures using PyTorch and TensorFlow 2.x. Build, train, and deploy CNNs for Computer Vision, Transformers & LSTMs for NLP, GANs, and Diffusion models with CUDA GPU acceleration. Taught by our Multilingual AI Agent in Hindi, English, Tamil, and more.",
+        "instructor": "Prof. Yann LeCun & AI Research Scientist",
+        "duration": "5 Months",
+        "perks": [
+            "PyTorch 2.x & TensorFlow Core to Advanced",
+            "CUDA GPU Acceleration & Distributed Training",
+            "15 Production Vision, NLP & GenAI Projects",
+            "Model Deployment with ONNX, TensorRT & TorchServe",
+            "Taught in Any Language (Hindi, Bhojpuri, Tamil, etc.)"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Tensors, Computation Graphs & Autograd",
+                "desc": "Foundations of PyTorch Tensors, TensorFlow Tensors, automatic differentiation, custom loss functions, and backpropagation mechanics."
+            },
+            {
+                "title": "Module 2: Computer Vision with CNNs & Transfer Learning",
+                "desc": "Convolutional networks, ResNet, EfficientNet, YOLOv8 object detection, semantic segmentation, and albumentations data pipelines."
+            },
+            {
+                "title": "Module 3: Sequence Modeling, Transformers & NLP",
+                "desc": "Recurrent networks, LSTMs, Attention Is All You Need, Hugging Face Transformers integration, BERT, and fine-tuning GPT architectures."
+            },
+            {
+                "title": "Module 4: Generative Deep Learning (GANs, VAEs & Diffusion)",
+                "desc": "DCGANs, Variational Autoencoders, Latent Diffusion models, conditioning, and high-resolution image synthesis pipelines."
+            },
+            {
+                "title": "Module 5: MLOps, Quantization & Model Serving",
+                "desc": "Model quantization (INT8/FP16), pruning, ONNX runtime, TorchServe, TensorFlow Serving, and cloud GPU deployment (AWS/GCP)."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Daniel Bourke - PyTorch Deep Learning Full BootCamp",
+                "url": "https://www.youtube.com/watch?v=V_xro1bcAuA",
+                "type": "youtube"
+            },
+            {
+                "title": "Official PyTorch Tutorials & Documentation",
+                "url": "https://pytorch.org/tutorials/",
+                "type": "website"
+            },
+            {
+                "title": "PyTorch Deep Learning Open Source Repository",
+                "url": "https://github.com/mrdbourke/pytorch-deep-learning",
+                "type": "github"
+            },
+            {
+                "title": "DeepLearning.AI Deep Learning Specialization Cert",
+                "url": "https://www.deeplearning.ai/courses/deep-learning-specialization/",
+                "type": "certificate"
+            },
+            {
+                "title": "Deep Residual Learning for Image Recognition (ResNet)",
+                "url": "https://arxiv.org/abs/1512.03385",
+                "type": "research"
+            },
+            {
+                "title": "TensorFlow Neural Network Playground (Interactive)",
+                "url": "https://playground.tensorflow.org/",
+                "type": "game"
+            }
+        ],
+        "image": "https://img.youtube.com/vi/V_xro1bcAuA/maxresdefault.jpg"
+    },
+    {
+        "id": "pandas-scikit-learn",
+        "title": "Data Science & Machine Learning with Pandas & Scikit-Learn",
+        "description": "Master high-performance data wrangling, exploratory data analysis (EDA), and predictive machine learning models using Pandas, NumPy, and Scikit-Learn. Learn regression, classification, clustering, hyperparameter optimization, and complete ML pipelines from scratch.",
+        "instructor": "Wes McKinney & Multilingual AI Data Scientist",
+        "duration": "4 Months",
+        "perks": [
+            "High-Speed Data Wrangling with Pandas & NumPy",
+            "Supervised & Unsupervised ML with Scikit-Learn",
+            "Real-World Financial & Kaggle Datasets",
+            "Automated ML Pipelines & Feature Engineering",
+            "Taught in Any Language (Hindi, English, etc.)"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Advanced Data Wrangling with Pandas & NumPy",
+                "desc": "Vectorized operations, DataFrame indexing, hierarchical indexing, advanced GroupBy aggregations, merging, and time-series manipulation."
+            },
+            {
+                "title": "Module 2: Exploratory Data Analysis & Feature Engineering",
+                "desc": "Outlier handling, missing data imputation, encoding categorical features, feature scaling, and visualization with Seaborn & Matplotlib."
+            },
+            {
+                "title": "Module 3: Supervised Machine Learning with Scikit-Learn",
+                "desc": "Linear/Logistic Regression, Decision Trees, Random Forests, Gradient Boosting (XGBoost/LightGBM), and SVM classification."
+            },
+            {
+                "title": "Module 4: Unsupervised Learning, Clustering & Dimensionality Reduction",
+                "desc": "K-Means clustering, Hierarchical clustering, PCA (Principal Component Analysis), and t-SNE manifold learning."
+            },
+            {
+                "title": "Module 5: Scikit-Learn Pipelines & Model Production",
+                "desc": "Building leak-free ColumnTransformers, Pipelines, GridSearchCV/RandomizedSearchCV cross-validation, and model serialization with Joblib."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Corey Schafer - Pandas Complete Tutorial Masterclass",
+                "url": "https://www.youtube.com/watch?v=ZyhVh-qRZPA",
+                "type": "youtube"
+            },
+            {
+                "title": "Scikit-Learn Official User Guide & API Docs",
+                "url": "https://scikit-learn.org/stable/user_guide.html",
+                "type": "website"
+            },
+            {
+                "title": "Python for Data Analysis Codebase (Wes McKinney)",
+                "url": "https://github.com/wesm/pydata-book",
+                "type": "github"
+            },
+            {
+                "title": "Kaggle Pandas & Intermediate Machine Learning Certificate",
+                "url": "https://www.kaggle.com/learn/pandas",
+                "type": "certificate"
+            },
+            {
+                "title": "Scikit-learn: Machine Learning in Python (Pedregosa et al., JMLR)",
+                "url": "https://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html",
+                "type": "research"
+            },
+            {
+                "title": "Kaggle Notebook Micro-Challenges & Data Battles",
+                "url": "https://www.kaggle.com/competitions",
+                "type": "game"
+            }
+        ],
+        "image": "https://img.youtube.com/vi/ZyhVh-qRZPA/maxresdefault.jpg"
+    },
+    {
+        "id": "java-mastery",
+        "title": "Complete Java & Spring Boot Full-Stack Enterprise Mastery",
+        "description": "From Core Java and Object-Oriented Programming (OOP) to high-throughput enterprise backend engineering with Spring Boot 3, Spring Security, Hibernate/JPA, Microservices, and Apache Kafka. Build robust, scalable production architectures with multilingual AI guidance.",
+        "instructor": "Principal Enterprise Java Architect & Multilingual AI Mentor",
+        "duration": "5 Months",
+        "perks": [
+            "Core Java 21+ & OOPs, Generics, Lambdas & Streams API",
+            "Spring Boot 3 RESTful APIs, JPA & Hibernate",
+            "Microservices Architecture with Eureka, Gateway & Kafka",
+            "FAANG-Level Low-Level Design (LLD) & Design Patterns",
+            "Taught in Any Language (Hindi, English, Tamil, etc.)"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: Modern Java Fundamentals & OOP Architecture",
+                "desc": "Object-oriented principles (Encapsulation, Inheritance, Polymorphism, Abstraction), JVM memory model, garbage collection, and Collections framework."
+            },
+            {
+                "title": "Module 2: Multithreading, Concurrency & Modern Java 21",
+                "desc": "ExecutorService, thread pools, locks, ConcurrentHashMap, Virtual Threads (Project Loom), and functional programming with Java Streams."
+            },
+            {
+                "title": "Module 3: Spring Boot 3 & Enterprise REST APIs",
+                "desc": "Inversion of Control (IoC), Dependency Injection, Spring MVC, Spring Data JPA with PostgreSQL, connection pooling with HikariCP, and Flyway database migrations."
+            },
+            {
+                "title": "Module 4: Spring Security, JWT & Microservices",
+                "desc": "Role-based access control (RBAC), JWT authentication, OAuth2, Spring Cloud Netflix Eureka, API Gateway routing, and resilience with Resilience4j."
+            },
+            {
+                "title": "Module 5: Event-Driven Architecture with Apache Kafka & Docker",
+                "desc": "Kafka producers and consumers, consumer groups, schema registry, Dockerizing Spring Boot microservices, and Kubernetes deployment."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Amigoscode - Java & Spring Boot Enterprise Full Masterclass",
+                "url": "https://www.youtube.com/watch?v=A74TOX803D0",
+                "type": "youtube"
+            },
+            {
+                "title": "Spring Boot Official Reference Documentation",
+                "url": "https://spring.io/projects/spring-boot",
+                "type": "website"
+            },
+            {
+                "title": "Java Design Patterns Open Source Repository",
+                "url": "https://github.com/iluwatar/java-design-patterns",
+                "type": "github"
+            },
+            {
+                "title": "Oracle Certified Professional Java SE Developer Guide",
+                "url": "https://education.oracle.com/java-se-17-developer/pexam_1Z0-829",
+                "type": "certificate"
+            },
+            {
+                "title": "HotSpot JVM Architecture & Garbage Collection Optimization",
+                "url": "https://www.oracle.com/technetwork/java/javase/tech/memorymanagement-whitepaper-1-150020.pdf",
+                "type": "research"
+            },
+            {
+                "title": "CodinGame Java Multiplayer Arena & Puzzles",
+                "url": "https://www.codingame.com/",
+                "type": "game"
+            }
+        ],
+        "image": "https://img.youtube.com/vi/A74TOX803D0/maxresdefault.jpg"
+    },
+    {
+        "id": "sql-engineering",
+        "title": "Advanced SQL & Database Engineering (PostgreSQL, MySQL & Internals)",
+        "description": "Master enterprise database engineering, advanced SQL query optimization, complex analytics with Window Functions & CTEs, indexing strategies (B-Tree, GIN, GiST), transaction isolation (ACID, MVCC), and high-scale schema design. Taught by our Multilingual AI Agent in Hindi, English, and more.",
+        "instructor": "Principal Database Reliability Engineer & Multilingual AI Mentor",
+        "duration": "3 Months",
+        "perks": [
+            "Complex Query Optimization & EXPLAIN ANALYZE Deep Dive",
+            "PostgreSQL Internals, MVCC, WAL & Vacuuming",
+            "Window Functions, Recursive CTEs & Partitioning",
+            "Sharding, Replication & High Availability (Patroni)",
+            "Taught in Any Language (Hindi, English, etc.)"
+        ],
+        "modules": [
+            {
+                "title": "Module 1: SQL Power Querying, Window Functions & CTEs",
+                "desc": "Mastering OVER(), PARTITION BY, RANK, DENSE_RANK, LEAD/LAG, running totals, frame clauses, and Recursive CTE hierarchical querying."
+            },
+            {
+                "title": "Module 2: Query Optimization, Indexing & Execution Plans",
+                "desc": "B-Tree, Hash, GIN, GiST, BRIN indexes, analyzing EXPLAIN (ANALYZE, BUFFERS), sequential scans vs index scans, and join algorithm tuning."
+            },
+            {
+                "title": "Module 3: Transactions, ACID, Isolation Levels & MVCC",
+                "desc": "Dirty reads, non-repeatable reads, phantom reads, Read Committed vs Serializable isolation, row locking (SELECT FOR UPDATE), deadlocks, and Multi-Version Concurrency Control internals."
+            },
+            {
+                "title": "Module 4: Enterprise Schema Architecture & Partitioning",
+                "desc": "Normalization up to BCNF vs intentional denormalization, table partitioning (Range, List, Hash), foreign key constraints, triggers, and stored procedures in PL/pgSQL."
+            },
+            {
+                "title": "Module 5: Database Scaling, Replication & High Availability",
+                "desc": "Write-Ahead Logging (WAL), streaming replication, connection pooling (PgBouncer), failover clustering, and database sharding patterns."
+            }
+        ],
+        "resources": [
+            {
+                "title": "Hussein Nasser - Database Engineering & SQL Optimization Masterclass",
+                "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY",
+                "type": "youtube"
+            },
+            {
+                "title": "PostgreSQL Official Documentation & Manual",
+                "url": "https://www.postgresql.org/docs/current/",
+                "type": "website"
+            },
+            {
+                "title": "CockroachDB & PostgreSQL Internal Architectures",
+                "url": "https://github.com/cockroachdb/cockroach",
+                "type": "github"
+            },
+            {
+                "title": "HackerRank Advanced SQL Skills Certification",
+                "url": "https://www.hackerrank.com/skills-verification/sql_advanced",
+                "type": "certificate"
+            },
+            {
+                "title": "A Relational Model of Data for Large Shared Data Banks (E.F. Codd)",
+                "url": "https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf",
+                "type": "research"
+            },
+            {
+                "title": "SQL Island — Interactive SQL Adventure Quest",
+                "url": "https://sql-island.informatik.uni-kl.de/",
+                "type": "game"
+            }
+        ],
+        "image": "https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg"
     }
 ];
+
+if (typeof window !== "undefined") {
+    window.TECH_INDRO_COURSES = coursesData;
+    window.coursesData = coursesData;
+}
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = coursesData;
+}

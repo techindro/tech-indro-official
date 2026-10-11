@@ -3393,28 +3393,15 @@
                 }
                 .adv-batch-img {
                     height: 220px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 1.8rem;
-                    font-weight: 900;
-                    color: white;
-                    text-align: center;
-                    padding: 2rem;
+                    display: block;
                     position: relative;
                     background-size: cover;
                     background-position: center;
+                    background-repeat: no-repeat;
+                    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
                 }
-                .adv-batch-img::after {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: 0; right: 0; bottom: 0;
-                    background: rgba(0,0,0,0.2);
-                }
-                .adv-batch-img span {
-                    position: relative;
-                    z-index: 1;
-                    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                .adv-batch-card:hover .adv-batch-img {
+                    transform: scale(1.05);
                 }
                 .adv-batch-content {
                     padding: 2rem;
@@ -3470,9 +3457,7 @@
                     <!-- Batch 1 -->
                     <div class="adv-batch-card fade-in">
                         <div class="adv-batch-badge" style="color: #ef4444;">STARTING SOON</div>
-                        <div class="adv-batch-img" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80');">
-                            <span>MNC Cracker Batch</span>
-                        </div>
+                        <div class="adv-batch-img" style="background-image: url('assets/mnc-cracker-batch.jpg');" role="img" aria-label="MNC Placements & Software Engineering Batch Thumbnail"></div>
                         <div class="adv-batch-content">
                             <h3>Zero to One: Placements</h3>
                             <div class="adv-batch-meta">
@@ -3487,9 +3472,7 @@
                     <!-- Batch 2 -->
                     <div class="adv-batch-card fade-in">
                         <div class="adv-batch-badge" style="color: #10b981;">ENROLLING • POPULAR</div>
-                        <div class="adv-batch-img" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80');">
-                            <span>Hackathon Winner</span>
-                        </div>
+                        <div class="adv-batch-img" style="background-image: url('assets/hackathon-winner-batch.jpg');" role="img" aria-label="Hackathon Winner Arena Thumbnail"></div>
                         <div class="adv-batch-content">
                             <h3>Hackathon Winner</h3>
                             <div class="adv-batch-meta">
@@ -3504,9 +3487,7 @@
                     <!-- Batch 3 -->
                     <div class="adv-batch-card fade-in">
                         <div class="adv-batch-badge" style="color: #f59e0b;">POPULAR</div>
-                        <div class="adv-batch-img" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80');">
-                            <span>Founder's Batch</span>
-                        </div>
+                        <div class="adv-batch-img" style="background-image: url('assets/founder-batch.jpg');" role="img" aria-label="Founder's 0-to-1 Batch Thumbnail"></div>
                         <div class="adv-batch-content">
                             <h3>0-to-1 Entrepreneurship</h3>
                             <div class="adv-batch-meta">
@@ -4195,7 +4176,7 @@
                 </blockquote>
                 
                 <div style="display: flex; align-items: center; gap: 16px;">
-                    <img src="assets/shubham-patel.jpg" alt="Shubham Patel" style="width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid #ff6b35; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);">
+                    <img src="assets/shubham-patel.jpg" alt="Shubham Patel" loading="eager" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Shubham+Patel&background=ff6b35&color=fff&size=128';" style="width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid #ff6b35; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);">
                     <div>
                         <h4 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #0f172a;">Shubham Patel</h4>
                         <p style="margin: 3px 0 0; font-size: 0.95rem; color: #ff6b35; font-weight: 700;">Founder & CEO, Tech Indro</p>
@@ -4728,18 +4709,111 @@
             </div>
         </footer>
 
-    <!-- Video Demo Modal -->
-    <div id="demoModal" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px;">
-        <div style="background: #0f172a; border-radius: 20px; overflow: hidden; width: 100%; max-width: 850px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="color: white; font-size: 1.15rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 10px;">
-                    <span style="display: inline-block; width: 12px; height: 12px; background: #ff6b35; border-radius: 50%;"></span>
-                    Tech Indro: Free AI & Robotics Demo Class
-                </h3>
-                <button onclick="closeDemoModal()" style="background: none; border: none; color: #cbd5e1; cursor: pointer; font-size: 2rem; padding: 0 10px; line-height: 1;" onmouseover="this.style.color='#ff6b35'" onmouseout="this.style.color='#cbd5e1'">&times;</button>
+    <!-- Video Demo Modal with Coursera Features (Feature 2: Checkpoint Quiz & Feature 7: Timestamped Doubts) -->
+    <div id="demoModal" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: flex-start; justify-content: center; padding: 20px 16px; overflow-y: auto;">
+        <div id="demoModalContainer" style="background: #ffffff; border-radius: 18px; overflow-y: auto; scroll-behavior: smooth; width: 100%; max-width: 900px; max-height: calc(100vh - 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.45); border: 1px solid #e2e8f0; position: relative; display: flex; flex-direction: column; margin: auto; padding-bottom: 2.5rem; box-sizing: border-box;">
+            
+            <!-- Sticky Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.4rem; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 30;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="display: inline-block; width: 10px; height: 10px; background: #ff6b35; border-radius: 50%;"></span>
+                    <div>
+                        <h3 style="color: white; font-size: 1.1rem; font-weight: 700; margin: 0;">Tech Indro: Free AI & Robotics Demo Class</h3>
+                        <span style="font-size: 0.78rem; color: #94a3b8;">Interactive Lecture Player • In-Video Quizzes & Doubts Forum</span>
+                    </div>
+                </div>
+                <button onclick="closeDemoModal()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#ef4444';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='#cbd5e1'">&times;</button>
             </div>
-            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                <iframe id="demoVideoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="https://www.youtube.com/embed/kqtD5dpn9C8?enablejsapi=1" title="Tech Indro Demo Class" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <!-- Video Wrapper with Checkpoint Overlay (16:9 Fit Screen without dominating height) -->
+            <div id="demoVideoWrapper" style="position: relative; width: 100%; max-height: 48vh; aspect-ratio: 16 / 9; max-width: calc(48vh * 16 / 9); margin: 0 auto; background: #000; overflow: hidden; flex-shrink: 0;">
+                <iframe id="demoVideoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="" title="Tech Indro Demo Class" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                
+                <!-- Feature 2: In-Video Interactive Checkpoint Overlay -->
+                <div id="demoCheckpointOverlay" style="display: none; position: absolute; inset: 0; z-index: 50; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.25rem;">
+                    <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 1.25rem; max-width: 580px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #f8fafc;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+                            <span style="background: linear-gradient(135deg, #ff6b35, #ea580c); color: #fff; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px;">
+                                <i data-lucide="zap" style="width: 12px; height: 12px;"></i> In-Video Checkpoint
+                            </span>
+                            <span id="demoCheckpointTimeLabel" style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="clock" style="width: 13px; height: 13px;"></i> 00:45 Concept Check</span>
+                        </div>
+                        <h4 id="demoCheckpointQText" style="margin: 0 0 1rem; font-size: 1.05rem; font-weight: 600; color: #f1f5f9; line-height: 1.45;">
+                            Concept Check: What makes AI Robotics perception robust in unpredictable real-world environments?
+                        </h4>
+                        <div id="demoCheckpointOptionsContainer" style="display: grid; gap: 8px; margin-bottom: 1rem;">
+                            <!-- Options injected by JS -->
+                        </div>
+                        <div id="demoCheckpointFeedback" style="display: none; padding: 0.7rem 0.9rem; border-radius: 8px; font-size: 0.82rem; line-height: 1.4; margin-bottom: 1rem;"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                            <button type="button" id="demoCheckpointRewindBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; padding: 0.5rem 0.85rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i> Rewind 15s
+                            </button>
+                            <button type="button" id="demoCheckpointContinueBtn" style="background: #ff6b35; border: none; color: #ffffff; padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.88rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); display: inline-flex; align-items: center; gap: 6px;">
+                                <span>Continue Video</span> <i data-lucide="play" style="width: 13px; height: 13px; fill: currentColor;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Quiz Trigger Pill -->
+                <div style="position: absolute; top: 12px; right: 12px; z-index: 10; background: rgba(15,23,42,0.85); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2); border-radius: 9999px; padding: 4px 10px; display: flex; align-items: center; gap: 6px; color: #f8fafc; font-size: 0.76rem; font-weight: 600;">
+                    <span style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="zap" style="width: 12px; height: 12px; color: #ff6b35;"></i> Auto-Pause Quiz (00:45)</span>
+                    <button type="button" onclick="triggerDemoCheckpointQuiz()" style="background: #ff6b35; color: #fff; border: none; padding: 2px 7px; border-radius: 5px; font-size: 0.7rem; font-weight: 700; cursor: pointer;">Test Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quick Action Dock -->
+            <div style="padding: 0.85rem 1.4rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <a href="playground.html" target="_blank" style="padding: 0.45rem 0.85rem; background: rgba(99, 102, 241, 0.1); color: #4f46e5; border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <i data-lucide="terminal" style="width: 14px; height: 14px;"></i> Open IndroLabs Sandbox
+                    </a>
+                    <a href="shikshak.html" target="_blank" style="padding: 0.45rem 0.85rem; background: rgba(6, 182, 212, 0.1); color: #0891b2; border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <i data-lucide="bot" style="width: 14px; height: 14px;"></i> Ask AI Shikshak
+                    </a>
+                </div>
+                <a href="#courses" onclick="closeDemoModal()" style="font-size: 0.82rem; font-weight: 700; color: #ff6b35; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>Explore All Full Courses</span> <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+                </a>
+            </div>
+
+            <!-- Feature 7: Timestamped Doubts Forum -->
+            <div style="padding: 1.25rem 1.4rem; background: #ffffff; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 6px;"><i data-lucide="message-square" style="width: 16px; height: 16px; color: #ff6b35;"></i> Demo Class Discussion & Doubts (Q&A)</h4>
+                        <p style="margin: 2px 0 0; font-size: 0.78rem; color: #64748b;">Click any timestamp below to seek the video to that moment</p>
+                    </div>
+                    <span id="demoDoubtCountBadge" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 3px 9px; border-radius: 9999px; font-size: 0.76rem; font-weight: 600; color: #475569; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="users" style="width: 12px; height: 12px;"></i> 3 Community Doubts</span>
+                </div>
+
+                <!-- Ask Question Card -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.9rem 1.1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="width: 32px; height: 32px; border-radius: 50%; background: #ff6b35; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.72rem; flex-shrink: 0;">YOU</span>
+                        <textarea id="demoQaInput" rows="2" style="flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.86rem; font-family: inherit; resize: vertical; min-height: 48px; outline: none;" placeholder="Have a doubt at this moment? (e.g., 'How does the sensor fusion work here?')..."></textarea>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button type="button" id="demoQaTagBtn" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 4px 9px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                                <i data-lucide="clock" style="width: 13px; height: 13px; color: #ff6b35;"></i> Tag Video Time: <span id="demoQaTagText">00:45</span>
+                            </button>
+                            <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: #475569; cursor: pointer;">
+                                <input type="checkbox" id="demoQaAskAi" checked style="accent-color: #ff6b35;">
+                                <span style="display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="bot" style="width: 14px; height: 14px; color: #ff6b35;"></i> Answer with AI Shikshak</span>
+                            </label>
+                        </div>
+                        <button type="button" id="demoQaSubmitBtn" style="background: #0f172a; color: #ffffff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#ff6b35'" onmouseout="this.style.background='#0f172a'">
+                            Post Question
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Discussion Thread List -->
+                <div id="demoQaThreadsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Rendered by JS -->
+                </div>
             </div>
         </div>
     </div>
@@ -4759,21 +4833,7 @@
         </a>
     </div>
 
-    <!-- Floating Inspiro Student P2P Chat Launcher (Bottom Left) -->
-    <div id="floatingInspiroWidget" style="position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; gap: 10px; transition: transform 0.3s ease, opacity 0.3s ease;">
-        <a href="inspiro.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; background: #0f172a; padding: 6px 14px 6px 8px; border-radius: 999px; border: 1.5px solid rgba(37, 211, 102, 0.4); box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: transform 0.25s ease, box-shadow 0.25s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(37, 211, 102, 0.35)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.3)'">
-            <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #25d366, #128c7e); display: flex; align-items: center; justify-content: center; color: white; position: relative; flex-shrink: 0;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                </svg>
-                <span style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #4ade80; border-radius: 50%; border: 2px solid #0f172a;"></span>
-            </div>
-            <div style="display: flex; flex-direction: column;">
-                <span style="color: #ffffff; font-size: 0.82rem; font-weight: 700; line-height: 1.2;">Inspiro Chat</span>
-                <span style="color: #4ade80; font-size: 0.7rem; font-weight: 600;">Peer-to-Peer</span>
-            </div>
-        </a>
-    </div>
+
 
     <!-- Right-Side Hamburger Drawer Overlay -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeNavDrawer()"></div>
@@ -5585,6 +5645,364 @@ vector<int> twoSum(vector<int>& nums, int target) {
             lucide.createIcons();
         }
     });
+    </script>
+
+    <!-- Demo Modal Video & Coursera Features Engine (Feature 2: Checkpoint Quiz & Feature 7: Timestamped Doubts) -->
+    <script>
+    (function() {
+        let demoPlaybackSeconds = 0;
+        let demoPlaybackInterval = null;
+        let demoCheckpointTriggered = false;
+        let demoIsPaused = false;
+        let demoTagSeconds = 45;
+
+        const demoQuizData = {
+            question: "In autonomous robotics & AI vision, why is multi-sensor fusion (Camera + LiDAR + IMU) superior to single camera vision alone?",
+            options: [
+                { text: "It provides accurate spatial depth, motion telemetry, and operates reliably in adverse lighting", correct: true },
+                { text: "It reduces hardware battery consumption to zero", correct: false },
+                { text: "It eliminates the need for mathematical matrices or algorithms", correct: false },
+                { text: "It converts mechanical motors into digital software code", correct: false }
+            ],
+            explanation: "Spot on! Single cameras can struggle with distance estimation and darkness. Fusing camera RGB with LiDAR point clouds and IMU acceleration provides centimeter-level 3D spatial awareness."
+        };
+
+        const demoDefaultDoubts = [
+            {
+                id: 'demo-d-1',
+                author: 'Kunal Patel',
+                role: 'Robotics Enthusiast',
+                timestamp: 45,
+                timestampStr: '00:45',
+                timeAgo: '1 hour ago',
+                question: 'At this point in the lecture, how does ROS 2 communicate between node publishers and subscribers?',
+                aiAnswer: 'ROS 2 relies on DDS (Data Distribution Service) as its middleware, enabling zero-copy shared memory communication, QoS (Quality of Service) policies, and decentralized discovery without a roscore master.',
+                upvotes: 18,
+                hasUpvoted: false
+            },
+            {
+                id: 'demo-d-2',
+                author: 'Sneha Roy',
+                role: 'AI Researcher',
+                timestamp: 120,
+                timestampStr: '02:00',
+                timeAgo: 'Yesterday',
+                question: 'Can we run this object tracking model in real-time on an embedded edge device like NVIDIA Jetson Nano?',
+                aiAnswer: 'Yes! By converting the model to TensorRT FP16 or INT8 precision, you can achieve 30+ FPS real-time inference directly on edge hardware like Jetson Orin Nano.',
+                upvotes: 11,
+                hasUpvoted: false
+            },
+            {
+                id: 'demo-d-3',
+                author: 'Aman Dixit',
+                role: 'Student',
+                timestamp: 210,
+                timestampStr: '03:30',
+                timeAgo: '3 days ago',
+                question: 'Where can I get the full certificate and source repository for this demo?',
+                aiAnswer: 'You can enroll in the full AI & Robotics Foundation track using the "Explore All Full Courses" link or try the code live in our IndroLabs Sandbox!',
+                upvotes: 24,
+                hasUpvoted: false
+            }
+        ];
+
+        function getDemoDoubts() {
+            try {
+                const s = localStorage.getItem('techindro_demo_doubts');
+                if (s) return JSON.parse(s);
+            } catch(e) {}
+            localStorage.setItem('techindro_demo_doubts', JSON.stringify(demoDefaultDoubts));
+            return demoDefaultDoubts;
+        }
+
+        function saveDemoDoubts(list) {
+            try { localStorage.setItem('techindro_demo_doubts', JSON.stringify(list)); } catch(e) {}
+        }
+
+        function formatTimeStr(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function sendDemoYT(cmd, args = []) {
+            const iframe = document.getElementById('demoVideoIframe');
+            if (!iframe || !iframe.contentWindow) return;
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: cmd, args: args }), '*');
+        }
+
+        window.openDemoModal = function() {
+            const modal = document.getElementById('demoModal');
+            const iframe = document.getElementById('demoVideoIframe');
+            if (!modal || !iframe) return;
+
+            iframe.src = 'https://www.youtube-nocookie.com/embed/kqtD5dpn9C8?enablejsapi=1&autoplay=1&rel=0';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            demoPlaybackSeconds = 0;
+            demoCheckpointTriggered = false;
+            demoIsPaused = false;
+            updateDemoTagDisplay(0);
+
+            if (demoPlaybackInterval) clearInterval(demoPlaybackInterval);
+            demoPlaybackInterval = setInterval(() => {
+                if (!demoIsPaused) {
+                    demoPlaybackSeconds++;
+                    updateDemoTagDisplay(demoPlaybackSeconds);
+                    if (!demoCheckpointTriggered && demoPlaybackSeconds >= 45) {
+                        demoCheckpointTriggered = true;
+                        window.triggerDemoCheckpointQuiz();
+                    }
+                }
+            }, 1000);
+
+            renderDemoDoubts();
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.closeDemoModal = function() {
+            const modal = document.getElementById('demoModal');
+            const iframe = document.getElementById('demoVideoIframe');
+            if (iframe) iframe.src = '';
+            if (modal) modal.style.display = 'none';
+            document.body.style.overflow = '';
+            if (demoPlaybackInterval) {
+                clearInterval(demoPlaybackInterval);
+                demoPlaybackInterval = null;
+            }
+            const overlay = document.getElementById('demoCheckpointOverlay');
+            if (overlay) overlay.style.display = 'none';
+        };
+
+        window.triggerDemoCheckpointQuiz = function() {
+            sendDemoYT('pauseVideo');
+            demoIsPaused = true;
+            const overlay = document.getElementById('demoCheckpointOverlay');
+            if (!overlay) return;
+
+            const timeLabel = document.getElementById('demoCheckpointTimeLabel');
+            const qText = document.getElementById('demoCheckpointQText');
+            const optWrap = document.getElementById('demoCheckpointOptionsContainer');
+            const feedback = document.getElementById('demoCheckpointFeedback');
+            const contBtn = document.getElementById('demoCheckpointContinueBtn');
+
+            if (timeLabel) timeLabel.innerHTML = `<i data-lucide="clock" style="width: 13px; height: 13px; vertical-align: middle;"></i> ${formatTimeStr(demoPlaybackSeconds)} Concept Check`;
+            if (qText) qText.innerText = demoQuizData.question;
+            if (feedback) { feedback.style.display = 'none'; }
+            if (contBtn) contBtn.innerHTML = '<span>Continue Video</span> <i data-lucide="play" style="width: 13px; height: 13px; vertical-align: middle; fill: currentColor;"></i>';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            if (optWrap) {
+                optWrap.innerHTML = demoQuizData.options.map((opt, idx) => `
+                    <button type="button" class="demo-opt-btn" onclick="handleDemoAnswer(${idx})" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #e2e8f0; padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.85rem; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit;">
+                        <span style="width: 22px; height: 22px; border-radius: 5px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.72rem;">${letters[idx]}</span>
+                        <span>${opt.text}</span>
+                    </button>
+                `).join('');
+            }
+
+            overlay.style.display = 'flex';
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.handleDemoAnswer = function(chosenIdx) {
+            const opt = demoQuizData.options[chosenIdx];
+            const btns = document.querySelectorAll('.demo-opt-btn');
+            const feedback = document.getElementById('demoCheckpointFeedback');
+            const contBtn = document.getElementById('demoCheckpointContinueBtn');
+
+            btns.forEach((b, idx) => {
+                b.disabled = true;
+                if (demoQuizData.options[idx].correct) {
+                    b.style.background = 'rgba(16, 185, 129, 0.2)';
+                    b.style.borderColor = '#10b981';
+                    b.style.color = '#34d399';
+                } else if (idx === chosenIdx) {
+                    b.style.background = 'rgba(239, 68, 68, 0.2)';
+                    b.style.borderColor = '#ef4444';
+                    b.style.color = '#f87171';
+                }
+            });
+
+            if (feedback) {
+                feedback.style.display = 'block';
+                if (opt.correct) {
+                    feedback.style.background = 'rgba(16, 185, 129, 0.12)';
+                    feedback.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+                    feedback.style.color = '#a7f3d0';
+                    feedback.innerHTML = `<div style="display: flex; gap: 8px; align-items: flex-start;"><i data-lucide="check-circle" style="width: 15px; height: 15px; flex-shrink: 0; color: #10b981;"></i> <div><strong>Spot on!</strong> ${demoQuizData.explanation}</div></div>`;
+                    if (contBtn) contBtn.innerHTML = '<span>Resume Video</span> <i data-lucide="play" style="width: 13px; height: 13px; vertical-align: middle; fill: currentColor;"></i>';
+                } else {
+                    feedback.style.background = 'rgba(239, 68, 68, 0.12)';
+                    feedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+                    feedback.style.color = '#fca5a5';
+                    feedback.innerHTML = `<div style="display: flex; gap: 8px; align-items: flex-start;"><i data-lucide="alert-circle" style="width: 15px; height: 15px; flex-shrink: 0; color: #ef4444;"></i> <div><strong>Not quite right.</strong> Review the explanation above and resume video.</div></div>`;
+                }
+                if (window.lucide) lucide.createIcons();
+            }
+        };
+
+        const contBtn = document.getElementById('demoCheckpointContinueBtn');
+        if (contBtn) {
+            contBtn.onclick = () => {
+                const overlay = document.getElementById('demoCheckpointOverlay');
+                if (overlay) overlay.style.display = 'none';
+                demoCheckpointTriggered = true;
+                demoIsPaused = false;
+                sendDemoYT('playVideo');
+            };
+        }
+
+        const rewBtn = document.getElementById('demoCheckpointRewindBtn');
+        if (rewBtn) {
+            rewBtn.onclick = () => {
+                const overlay = document.getElementById('demoCheckpointOverlay');
+                if (overlay) overlay.style.display = 'none';
+                demoPlaybackSeconds = Math.max(0, demoPlaybackSeconds - 15);
+                sendDemoYT('seekTo', [demoPlaybackSeconds, true]);
+                sendDemoYT('playVideo');
+                demoIsPaused = false;
+            };
+        }
+
+        window.seekDemoVideo = function(sec) {
+            sendDemoYT('seekTo', [sec, true]);
+            sendDemoYT('playVideo');
+            demoPlaybackSeconds = sec;
+            updateDemoTagDisplay(sec);
+            const container = document.getElementById('demoModalContainer');
+            if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function updateDemoTagDisplay(sec) {
+            demoTagSeconds = sec;
+            const text = document.getElementById('demoQaTagText');
+            if (text) text.innerText = formatTimeStr(sec);
+        }
+
+        const demoTagBtn = document.getElementById('demoQaTagBtn');
+        if (demoTagBtn) {
+            demoTagBtn.onclick = () => updateDemoTagDisplay(demoPlaybackSeconds);
+        }
+
+        function renderDemoDoubts() {
+            const list = getDemoDoubts();
+            const container = document.getElementById('demoQaThreadsContainer');
+            const badge = document.getElementById('demoDoubtCountBadge');
+            if (badge) badge.innerText = `${list.length} Community Doubts`;
+            if (!container) return;
+
+            container.innerHTML = list.map(d => `
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="width: 26px; height: 26px; border-radius: 50%; background: #e2e8f0; color: #475569; font-weight: 700; font-size: 0.72rem; display: flex; align-items: center; justify-content: center;">${d.author.substring(0, 2).toUpperCase()}</span>
+                            <strong style="font-size: 0.84rem; color: #0f172a;">${d.author}</strong>
+                            <span style="font-size: 0.7rem; background: #f1f5f9; color: #64748b; padding: 2px 6px; border-radius: 4px;">${d.role}</span>
+                            <span style="font-size: 0.74rem; color: #94a3b8;">• ${d.timeAgo}</span>
+                        </div>
+                        <button type="button" onclick="seekDemoVideo(${d.timestamp})" style="background: rgba(255, 107, 53, 0.1); color: #ea580c; border: 1px solid rgba(255, 107, 53, 0.25); padding: 3px 8px; border-radius: 5px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="play" style="width: 11px; height: 11px; fill: currentColor;"></i>
+                            <span>${d.timestampStr}</span>
+                        </button>
+                    </div>
+                    <p style="margin: 0; font-size: 0.88rem; color: #1e293b; font-weight: 500;">${d.question}</p>
+                    ${d.aiAnswer ? `
+                        <div style="background: #f8fafc; border-left: 3px solid #ff6b35; border-radius: 6px; padding: 0.7rem 0.85rem; margin-top: 2px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-size: 0.74rem; font-weight: 700; color: #ea580c; text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i data-lucide="bot" style="width: 13px; height: 13px;"></i> AI Shikshak Verified
+                                </span>
+                                <span style="font-size: 0.7rem; color: #10b981; font-weight: 700; display: inline-flex; align-items: center; gap: 3px;">
+                                    <i data-lucide="check-check" style="width: 12px; height: 12px;"></i> Verified
+                                </span>
+                            </div>
+                            <p style="margin: 0; font-size: 0.84rem; color: #334155; line-height: 1.45;">${d.aiAnswer}</p>
+                        </div>
+                    ` : ''}
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.74rem; color: #94a3b8; padding-top: 2px;">
+                        <button type="button" onclick="toggleDemoUpvote('${d.id}')" style="background: none; border: 1px solid #e2e8f0; padding: 2px 7px; border-radius: 5px; color: #64748b; font-size: 0.74rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                            <i data-lucide="thumbs-up" style="width: 12px; height: 12px;"></i>
+                            <span>${d.hasUpvoted ? 'Upvoted' : 'Helpful'} (${d.upvotes || 0})</span>
+                        </button>
+                        <span>Demo Q&A</span>
+                    </div>
+                </div>
+            `).join('');
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        window.toggleDemoUpvote = function(id) {
+            const list = getDemoDoubts();
+            const item = list.find(x => x.id === id);
+            if (item) {
+                if (!item.hasUpvoted) {
+                    item.upvotes = (item.upvotes || 0) + 1;
+                    item.hasUpvoted = true;
+                } else {
+                    item.upvotes = Math.max(0, (item.upvotes || 1) - 1);
+                    item.hasUpvoted = false;
+                }
+                saveDemoDoubts(list);
+                renderDemoDoubts();
+            }
+        };
+
+        const demoSubmitBtn = document.getElementById('demoQaSubmitBtn');
+        if (demoSubmitBtn) {
+            demoSubmitBtn.onclick = async () => {
+                const input = document.getElementById('demoQaInput');
+                const askAi = document.getElementById('demoQaAskAi')?.checked;
+                const text = (input?.value || '').trim();
+                if (!text) { input.focus(); return; }
+
+                const newD = {
+                    id: 'demo-d-' + Date.now(),
+                    author: 'You',
+                    role: 'Student',
+                    timestamp: demoTagSeconds,
+                    timestampStr: formatTimeStr(demoTagSeconds),
+                    timeAgo: 'Just now',
+                    question: text,
+                    aiAnswer: askAi ? 'AI Shikshak is answering your question...' : null,
+                    upvotes: 0,
+                    hasUpvoted: false
+                };
+
+                const list = getDemoDoubts();
+                list.unshift(newD);
+                saveDemoDoubts(list);
+                input.value = '';
+                renderDemoDoubts();
+
+                if (askAi) {
+                    try {
+                        const res = await fetch('/api/chat', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                message: `Demo Class: AI & Robotics Masterclass (Timestamp ${newD.timestampStr}). Doubt: ${text}. Provide a concise, clear technical answer.`,
+                                agent: 'tutor',
+                                lang: 'auto'
+                            })
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            newD.aiAnswer = data.response || data.reply || 'Great question! In practice, review the node architecture and test data streaming in IndroLabs Sandbox.';
+                        } else {
+                            newD.aiAnswer = 'Focus on validating message types and examining the callback frequency in the ROS 2 pipeline.';
+                        }
+                    } catch(e) {
+                        newD.aiAnswer = 'To resolve this concept, isolate each sensor pipeline and test in the IndroLabs Sandbox.';
+                    }
+                    saveDemoDoubts(list);
+                    renderDemoDoubts();
+                }
+            };
+        }
+    })();
     </script>
 </body>
 </html>

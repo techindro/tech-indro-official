@@ -2,8 +2,14 @@
 fastapi>=0.115.0
 uvicorn>=0.30.0
 pydantic>=2.8.0
+pydantic-settings>=2.0.0
 langchain-core>=0.3.0
 langchain-community>=0.3.0
 langchain-groq>=0.2.0
+langchain-google-genai
 rank-bm25>=0.2.2
 python-dotenv>=1.0.0
+posthog>=3.0.0
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp

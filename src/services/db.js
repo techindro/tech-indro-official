@@ -1,9 +1,26 @@
 const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
+const mongoService = require('./mongo');
 
 const isVercel = process.env.VERCEL === '1' || process.env.VERCEL;
 const JSON_DB_FILE = isVercel ? path.join('/tmp', 'database.json') : path.join(__dirname, '../../database.json');
+
+// Connect to MongoDB asynchronously & sync existing users
+mongoService.connect().then(async () => {
+    if (mongoService.isConnected()) {
+        try {
+            const db = readJsonDB();
+            if (db.users && db.users.length) {
+                await mongoService.syncUsersFromJson(db.users);
+            }
+        } catch (e) {
+            console.warn('[MongoDB] Sync on init error:', e.message);
+        }
+    }
+}).catch(err => {
+    console.warn('[MongoDB] Background connect error:', err.message);
+});
 
 // Check for Postgres connection string (Supabase / Neon / AWS / Railway)
 const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.SUPABASE_DB_URL;
@@ -36,7 +53,7 @@ if (connectionString) {
         console.warn('[PostgreSQL] Initialization error:', e.message);
     }
 } else {
-    console.log('[Database] DATABASE_URL not set in .env. Operating in JSON compatibility mode.');
+    console.log('[Database] DATABASE_URL not set in .env. Operating in Multi-Database (MongoDB / JSON) mode.');
 }
 
 /**
@@ -158,6 +175,8 @@ function writeJsonDB(data) {
 
 const dbService = {
     isPostgres: () => isPostgresAvailable,
+    isMongo: () => mongoService.isConnected(),
+    mongo: () => mongoService,
     pool: () => pool,
 
     // USER OPERATIONS
@@ -186,11 +205,21 @@ const dbService = {
                         createdAt: row.created_at
                     };
                 }
-                return null;
             } catch (err) {
                 console.error('[PostgreSQL] findUserByEmail error:', err.message);
             }
         }
+
+        // Check MongoDB if connected
+        if (mongoService.isConnected()) {
+            try {
+                const mUser = await mongoService.findUserByEmail(email);
+                if (mUser) return mUser;
+            } catch (err) {
+                console.warn('[MongoDB] findUserByEmail error:', err.message);
+            }
+        }
+
         // Fallback to JSON
         const db = readJsonDB();
         return (db.users || []).find(u => u.email && u.email.toLowerCase() === email.toLowerCase()) || null;
@@ -221,11 +250,21 @@ const dbService = {
                         createdAt: row.created_at
                     };
                 }
-                return null;
             } catch (err) {
                 console.error('[PostgreSQL] findUserById error:', err.message);
             }
         }
+
+        // Check MongoDB if connected
+        if (mongoService.isConnected()) {
+            try {
+                const mUser = await mongoService.findUserById(id);
+                if (mUser) return mUser;
+            } catch (err) {
+                console.warn('[MongoDB] findUserById error:', err.message);
+            }
+        }
+
         const db = readJsonDB();
         return (db.users || []).find(u => String(u.id) === String(id)) || null;
     },
@@ -238,11 +277,23 @@ const dbService = {
                     'UPDATE users SET two_factor_enabled = $1, two_factor_secret = $2, updated_at = NOW() WHERE id = $3',
                     [enabled, secret, userId]
                 );
-                return true;
             } catch (err) {
                 console.error('[PostgreSQL] updateUser2FA error:', err.message);
             }
         }
+
+        // Sync with MongoDB
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.models.User.findOneAndUpdate(
+                    { id: String(userId) },
+                    { twoFactorEnabled: enabled, twoFactorSecret: secret, updatedAt: new Date() }
+                );
+            } catch (err) {
+                console.warn('[MongoDB] updateUser2FA error:', err.message);
+            }
+        }
+
         const db = readJsonDB();
         const user = (db.users || []).find(u => String(u.id) === String(userId));
         if (user) {
@@ -251,7 +302,7 @@ const dbService = {
             writeJsonDB(db);
             return true;
         }
-        return false;
+        return true;
     },
 
     async createUser(user) {
@@ -284,9 +335,17 @@ const dbService = {
                         JSON.stringify(userObj.enrolledCourses)
                     ]
                 );
-                return userObj;
             } catch (err) {
                 console.error('[PostgreSQL] createUser error:', err.message);
+            }
+        }
+
+        // Sync to MongoDB
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.saveUser(userObj);
+            } catch (err) {
+                console.warn('[MongoDB] createUser error:', err.message);
             }
         }
 
@@ -313,10 +372,21 @@ const dbService = {
                         courses.push(courseData);
                         await pool.query('UPDATE users SET enrolled_courses = $1, updated_at = NOW() WHERE id = $2', [JSON.stringify(courses), userId]);
                     }
-                    return true;
                 }
             } catch (err) {
                 console.error('[PostgreSQL] updateUserCourses error:', err.message);
+            }
+        }
+
+        // Sync with MongoDB
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.models.User.findOneAndUpdate(
+                    { id: String(userId) },
+                    { $addToSet: { enrolledCourses: courseData }, updatedAt: new Date() }
+                );
+            } catch (err) {
+                console.warn('[MongoDB] updateUserCourses error:', err.message);
             }
         }
 
@@ -330,7 +400,7 @@ const dbService = {
             }
             return true;
         }
-        return false;
+        return true;
     },
 
     // CERTIFICATES
@@ -353,9 +423,23 @@ const dbService = {
                         createdAt: row.created_at
                     };
                 }
-                return null;
             } catch (err) {
                 console.error('[PostgreSQL] findCertificate error:', err.message);
+            }
+        }
+
+        // Check MongoDB
+        if (mongoService.isConnected()) {
+            try {
+                const mCert = await mongoService.models.Certificate.findOne({
+                    $or: [
+                        { certId: new RegExp(`^${certId}$`, 'i') },
+                        { id: new RegExp(`^${certId}$`, 'i') }
+                    ]
+                }).lean();
+                if (mCert) return mCert;
+            } catch (err) {
+                console.warn('[MongoDB] findCertificate error:', err.message);
             }
         }
 
@@ -387,9 +471,21 @@ const dbService = {
                         JSON.stringify(certObj.metadata || {})
                     ]
                 );
-                return certObj;
             } catch (err) {
                 console.error('[PostgreSQL] saveCertificate error:', err.message);
+            }
+        }
+
+        // Sync with MongoDB
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.models.Certificate.findOneAndUpdate(
+                    { certId: certObj.certId },
+                    { ...certObj },
+                    { upsert: true, new: true }
+                );
+            } catch (err) {
+                console.warn('[MongoDB] saveCertificate error:', err.message);
             }
         }
 

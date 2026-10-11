@@ -61,7 +61,15 @@ window.TechIndroAuth = {
         }
         window.dispatchEvent(new CustomEvent("techIndroAuthChange", { detail: { user } }));
     },
+    identifyAnalyticsUser(user) {
+        if (typeof window.identifyTechIndroUser === "function") {
+            window.identifyTechIndroUser(user);
+        }
+    },
     clearSession() {
+        if (typeof window.resetTechIndroIdentity === "function") {
+            window.resetTechIndroIdentity();
+        }
         localStorage.removeItem("techIndroUser");
         localStorage.removeItem("currentUser");
         localStorage.removeItem("user");
@@ -202,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (mfaRes.ok && mfaData.user) {
                         TechIndroAuth.setSession(mfaData.user);
+                        TechIndroAuth.identifyAnalyticsUser(mfaData.user);
                         submitBtn.innerText = "Login Successful!";
                         submitBtn.style.backgroundColor = "#10b981";
                         setTimeout(() => { window.location.href = "dashboard.html"; }, 400);
@@ -216,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok && data.user) {
                     TechIndroAuth.setSession(data.user);
+                    TechIndroAuth.identifyAnalyticsUser(data.user);
                     submitBtn.innerText = "Login Successful!";
                     submitBtn.style.backgroundColor = "#10b981";
                     setTimeout(() => {
@@ -267,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok && data.user) {
                     TechIndroAuth.setSession(data.user);
+                    TechIndroAuth.identifyAnalyticsUser(data.user);
                     submitBtn.innerText = "Account Created!";
                     submitBtn.style.backgroundColor = "#10b981";
                     alert("Account Created! Welcome to Tech Indro.");

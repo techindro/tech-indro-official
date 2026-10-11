@@ -13,20 +13,32 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Tech Indro Infrastructure Services (PostgreSQL Database, Redis & Kafka)
+// Tech Indro Infrastructure Services (MongoDB, PostgreSQL Database, Redis & Kafka)
 const dbService = require('./src/services/db');
+const mongoService = require('./src/services/mongo');
 const redisClient = require('./src/services/redisClient');
 const kafkaClient = require('./src/services/kafkaClient');
+const emailService = require('./src/services/email');
 kafkaClient.startConsumer().catch(err => console.warn('[Kafka] Background consumer start error:', err.message));
 
 // Tech Indro FastAPI + LangChain RAG Microservice Configuration
 const RAG_SERVICE_URL = process.env.RAG_SERVICE_URL || 'http://127.0.0.1:8000';
 
-async function fetchRagContext(message, agent = 'general', maxResults = 3) {
+function getPostHogTracingHeaders(req) {
+    const headers = {};
+    const distinctId = req.get('x-posthog-distinct-id');
+    const sessionId = req.get('x-posthog-session-id');
+
+    if (distinctId) headers['X-POSTHOG-DISTINCT-ID'] = distinctId;
+    if (sessionId) headers['X-POSTHOG-SESSION-ID'] = sessionId;
+    return headers;
+}
+
+async function fetchRagContext(message, agent = 'general', maxResults = 3, tracingHeaders = {}) {
     try {
         const response = await fetch(`${RAG_SERVICE_URL}/api/rag/search`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...tracingHeaders },
             body: JSON.stringify({ query: message, maxResults, agent }),
             signal: AbortSignal.timeout(3000)
         });
@@ -223,6 +235,12 @@ process.on('unhandledRejection', (reason, promise) => {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const POSTHOG_PROJECT_TOKEN = process.env.POSTHOG_PROJECT_TOKEN;
+const POSTHOG_HOST = process.env.POSTHOG_HOST;
+let posthogCspSource = '';
+try {
+    posthogCspSource = POSTHOG_HOST ? new URL(POSTHOG_HOST).origin : '';
+} catch (e) {}
 
 // Vercel read-only filesystem workaround: use /tmp for the database.
 const isVercel = process.env.VERCEL === '1' || process.env.VERCEL;
@@ -249,11 +267,12 @@ app.use((req, res, next) => {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     res.setHeader('Content-Security-Policy',
         "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdnjs.cloudflare.com https://checkout.razorpay.com https://cdn.jsdelivr.net; " +
+        `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdnjs.cloudflare.com https://checkout.razorpay.com https://cdn.jsdelivr.net ${posthogCspSource}; ` +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
         "font-src 'self' https://fonts.gstatic.com data:; " +
         "img-src 'self' data: https: blob:; " +
-        "connect-src 'self' https://api.razorpay.com https://api.groq.com https://api.sarvam.ai https://generativelanguage.googleapis.com https://kroki.io https://ce.judge0.com ws: wss:; " +
+        `connect-src 'self' https://api.razorpay.com https://api.groq.com https://api.sarvam.ai https://generativelanguage.googleapis.com https://kroki.io https://ce.judge0.com ws: wss: ${posthogCspSource}; ` +
+        "worker-src 'self' blob:; " +
         "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://www.youtube.com https://www.youtube-nocookie.com; " +
         "object-src 'none'; " +
         "base-uri 'self';"
@@ -326,7 +345,8 @@ function csrfMiddleware(req, res, next) {
         fullPath.includes('/payments/razorpay/verify') ||
         fullPath.startsWith('/api/kroki') || req.path === '/kroki' ||
         fullPath.startsWith('/api/chat') || req.path === '/chat' ||
-        fullPath.startsWith('/api/ai/') || req.path.startsWith('/ai/')) {
+        fullPath.startsWith('/api/ai/') || req.path.startsWith('/ai/') ||
+        fullPath.startsWith('/api/inspiro')) {
         return next();
     }
 
@@ -360,6 +380,22 @@ app.get('/api/csrf-token', (req, res) => {
 
 // Apply CSRF validation to state-changing API endpoints
 app.use('/api', csrfMiddleware);
+
+app.get('/posthog-analytics.js', (req, res) => {
+    const missingVariable = !POSTHOG_PROJECT_TOKEN
+        ? 'POSTHOG_PROJECT_TOKEN'
+        : !POSTHOG_HOST ? 'POSTHOG_HOST' : null;
+    if (missingVariable && process.env.NODE_ENV !== 'production') {
+        return res.type('application/javascript').send(
+            `throw new Error(${JSON.stringify(`${missingVariable} variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once ${missingVariable} is configured`)});`
+        );
+    }
+
+    const runtimeConfig = missingVariable ? '' :
+        `window.POSTHOG_API_KEY=${JSON.stringify(POSTHOG_PROJECT_TOKEN)};window.POSTHOG_HOST=${JSON.stringify(POSTHOG_HOST)};\n`;
+    const analyticsSource = fs.readFileSync(path.join(__dirname, 'posthog-analytics.js'), 'utf8');
+    return res.type('application/javascript').send(runtimeConfig + analyticsSource);
+});
 
 app.use(express.static(__dirname)); // Serve static files safely
 
@@ -1082,29 +1118,58 @@ app.post('/api/auth/logout', (req, res) => {
 // OTP cache backed by Redis and localized fallback
 const otpCache = new Map();
 
-// send OTP endpoint for mobile verification
+// send OTP endpoint for mobile verification & Email OTP via Resend
 app.post('/api/auth/send-otp', authLimiter, async (req, res) => {
-    const { phone } = req.body;
-    if (!phone || String(phone).trim().length < 10) {
-        return res.status(400).json({ error: "Please enter a valid 10-digit mobile number" });
+    const { phone, email, name } = req.body;
+    
+    // Check if email or phone is provided
+    const cleanEmail = email ? String(email).trim().toLowerCase() : null;
+    const cleanPhone = phone ? String(phone).replace(/\D/g, '').slice(-10) : null;
+
+    if (!cleanEmail && (!cleanPhone || cleanPhone.length < 10)) {
+        return res.status(400).json({ error: "Please enter a valid email address or 10-digit mobile number" });
     }
 
-    const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
-    
-    // Generate secure 6-digit OTP
     const isDev = process.env.NODE_ENV !== 'production';
-    const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    const generatedOtp = isDev ? '123456' : randomOtp;
+    // Generate secure cryptographically random 6-digit OTP (har request par naya random OTP)
+    const generatedOtp = crypto.randomInt(100000, 999999).toString();
+
+    // Cache key: email takes precedence if provided, otherwise phone
+    const cacheKey = cleanEmail ? `otp:email:${cleanEmail}` : `otp:phone:${cleanPhone}`;
+    const legacyMemKey = cleanEmail || cleanPhone;
 
     // Cache in Redis for cluster consistency, fallback to memory
-    await redisClient.set(`otp:${cleanPhone}`, generatedOtp, 300);
-    otpCache.set(cleanPhone, { otp: generatedOtp, expiresAt: Date.now() + 5 * 60 * 1000 });
+    await redisClient.set(cacheKey, generatedOtp, 300);
+    otpCache.set(legacyMemKey, { otp: generatedOtp, expiresAt: Date.now() + 5 * 60 * 1000 });
+
+    let emailSent = false;
+    let emailNotice = null;
+
+    // If Email provided, dispatch branded email via Resend
+    if (cleanEmail) {
+        try {
+            const emailRes = await emailService.sendOtpEmail(cleanEmail, generatedOtp, name || 'Student');
+            if (emailRes.success) {
+                emailSent = true;
+            } else {
+                console.warn('[Resend] Email dispatch notice:', emailRes.error);
+                emailNotice = emailRes.error;
+            }
+        } catch (e) {
+            console.error('[Resend] Exception in sendOtpEmail:', e.message);
+        }
+    }
 
     const responsePayload = {
-        message: `OTP sent successfully to +91 ${cleanPhone}`,
+        message: cleanEmail 
+            ? `OTP sent successfully to ${cleanEmail}` 
+            : `OTP sent successfully to +91 ${cleanPhone}`,
         phone: cleanPhone,
+        email: cleanEmail,
+        emailSent,
         success: true
     };
+
     // Only expose OTP in response if running in development mode
     if (isDev) {
         responsePayload.otp = generatedOtp;
@@ -1116,13 +1181,18 @@ app.post('/api/auth/send-otp', authLimiter, async (req, res) => {
 
 // verify OTP endpoint
 app.post('/api/auth/verify-otp', authLimiter, async (req, res) => {
-    const { phone, otp, name, goal, academicLevel, state, referralCode } = req.body;
-    if (!phone) return res.status(400).json({ error: "Mobile number is required" });
+    const { phone, email, otp, name, goal, academicLevel, state, referralCode } = req.body;
+    if (!phone && !email) return res.status(400).json({ error: "Mobile number or Email is required" });
     if (!otp) return res.status(400).json({ error: "Please enter the OTP" });
 
-    const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
-    const cachedMem = otpCache.get(cleanPhone);
-    const redisOtp = await redisClient.get(`otp:${cleanPhone}`);
+    const cleanEmail = email ? String(email).trim().toLowerCase() : null;
+    const cleanPhone = phone ? String(phone).replace(/\D/g, '').slice(-10) : null;
+
+    const cacheKey = cleanEmail ? `otp:email:${cleanEmail}` : `otp:phone:${cleanPhone}`;
+    const legacyMemKey = cleanEmail || cleanPhone;
+
+    const cachedMem = otpCache.get(legacyMemKey);
+    const redisOtp = await redisClient.get(cacheKey);
 
     const isDev = process.env.NODE_ENV !== 'production';
     const isMatched = (redisOtp && String(redisOtp) === String(otp)) ||
@@ -1134,30 +1204,38 @@ app.post('/api/auth/verify-otp', authLimiter, async (req, res) => {
     }
 
     // Invalidate OTP after successful verification to prevent replay attacks
-    await redisClient.del(`otp:${cleanPhone}`);
-    otpCache.delete(cleanPhone);
+    await redisClient.del(cacheKey);
+    otpCache.delete(legacyMemKey);
 
     const db = readDB();
-    let user = db.users.find(u => u.phone === cleanPhone);
+    let user = db.users.find(u => (cleanEmail && u.email && u.email.toLowerCase() === cleanEmail) || (cleanPhone && u.phone === cleanPhone));
     let isNewUser = false;
 
     if (!user) {
         isNewUser = true;
-        const studentName = (name && String(name).trim()) ? String(name).trim() : `Learner ${cleanPhone.slice(-4)}`;
+        const studentName = (name && String(name).trim()) 
+            ? String(name).trim() 
+            : (cleanEmail ? cleanEmail.split('@')[0] : `Learner ${cleanPhone.slice(-4)}`);
+
         user = {
             id: Date.now().toString(),
             name: studentName,
-            phone: cleanPhone,
-            email: `${cleanPhone}@student.techindro.com`,
+            phone: cleanPhone || '',
+            email: cleanEmail || `${cleanPhone}@student.techindro.com`,
             goal: goal || 'MNC Placements 2026',
             academicLevel: academicLevel || 'College Student',
             state: state || 'Delhi NCR',
             referralCode: referralCode || '',
-            provider: 'phone_otp',
+            provider: cleanEmail ? 'email_otp' : 'phone_otp',
             createdAt: new Date().toISOString()
         };
         db.users.push(user);
         writeDB(db);
+
+        // Also sync to MongoDB Atlas if connected
+        if (mongoService.isConnected()) {
+            mongoService.saveUser(user).catch(err => console.warn('[MongoDB] Save user error:', err.message));
+        }
     } else if (name && String(name).trim()) {
         user.name = String(name).trim();
         if (goal) user.goal = goal;
@@ -1165,11 +1243,15 @@ app.post('/api/auth/verify-otp', authLimiter, async (req, res) => {
         if (state) user.state = state;
         if (referralCode) user.referralCode = referralCode;
         writeDB(db);
+
+        if (mongoService.isConnected()) {
+            mongoService.saveUser(user).catch(err => console.warn('[MongoDB] Update user error:', err.message));
+        }
     }
 
-    otpCache.delete(cleanPhone);
     return sendAuthSuccess(res, user, isNewUser ? "Account created and logged in successfully" : "Login successful");
 });
+
 
 // contact form submission
 app.post('/api/contact', contactLimiter, (req, res) => {
@@ -3608,7 +3690,12 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     let ragResult = { hasContext: false, context: '', sources: [] };
     if (rag !== false) {
         try {
-            ragResult = await fetchRagContext(message, agent || 'general', 3);
+            ragResult = await fetchRagContext(
+                message,
+                agent || 'general',
+                3,
+                getPostHogTracingHeaders(req)
+            );
         } catch (ragErr) {
             console.warn('[RAG] Retrieval error:', ragErr.message);
         }
@@ -3826,7 +3913,10 @@ app.post('/api/rag/search', async (req, res) => {
     try {
         const response = await fetch(`${RAG_SERVICE_URL}/api/rag/search`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...getPostHogTracingHeaders(req)
+            },
             body: JSON.stringify({ query, maxResults, collection, agent }),
             signal: AbortSignal.timeout(3000)
         });
@@ -7044,6 +7134,32 @@ let INSPIRO_PEERS = [
         badge: "Security Officer",
         unread: 0,
         bio: "Chingam ke chungal se koi bug nahi bach sakta! Network security & buffer overflow mentor."
+    },
+    {
+        id: "peer_ananya",
+        name: "Ananya Sen",
+        role: "Deep Learning & GenAI Researcher",
+        college: "IIIT Hyderabad",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "PyTorch & Deep Learning Specialization",
+        badge: "AI Researcher",
+        unread: 1,
+        bio: "Fine-tuning Transformers & Vision models with PyTorch. Working on low-rank adaptation (LoRA)!"
+    },
+    {
+        id: "peer_arjun",
+        name: "Arjun Rao",
+        role: "Site Reliability & Cloud Architect",
+        college: "IIT Roorkee",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+        status: "online",
+        lastSeen: "Online now",
+        program: "SRE & Cloud Infrastructure",
+        badge: "Kubernetes CKAD",
+        unread: 0,
+        bio: "Terraform, eBPF & Golang microservices. Building zero-downtime distributed systems."
     }
 ];
 
@@ -7056,6 +7172,12 @@ let INSPIRO_MESSAGES = {
     "peer_priya": [
         { id: "m_4", senderId: "peer_priya", text: "Namaste! If you need help understanding client mission architecture or Palantir-style FDE deployment playbooks, feel free to ask me.", timestamp: "09:30 AM", isRead: true },
         { id: "m_5", senderId: "peer_priya", text: "I have shared my enterprise Helm chart template on the Inspiro feed!", timestamp: "09:31 AM", isRead: false }
+    ],
+    "peer_ananya": [
+        { id: "m_6a", senderId: "peer_ananya", text: "Hey! Are you working on PyTorch or TensorFlow neural network projects? Happy to collaborate on Transformer fine-tuning and GPU optimization!", timestamp: "11:05 AM", isRead: false }
+    ],
+    "peer_arjun": [
+        { id: "m_6b", senderId: "peer_arjun", text: "Hey! Just set up a multi-region Kubernetes cluster with Istio service mesh on Tech Indro Labs. Let me know if you want to test distributed latency!", timestamp: "08:45 AM", isRead: true }
     ],
     "peer_bittu": [
         { id: "m_6", senderId: "peer_bittu", text: "Bhai aaj ka Daily Byte bug squash kiya kya? 50 IndroCoins mile mujhe!", timestamp: "11:20 AM", isRead: false }
@@ -7150,27 +7272,87 @@ let INSPIRO_USER_PROFILE = {
     skills: ["Python", "FastAPI", "React", "Docker", "PySpark", "Node.js"],
     github: "https://github.com",
     linkedin: "https://linkedin.com",
-    statusBadge: "🟢 Available for Collaboration"
+    statusBadge: "Available for Collaboration"
 };
 
+// Seed Inspiro posts into MongoDB on startup if connected
+setTimeout(() => {
+    if (mongoService.isConnected()) {
+        mongoService.seedDefaultInspiroPosts(INSPIRO_POSTS).catch(() => {});
+    }
+}, 3000);
+
+// Multi-Database Health & Status Endpoint
+app.get('/api/database/status', (req, res) => {
+    res.json({
+        success: true,
+        databases: {
+            mongodb: {
+                connected: mongoService.isConnected(),
+                state: mongoService.connectionState(),
+                driver: 'mongoose',
+                status: mongoService.isConnected() ? 'ONLINE' : 'STANDBY / FALLBACK'
+            },
+            postgresql: {
+                connected: dbService.isPostgres(),
+                status: dbService.isPostgres() ? 'ONLINE' : 'FALLBACK'
+            },
+            redis: {
+                connected: redisClient.isReady(),
+                status: redisClient.isReady() ? 'ONLINE' : 'OFFLINE'
+            },
+            kafka: {
+                connected: kafkaClient.isReady(),
+                status: kafkaClient.isReady() ? 'ONLINE' : 'STANDBY'
+            }
+        },
+        timestamp: new Date().toISOString()
+    });
+});
+
 // 1. GET Inspiro Feed Posts
-app.get('/api/inspiro/feed', (req, res) => {
+app.get('/api/inspiro/feed', async (req, res) => {
+    try {
+        if (mongoService.isConnected()) {
+            const mPosts = await mongoService.getInspiroPosts();
+            if (mPosts && mPosts.length > 0) {
+                return res.json({
+                    success: true,
+                    posts: mPosts,
+                    totalPosts: mPosts.length,
+                    storage: 'mongodb'
+                });
+            }
+        }
+    } catch(e) {}
+
     res.json({
         success: true,
         posts: INSPIRO_POSTS,
-        totalPosts: INSPIRO_POSTS.length
+        totalPosts: INSPIRO_POSTS.length,
+        storage: 'local'
     });
 });
 
 // Profile: GET & POST
-app.get('/api/inspiro/profile', (req, res) => {
+app.get('/api/inspiro/profile', async (req, res) => {
+    try {
+        if (mongoService.isConnected()) {
+            const mProf = await mongoService.getInspiroProfile('me');
+            if (mProf) {
+                return res.json({ success: true, profile: mProf, storage: 'mongodb' });
+            }
+        }
+    } catch(e) {}
+
     res.json({
         success: true,
-        profile: INSPIRO_USER_PROFILE
+        profile: INSPIRO_USER_PROFILE,
+        storage: 'local'
     });
 });
 
-app.post('/api/inspiro/profile', (req, res) => {
+app.post('/api/inspiro/profile', async (req, res) => {
     try {
         const { name, role, college, program, avatar, bio, skills, github, linkedin, statusBadge } = req.body;
         if (name && name.trim()) INSPIRO_USER_PROFILE.name = name.trim();
@@ -7198,6 +7380,15 @@ app.post('/api/inspiro/profile', (req, res) => {
             }
         });
 
+        // Persist to MongoDB if connected
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.saveInspiroProfile({ userId: 'me', ...INSPIRO_USER_PROFILE });
+            } catch (err) {
+                console.warn('[MongoDB] Save profile error:', err.message);
+            }
+        }
+
         res.json({ success: true, profile: INSPIRO_USER_PROFILE });
     } catch (e) {
         res.status(500).json({ error: "Failed to update profile", success: false });
@@ -7205,7 +7396,7 @@ app.post('/api/inspiro/profile', (req, res) => {
 });
 
 // 2. POST New Inspiro Feed Post
-app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
+app.post('/api/inspiro/posts', chatLimiter, async (req, res) => {
     try {
         const { title, content, codeSnippet = '', tags = [], authorName, authorRole, authorAvatar, authorCollege } = req.body;
         if (!content || !content.trim()) {
@@ -7238,6 +7429,16 @@ app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
         };
 
         INSPIRO_POSTS.unshift(newPost);
+
+        // Persist to MongoDB if connected
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.saveInspiroPost(newPost);
+            } catch (err) {
+                console.warn('[MongoDB] Save post error:', err.message);
+            }
+        }
+
         res.json({ success: true, post: newPost });
     } catch (e) {
         res.status(500).json({ error: "Failed to publish post." });
@@ -7245,7 +7446,7 @@ app.post('/api/inspiro/posts', chatLimiter, (req, res) => {
 });
 
 // 2b. DELETE Post - Enforce Object Ownership (BOLA / IDOR Fix)
-app.delete('/api/inspiro/posts/:id', requireAuth, (req, res) => {
+app.delete('/api/inspiro/posts/:id', requireAuth, async (req, res) => {
     const idx = INSPIRO_POSTS.findIndex(p => p.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: "Post not found." });
 
@@ -7258,22 +7459,39 @@ app.delete('/api/inspiro/posts/:id', requireAuth, (req, res) => {
     }
 
     INSPIRO_POSTS.splice(idx, 1);
+
+    if (mongoService.isConnected()) {
+        try {
+            await mongoService.deleteInspiroPost(req.params.id);
+        } catch (err) {
+            console.warn('[MongoDB] Delete post error:', err.message);
+        }
+    }
+
     res.json({ success: true, message: "Post deleted successfully." });
 });
 
 // 3. POST Like/Upvote Post
-app.post('/api/inspiro/posts/:id/like', (req, res) => {
+app.post('/api/inspiro/posts/:id/like', async (req, res) => {
     const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
     if (!post) return res.status(404).json({ error: "Post not found." });
 
     post.isLiked = !post.isLiked;
     post.likes += post.isLiked ? 1 : -1;
 
+    if (mongoService.isConnected()) {
+        try {
+            await mongoService.likeInspiroPost(req.params.id);
+        } catch (err) {
+            console.warn('[MongoDB] Like post error:', err.message);
+        }
+    }
+
     res.json({ success: true, likes: post.likes, isLiked: post.isLiked });
 });
 
 // 4. POST Comment on Post - Sanitized against stored XSS
-app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
+app.post('/api/inspiro/posts/:id/comments', chatLimiter, async (req, res) => {
     const post = INSPIRO_POSTS.find(p => p.id === req.params.id);
     if (!post) return res.status(404).json({ error: "Post not found." });
 
@@ -7282,6 +7500,7 @@ app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
 
     const safeAuthor = req.user?.name || authorName || "Student Peer";
     const newComment = {
+        id: `c_${Date.now()}`,
         author: sanitizeHtml(safeAuthor),
         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
         text: sanitizeHtml(text.trim()),
@@ -7290,6 +7509,14 @@ app.post('/api/inspiro/posts/:id/comments', chatLimiter, (req, res) => {
 
     post.comments.push(newComment);
     post.commentsCount = post.comments.length;
+
+    if (mongoService.isConnected()) {
+        try {
+            await mongoService.addInspiroComment(req.params.id, newComment);
+        } catch (err) {
+            console.warn('[MongoDB] Comment error:', err.message);
+        }
+    }
 
     res.json({ success: true, comment: newComment, commentsCount: post.commentsCount });
 });
@@ -7303,11 +7530,22 @@ app.get('/api/inspiro/peers', (req, res) => {
 });
 
 // 6. GET Messages for a specific peer
-app.get('/api/inspiro/messages', (req, res) => {
+app.get('/api/inspiro/messages', async (req, res) => {
     const peerId = req.query.peerId;
     if (!peerId) return res.status(400).json({ error: "peerId is required." });
 
-    const history = INSPIRO_MESSAGES[peerId] || [];
+    let history = INSPIRO_MESSAGES[peerId] || [];
+
+    if (mongoService.isConnected()) {
+        try {
+            const mMessages = await mongoService.getInspiroMessages(peerId);
+            if (mMessages && mMessages.length > 0) {
+                history = mMessages;
+            }
+        } catch (e) {
+            console.warn('[MongoDB] Get messages error:', e.message);
+        }
+    }
     
     // Mark peer's unread messages as read
     const peer = INSPIRO_PEERS.find(p => p.id === peerId);
@@ -7320,9 +7558,82 @@ app.get('/api/inspiro/messages', (req, res) => {
     });
 });
 
+// Smart Dynamic AI Peer Responder for Inspiro
+async function generateSmartPeerResponse(peerId, text) {
+    const peer = INSPIRO_PEERS.find(p => p.id === peerId) || { name: "Peer", role: "Student Developer", college: "Tech Indro" };
+    const lower = text.toLowerCase();
+
+    // 1. Try Gemini AI generation if GEMINI_API_KEY is present
+    if (process.env.GEMINI_API_KEY) {
+        try {
+            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+            const prompt = `You are ${peer.name}, an authentic student developer at ${peer.college} enrolled in ${peer.program || peer.role} on Tech Indro.
+A fellow student just sent you this message in a student peer-to-peer chat:
+"${text}"
+
+Reply naturally, authentically, and warmly as a fellow student in casual developer Hinglish/English.
+Keep it concise (1 to 2 sentences maximum). If they ask technical doubts or questions, share an accurate coding tip or hint. Never mention you are an AI or language model.`;
+
+            const resp = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: prompt
+            });
+            const reply = resp?.text?.trim();
+            if (reply && reply.length > 3) return reply;
+        } catch (e) {
+            // Fallback to contextual heuristic
+        }
+    }
+
+    // 2. High-precision contextual responses
+    if (peerId === "peer_ananya") {
+        if (lower.includes("pytorch") || lower.includes("tensorflow") || lower.includes("deep learning") || lower.includes("tensor")) {
+            return "PyTorch's dynamic computational graphs (eager mode) make debugging backprop super clean! Are you using `torch.cuda.amp.autocast()` for mixed precision training?";
+        } else if (lower.includes("transformer") || lower.includes("attention") || lower.includes("llm") || lower.includes("bert")) {
+            return "Attention mechanisms revolutionized seq2seq modeling! Check out FlashAttention-2 if you're hitting GPU VRAM bottlenecks during Transformer training.";
+        } else {
+            return "Hey! Fine-tuning a vision transformer on Tech Indro Labs right now. Let me know if you want to pair up on any PyTorch or Deep Learning models!";
+        }
+    } else if (peerId === "peer_arjun") {
+        if (lower.includes("sre") || lower.includes("cloud") || lower.includes("k8s") || lower.includes("kubernetes") || lower.includes("terraform")) {
+            return "For rock-solid SRE architectures, always configure readiness/liveness probes and PodDisruptionBudgets. It prevents cascading pod crashes during rolling upgrades!";
+        } else if (lower.includes("latency") || lower.includes("distributed") || lower.includes("go") || lower.includes("golang")) {
+            return "Golang goroutines with `sync.Pool` and zero-alloc serialization (Protobuf) keep p99 latency well under 5ms under 50k RPS.";
+        } else {
+            return "Yo! SRE and high-availability systems are all about resilience and automated failover. Let's test a multi-region deployment!";
+        }
+    } else if (peerId === "peer_priya") {
+        if (lower.includes("fde") || lower.includes("job") || lower.includes("palantir") || lower.includes("interview")) {
+            return "FDE interviews test your ability to dive into ambiguous production systems and client VPCs! Focus on real-time debugging, networking, and rapid prototyping.";
+        } else if (lower.includes("code") || lower.includes("helm") || lower.includes("yaml") || lower.includes("docker")) {
+            return "Looks great! Make sure to set explicit resource limits (`requests` and `limits`) on your container pods so Kubernetes does not trigger OOMKilled.";
+        } else {
+            return "Awesome! Let's connect over Google Meet or collaborate directly on GitHub. I'm deploying an enterprise client VPC rollout right now.";
+        }
+    } else if (peerId === "peer_rohan") {
+        if (lower.includes("spark") || lower.includes("kafka") || lower.includes("data") || lower.includes("sql") || lower.includes("duckdb")) {
+            return "For big data joins, always check for data skew! Using salted keys or broadcast joins for small dimension tables speeds up PySpark queries by 10x.";
+        } else {
+            return "Hey! Sahi baat hai. In Data Engineering, idempotency and schema evolution (Delta/Iceberg) save you hundreds of hours in production.";
+        }
+    } else if (peerId === "peer_neha") {
+        if (lower.includes("bi") || lower.includes("power bi") || lower.includes("tableau") || lower.includes("analytics") || lower.includes("pandas")) {
+            return "In Power BI, Star Schema with direct relationships is way faster than Snowflaking! Also use DAX `CALCULATE` wisely with filter modifiers.";
+        } else {
+            return "Hey! Analyzing user cohorts right now. Drop your dataset or problem statement, let's explore the insights together!";
+        }
+    } else if (peerId === "peer_bittu") {
+        return "Wah bhai! Samosa khao aur code likho! Daily Byte streak todna mat, IndroGems collect karke top leaderboard par aana hai!";
+    } else if (peerId === "peer_chingam") {
+        return "Chingam ke chungal se koi security flaw nahi bach sakta! Always sanitize your inputs, check for SQL injection, and implement robust rate-limiting!";
+    }
+
+    return "Hey! Sahi observation hai. Let's collaborate and build something awesome on Tech Indro!";
+}
+
 // 7. POST Send P2P Message (with intelligent simulated peer reply)
-app.post('/api/inspiro/messages', chatLimiter, (req, res) => {
-    const { peerId, text, isCode = false } = req.body;
+app.post('/api/inspiro/messages', chatLimiter, async (req, res) => {
+    const { peerId, text, isCode = false, isVoice = false } = req.body;
     if (!peerId || !text || !text.trim()) {
         return res.status(400).json({ error: "peerId and text are required." });
     }
@@ -7337,52 +7648,64 @@ app.post('/api/inspiro/messages', chatLimiter, (req, res) => {
     const userMsg = {
         id: `msg_${Date.now()}`,
         senderId: "me",
+        receiverId: peerId,
         text: text.trim(),
         isCode: Boolean(isCode),
+        isVoice: Boolean(isVoice),
         timestamp: timeStr,
         isRead: true
     };
 
     INSPIRO_MESSAGES[peerId].push(userMsg);
 
-    // Realistic smart response simulation tailored to the peer persona
-    let simulatedReplyText = "";
-    const lower = text.toLowerCase();
-
-    if (peerId === "peer_priya") {
-        if (lower.includes("fde") || lower.includes("job") || lower.includes("palantir") || lower.includes("interview")) {
-            simulatedReplyText = "FDE interviews test your ability to dive into ambiguous production systems and client VPCs! Focus on real-time debugging and Docker/K8s networking.";
-        } else if (lower.includes("code") || lower.includes("helm") || lower.includes("yaml")) {
-            simulatedReplyText = "Looks good! Make sure to set resource limits (`requests` and `limits`) on your container pods so Kubernetes does not trigger OOMKilled.";
-        } else {
-            simulatedReplyText = "Awesome! Let's connect over Google Meet or collaborate directly on GitHub. I'm finishing up an enterprise rollout right now.";
+    // Save user message to MongoDB
+    if (mongoService.isConnected()) {
+        try {
+            await mongoService.saveInspiroMessage({
+                id: userMsg.id,
+                senderId: "me",
+                receiverId: peerId,
+                text: userMsg.text,
+                isVoice: Boolean(isVoice),
+                duration: 0,
+                timestamp: timeStr,
+                statusTick: 'delivered'
+            });
+        } catch (e) {
+            console.warn('[MongoDB] Save user message error:', e.message);
         }
-    } else if (peerId === "peer_rohan") {
-        if (lower.includes("spark") || lower.includes("kafka") || lower.includes("data") || lower.includes("sql")) {
-            simulatedReplyText = "For big data joins, always check for data skew! Using salted keys or broadcast joins for small dimension tables speeds up Spark by 10x.";
-        } else {
-            simulatedReplyText = "Hey! Sahi baat hai. Data engineering me consistency and idempotent DAGs are key. Let's build a streaming pipeline together!";
-        }
-    } else if (peerId === "peer_bittu") {
-        simulatedReplyText = "Wah bhai! Samosa khao aur code likho! Aaj ka challenge complete karke streak maintain rakhna!";
-    } else {
-        simulatedReplyText = "Thanks for the message! I am reviewing this right now. Let's solve this together on Tech Indro!";
     }
+
+    // Realistic smart response simulation tailored to the peer persona
+    const simulatedReplyText = await generateSmartPeerResponse(peerId, text);
 
     const replyMsg = {
         id: `msg_reply_${Date.now() + 100}`,
         senderId: peerId,
+        receiverId: "me",
         text: simulatedReplyText,
         timestamp: timeStr,
         isRead: false
     };
 
     // Push simulated reply shortly
-    setTimeout(() => {
+    setTimeout(async () => {
         if (INSPIRO_MESSAGES[peerId]) {
             INSPIRO_MESSAGES[peerId].push(replyMsg);
         }
-    }, 900);
+        if (mongoService.isConnected()) {
+            try {
+                await mongoService.saveInspiroMessage({
+                    id: replyMsg.id,
+                    senderId: peerId,
+                    receiverId: "me",
+                    text: simulatedReplyText,
+                    timestamp: timeStr,
+                    statusTick: 'delivered'
+                });
+            } catch (e) {}
+        }
+    }, 1200);
 
     res.json({
         success: true,
