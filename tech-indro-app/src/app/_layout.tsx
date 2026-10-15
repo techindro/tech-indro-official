@@ -262,6 +262,54 @@ function AppTabs() {
             href: null,
           }}
         />
+        <Tabs.Screen
+          name="cyber-playground"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="daily-byte"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="community"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="inspiro"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="portfolio-generator"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="parent-panel"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="policy"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            href: null,
+          }}
+        />
       </Tabs>
     </>
   );

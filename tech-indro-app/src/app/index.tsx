@@ -289,7 +289,7 @@ export default function HomeScreen() {
                 </Text>
               </Text>
 
-              {/* Stats Row (1.2L+ Learners • 24/7 AI Mentors • 4.8★ Student Rating) */}
+              {/* Stats Row (1.2L+ Learners • 24/7 AI Mentors • 4.9 Star Rating) */}
               <View style={styles.statsRow}>
                 <View style={styles.stat}>
                   <Text style={[styles.statNumber, { color: '#ffd700' }]}>1.2L+</Text>
@@ -721,6 +721,153 @@ export default function HomeScreen() {
               </View>
             </LinearGradient>
           </TouchableOpacity>
+        </View>
+
+        {/* ===== ECOSYSTEM & ALL WEB FEATURES GRID ===== */}
+        <View style={{ paddingHorizontal: 16, marginTop: 18, marginBottom: 8 }}>
+          <View style={[styles.sectionPill, { backgroundColor: 'rgba(255, 107, 53, 0.12)', alignSelf: 'flex-start' }]}>
+            <Text style={[styles.sectionPillText, { color: '#ff6b35' }]}>FULL PLATFORM SUITE</Text>
+          </View>
+          <Text style={[styles.sectionTitle, { color: colors.text, marginTop: 6, marginBottom: 4 }]}>
+            All Web &amp; Cloud Tools
+          </Text>
+          <Text style={[styles.sectionSubtitle, { color: colors.textMuted, marginBottom: 14 }]}>
+            Code compiler, daily streaks, student community, peer chat &amp; portfolio generator.
+          </Text>
+
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+            {/* 1. Cloud IDE */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#e2e8f0',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/cyber-playground' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(14, 165, 233, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="code-working-outline" size={18} color="#0ea5e9" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Cloud IDE</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                Run Python, C++, JS &amp; Web sandbox
+              </Text>
+            </TouchableOpacity>
+
+            {/* 2. Daily Byte */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#fed7aa',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/daily-byte' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(249, 115, 22, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="flash-outline" size={18} color="#f97316" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Daily Byte</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                1-Min bug hunt &amp; streak IndroCoins
+              </Text>
+            </TouchableOpacity>
+
+            {/* 3. Community Doubts */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#e9d5ff',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/community' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(168, 85, 247, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="people-outline" size={18} color="#a855f7" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Community</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                Peer doubt hub with 24/7 AI assist
+              </Text>
+            </TouchableOpacity>
+
+            {/* 4. Inspiro Social */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#bbf7d0',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/inspiro' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(37, 211, 102, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="chatbubbles-outline" size={18} color="#25d366" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Inspiro Chat</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                Project feed &amp; WhatsApp peer chat
+              </Text>
+            </TouchableOpacity>
+
+            {/* 5. Portfolio Studio */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#cffafe',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/portfolio-generator' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(6, 182, 212, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="globe-outline" size={18} color="#06b6d4" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Portfolio Studio</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                Verified engineering showcase site
+              </Text>
+            </TouchableOpacity>
+
+            {/* 6. Parent Panel */}
+            <TouchableOpacity
+              style={{
+                width: isDesktop ? '31.5%' : '48%',
+                borderRadius: 12,
+                borderWidth: 1.5,
+                borderColor: isDark ? '#1e293b' : '#fed7aa',
+                backgroundColor: colors.card,
+                padding: 12,
+              }}
+              onPress={() => router.push('/parent-panel' as any)}
+              activeOpacity={0.8}
+            >
+              <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(22, 163, 74, 0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                <Ionicons name="shield-checkmark-outline" size={18} color="#16a34a" />
+              </View>
+              <Text style={{ fontSize: 13, fontWeight: '800', color: colors.text }}>Parent Panel</Text>
+              <Text style={{ fontSize: 11, color: colors.textMuted, marginTop: 2, lineHeight: 15 }} numberOfLines={2}>
+                Attendance &amp; mentor progress report
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* ===== LEARNING PATHS (Features Target) ===== */}

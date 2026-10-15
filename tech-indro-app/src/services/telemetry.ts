@@ -103,7 +103,7 @@ class TelemetryService {
     };
 
     if (__DEV__) {
-      console.log(`📊 [Telemetry] Captured: "${eventName}"`, properties);
+      console.log(`[Telemetry] Captured: "${eventName}"`, properties);
     }
 
     this.eventQueue.push(eventObj);

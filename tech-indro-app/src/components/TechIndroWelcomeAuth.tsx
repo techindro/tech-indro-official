@@ -12,7 +12,7 @@
  *    - Brand Logo: Tech Indro official white emblem/logo
  *    - Headline: "India's First AI-Powered Learning Platform"
  *    - Subtitle: "Master in-demand tech skills from scratch with 24/7 personal AI Shikshak"
- *    - Real Badges: 1.2L+ Learners | 4.8★ Rating | 24/7 AI Mentors
+ *    - Real Badges: 1.2L+ Learners | 4.9 Star Rating | 24/7 AI Mentors
  * 
  * 3. Real Mobile Auth Flow:
  *    - User enters THEIR OWN 10-digit mobile number
@@ -299,7 +299,7 @@ export default function TechIndroWelcomeAuth({
           Master in-demand tech skills from scratch. Guided by 24/7 personal AI assistants.
         </Text>
 
-        {/* Real Stats Badges (1.2L+ Learners • 24/7 AI Mentors • 4.8★ Student Rating) */}
+        {/* Real Stats Badges (1.2L+ Learners • 24/7 AI Mentors • 4.9 Star Rating) */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={[styles.statNumber, { color: '#ffd700' }]}>1.2L+</Text>

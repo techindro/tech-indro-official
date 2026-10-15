@@ -497,6 +497,198 @@ export default function HamburgerDrawer({ visible, onClose }: HamburgerDrawerPro
               <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
             </TouchableOpacity>
 
+            {/* Cloud Playground & Compiler */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/cyber-playground')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(14, 165, 233, 0.15)' }]}>
+                <Ionicons name="code-working-outline" size={19} color="#0ea5e9" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Cloud IDE & Compiler</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#0ea5e9' }]}>Sandbox</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Run Python, C++, JS, Java & Web
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Daily Tech Byte & Bug Hunt */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/daily-byte')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(249, 115, 22, 0.15)' }]}>
+                <Ionicons name="flash-outline" size={19} color="#f97316" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Daily Tech Byte</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#f97316' }]}>Streaks</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  1-Minute production bug hunt
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Indro Community & Doubt Hub */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/community')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(168, 85, 247, 0.15)' }]}>
+                <Ionicons name="people-outline" size={19} color="#a855f7" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Community & Doubts</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#a855f7' }]}>AI Assist</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Peer discussion & verified answers
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Inspiro Social & Peer Chat */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/inspiro')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(37, 211, 102, 0.15)' }]}>
+                <Ionicons name="chatbubbles-outline" size={19} color="#25d366" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Inspiro Network</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#25d366' }]}>Peer Chat</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Project showcase & direct messaging
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Portfolio Studio */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/portfolio-generator')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(6, 182, 212, 0.15)' }]}>
+                <Ionicons name="globe-outline" size={19} color="#06b6d4" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Portfolio Studio</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#06b6d4' }]}>Generator</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Build & export verified showcase
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Parent Oversight Panel */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/parent-panel')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(22, 163, 74, 0.15)' }]}>
+                <Ionicons name="shield-checkmark-outline" size={19} color="#16a34a" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Parent Panel</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#16a34a' }]}>Oversight</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Attendance, hours & mentor reports
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Student Profile & Settings */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/profile')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(99, 102, 241, 0.15)' }]}>
+                <Ionicons name="person-outline" size={19} color="#6366f1" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Student Profile</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#6366f1' }]}>Settings</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  Certificates, credentials & account
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            {/* Legal Policies & Transparency */}
+            <TouchableOpacity
+              style={[
+                styles.toolRow,
+                { backgroundColor: isDark ? '#0f172a' : '#ffffff', borderColor: colors.border },
+              ]}
+              onPress={() => handleNavigate('/policy')}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.toolIconBox, { backgroundColor: 'rgba(100, 116, 139, 0.15)' }]}>
+                <Ionicons name="document-text-outline" size={19} color="#64748b" />
+              </View>
+              <View style={styles.toolInfo}>
+                <View style={styles.toolTitleRow}>
+                  <Text style={[styles.toolTitle, { color: colors.text }]}>Policies & Terms</Text>
+                  <Text style={[styles.toolMiniBadge, { color: '#64748b' }]}>Transparency</Text>
+                </View>
+                <Text style={[styles.toolDesc, { color: colors.textMuted }]}>
+                  100% Refund, Privacy & Terms
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+            </TouchableOpacity>
+
             {/* WhatsApp 1:1 Counseling Banner */}
             <TouchableOpacity
               style={styles.counselingCard}

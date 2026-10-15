@@ -696,8 +696,9 @@ Please provide:
                 <Ionicons name="globe-outline" size={16} color="#38BDF8" />
                 <Text style={styles.liveWebTitle}>LIVE WEB VIEWPORT</Text>
               </View>
-              <View style={{ backgroundColor: '#10b98122', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 }}>
-                <Text style={{ color: '#10b981', fontSize: 10.5, fontWeight: '700' }}>● SANDBOXED</Text>
+              <View style={{ backgroundColor: '#10b98122', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#10b981' }} />
+                <Text style={{ color: '#10b981', fontSize: 10.5, fontWeight: '700' }}>SANDBOXED</Text>
               </View>
             </View>
 
@@ -852,7 +853,10 @@ Please provide:
                   <Text style={styles.challengeItemDesc}>{ch.desc}</Text>
                   <View style={styles.challengeItemBottom}>
                     <Text style={styles.challengeLangText}>Language: {CODE_TEMPLATES[ch.lang].label}</Text>
-                    <Text style={styles.challengeLoadText}>Load Code →</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                      <Text style={styles.challengeLoadText}>Load Code</Text>
+                      <Ionicons name="arrow-forward" size={13} color={Colors.primary} />
+                    </View>
                   </View>
                 </TouchableOpacity>
               ))}
