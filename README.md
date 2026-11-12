@@ -63,6 +63,7 @@ Students contribute to real, production-grade open-source projects:
 | :--- | :--- |
 | [MOM-OS](https://github.com/techindro/MOM-OS) | Mind-Oriented Machine OS: an intent-driven agent layer for Linux. |
 | [GhostPose](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing) | Through-wall Wi-Fi 3D sensing. |
+| [Quantum Catching the Spy](https://github.com/techindro/quantum-catching-the-spy-qkd) | Autonomous eavesdropper detection & self-healing in BB84 QKD networks using IBM Qiskit and NVIDIA Nemotron. |
 | [ZiaLabs-AI](https://github.com/techindro/ZiaLabs-AI) | Multilingual AI research assistant and academic paper search. |
 | [Chitra-AI](https://github.com/techindro/Khicho-Chatbots) | Multi-style text-to-image generator and vision studio. |
 
