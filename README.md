@@ -160,9 +160,11 @@ fetch("https://tech-indro-official.vercel.app/api/courses")
    *An autonomous intent-driven agent layer for Linux, translating human goals directly into executable system workflows and toolchains.*
 2. **[GhostPose: Through-Wall Wi-Fi 3D Sensing](https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing)**  
    *AI-driven real-time human pose estimation using standard Wi-Fi CSI signals without cameras.*
-3. **[ZiaLabs-AI (Research Assistant)](https://github.com/techindro/ZiaLabs-AI)**  
+3. **[Quantum Catching the Spy (BB84 QKD)](https://github.com/techindro/quantum-catching-the-spy-qkd)**  
+   *Autonomous eavesdropper detection and self-healing in BB84 Quantum Key Distribution networks using IBM Qiskit and NVIDIA Nemotron.*
+4. **[ZiaLabs-AI (Research Assistant)](https://github.com/techindro/ZiaLabs-AI)**  
    *Full-stack multilingual academic research assistant with ArXiv & Semantic Scholar search, PDF extraction, and Gemini AI.*
-4. **[Chitra-AI (Image Studio & Vision)](https://github.com/techindro/Khicho-Chatbots)**  
+5. **[Chitra-AI (Image Studio & Vision)](https://github.com/techindro/Khicho-Chatbots)**  
    *Intelligent conversational assistant and multi-style text-to-image generator with artistic vision models.*
 
 ---

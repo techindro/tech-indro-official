@@ -50,7 +50,7 @@
 
 ### 🏆 4. TSOC (Tech Season of Code)
 - **Description**: Open-source engineering fellowship connecting learners to production-grade repositories.
-- **Featured Projects**: *MOM-OS (Mind-Oriented Machine)*, *GhostPose (Wi-Fi 3D Sensing)*, and *Chitra AI*.
+- **Featured Projects**: *MOM-OS (Mind-Oriented Machine)*, *GhostPose (Wi-Fi 3D Sensing)*, *Quantum Catching the Spy (BB84 QKD)*, and *Chitra AI*.
 - **Workflow**: Student application -> Mentor assignment -> Pull request contribution -> Verification -> Fellowship recognition.
 
 ### 📝 5. Adaptive Test Series & Quizzes

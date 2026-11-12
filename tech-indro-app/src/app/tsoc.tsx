@@ -14,6 +14,7 @@ import {
   Alert,
   Image,
   Platform,
+  Linking,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -28,6 +29,13 @@ const TRACKS = [
     icon: 'sparkles-outline',
     color: '#8B5CF6',
     desc: 'Build open-source agents, RAG pipelines & multimodal applications.',
+  },
+  {
+    id: 'quantum',
+    title: 'Quantum & Cyber Security',
+    icon: 'shield-checkmark-outline',
+    color: '#06B6D4',
+    desc: 'BB84 QKD eavesdropper detection, autonomous self-healing, & cryptography.',
   },
   {
     id: 'web3',
@@ -49,6 +57,81 @@ const TRACKS = [
     icon: 'rocket-outline',
     color: '#F59E0B',
     desc: 'ROS 2 nodes, satellite image analytics, and autonomous rover algorithms.',
+  },
+];
+
+const TSOC_PROJECTS = [
+  {
+    id: 'ghostpose',
+    title: 'GhostPose 3D Sensing',
+    desc: 'Passive through-the-wall human sensing, 3D skeleton reconstruction, and contactless vitals monitoring using raw Wi-Fi Channel State Information (CSI).',
+    tags: ['PyTorch', 'ESP32 / C++', 'Signal Processing', 'Three.js'],
+    url: 'https://github.com/techindro/GhostPose-Through-Wall-Wi-Fi-3D-Sensing',
+    icon: 'radio-outline',
+    color: '#3B82F6',
+  },
+  {
+    id: 'quantum-qkd',
+    title: 'Catching the Spy (Quantum QKD)',
+    desc: 'Autonomous eavesdropper detection and self-healing in BB84 Quantum Key Distribution networks using IBM Qiskit and NVIDIA Nemotron-70B.',
+    tags: ['IBM Qiskit', 'Python', 'Quantum Cryptography', 'NVIDIA Nemotron'],
+    url: 'https://github.com/techindro/quantum-catching-the-spy-qkd',
+    icon: 'shield-checkmark-outline',
+    color: '#06B6D4',
+  },
+  {
+    id: 'neurowheel',
+    title: 'NeuroWheel (BCI Wheelchair)',
+    desc: 'Closed-loop Brain-Computer Interface navigation decoding real-time EEG brain signals to motor commands with ultrasonic obstacle avoidance.',
+    tags: ['Python', 'Arduino / C++', 'EEG DSP / ML', 'Web Serial'],
+    url: 'https://github.com/techindro/Wheelchair-controlled-by-Brain-signals-',
+    icon: 'hardware-chip-outline',
+    color: '#10B981',
+  },
+  {
+    id: 'samyam',
+    title: 'Samyam LM (Satellite AI)',
+    desc: 'Multimodal satellite AI platform for satellite image processing, multimodal LLM integration, and real-time geospatial analytics.',
+    tags: ['Python', 'PyTorch', 'Computer Vision'],
+    url: 'https://github.com/techindro/SamyamLm-Data-Engine',
+    icon: 'planet-outline',
+    color: '#F59E0B',
+  },
+  {
+    id: 'mom-os',
+    title: 'MOM-OS (Mind-Oriented Machine)',
+    desc: 'Autonomous intent-driven agent layer for Linux translating high-level human goals into executable system workflows and toolchains.',
+    tags: ['Linux / C', 'Rust', 'Agentic AI', 'Python'],
+    url: 'https://github.com/techindro/MOM-OS',
+    icon: 'terminal-outline',
+    color: '#8B5CF6',
+  },
+  {
+    id: 'chitra',
+    title: 'Chitra AI Studio',
+    desc: 'Intelligent conversational assistant and multi-style text-to-image generator with Anime, Realistic, and Cyberpunk diffusion art.',
+    tags: ['React', 'Vite', 'Node.js', 'Diffusion API'],
+    url: 'https://github.com/techindro/Khicho-Chatbots',
+    icon: 'images-outline',
+    color: '#EC4899',
+  },
+  {
+    id: 'zialabs',
+    title: 'ZiaLabs AI (Research Assistant)',
+    desc: 'Full-stack academic research assistant searching ArXiv & Semantic Scholar with Google Gemini AI in multilingual Indian languages.',
+    tags: ['Node.js', 'Express', 'Gemini API', 'SQLite'],
+    url: 'https://github.com/techindro/ZiaLabs-AI',
+    icon: 'book-outline',
+    color: '#6366F1',
+  },
+  {
+    id: 'raplica',
+    title: 'Raplica AI',
+    desc: 'Core Node.js backend for AI Mentor with multi-agent routing, RAG, and real-time streaming.',
+    tags: ['Node.js', 'Express', 'OpenAI API'],
+    url: 'https://github.com/techindro/techindro-ai-chatbot',
+    icon: 'chatbubbles-outline',
+    color: '#14B8A6',
   },
 ];
 
@@ -164,6 +247,43 @@ export default function TSOCScreen() {
                 </View>
                 <Text style={styles.trackTitle}>{t.title}</Text>
                 <Text style={styles.trackDesc}>{t.desc}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {/* Featured Projects Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Featured Projects for 2026</Text>
+          <Text style={styles.sectionSubtitle}>
+            Contribute to production-grade repositories and earn completion stipends.
+          </Text>
+
+          <View style={styles.projectsGrid}>
+            {TSOC_PROJECTS.map((p) => (
+              <View key={p.id} style={styles.projectCard}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <View style={[styles.trackIconCircle, { backgroundColor: p.color + '22', marginBottom: 0 }]}>
+                    <Ionicons name={p.icon as any} size={22} color={p.color} />
+                  </View>
+                  <TouchableOpacity
+                    style={styles.viewRepoBtn}
+                    onPress={() => Linking.openURL(p.url)}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="logo-github" size={14} color={Colors.primaryLight} />
+                    <Text style={styles.viewRepoText}>View Code</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.projectTitle}>{p.title}</Text>
+                <Text style={styles.projectDesc}>{p.desc}</Text>
+                <View style={styles.projectTagsRow}>
+                  {p.tags.map((tag, i) => (
+                    <View key={i} style={styles.projectTagChip}>
+                      <Text style={styles.projectTagText}>{tag}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
             ))}
           </View>
@@ -412,6 +532,59 @@ const styles = StyleSheet.create({
     fontSize: FontSize.xs,
     color: Colors.textSecondary,
     lineHeight: 18,
+  },
+  projectsGrid: {
+    gap: Spacing.md,
+  },
+  projectCard: {
+    backgroundColor: Colors.card,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  projectTitle: {
+    fontSize: FontSize.md,
+    fontWeight: FontWeight.bold,
+    color: Colors.text,
+    marginTop: Spacing.sm,
+    marginBottom: 4,
+  },
+  projectDesc: {
+    fontSize: FontSize.xs,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+    marginBottom: Spacing.sm,
+  },
+  projectTagsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  projectTagChip: {
+    backgroundColor: Colors.cardBorder,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  projectTagText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+  },
+  viewRepoBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(99, 102, 241, 0.12)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+  viewRepoText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primaryLight,
   },
   timelineList: {
     gap: Spacing.md,
