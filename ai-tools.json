@@ -128,6 +128,14 @@
     "icon": "🔤"
   },
   {
+    "id": "t-kite",
+    "name": "Kite",
+    "category": "Design",
+    "description": "Collaborative design tool where AI agents (Claude, ChatGPT, Cursor, Codex) draw editable UI layers via MCP; export frames as HTML, React or Tailwind.",
+    "link": "https://kite.new",
+    "icon": "🪁"
+  },
+  {
     "id": "t13",
     "name": "Canva Magic",
     "category": "Design",
